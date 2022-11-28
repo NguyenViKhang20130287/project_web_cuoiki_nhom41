@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2c7a04f2-5ef4-4d03-b18a-8386129fcdbf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/banner/banner-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/img/banner/banner-3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2G9UK7o2IXvD8vO8MOHMcZPCnBu" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ASUS/Downloads/hvshop&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="Y:\LTW\Project_CuoiKi_LapTrinhWeb\css" />
+      <recent name="Y:\LTW\Project_CuoiKi_LapTrinhWeb" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2c7a04f2-5ef4-4d03-b18a-8386129fcdbf" name="Changes" comment="" />
+      <created>1665800230200</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665800230200</updated>
+      <workItem from="1665800231643" duration="7000" />
+      <workItem from="1666080127803" duration="51000" />
+      <workItem from="1666507772310" duration="99000" />
+      <workItem from="1666532112661" duration="1058000" />
+      <workItem from="1666615056537" duration="12332000" />
+      <workItem from="1666756067228" duration="12915000" />
+      <workItem from="1666851248370" duration="3613000" />
+      <workItem from="1666866531226" duration="15864000" />
+      <workItem from="1666934226060" duration="27681000" />
+      <workItem from="1667013147185" duration="10352000" />
+      <workItem from="1667096175301" duration="1267000" />
+      <workItem from="1667132694056" duration="1196000" />
+      <workItem from="1667301115036" duration="5678000" />
+      <workItem from="1667356134991" duration="726000" />
+      <workItem from="1667381359533" duration="2644000" />
+      <workItem from="1667392830531" duration="6446000" />
+      <workItem from="1667648860414" duration="956000" />
+      <workItem from="1667831221051" duration="1762000" />
+      <workItem from="1667833013651" duration="5624000" />
+      <workItem from="1667888163248" duration="18945000" />
+      <workItem from="1667930504483" duration="493000" />
+      <workItem from="1668040216880" duration="685000" />
+      <workItem from="1668065966248" duration="6986000" />
+      <workItem from="1668142032415" duration="29574000" />
+      <workItem from="1668232216147" duration="17854000" />
+      <workItem from="1668259615584" duration="8718000" />
+      <workItem from="1668304654718" duration="975000" />
+      <workItem from="1669256331261" duration="58000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="382435b4-7236-46e5-a4e8-5534e50baa63">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,27 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -6,8 +6,6 @@
+   <component name="ChangeListManager">
+     <list default="true" id="2c7a04f2-5ef4-4d03-b18a-8386129fcdbf" name="Changes" comment="gan link">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/css/product.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/product.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/css/productdetails.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/productdetails.css" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -87,7 +85,8 @@
+       <workItem from="1667648860414" duration="956000" />
+       <workItem from="1667831221051" duration="1762000" />
+       <workItem from="1667833013651" duration="5624000" />
+-      <workItem from="1667888163248" duration="18945000" />
++      <workItem from="1667888163248" duration="19794000" />
++      <workItem from="1668001027089" duration="2053000" />
+     </task>
+     <servers />
+   </component>
