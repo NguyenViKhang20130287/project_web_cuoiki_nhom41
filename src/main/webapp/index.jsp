@@ -29,7 +29,7 @@
 
                 <ul class="header_page-category-main-menu">
                     <li><a href="index.jsp">Trang chủ</a></li>
-                    <li><a href="product.html"> Sản phẩm
+                    <li><a href="CategoryControl"> Sản phẩm
                         <i class="fa-solid fa-chevron-down"></i>
                     </a>
                         <ul class="header_page-category-sub-menu">
@@ -77,12 +77,12 @@
                         <li><a href="index.jsp">Trang chủ</a></li>
                         <li class="main-menu-list">
                             <div class="main-menu-title">
-                                <a href="product.html">
+                                <a href="CategoryControl">
                                     <h1>Sản phẩm</h1>
                                 </a>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
-                            <!-- <a href="product.html"> Sản phẩm
+                            <!-- <a href="product.jsp"> Sản phẩm
                         <i class="fa-solid fa-chevron-down"></i>
                     </a> -->
                             <div class="main-menu-content">
@@ -172,15 +172,15 @@
             <div class="body_page-popular-product">
                 <div class="body_page-popular-product-card">
                     <a href=""><img src="img/banner/banner-1.jpg" alt=""></a>
-                    <button><a href="product.html">Khám phá ngay</a></button>
+                    <button><a href="product.jsp">Khám phá ngay</a></button>
                 </div>
                 <div class="body_page-popular-product-card">
                     <a href=""><img src="img/banner/banner-2.jpg" alt=""></a>
-                    <button><a href="product.html">Khám phá ngay</a></button>
+                    <button><a href="product.jsp">Khám phá ngay</a></button>
                 </div>
                 <div class="body_page-popular-product-card">
                     <a href=""><img src="img/banner/banner-3.jpg" alt=""></a>
-                    <button><a href="product.html">Khám phá ngay</a></button>
+                    <button><a href="product.jsp">Khám phá ngay</a></button>
                 </div>
             </div>
 
@@ -421,7 +421,7 @@
                 </div>
 
                 <div class="body_page-trending-product-seeMoreBtn">
-                    <button><a href="product.html">Xem thêm</a></button>
+                    <button><a href="product.jsp">Xem thêm</a></button>
                 </div>
 
             </div>
