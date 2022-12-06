@@ -9,7 +9,4 @@
     <url-pattern>/CategoryControl</url-pattern>
   </servlet-mapping>
 
-<!--  <welcome-file-list>-->
-<!--    <welcome-file>product.jsp</welcome-file>-->
-<!--  </welcome-file-list>-->
 </web-app>

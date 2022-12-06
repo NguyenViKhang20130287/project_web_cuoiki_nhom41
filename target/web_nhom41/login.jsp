@@ -1,3 +1,4 @@
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,10 +35,10 @@
 
                 <ul class="header_page-category-main-menu">
                     <li><a href="index.jsp">Trang chủ</a></li>
-                    <li><a href="product.jsp"> Sản phẩm
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </a>
+                    <li><a href="CategoryControl"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
+
                         <ul class="header_page-category-sub-menu">
+
                             <li><a href="">Nhẫn</a></li>
                             <li><a href="">Hoa tai</a></li>
                             <li><a href="">Dây chuyền</a></li>
@@ -45,16 +46,29 @@
                             <li><a href="">Mặt dây chuyền</a></li>
                         </ul>
                     </li>
+
                     <li><a href="">Trang<i class="fa-solid fa-chevron-down"></i></a>
                         <ul class="header_page-category-sub-menu">
-                            <li><a href="login.jsp" style="font-weight: normal">Đăng nhập</a></li>
-                            <li><a href="cart.html" style="font-weight: normal">Giỏ hàng</a></li>
-                            <li><a href="about.html" style="font-weight: normal">Giới thiệu</a></li>
+
+                            <% if (session.getAttribute("Account") != null) {%>
+                            <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                            <%}%>
+
+                            <% if (session.getAttribute("Account") == null) { %>
+                            <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
+                            <% } %>
+
+                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+
+                            <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                            <li><a href="admin/doc/index-admin.html" style="font-weight: normal">Quản lý website</a></li>
+                            <% } %>
+
                         </ul>
                     </li>
-                    <li><a href="contact.html">Liên hệ</a></li>
+                    <li><a href="contact.jsp">Liên hệ</a></li>
                 </ul>
-
             </div>
 
             <!--  -->
@@ -62,8 +76,19 @@
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                     kiếm
                 </button>
-                <button><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(100)</a></button>
-                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(100)</a></button>
+
+                <% if (session.getAttribute("Account") != null) {%>
+                <button><a href="LogoutControl">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <%= session.getAttribute("username") %>
+                </a></button>
+                <%}%>
+
+                <% if (session.getAttribute("Account") == null) {%>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Đăng nhập</a></button>
+                <%}%>
+
             </div>
             <!--  -->
             <div class="header_page-btns responsive">
@@ -73,7 +98,7 @@
 
                 <div class="right_btn">
                     <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    <button><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></button>
+                    <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></button>
                     <button><a href="login.jsp"><i class="fa-solid fa-user"></i></a></button>
                 </div>
 
@@ -82,14 +107,11 @@
                         <li><a href="index.jsp">Trang chủ</a></li>
                         <li class="main-menu-list">
                             <div class="main-menu-title">
-                                <a href="product.jsp">
+                                <a href="CategoryControl">
                                     <h1>Sản phẩm</h1>
                                 </a>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
-                            <!-- <a href="product.jsp"> Sản phẩm
-                    <i class="fa-solid fa-chevron-down"></i>
-                </a> -->
                             <div class="main-menu-content">
                                 <ul>
                                     <li><a href="" style="font-weight: normal">Nhẫn</a></li>
@@ -107,14 +129,13 @@
                             </div>
                             <div class="main-menu-content">
                                 <ul>
-                                    <!-- <li><a href=""></a>Đăng ký</li> -->
-                                    <li><a href="login.jsp" style="font-weight: normal">Đăng nhập</a></li>
-                                    <li><a href="cart.html" style="font-weight: normal">Giỏ hàng</a></li>
-                                    <li><a href="about.html" style="font-weight: normal">Giới thiệu</a></li>
+                                    <li><a href="logincontrol" style="font-weight: normal">Đăng nhập</a></li>
+                                    <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                                    <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="contact.html">Liên hệ</a></li>
+                        <li><a href="contact.jsp">Liên hệ</a></li>
                     </ul>
                     <button class="closeBtn"><i class="fa-solid fa-xmark"></i></button>
                     <div class="hidden-menu"></div>
@@ -175,9 +196,9 @@
                 <div class="text-header">
                     <h3>Đăng Nhập</h3>
                 </div>
-                <form action="logincontrol" method="post">
-                    <label for="email">Địa Chỉ Email <span>*</span></label>
-                    <input id="email" type="text" placeholder="Địa Chỉ Email..." name="email">
+                <form action="LoginControl" method="post">
+                    <label for="email">Tên đăng nhập <span>*</span></label>
+                    <input id="email" type="text" placeholder="Username..." name="uname">
                     <label for="pass">Mật Khẩu <span>*</span></label>
                     <input id="pass" type="password" placeholder="Nhập Mật Khẩu..." name="password">
 
@@ -195,7 +216,7 @@
                             <label for="save">Nhớ Mật Khẩu!</label>
                         </div>
                         <div class="lost-pass">
-                            <a href="lostpassword.html">Quên Mật Khẩu?</a>
+                            <a href="lostpassword.jsp">Quên Mật Khẩu?</a>
                         </div>
 
                     </div>
@@ -224,7 +245,7 @@
                     <div class="text-header">
                         <h3>Đăng Ký</h3>
                     </div>
-                    <form action="registercontrol" method="post">
+                    <form action="RegisterControl" method="post">
                         <label for="uname">Tên Đăng Nhập <span>*</span></label>
                         <input id="uname" type="text" placeholder="Nhập Tên Đăng Nhập..." name="uname">
                         <label for="email-register">Địa Chỉ Email <span>*</span></label>

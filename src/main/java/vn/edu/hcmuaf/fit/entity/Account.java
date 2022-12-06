@@ -2,23 +2,34 @@ package vn.edu.hcmuaf.fit.entity;
 
 public class Account {
 
-    private String email;
+    private String username;
     private String password;
+    private int role;
 
     public Account() {
     }
 
-    public Account(String email, String password) {
-        this.email = email;
+    public Account(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public Account(String username, String password, int role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public int getRole() {
+        return role;
+    }
+
+    public String getEmail() {
+        return username;
+    }
+
+    public void setEmail(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -31,7 +42,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Email: " + email + "\n" + "Password: " + password;
+        return "Username: " + username + "\n" + "Password: " + password + "\n" + "role: " + role;
     }
 
 }

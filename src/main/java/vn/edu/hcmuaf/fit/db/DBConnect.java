@@ -3,11 +3,15 @@ package vn.edu.hcmuaf.fit.db;
 import java.sql.*;
 
 public class DBConnect {
-    private String url = "jdbc:mysql://localhost:3306/shopbanngocquy";
+    private String url = "jdbc:mysql://localhost:3306/shopbanngocquy2";
     private String user = "root";
     private String pass = "";
     Connection connection;
     private static DBConnect install;
+
+    public Connection getConnection() {
+        return connection;
+    }
 
     public DBConnect() {
         try {
@@ -46,4 +50,6 @@ public class DBConnect {
 //            throw new RuntimeException(e);
 //        }
     }
+
+
 }
