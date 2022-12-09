@@ -86,7 +86,7 @@
                 <%}%>
 
                 <% if (session.getAttribute("Account") == null) {%>
-                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Đăng nhập</a></button>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
                 <%}%>
 
             </div>

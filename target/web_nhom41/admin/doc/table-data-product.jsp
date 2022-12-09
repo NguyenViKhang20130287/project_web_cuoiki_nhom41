@@ -1,5 +1,9 @@
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
+<%@ page import="java.util.LinkedList" %>
 <!DOCTYPE html>
 <html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <head>
     <title>Danh sách nhân viên | Quản trị Admin</title>
@@ -54,7 +58,7 @@
             <span class="app-menu__label">Quản lý nhân viên</span></a></li>
         <!--      <li><a class="app-menu__item " href="#"><i class='app-menu__icon bx bx-user-voice'></i><span-->
         <!--            class="app-menu__label">Quản lý khách hàng</span></a></li>-->
-        <li><a class="app-menu__item active" href="table-data-product.html"><i
+        <li><a class="app-menu__item active" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
         <li><a class="app-menu__item" href="table-data-oder.html"><i class='app-menu__icon bx bx-task'></i><span
@@ -85,28 +89,34 @@
                     <div class="row element-button">
                         <div class="col-sm-2">
 
-                            <a class="btn btn-add btn-sm" href="form-add-san-pham.html" title="Thêm"><i class="fas fa-plus"></i>
+                            <a class="btn btn-add btn-sm" href="form-add-san-pham.jsp" title="Thêm"><i
+                                    class="fas fa-plus"></i>
                                 Tạo mới sản phẩm</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập" onclick="myFunction(this)"><i
+                            <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập"
+                               onclick="myFunction(this)"><i
                                     class="fas fa-file-upload"></i> Tải từ file</a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i
+                            <a class="btn btn-delete btn-sm print-file" type="button" title="In"
+                               onclick="myApp.printTable()"><i
                                     class="fas fa-print"></i> In dữ liệu</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button" title="Sao chép"><i
+                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button"
+                               title="Sao chép"><i
                                     class="fas fa-copy"></i> Sao chép</a>
                         </div>
 
                         <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                            <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất
+                                Excel</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i
+                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
+                               onclick="myFunction(this)"><i
                                     class="fas fa-file-pdf"></i> Xuất PDF</a>
                         </div>
                         <div class="col-sm-2">
@@ -115,6 +125,39 @@
                         </div>
                     </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
+                        <tbody>
+
+                        <% List<ProductAdmin> list = (List<ProductAdmin>)request.getAttribute("listProduct");
+                            for (ProductAdmin pa : list) { %>
+                        <tr>
+
+
+                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                            <td><%= pa.getId()%>
+                            </td>
+                            <td><%= pa.getName()%>
+                            </td>
+                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="50px"></td>
+                            <td><%= pa.getQuantity()%>
+                            </td>
+                            <td><span class="badge bg-success"> <%= pa.getStatus()%> </span></td>
+                            <td><%= pa.getPrice()%>
+                            </td>
+                            <td><%= pa.getCategory()%>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
+                                </button>
+                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
+                                        data-toggle="modal"
+                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
+                            </td>
+
+                        </tr>
+                        <% } %>
+
+                        </tbody>
                         <thead>
                         <tr>
                             <th width="10"><input type="checkbox" id="all"></th>
@@ -128,180 +171,6 @@
                             <th>Chức năng</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>1</td>
-                            <td>Vòng thạch anh tóc đỏ cam VIP 8mm</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/1.jpg" alt="" width="100px" height="50px"></td>
-                            <td>40</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>5.600.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>2</td>
-                            <td>Vòng thạch anh tóc cam Brazil 16.5mm</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/2.jpg" alt="" width="100px;"></td>
-                            <td>70</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>24.200.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>3</td>
-                            <td>Vòng thạch anh tóc cam Brazil 14.5mm</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/3.jpg" alt="" width="100px;"></td>
-                            <td>40</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>33.235.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>4</td>
-                            <td>Vòng thạch anh tóc cam Brazil 13.5mm</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/4.jpg" alt="" width="100px;"></td>
-                            <td>50</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>950.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>5</td>
-                            <td>Văn Thù bồ Tát Đá Cẩm Thạch (Trung : 3x 2.3 cm)</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/1.jpg" alt="" width="100px;"></td>
-                            <td>50</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>3.800.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>6</td>
-                            <td>Văn Thù bồ Tát Đá Cẩm Thạch (Trung : 3x 2.3 cm)</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/2.jpg" alt="" width="100px;"></td>
-                            <td>55</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>4.600.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>7</td>
-                            <td>Tỳ hưu thạch anh tím</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/3.jpg" alt="" width="100px;"></td>
-                            <td>38</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>1.100.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i> </button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>8</td>
-                            <td>Tỳ hưu pha lê bọc bạc màu xanh lá</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/4.jpg" alt="" width="100px;"></td>
-                            <td>80</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>21.550.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>9</td>
-                            <td>Tỳ hưu pha lê bọc bạc màu xanh lá</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/4.jpg" alt="" width="100px;"></td>
-                            <td>80</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>16.770.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                            <td>10</td>
-                            <td>Tỳ hưu pha lê bọc bạc màu xanh lá</td>
-                            <td><img src="../img-sanpham/MDCPhongThuy/4.jpg" alt="" width="100px;"></td>
-                            <td>80</td>
-                            <td><span class="badge bg-success">Còn hàng</span></td>
-                            <td>16.770.000 đ</td>
-                            <td>Dây chuyền</td>
-                            <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                        onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                            </button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp" data-toggle="modal"
-                                        data-target="#ModalUP"><i class="fas fa-edit"></i></button>
-
-                            </td>
-                        </tr>
-                        <!--                                -->
-
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -400,6 +269,7 @@ MODAL
 <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
     $('#sampleTable').DataTable();
+
     //Thời Gian
     function time() {
         var today = new Date();
@@ -446,6 +316,7 @@ MODAL
         var i = r.parentNode.parentNode.rowIndex;
         document.getElementById("myTable").deleteRow(i);
     }
+
     jQuery(function () {
         jQuery(".trash").click(function () {
             swal({
@@ -455,9 +326,7 @@ MODAL
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Đã xóa thành công.!", {
-
-                        });
+                        swal("Đã xóa thành công.!", {});
                     }
                 });
         });

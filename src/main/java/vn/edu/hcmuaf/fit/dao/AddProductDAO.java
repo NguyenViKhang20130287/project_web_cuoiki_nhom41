@@ -1,0 +1,175 @@
+package vn.edu.hcmuaf.fit.dao;
+
+import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.CatagoryAdmin;
+import vn.edu.hcmuaf.fit.entity.ColorAdmin;
+
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.List;
+
+public class AddProductDAO {
+
+    PreparedStatement psAddProduct = null, psSelectProduct = null,
+            psAddProductGemColor = null,
+            psSelectCat = null, psSelectColor = null;
+
+    ResultSet rsSelectProduct = null, rsSelectCat = null, rsSelectColor = null;
+
+    public List<CatagoryAdmin> getListCat(String nameCatInput) {
+        List<CatagoryAdmin> listCat = new LinkedList<>();
+        try {
+            psSelectCat = new DBConnect().getConnection().prepareStatement("SELECT * FROM category");
+            rsSelectCat = psSelectCat.executeQuery();
+            while (rsSelectCat.next()) {
+                if (nameCatInput.equals(rsSelectCat.getString(3))) {
+                    listCat.add(new CatagoryAdmin(rsSelectCat.getInt(1),
+                            rsSelectCat.getInt(2), rsSelectCat.getString(3)));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return listCat;
+    }
+
+
+    public int checkIdGem(String nameInput, int idParentInput) {
+        int result = 0;
+        List<CatagoryAdmin> listCat = getListCat(nameInput);
+        for (CatagoryAdmin ca : listCat) {
+            if (idParentInput == ca.getIdParent()) {
+                result = ca.getIdCat();
+            }
+        }
+
+        return result;
+    }
+
+    public int checkParentID(String cat) {
+        int result = 0;
+        if (cat.equals("Đá quý")) {
+            result = 1;
+        } else if (cat.equals("Nhẫn")) {
+            result = 2;
+        } else if (cat.equals("Hoa tai")) {
+            result = 3;
+        } else if (cat.equals("Dây chuyền")) {
+            result = 4;
+        } else if (cat.equals("Vòng tay")) {
+            result = 5;
+        } else if (cat.equals("Mặt dây chuyền")) {
+            result = 6;
+        } else if (cat.equals("Bộ sưu tập")) {
+            result = 7;
+        }
+        return result;
+    }
+
+    public String checkParentFolder(int parentID) {
+        String Path = "";
+        if (parentID == 2) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/rings/";
+        }
+        if (parentID == 3) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/earrings/";
+        }
+        if (parentID == 4) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/necklaces/";
+        }
+        if (parentID == 5) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/bracelets/";
+        }
+        if (parentID == 6) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/pendants/";
+        }
+        return Path;
+    }
+
+    public List<ColorAdmin> getListColor() {
+        List<ColorAdmin> listColor = new LinkedList<>();
+        try {
+            psSelectColor = new DBConnect().getConnection().prepareStatement("SELECT * FROM gem_color");
+            rsSelectColor = psSelectColor.executeQuery();
+            while (rsSelectColor.next()) {
+                listColor.add(new ColorAdmin(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
+            }
+
+        } catch (Exception e) {
+
+        }
+        return listColor;
+    }
+
+    public int checkIdColor(String color) {
+        List<ColorAdmin> listColor = getListColor();
+        int idColor = 0;
+        for (ColorAdmin ca : listColor) {
+            if (color.equals(ca.getNameColor())) {
+                idColor = ca.getIdColor();
+            }
+        }
+        return idColor;
+    }
+
+    public void addProduct(int id, String title, String nameGem, int quantity, String cat,
+                           String color, int price, String keyword, String design,
+                           File imgLink, String description) {
+        String queryAddProduct = "INSERT INTO product(product.id, product.title, product.quantity, product.price," +
+                " product.keyword, product.design, product.category_id, product.description, " +
+                "product.thumbnail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String queryAddProductGemColor = "INSERT INTO product_gem_color VALUES (?, ?)";
+
+        String querySelectCat = "SELECT * FROM category";
+
+        try {
+            psAddProduct = new DBConnect().getConnection().prepareStatement(queryAddProduct);
+            psAddProductGemColor = new DBConnect().getConnection().prepareStatement(queryAddProductGemColor);
+
+            psSelectCat = new DBConnect().getConnection().prepareStatement(querySelectCat);
+
+            rsSelectCat = psSelectCat.executeQuery();
+
+
+            psAddProduct.setInt(1, id);
+            psAddProduct.setString(2, title);
+            psAddProduct.setInt(3, quantity);
+            psAddProduct.setInt(4, price);
+            psAddProduct.setString(5, keyword);
+            psAddProduct.setString(6, design);
+            psAddProduct.setInt(7, checkIdGem(nameGem,
+                    new AddProductDAO().checkParentID(cat)));
+            psAddProduct.setString(8, description);
+            psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
+
+            psAddProductGemColor.setInt(1, id);
+            psAddProductGemColor.setInt(2, checkIdColor(color));
+
+            psAddProduct.executeUpdate();
+            psAddProductGemColor.executeUpdate();
+
+            System.out.println("successfully");
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static void main(String[] args) {
+//        System.out.println(new AddProductDAO().getListCat("Ngọc trai"));
+//        System.out.println(new AddProductDAO().checkParentID("Hoa tai"));
+        System.out.println(new AddProductDAO().checkIdGem("Ngọc trai",
+                new AddProductDAO().checkParentID("Hoa tai")));
+//        System.out.println(new AddProductDAO().getListColor());
+//        System.out.println("Hoa tai".equals("Hoa tai"));
+        System.out.println(new AddProductDAO().checkIdColor("Vàng"));
+
+//        new AddProductDAO().addProduct( 32,"Product test", "Ngọc trai", 10,
+//                "Hoa tai", "Vàng", 99999, "key test",
+//                "design test", "link test", "des test");
+
+    }
+
+}
