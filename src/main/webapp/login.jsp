@@ -35,7 +35,7 @@
 
                 <ul class="header_page-category-main-menu">
                     <li><a href="index.jsp">Trang chủ</a></li>
-                    <li><a href="CategoryControl"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
+                    <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                         <ul class="header_page-category-sub-menu">
 
@@ -107,7 +107,7 @@
                         <li><a href="index.jsp">Trang chủ</a></li>
                         <li class="main-menu-list">
                             <div class="main-menu-title">
-                                <a href="CategoryControl">
+                                <a href="product">
                                     <h1>Sản phẩm</h1>
                                 </a>
                                 <i class="fa-solid fa-chevron-down"></i>
@@ -165,8 +165,10 @@
                 </ul>
             </div>
             <div class="main-modal-search">
-                <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <form action="search" method="get" class="site-block-top-search">
+                    <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </form>
             </div>
         </div>
         <div class="hide-modal-search"></div>

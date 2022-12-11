@@ -20,12 +20,14 @@ public class SearchControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String keyword = request.getParameter("keyword");
         // Lấy ra tất cả các sản phẩm với từ khóa đã cho
-        List<Product> productList = productDAO.searchProducts(keyword);
-
+        List<Product> productListByKeyword = productDAO.searchProducts(keyword);
         // Lấy ra tất cả các danh mục cha từ cơ sở dữ liệu
         List<Category> mainCategoryList = categoryDAO.getMainCategory();
+        // Lấy ra 3 sản phẩm nổi bật
+        List<Product> featuredProducts = productDAO.getFeaturedProduct();
 
-        request.setAttribute("productList", productList);
+        request.setAttribute("productList", productListByKeyword);
+        request.setAttribute("featuredList", featuredProducts);
         request.setAttribute("mainCategoryList", mainCategoryList);
         request.getRequestDispatcher("product.jsp").forward(request, response);
 

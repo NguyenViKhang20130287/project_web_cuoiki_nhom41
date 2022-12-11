@@ -102,7 +102,7 @@ public class ProductDAO {
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.getLatestProduct();
+        List<Product> list = dao.getAllProductsFromACategory(2);
         for (Product p : list) {
             System.out.println(p);
         }
