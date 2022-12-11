@@ -161,8 +161,10 @@
                     </ul>
                 </div>
                 <div class="main-modal-search">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <form action="search" method="get" class="site-block-top-search">
+                        <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </form>
                 </div>
             </div>
             <div class="hide-modal-search"></div>
