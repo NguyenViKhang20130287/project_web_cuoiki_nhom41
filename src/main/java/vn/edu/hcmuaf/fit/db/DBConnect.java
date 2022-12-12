@@ -6,7 +6,9 @@ public class DBConnect {
     private String url = "jdbc:mysql://localhost:3306/shopbanngocquy";
     private String user = "root";
     private String pass = "";
-    Connection connection;
+    public Connection connection;
+    public PreparedStatement ps = null;
+    public ResultSet rs = null;
     private static DBConnect install;
 
     public Connection getConnection() {
