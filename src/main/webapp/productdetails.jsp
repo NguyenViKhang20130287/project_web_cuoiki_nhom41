@@ -1,9 +1,11 @@
 <%@ page import="java.util.Objects" %>
-<%@ page import="vn.edu.hcmuaf.fit.entity.Product" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.entity.Gallery" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.CategoryDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.ProductDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,6 +23,8 @@
 </head>
 
 <body>
+<% ProductDAO productDAO = new ProductDAO();
+    CategoryDAO categoryDAO = new CategoryDAO();%>
 <!-- Header page -->
 <div class="header_page">
     <div class="header_page-main">
@@ -187,7 +191,9 @@
             Trang chủ</a>
         </li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
-        <li class="second"><a href="">Nhẫn</a></li>
+        <% Category category = (Category) request.getAttribute("categoryByProductId");%>
+        <li class="second"><a href=""><%=category.getName()%>
+        </a></li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
         <li><a href=""><%=product.getTitle()%>
         </a></li>
@@ -225,7 +231,9 @@
                         <span><i class="fa-solid fa-star-half-stroke"></i></span>
                         <span>(2 đánh giá)</span>
                     </div>
-                    <span class="product_design mb_18">Thiết kế: <b><%=product.getDesign()%></b> </span>
+                    <% if (product.getDesign() != null) {%>
+                    <span class="product_design mb_18">Thiết kế: <b><%=product.getDesign()%></b></span>
+                    <%}%>
                     <span class="product_status mb_18">Tình trạng: <i>Còn hàng</i></span>
                     <div class="size_quantity">
                         <div class="quantity_wrapper">
@@ -237,32 +245,30 @@
                             </div>
                         </div>
                         <div class="size_wrapper">
-                            <div style="margin-right: 15px">Kích cỡ</div>
+                            <% List<Variation> variationList = (List<Variation>) request.getAttribute("variationList");
+                                for (Variation v : variationList) {%>
+                            <% if (category.getId() == 2) {%>
+                            <div style="margin-right: 15px"><%=v.getName()%>
+                            </div>
+                            <%}%>
+                            <%}%>
+                            <%if (category.getId() == 2) {%>
                             <select class="select_size">
                                 <option>-- Vui lòng chọn --</option>
-                                <option>5 - 15.6mm</option>
-                                <option>5.5 - 16.0mm</option>
-                                <option>6 - 16.45mm</option>
-                                <option>6.5 - 16.9mm</option>
-                                <option>7 - 17.3mm</option>
-                                <option>7.5 - 17.7mm</option>
-                                <option>8 - 18.2mm</option>
-                                <option>8.5 - 18.6mm</option>
-                                <option>9 - 19.0mm</option>
-                                <option>9.5 - 19.4mm</option>
-                                <option>10 - 19.8mm</option>
-                                <option>10.5 - 20.2mm</option>
-                                <option>11 - 20.6mm</option>
-                                <option>11.5 - 21.0mm</option>
-                                <option>12 - 21.4mm</option>
-                                <option>12.5 - 21.8mm</option>
-                                <option>13.5 - 22.2mm</option>
+                                <% List<VariationOption> variationOptionList = (List<VariationOption>) request.getAttribute("variationOptionList");
+                                    for (VariationOption vo : variationOptionList) {%>
+                                <option><%=vo.getValue()%>
+                                </option>
+                                <%}%>
                             </select>
+                            <%}%>
                         </div>
                     </div>
+                    <%if (category.getId() == 2) {%>
                     <!-- Trigger/Open The Modal -->
                     <button id="myBtn"><span>Hướng dẫn chọn kích cỡ<i class="fa-solid fa-chevron-right"></i></span>
                     </button>
+                    <%}%>
                     <div class="btn-groups">
                         <button type="button" class="add_cart_btn">
                             <i class="fa-solid fa-cart-shopping"></i>
@@ -295,53 +301,45 @@
                         <!--tab contents-->
                         <div class="tab-content">
                             <div id="menu_1" class="tab-content-item">
-                                <p>&emsp;&emsp;&emsp;Bởi vì màu xanh lục đậm đà của ngọc lục bảo là màu của mùa
-                                    xuân, từ lâu nó đã tượng trưng cho tình yêu và sự tái sinh. Như Pliny đã nói
-                                    2.000 năm trước: "không có gì xanh hơn xanh hơn". Ngọc lục bảo là loại đá quý
-                                    của thần Vệ nữ, nữ thần tình yêu. Truyền thuyết nói rằng Garden of Paradise được
-                                    trải thảm bằng ngọc lục bảo. Các mỏ ngọc lục bảo đầu tiên được biết đến là ở Ai
-                                    Cập, được khai thác sớm nhất vào năm 3500 trước Công nguyên. May’s Birthstone
-                                    cũng là viên đá quý của lễ kỷ niệm ngày cưới lần thứ 20 và 35. Hãy đeo ngọc lục
-                                    bảo và mỗi ngày là một khởi đầu mới.</p>
-                                <p>&emsp;&emsp;&emsp;Với ánh nắng ấm áp rực rỡ, vàng 14K là tiêu chuẩn cho đồ trang
-                                    sức cao cấp, được coi trọng ở mọi nền văn hóa vì vẻ đẹp cũng như lịch sử lâu đời
-                                    của nó như một vật lưu trữ của cải và biểu tượng của sự thành công. Vàng không
-                                    bị xỉn, gỉ hoặc bị ăn mòn. Vàng 24K nguyên chất được hợp kim với các kim loại
-                                    khác, bao gồm bạc, đồng và kẽm, để làm cho nó bền hơn. Vàng vàng 14K, 58,5%
-                                    vàng, là hợp kim phổ biến nhất ở Hoa Kỳ vì nó giữ đá quý một cách an toàn và
-                                    chống mài mòn và trầy xước. Đồ trang sức bằng vàng của bạn sẽ tỏa sáng trong
-                                    nhiều thế hệ.</p>
-                                <p>&emsp;&emsp;&emsp;Kể từ năm 1979, Effy Hematian đã thiết kế một số đồ trang sức
-                                    đặc biệt nhất trên thế giới. Mọi thiết kế đều bắt đầu với một tầm nhìn được hình
-                                    thành trong một bản phác thảo bằng tay. Là một kỹ sư được đào tạo chuyên nghiệp,
-                                    Effy có niềm đam mê với tay nghề tinh xảo, thể hiện rõ qua chất lượng đặc biệt
-                                    của từng món đồ trang sức Effy. Chất lượng quá vượt trội, Effy đứng đằng sau nó
-                                    với chế độ bảo hành trọn đời có giới hạn. Mang đồ trang sức của Effy, chính bạn
-                                    mới là thứ lấp lánh.</p>
+                                <p>&emsp;&emsp;&emsp;<%=product.getDescription()%>
+                                </p>
                             </div>
                             <div id="menu_2" class="tab-content-item">
                                 <div class="table-wrapper">
                                     <table class="table-bordered">
                                         <tbody>
+                                        <% List<String> metalList = new ArrayList<>();
+                                            metalList.add("Vàng vàng");
+                                            metalList.add("Vàng trắng");
+                                            metalList.add("Vàng hồng");%>
                                         <tr>
                                             <td><b>Giá:</b></td>
-                                            <td>5.090.000đ</td>
+                                            <td><%=numberFormat.format(product.getDiscount())%>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><b>Danh mục:</b></td>
-                                            <td>Nhẫn</td>
+                                            <td><%=category.getName()%>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><b>Đá quý:</b></td>
-                                            <td>Ngọc lục bảo</td>
+                                            <td><%=product.getCategory().getName()%>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><b>Màu kim loại:</b></td>
-                                            <td>Vàng vàng</td>
+                                            <% for (String s : metalList) {%>
+                                            <%if (product.getTitle().contains(s)) {%>
+                                            <td><%=s%>
+                                            </td>
+                                            <%}%>
+                                            <%}%>
                                         </tr>
                                         <tr>
                                             <td><b>Thiết kế:</b></td>
-                                            <td>Effy</td>
+                                            <td><%=product.getDesign()%>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -533,6 +531,7 @@
         </div>
     </div>
 </div>
+<%if (category.getId() == 2) {%>
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <!-- Modal content -->
@@ -550,6 +549,7 @@
             được chia cho 3,14. Sau đó đối chiếu với&nbsp;Bảng size nhẫn.</p>
     </div>
 </div>
+<%}%>
 <!--footer page-->
 <section class="footer_area">
     <div class="footer_page">

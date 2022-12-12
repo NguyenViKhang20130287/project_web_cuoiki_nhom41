@@ -25,6 +25,7 @@ public class CategoryControl extends HttpServlet {
         int category_id = Integer.parseInt(request.getParameter("category_id"));
         List<Product> productListByCategory = null;
         if(category_id == 1) {
+            // Lấy ra tất cả các sản phẩm từ cơ sở dữ liệu
             productListByCategory = productDAO.getAllProducts();
         }else{
             // Lấy ra tất cả các sản phẩm theo category_id của danh mục đã cho

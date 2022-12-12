@@ -170,7 +170,7 @@
                 </ul>
             </div>
             <div class="main-modal-search">
-                <form action="search" method="get" class="site-block-top-search">
+                <form action="search" method="post" class="site-block-top-search">
                     <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </form>
@@ -309,14 +309,14 @@
                                         <li>
                                             <div class="featured_products-wrapper">
                                                 <div class="featured_products-thumb">
-                                                    <a href="product-detail?id=<%=f.getId()%>">
+                                                    <a href="product-detail?product_id=<%=f.getId()%>">
                                                         <img src="<%=f.getThumbnail()%>"
                                                              alt="">
                                                     </a>
                                                 </div>
                                                 <div class="featured_products-content">
                                                     <h5>
-                                                        <a href="product-detail?id=<%=f.getId()%>"><%=f.getTitle()%>
+                                                        <a href="product-detail?product_id=<%=f.getId()%>"><%=f.getTitle()%>
                                                         </a>
                                                     </h5>
                                                     <div class="price">
@@ -340,17 +340,15 @@
                             <div class="product_header-right">
                                 <i class="fa fa-sort" style="color: #a3a3a3" aria-hidden="true"></i>
                                 <span>Sắp xếp:</span>
-                                <form action="sort" method="post" class="site-block-top-search">
-                                    <select name="sortBy">
-                                        <option value="default">Mặc định</option>
-                                        <option value="alpha_asc">A &rarr; Z</option>
-                                        <option value="alpha_desc">Z &rarr; A</option>
-                                        <option value="price_asc">Giá tăng dần</option>
-                                        <option value="price_desc">Giá giảm dần</option>
-                                        <option value="new">Hàng mới nhất</option>
-                                        <option value="old">Hàng cũ nhất</option>
-                                    </select>
-                                </form>
+                                <select name="sortBy">
+                                    <option>Mặc định</option>
+                                    <option>A &rarr; Z</option>
+                                    <option>Z &rarr; A</option>
+                                    <option>Giá tăng dần</option>
+                                    <option>Giá giảm dần</option>
+                                    <option>Hàng mới nhất</option>
+                                    <option>Hàng cũ nhất</option>
+                                </select>
                             </div>
                         </div>
                         <div class="tab-content" id="pills-tabContent">
@@ -362,8 +360,9 @@
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                         <div class="body_page-trending-product-list-card">
                                             <div class="card-image">
-                                                <a href="product-detail?id=<%=p.getId()%>"><img src="<%=p.getThumbnail()%>"
-                                                                                   alt=""></a>
+                                                <a href="product-detail?product_id=<%=p.getId()%>"><img
+                                                        src="<%=p.getThumbnail()%>"
+                                                        alt=""></a>
                                             </div>
                                             <div class="card-title-price">
                                                 <p><%=p.getTitle()%>
@@ -372,7 +371,7 @@
                                                 <span style="margin-left: 10px; color: #6c6c6c"><strike><%=numberFormat.format(p.getPrice())%></strike></span>
                                             </div>
                                             <div class="card-btn">
-                                                <button><a href="product-detail?id=<%=p.getId()%>">Chi tiết</a></button>
+                                                <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a></button>
                                                 <button>Thêm vào giỏ</button>
                                             </div>
                                         </div>

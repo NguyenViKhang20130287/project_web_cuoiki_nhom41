@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.fit.entity;
 
 public class Product {
     private int id;
-    private int category_id;
+    private Category category;
     private String title;
     private String keyword;
     private int price;
@@ -15,9 +15,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, int category_id, String title, String keyword, int price, int discount, String design, String thumbnail, String description, int quantity) {
+    public Product(int id, Category category, String title, String keyword, int price, int discount, String design, String thumbnail, String description, int quantity) {
         this.id = id;
-        this.category_id = category_id;
+        this.category = category;
         this.title = title;
         this.keyword = keyword;
         this.price = price;
@@ -36,12 +36,12 @@ public class Product {
         this.id = id;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -112,7 +112,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", category_id=" + category_id +
+                ", category=" + category +
                 ", title='" + title + '\'' +
                 ", keyword='" + keyword + '\'' +
                 ", price=" + price +
