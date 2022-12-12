@@ -209,12 +209,12 @@
                                     <% List<Category> categoryList = (List<Category>) request.getAttribute("mainCategoryList");
                                         for (Category c : categoryList) {%>
                                     <li class="list_item dropdown"><a
-                                            href="CategoryControl?category_id=<%=c.getId()%>"><%= c.getName()%><i
+                                            href="category?category_id=<%=c.getId()%>"><%= c.getName()%><i
                                             class="fa-solid fa-chevron-right"></i></a>
                                         <ul>
                                             <% List<Category> subCategoryList = dao.getSubCategory(c.getId());
                                                 for (Category sc : subCategoryList) {%>
-                                            <li><a href="CategoryControl?category_id=<%=sc.getId()%>"><%=sc.getName()%>
+                                            <li><a href="category?category_id=<%=sc.getId()%>"><%=sc.getName()%>
                                             </a></li>
                                             <%}%>
                                         </ul>
@@ -309,18 +309,18 @@
                                         <li>
                                             <div class="featured_products-wrapper">
                                                 <div class="featured_products-thumb">
-                                                    <a href="">
+                                                    <a href="product-detail?id=<%=f.getId()%>">
                                                         <img src="<%=f.getThumbnail()%>"
                                                              alt="">
                                                     </a>
                                                 </div>
                                                 <div class="featured_products-content">
                                                     <h5>
-                                                        <a href=""><%=f.getTitle()%>
+                                                        <a href="product-detail?id=<%=f.getId()%>"><%=f.getTitle()%>
                                                         </a>
                                                     </h5>
                                                     <div class="price">
-                                                        <span><%=numberFormat.format(f.getPrice())%></span>
+                                                        <span><%=numberFormat.format(f.getDiscount())%></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -340,15 +340,17 @@
                             <div class="product_header-right">
                                 <i class="fa fa-sort" style="color: #a3a3a3" aria-hidden="true"></i>
                                 <span>Sắp xếp:</span>
-                                <select>
-                                    <option>Mặc định</option>
-                                    <option>A &rarr; Z</option>
-                                    <option>Z &rarr; A</option>
-                                    <option>Giá tăng dần</option>
-                                    <option>Giá giảm dần</option>
-                                    <option>Hàng mới nhất</option>
-                                    <option>Hàng cũ nhất</option>
-                                </select>
+                                <form action="sort" method="post" class="site-block-top-search">
+                                    <select name="sortBy">
+                                        <option value="default">Mặc định</option>
+                                        <option value="alpha_asc">A &rarr; Z</option>
+                                        <option value="alpha_desc">Z &rarr; A</option>
+                                        <option value="price_asc">Giá tăng dần</option>
+                                        <option value="price_desc">Giá giảm dần</option>
+                                        <option value="new">Hàng mới nhất</option>
+                                        <option value="old">Hàng cũ nhất</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                         <div class="tab-content" id="pills-tabContent">
@@ -360,7 +362,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                         <div class="body_page-trending-product-list-card">
                                             <div class="card-image">
-                                                <a href="productdetails.html"><img src="<%=p.getThumbnail()%>"
+                                                <a href="product-detail?id=<%=p.getId()%>"><img src="<%=p.getThumbnail()%>"
                                                                                    alt=""></a>
                                             </div>
                                             <div class="card-title-price">
@@ -370,7 +372,7 @@
                                                 <span style="margin-left: 10px; color: #6c6c6c"><strike><%=numberFormat.format(p.getPrice())%></strike></span>
                                             </div>
                                             <div class="card-btn">
-                                                <button><a href="productdetails.html">Chi tiết</a></button>
+                                                <button><a href="product-detail?id=<%=p.getId()%>">Chi tiết</a></button>
                                                 <button>Thêm vào giỏ</button>
                                             </div>
                                         </div>

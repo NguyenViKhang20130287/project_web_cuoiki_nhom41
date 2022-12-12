@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.Gallery;
 import vn.edu.hcmuaf.fit.entity.Product;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ public class ProductDAO {
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
-                conn = new DBConnect().get().getConnection();
+                conn = new DBConnect().getConnection();
                 ps = conn.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -56,7 +57,7 @@ public class ProductDAO {
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
-                conn = new DBConnect().get().getConnection();
+                conn = new DBConnect().getConnection();
                 ps = conn.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -82,10 +83,10 @@ public class ProductDAO {
         return getListProductQuery(query);
     }
 
-//    public List<Product> sortProductsFromAToZ() {
-//        String query = "";
-//        return getListProductQuery(query);
-//    }
+    public List<Product> sortBy(String column, String order) {
+        String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY " + column + " " + order + "";
+        return getListProductQuery(query);
+    }
 
     public List<Product> getFeaturedProduct() {
         String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY RAND() LIMIT 3";
@@ -100,11 +101,35 @@ public class ProductDAO {
         return getListProductQuery(query);
     }
 
+    public Product getProduct(int id) {
+        Product product = new Product();
+        String query = "SELECT * FROM product WHERE id = " + id + " AND is_on_sale = TRUE";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+//                conn = new DBConnect().getConnection();
+//                ps = conn.prepareStatement(query);
+//                rs = ps.executeQuery();
+                rs = statement.executeQuery(query);
+                while (rs.next()) {
+                    product.setId(rs.getInt(1));
+                    product.setCategory_id((rs.getInt(2)));
+                    product.setTitle(rs.getString(3));
+                    product.setKeyword(rs.getString(4));
+                    product.setPrice(rs.getInt(5));
+                    product.setDiscount(rs.getInt(6));
+                    product.setDesign(rs.getString(7));
+                    product.setThumbnail(rs.getString(8));
+                    product.setDescription(rs.getString(9));
+                    product.setQuantity(rs.getInt(10));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.getAllProductsFromACategory(2);
-        for (Product p : list) {
-            System.out.println(p);
-        }
     }
 }

@@ -60,6 +60,12 @@ public class CategoryDAO {
         }
         return list;
     }
+
+    public Category getCategory(int category_id){
+        Category category = new Category();
+        String query = "";
+        return category;
+    }
     public static void main(String[] args) {
 //        CategoryDAO dao = new CategoryDAO();
 //        List<Category> list = dao.getSubCategory(3);
