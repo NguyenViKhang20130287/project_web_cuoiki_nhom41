@@ -66,7 +66,7 @@
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
 
                             <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                            <li><a href="admin/doc/index-admin.html" style="font-weight: normal">Quản lý website</a>
+                            <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
                             </li>
                             <% } %>
 
@@ -217,7 +217,7 @@
                 </thead>
 
                 <!-- content -->
-                <tbody>
+                <tbody id="productContainer">
 
                 <!-- product -->
                 <% int num = 0;
@@ -245,11 +245,11 @@
                     <th class="product-quantity">
                         <div class="cart-plus-minus">
                             <button class="dec qtybutton" id="dec"
-                                    onclick="">-
+                                    onclick="quantity(this.id,<%=entry.getKey()%>)">-
                             </button>
                             <input id="quantity" type="text" value="<%=entry.getValue().getQuantity() %>">
                             <button class="inc qtybutton" id="inc"
-                                    onclick="">+
+                                    onclick="quantity(this.id,<%=entry.getKey()%>)">+
                             </button>
                         </div>
                     </th>
@@ -271,58 +271,33 @@
 
             <div class="table table-non-responsive">
 
-                <ul>
+                <ul id="productContainer2">
+                    <% for (Map.Entry<Integer, ProductInCart> entry : cartList.entrySet()) {
+
+                    %>
                     <li class="list_card">
                         <div class="card_img">
-                            <img src="img/main_products/bracelets/bracelet_ruby-2.jpeg" alt="">
+                            <img src="<%= entry.getValue().getProduct().getThumbnail() %>" alt="">
                         </div>
                         <div class="card_infor">
-                            <a href="#" class="title">Vòng đeo tay bằng Ruby và Kim cương 18K</a><br>
-                            <span class="price">3.169.000 đ</span>
+                            <a href="detailControl?pid=<%=entry.getValue().getProduct().getId()%>"
+                               class="title"><%= entry.getValue().getProduct().getTitle() %>
+                            </a><br>
+                            <% String total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity()); %>
+                            <span class="price"><%=total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) %>đ</span>
                             <div class="product-quantity">
-                                <button>-</button>
-                                <input type="text" value="1">
-                                <button>+</button>
+                                <button id="dec1" onclick="quantity(this.id,<%=entry.getKey()%>)">-
+                                </button>
+                                <input type="text" value="<%= entry.getValue().getQuantity() %>">
+                                <button id="inc1" onclick="quantity(this.id,<%=entry.getKey()%>)">+
+                                </button>
                             </div>
                         </div>
                         <div class="deleteProduct">
                             <button class="deleteProductBtn"><i class="fa-solid fa-xmark"></i></button>
                         </div>
                     </li>
-                    <li class="list_card">
-                        <div class="card_img">
-                            <img src="img/main_products/rings/ring_emerald-2.jpeg" alt="">
-                        </div>
-                        <div class="card_infor">
-                            <a href="#" class="title">Nhẫn Ngọc lục bảo và Kim cương 14K</a><br>
-                            <span class="price">5.090.000 đ</span>
-                            <div class="product-quantity">
-                                <button>-</button>
-                                <input type="text" value="1">
-                                <button>+</button>
-                            </div>
-                        </div>
-                        <div class="deleteProduct">
-                            <button class="deleteProductBtn"><i class="fa-solid fa-xmark"></i></button>
-                        </div>
-                    </li>
-                    <li class="list_card">
-                        <div class="card_img">
-                            <img src="img/main_products/necklaces/necklace_sapphire-1.jpeg" alt="">
-                        </div>
-                        <div class="card_infor">
-                            <a href="#" class="title">Vòng cổ Sapphire và Kim cương 18K</a><br>
-                            <span class="price">2.176.000 đ</span>
-                            <div class="product-quantity">
-                                <button>-</button>
-                                <input type="text" value="2">
-                                <button>+</button>
-                            </div>
-                        </div>
-                        <div class="deleteProduct">
-                            <button class="deleteProductBtn"><i class="fa-solid fa-xmark"></i></button>
-                        </div>
-                    </li>
+                    <% } %>
 
                 </ul>
 
@@ -342,20 +317,20 @@
 
         <div class="body_page-footer">
             <div class="empty_page"></div>
-            <div class="CartTotals">
+            <div class="CartTotals" id="CartTotalsID">
                 <h2>Tổng tiền</h2>
-                <ul>
+                <ul id="totalOrder">
                     <li>
                         <span class="title">Tạm tính</span>
-                        <span class="price">10.435.000 đ</span>
+                        <span class="price"><%=totalString != null ? totalString.substring(0, totalString.length() - 6) + "." + totalString.substring(totalString.length() - 6, totalString.length() - 3) + "." + totalString.substring(totalString.length() - 3) : "0" %> đ</span>
                     </li>
                     <li>
                         <span class="title">Giảm giá</span>
-                        <span class="price">10.000 đ</span>
+                        <span class="price">0 đ</span>
                     </li>
                     <li>
                         <span class="title">Tổng</span>
-                        <span class="price">10.425.000 đ</span>
+                        <span class="price"><%=totalString != null ? totalString.substring(0, totalString.length() - 6) + "." + totalString.substring(totalString.length() - 6, totalString.length() - 3) + "." + totalString.substring(totalString.length() - 3) : "0" %> đ</span>
                     </li>
                 </ul>
                 <button class="totals_btns"><a href="checkout.jsp">Thanh toán</a></button>
@@ -419,6 +394,9 @@
 
 </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="js/main.js"></script>
-
+<script src="js/cart.js"></script>
 </html>
