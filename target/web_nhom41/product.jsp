@@ -8,6 +8,8 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.ProductDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.ProductInCart" %>
+<%@ page import="java.util.HashMap" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +82,8 @@
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                     kiếm
                 </button>
-                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(100)</a></button>
+                <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
+                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
                 <% if (session.getAttribute("Account") != null) {%>
                 <button><a href="LogoutControl">
@@ -371,8 +374,13 @@
                                                 <span style="margin-left: 10px; color: #6c6c6c"><strike><%=numberFormat.format(p.getPrice())%></strike></span>
                                             </div>
                                             <div class="card-btn">
-                                                <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a></button>
-                                                <button>Thêm vào giỏ</button>
+                                                <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a>
+                                                </button>
+                                                <form class="addToCart" action="addtocart" method="get">
+                                                    <input type="hidden" value="<%=p.getId()%>"
+                                                           name="inputId">
+                                                    <button type="submit">Thêm vào giỏ</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
