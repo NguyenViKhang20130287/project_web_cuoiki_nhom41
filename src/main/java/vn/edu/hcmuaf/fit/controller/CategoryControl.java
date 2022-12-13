@@ -19,16 +19,22 @@ public class CategoryControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy id của danh mục đã được chọn
-        int category_id = Integer.parseInt(request.getParameter("category_id"));
-        // Lấy ra tất cả các sản phẩm theo category_id của danh mục đã cho
-        List<Product> listByCategory = productDAO.getAllProductsFromACategory(category_id);
-        // Lấy ra 3 sản phẩm nổi bật
-        List<Product> featuredProducts = productDAO.getFeaturedProduct();
         // Lấy ra tất cả các danh mục cha từ cơ sở dữ liệu
         List<Category> mainCategoryList = categoryDAO.getMainCategory();
+        // Lấy id của danh mục đã được chọn
+        int category_id = Integer.parseInt(request.getParameter("category_id"));
+        List<Product> productListByCategory = null;
+        if(category_id == 1) {
+            // Lấy ra tất cả các sản phẩm từ cơ sở dữ liệu
+            productListByCategory = productDAO.getAllProducts();
+        }else{
+            // Lấy ra tất cả các sản phẩm theo category_id của danh mục đã cho
+            productListByCategory = productDAO.getAllProductsFromACategory(category_id);
+        }
+        // Lấy ra 3 sản phẩm nổi bật
+        List<Product> featuredProducts = productDAO.getFeaturedProduct();
 
-        request.setAttribute("productList", listByCategory);
+        request.setAttribute("productList", productListByCategory);
         request.setAttribute("featuredList", featuredProducts);
         request.setAttribute("mainCategoryList", mainCategoryList);
         request.getRequestDispatcher("product.jsp").forward(request, response);

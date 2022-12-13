@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.Gallery;
 import vn.edu.hcmuaf.fit.entity.Product;
 
 import java.sql.*;
@@ -12,19 +13,19 @@ public class ProductDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    // Phương thức thực hiện truy vấn lấy danh sách sản phẩm
+    CategoryDAO categoryDAO = new CategoryDAO();
+
+    /* Phương thức thực hiện truy vấn lấy danh sách sản phẩm */
     private List<Product> getListProductQuery(String query) {
         List<Product> list = new ArrayList<>();
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
-                conn = new DBConnect().get().getConnection();
-                ps = conn.prepareStatement(query);
-                rs = ps.executeQuery();
+                rs = statement.executeQuery(query);
                 while (rs.next()) {
                     Product product = new Product();
                     product.setId(rs.getInt(1));
-                    product.setCategory_id((rs.getInt(2)));
+                    product.setCategory(categoryDAO.getCategory(2));
                     product.setTitle(rs.getString(3));
                     product.setKeyword(rs.getString(4));
                     product.setPrice(rs.getInt(5));
@@ -43,37 +44,16 @@ public class ProductDAO {
         return list;
     }
 
-    // Phương thức lấy tất cả các sản phẩm từ cơ sở dữ liệu
+    /* Phương thức lấy ra danh sách tất cả các sản phẩm từ cơ sở dữ liệu */
     public List<Product> getAllProducts() {
         String query = "SELECT* FROM product WHERE is_on_sale = TRUE";
         return getListProductQuery(query);
     }
 
-    // Phương thức lấy tất cả các sản phẩm theo category_id của danh mục
+    /* Phương thức lấy ra danh sách tất cả các sản phẩm theo category_id của danh mục */
     public List<Product> getAllProductsFromACategory(int category_id) {
-        String query = "SELECT * FROM category c INNER JOIN product p on c.id = p.category_id WHERE (c.parent_id = " + category_id + " OR p.category_id = " + category_id + ") AND p.is_on_sale = TRUE ";
-        List<Product> list = new ArrayList<>();
-        try {
-            Statement statement = DBConnect.getInstall().get();
-            if (statement != null) {
-                conn = new DBConnect().get().getConnection();
-                ps = conn.prepareStatement(query);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    Product product = new Product();
-                    product.setId(rs.getInt(1));
-                    product.setTitle(rs.getString(6));
-                    product.setPrice(rs.getInt(8));
-                    product.setDiscount(rs.getInt(9));
-                    product.setThumbnail(rs.getString(11));
-                    product.setDescription(rs.getString(12));
-                    list.add(product);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return list;
+        String query = "SELECT p.* FROM category c INNER JOIN product p on c.id = p.category_id WHERE (c.parent_id = " + category_id + " OR p.category_id = " + category_id + ") AND p.is_on_sale = TRUE ";
+        return getListProductQuery(query);
     }
 
     // Phương thức tìm kiếm tất cả các sản phẩm có liên quan đến từ khóa đã nhập vào
@@ -82,11 +62,12 @@ public class ProductDAO {
         return getListProductQuery(query);
     }
 
-//    public List<Product> sortProductsFromAToZ() {
-//        String query = "";
-//        return getListProductQuery(query);
-//    }
+    public List<Product> sortBy(String column, String order) {
+        String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY " + column + " " + order + "";
+        return getListProductQuery(query);
+    }
 
+    /* Phương thức lấy ra danh sách các sản phẩm nổi bật */
     public List<Product> getFeaturedProduct() {
         String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY RAND() LIMIT 3";
         return getListProductQuery(query);
@@ -100,11 +81,37 @@ public class ProductDAO {
         return getListProductQuery(query);
     }
 
+    /* Phương thức lấy ra sản phẩm theo id */
+    public Product getProduct(int id) {
+        Product product = new Product();
+        String query = "SELECT * FROM product WHERE id = " + id + " AND is_on_sale = TRUE";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                rs = statement.executeQuery(query);
+                while (rs.next()) {
+                    product.setId(rs.getInt(1));
+                    product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
+                    product.setTitle(rs.getString(3));
+                    product.setKeyword(rs.getString(4));
+                    product.setPrice(rs.getInt(5));
+                    product.setDiscount(rs.getInt(6));
+                    product.setDesign(rs.getString(7));
+                    product.setThumbnail(rs.getString(8));
+                    product.setDescription(rs.getString(9));
+                    product.setQuantity(rs.getInt(10));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.getAllProductsFromACategory(2);
-        for (Product p : list) {
-            System.out.println(p);
-        }
+        Product product = dao.getProduct(15);
+        System.out.println(product);
+        System.out.println(product.getCategory().getId());
     }
 }
