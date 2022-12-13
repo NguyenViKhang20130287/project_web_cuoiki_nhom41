@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 public class CartDao {
     DBConnect dbConnect = new DBConnect();
+    CategoryDAO categoryDAO = new CategoryDAO();
 
     public Product getProductById(String id) {
         try {
@@ -18,18 +19,19 @@ public class CartDao {
                 dbConnect.ps.setString(1, id);
                 dbConnect.rs = dbConnect.ps.executeQuery();
                 while (dbConnect.rs.next()) {
-                    return new Product(dbConnect.rs.getInt(1),
-                            dbConnect.rs.getInt(2),
-                            dbConnect.rs.getString(3),
-                            dbConnect.rs.getString(4),
-                            dbConnect.rs.getInt(5),
-                            dbConnect.rs.getInt(6),
-                            dbConnect.rs.getString(7),
-                            dbConnect.rs.getString(8),
-                            dbConnect.rs.getString(9),
-                            dbConnect.rs.getInt(10));
+                    Product product = new Product();
+                    product.setId(dbConnect.rs.getInt(1));
+                    product.setCategory(categoryDAO.getCategory(2));
+                    product.setTitle(dbConnect.rs.getString(3));
+                    product.setKeyword(dbConnect.rs.getString(4));
+                    product.setPrice(dbConnect.rs.getInt(5));
+                    product.setDiscount(dbConnect.rs.getInt(6));
+                    product.setDesign(dbConnect.rs.getString(7));
+                    product.setThumbnail(dbConnect.rs.getString(8));
+                    product.setDescription(dbConnect.rs.getString(9));
+                    product.setQuantity(dbConnect.rs.getInt(10));
+                    return product;
                 }
-
             }
         } catch (SQLException e) {
 

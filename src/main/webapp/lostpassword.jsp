@@ -1,4 +1,6 @@
 <%@ page import="java.util.Objects" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.ProductInCart" %>
+<%@ page import="java.util.HashMap" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -72,7 +74,8 @@
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                     kiếm
                 </button>
-                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(100)</a></button>
+                 <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
+                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
                 <% if (session.getAttribute("Account") != null) {%>
                 <button><a href="LogoutControl">
