@@ -25,13 +25,13 @@
         <div class="header_page-main">
 
             <div class="header_page-logo">
-                <a href="index.jsp"><img src="img/logo.png" alt=""></a>
+                <a href="home"><img src="img/logo.png" alt=""></a>
             </div>
 
             <div class="header_page-category">
 
                 <ul class="header_page-category-main-menu">
-                    <li><a href="index.jsp">Trang chủ</a></li>
+                    <li><a href="home">Trang chủ</a></li>
                     <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                         <ul class="header_page-category-sub-menu">
@@ -103,7 +103,7 @@
 
                 <div class="category_header-responsive">
                     <ul class="main-menu">
-                        <li><a href="index.jsp">Trang chủ</a></li>
+                        <li><a href="home">Trang chủ</a></li>
                         <li class="main-menu-list">
                             <div class="main-menu-title">
                                 <a href="product">
@@ -184,7 +184,7 @@
 
         <div class="body_page-menu">
             <ul>
-                <li><a href="index.jsp">
+                <li><a href="home">
                     <i class="fa-solid fa-house"></i>
                     Trang chủ</a>
                 </li>
@@ -215,7 +215,7 @@
                         phẩm của mình và đối tác rất thích thú với cách phát triển dự án của một cô gái trẻ trung,
                         năng động, vốn kiến thức rộng.
                     </p>
-                    <button id="view"><a href="index.jsp">Tới cửa hàng</a></button>
+                    <button id="view"><a href="home">Tới cửa hàng</a></button>
                 </div>
                 <div class="right_container">
                     <img src="img/about_page/about_pic.jpg" alt="">
