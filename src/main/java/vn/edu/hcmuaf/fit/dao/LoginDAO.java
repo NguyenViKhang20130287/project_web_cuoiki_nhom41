@@ -23,8 +23,9 @@ public class LoginDAO {
                 ps.setString(2, pass);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    Account acc = new Account(rs.getString(2), rs.getString(3), rs.getInt(9));
+                    Account acc = new Account(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(9));
                     int role = acc.getRole();
+                    String fullName = acc.getFullName();
 //                    role = rs.getInt(9);
 //                    System.out.println("Role: " + role);
                     System.out.println(acc.getRole());

@@ -38,8 +38,9 @@ public class LoginControl extends HttpServlet {
                 session.setAttribute("username", uname);
                 String role = String.valueOf(acc.getRole());
                 session.setAttribute("role", role);
-                session.setMaxInactiveInterval(180);
-                response.sendRedirect("index.jsp");
+                session.setAttribute("fullName", acc.getFullName());
+                session.setMaxInactiveInterval(60 * 60 * 24);
+                response.sendRedirect("home");
             }
         } catch (Exception e) {
 

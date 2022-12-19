@@ -12,7 +12,7 @@ public class LogoutControl extends HttpServlet {
         response.getWriter().println("logout");
         HttpSession session = request.getSession();
         session.removeAttribute("Account");
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("home");
     }
 
     @Override

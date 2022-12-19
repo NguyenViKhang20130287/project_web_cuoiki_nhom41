@@ -5,6 +5,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.dao.ProductDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Product" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.ProductInCart" %>
+<%@ page import="java.util.HashMap" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +22,81 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/home.css">
     <title>Shop Bán Ngọc Quý</title>
+
+    <%-- css box login--%>
+    <style>
+
+        .header_page-btns.non-reponsive {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #box-admin {
+            position: relative;
+        }
+
+        #box-admin:hover #box-admin-menu {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #box-admin-btn:hover #box-admin-menu {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #box-admin-menu {
+            border: 1px solid #dadada;
+            box-shadow: 0px 1px 6px 0px #dadada;
+            position: absolute;
+            z-index: 2;
+            width: 200px;
+            left: 10px;
+            background: #fff;
+
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s linear;
+        }
+
+        #box-admin-menu li {
+            font-size: 14px;
+            color: #000;
+            border-bottom: 1px solid #bc8247;
+            transition: all ease .3s;
+        }
+
+        #box-admin-menu li:last-child {
+            border-bottom: none;
+        }
+
+        #box-admin-menu li a {
+            display: block;
+            padding: 20px;
+            font-size: 14px;
+            color: #000;
+            ransition: all ease .3s;
+        }
+
+        #box-admin-menu li a i {
+            margin-right: 10px;
+        }
+
+        #box-admin-menu li:hover {
+            transform: scale(0.8);
+            color: #bc8247;
+        }
+
+        #box-admin-menu li:hover a {
+            color: #bc8247;
+        }
+
+    </style>
+
 </head>
 
 <body>
+
 <% ProductDAO productDAO = new ProductDAO();
     CategoryDAO categoryDAO = new CategoryDAO();
     Locale locale = new Locale("vi", "VN");
@@ -56,19 +130,19 @@
                     <li><a href="">Trang<i class="fa-solid fa-chevron-down"></i></a>
                         <ul class="header_page-category-sub-menu">
 
-                            <% if (session.getAttribute("Account") != null) {%>
+                            <% if (session.getAttribute("Account") != null) { %>
+                            <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
                             <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                            <%}%>
-
-                            <% if (session.getAttribute("Account") == null) { %>
-                            <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
-                            <% } %>
-
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-
-                            <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                            <li><a href="admin/doc/index-admin.html" style="font-weight: normal">Quản lý website</a></li>
+                            <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
+                            <% }
+                            } %>
+                            <% if ((session.getAttribute("Account") == null) ||
+                                    (Objects.equals(session.getAttribute("role"), "1"))) { %>
+                            <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
+                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
                             <% } %>
 
                         </ul>
@@ -82,17 +156,35 @@
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                     kiếm
                 </button>
-                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(100)</a></button>
+                <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
+                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
                 <% if (session.getAttribute("Account") != null) {%>
-                <button><a href="LogoutControl">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <%= session.getAttribute("username") %>
-                </a></button>
-                <%}%>
+                <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %></button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                        <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                        </li>
+                    </ul>
+                </div>
+                <% } else if((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %></button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+<%--                <button><%= session.getAttribute("username") %></button>--%>
+<%--                <ul id="box-admin-menu">--%>
+<%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
+<%--                </ul>--%>
+                <% } %>
+                <% } %>
 
                 <% if (session.getAttribute("Account") == null) {%>
-                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+               <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
                 <%}%>
 
             </div>
@@ -235,7 +327,8 @@
                                                                                     alt=""></a>
                         </div>
                         <div class="card-title-price">
-                            <p style="font-size: 14px; margin-bottom: 5px;"><%=p.getTitle()%></p>
+                            <p style="font-size: 14px; margin-bottom: 5px;"><%=p.getTitle()%>
+                            </p>
                             <span style="font-size: 15px"><%=numberFormat.format(p.getDiscount())%></span>
                             <span style="margin-left: 10px; color: #6c6c6c; font-size: 15px"><strike><%=numberFormat.format(p.getPrice())%></strike></span>
                         </div>

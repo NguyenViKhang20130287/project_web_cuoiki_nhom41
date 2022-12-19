@@ -4,6 +4,8 @@ public class Account {
 
     private String username;
     private String password;
+
+    private  String fullName;
     private int role;
 
     public Account() {
@@ -17,6 +19,13 @@ public class Account {
     public Account(String username, String password, int role) {
         this.username = username;
         this.password = password;
+        this.role = role;
+    }
+
+    public Account(String username, String password, String fullName, int role) {
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
         this.role = role;
     }
 
@@ -38,6 +47,14 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override
