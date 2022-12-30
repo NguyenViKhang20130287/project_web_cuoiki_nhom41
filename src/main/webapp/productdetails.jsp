@@ -3,6 +3,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.dao.ProductDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.GalleryDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -146,21 +147,24 @@
                 kiếm
             </button>
             <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
-            <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
+            <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
             <% if (session.getAttribute("Account") != null) {%>
             <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
             <div id="box-admin">
-                <button><%= session.getAttribute("username") %></button>
+                <button><%= session.getAttribute("username") %>
+                </button>
                 <ul id="box-admin-menu">
                     <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                     <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
                     </li>
                 </ul>
             </div>
-            <% } else if((Objects.equals(session.getAttribute("role"), "1"))) { %>
+            <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
             <div id="box-admin">
-                <button><%= session.getAttribute("username") %></button>
+                <button><%= session.getAttribute("username") %>
+                </button>
                 <ul id="box-admin-menu">
                     <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                 </ul>
@@ -277,7 +281,7 @@
         </li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
         <% Category category = (Category) request.getAttribute("categoryByProductId");%>
-        <li class="second"><a href=""><%=category.getName()%>
+        <li class="second"><a href="category?category_id=<%=category.getId()%>"><%=category.getName()%>
         </a></li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
         <li><a href=""><%=product.getTitle()%>
@@ -330,14 +334,15 @@
                             </div>
                         </div>
                         <div class="size_wrapper">
-                            <% List<Variation> variationList = (List<Variation>) request.getAttribute("variationList");
-                                for (Variation v : variationList) {%>
-                            <% if (category.getId() == 2) {%>
+                            <% List<Variation> variationList = (List<Variation>) request.getAttribute("variationList");%>
+                            <% for (Variation v : variationList) {%>
+                            <% if (category.getId() == v.getCategory().getId()) {%>
                             <div style="margin-right: 15px"><%=v.getName()%>
                             </div>
                             <%}%>
                             <%}%>
-                            <%if (category.getId() == 2) {%>
+                            <% for (Variation v : variationList) {%>
+                            <%if (category.getId() == v.getCategory().getId()) {%>
                             <select class="select_size">
                                 <option>-- Vui lòng chọn --</option>
                                 <% List<VariationOption> variationOptionList = (List<VariationOption>) request.getAttribute("variationOptionList");
@@ -347,12 +352,15 @@
                                 <%}%>
                             </select>
                             <%}%>
+                            <%}%>
                         </div>
                     </div>
-                    <%if (category.getId() == 2) {%>
+                    <% for (Variation v : variationList) {%>
+                    <%if (category.getId() == v.getCategory().getId()) {%>
                     <!-- Trigger/Open The Modal -->
                     <button id="myBtn"><span>Hướng dẫn chọn kích cỡ<i class="fa-solid fa-chevron-right"></i></span>
                     </button>
+                    <%}%>
                     <%}%>
                     <div class="btn-groups">
                         <button type="button" class="add_cart_btn">
@@ -514,109 +522,30 @@
         </div>
         <div class="box container">
             <ul id="autoWidth" class="cs-hidden">
+                <% List<Product> relatedList = (List<Product>) request.getAttribute("relatedList");%>
+                <% for (Product r:relatedList){%>
                 <li class="item-a">
                     <div class="body_page-trending-product-list-card">
                         <div class="card-image">
-                            <a href="productdetails.jsp"><img src="img/main_products/bracelets/bracelet_ruby-2.jpeg"
+                            <a href="product-detail?product_id=<%=r.getId()%>"><img src="<%=r.getThumbnail()%>"
                                                               alt=""></a>
                         </div>
                         <div class="card-title-price">
-                            <a href=""><p>Vòng đeo tay bằng Ruby và Kim cương 18K</p></a>
-                            <span>3.169.000 đ</span>
+                            <a href=""><p><%=r.getTitle()%></p></a>
+                            <span><%=numberFormat.format(r.getDiscount())%></span>
                         </div>
                         <div class="card-btn">
-                            <button><a href="productdetails.jsp">Chi tiết</a></button>
+                            <button><a href="product-detail?product_id=<%=r.getId()%>">Chi tiết</a></button>
                             <button>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </li>
-                <li class="item-b">
-                    <div class="body_page-trending-product-list-card">
-                        <div class="card-image">
-                            <a href="productdetails.jsp"><img src="img/main_products/earrings/earring_amethyst-1.jpeg"
-                                                              alt=""></a>
-                        </div>
-                        <div class="card-title-price">
-                            <a href="productdetails.jsp"><p>Bông tai Thạch anh tím và kim cương Siberia Vàng trắng</p>
-                            </a>
-                            <span>2.970.000 đ</span>
-                        </div>
-                        <div class="card-btn">
-                            <button><a href="productdetails.jsp">Chi tiết</a></button>
-                            <button>Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-c">
-                    <div class="body_page-trending-product-list-card">
-                        <div class="card-image">
-                            <a href="productdetails.jsp"><img src="img/main_products/bracelets/bracelet_quartz-1.jpeg"
-                                                              alt=""></a>
-                        </div>
-                        <div class="card-title-price">
-                            <a href="productdetails.jsp"><p>Vòng Tay Thạch Anh Ưu Linh Trắng 8mm Mix Hoa Mẫu
-                                Đơn</p></a>
-                            <span>1.784.000 đ</span>
-                        </div>
-                        <div class="card-btn">
-                            <button><a href="productdetails.jsp">Chi tiết</a></button>
-                            <button>Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-d">
-                    <div class="body_page-trending-product-list-card">
-                        <div class="card-image">
-                            <a href="productdetails.jsp"><img src="img/main_products/rings/ring_tanzanite-2.jpeg"
-                                                              alt=""></a>
-                        </div>
-                        <div class="card-title-price">
-                            <a href="productdetails.jsp"><p>Nhẫn Tanzanite và Kim cương Vàng trắng 14K</p></a>
-                            <span>1.180.000 đ</span>
-                        </div>
-                        <div class="card-btn">
-                            <button><a href="productdetails.jsp">Chi tiết</a></button>
-                            <button>Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-e">
-                    <div class="body_page-trending-product-list-card">
-                        <div class="card-image">
-                            <a href="productdetails.jsp"><img src="img/main_products/pendants/pendant_ruby-2.jpeg"
-                                                              alt=""></a>
-                        </div>
-                        <div class="card-title-price">
-                            <a href="productdetails.jsp"><p>Mặt dây chuyền trái tim Ruby và Vàng 14K</p></a>
-                            <span>1.713.000 đ</span>
-                        </div>
-                        <div class="card-btn">
-                            <button><a href="productdetails.jsp">Chi tiết</a></button>
-                            <button>Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="item-f">
-                    <div class="body_page-trending-product-list-card">
-                        <div class="card-image">
-                            <a href="productdetails.jsp"><img src="img/main_products/rings/ring_pearl-1.jpeg"
-                                                              alt=""></a>
-                        </div>
-                        <div class="card-title-price">
-                            <a href="productdetails.jsp"><p>Nhẫn Ngọc trai nước ngọt và Kim cương 14k</p></a>
-                            <span>2.285.000 đ</span>
-                        </div>
-                        <div class="card-btn">
-                            <button><a href="productdetails.jsp">Chi tiết</a></button>
-                            <button>Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                </li>
+                <%}%>
             </ul>
         </div>
     </div>
 </div>
-<%if (category.getId() == 2) {%>
+
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <!-- Modal content -->
@@ -634,7 +563,7 @@
             được chia cho 3,14. Sau đó đối chiếu với&nbsp;Bảng size nhẫn.</p>
     </div>
 </div>
-<%}%>
+
 <!--footer page-->
 <section class="footer_area">
     <div class="footer_page">

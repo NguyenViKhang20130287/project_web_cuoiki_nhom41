@@ -16,6 +16,7 @@ public class ProductDetailsControl extends HttpServlet {
     ProductDAO productDAO = new ProductDAO();
     CategoryDAO categoryDAO = new CategoryDAO();
     GalleryDAO galleryDAO = new GalleryDAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("product_id"));
@@ -32,6 +33,8 @@ public class ProductDetailsControl extends HttpServlet {
         Variation variation = galleryDAO.getVariation(category.getId());
         // Lấy ra danh sách các tùy chọn của biến thể theo id của biến thể
         List<VariationOption> variationOptionList = galleryDAO.getVariationOptionList(variation.getId());
+        // Lấy ra danh sách các sản phẩm liên quan
+        List<Product> relatedList = productDAO.getRelatedProduct(product.getCategory().getName(), product.getId());
 
         request.setAttribute("product", product);
         request.setAttribute("productList", productList);
@@ -39,6 +42,7 @@ public class ProductDetailsControl extends HttpServlet {
         request.setAttribute("variationList", variationList);
         request.setAttribute("variationOptionList", variationOptionList);
         request.setAttribute("categoryByProductId", category);
+        request.setAttribute("relatedList", relatedList);
         request.getRequestDispatcher("productdetails.jsp").forward(request, response);
     }
 

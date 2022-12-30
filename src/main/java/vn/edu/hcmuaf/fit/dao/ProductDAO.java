@@ -62,8 +62,8 @@ public class ProductDAO {
         return getListProductQuery(query);
     }
 
-    public List<Product> sortBy(String column, String order) {
-        String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY " + column + " " + order + "";
+    public List<Product> getRelatedProduct(String categoryName, int product_id) {
+        String query = "SELECT * FROM product p INNER JOIN category c ON p.category_id = c.id WHERE p.title LIKE '%" + categoryName + "%' AND p.id != " + product_id + " AND is_on_sale = TRUE";
         return getListProductQuery(query);
     }
 
@@ -72,10 +72,7 @@ public class ProductDAO {
         String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY RAND() LIMIT 3";
         return getListProductQuery(query);
     }
-
-    //    public List<Product> filteredByPrice(int min, int max) {
-//        String query = "SELECT * FROM product WHERE discount BETWEEN" + min + " AND" + max + " ORDER BY discount ASC";
-//    }
+    /* Phương thức lấy ra danh sách các sản phẩm liên quan */
     public List<Product> getLatestProduct() {
         String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY id DESC LIMIT 15";
         return getListProductQuery(query);
@@ -102,16 +99,14 @@ public class ProductDAO {
                     product.setQuantity(rs.getInt(10));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException();
         }
         return product;
     }
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        Product product = dao.getProduct(15);
-        System.out.println(product);
-        System.out.println(product.getCategory().getId());
+        System.out.println(dao.getRelatedProduct("thạch anh tím", 1) + "\n");
     }
 }
