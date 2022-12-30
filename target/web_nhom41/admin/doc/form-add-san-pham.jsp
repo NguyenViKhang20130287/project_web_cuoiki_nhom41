@@ -153,7 +153,7 @@
                 <%= session.getAttribute("fullName")%>
             </p>
             <% } else if (session.getAttribute("Account") == null) { %>
-            <% response.sendRedirect("home"); %>
+            <% response.sendRedirect("../../home"); %>
             <% } %>
             <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
         </div>
