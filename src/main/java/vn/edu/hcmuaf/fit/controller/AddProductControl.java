@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "AddProductControl", value = "/admin/doc/AddProductControl")
 public class AddProductControl extends HttpServlet {
@@ -18,10 +19,13 @@ public class AddProductControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
+        PrintWriter out = response.getWriter();
+
         try{
-            response.setCharacterEncoding("UTF-8");
-            request.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html;charset=UTF-8");
 
             int id = Integer.parseInt(request.getParameter("id"));
             String nameProduct = request.getParameter("nameProduct");
@@ -46,7 +50,10 @@ public class AddProductControl extends HttpServlet {
                 new AddProductDAO().addProduct(id, nameProduct, nameGem,
                         quantity, category, color, price,
                         keyword, design, imgLink, description);
-                response.sendRedirect("ListProductAdminControl");
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Thêm sản phẩm thành công');");
+                out.println("location='ListProductAdminControl';");
+                out.println("</script>");
             }else{
                 request.getRequestDispatcher("form-add-san-pham.jsp").forward(request, response);
             }

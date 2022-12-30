@@ -5,8 +5,10 @@ import vn.edu.hcmuaf.fit.entity.CatagoryAdmin;
 import vn.edu.hcmuaf.fit.entity.ColorAdmin;
 
 import java.io.File;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class AddProductDAO {
                             rsSelectCat.getInt(2), rsSelectCat.getString(3)));
                 }
             }
+            rsSelectCat.close();
+            psSelectCat.close();
         } catch (Exception e) {
 
         }
@@ -97,6 +101,9 @@ public class AddProductDAO {
                 listColor.add(new ColorAdmin(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
             }
 
+            rsSelectColor.close();
+            psSelectColor.close();
+
         } catch (Exception e) {
 
         }
@@ -117,9 +124,22 @@ public class AddProductDAO {
     public void addProduct(int id, String title, String nameGem, int quantity, String cat,
                            String color, int price, String keyword, String design,
                            File imgLink, String description) {
-        String queryAddProduct = "INSERT INTO product(product.id, product.title, product.quantity, product.price," +
-                " product.keyword, product.design, product.category_id, product.description, " +
-                "product.thumbnail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String queryAddProduct = "INSERT INTO product (" +
+                "product.id," +
+                "product.title," +
+                "product.quantity," +
+                "product.price," +
+                "product.keyword," +
+                "product.design," +
+                "product.category_id," +
+                "product.description," +
+                "product.thumbnail," +
+                "product.discount," +
+                "product.is_on_sale," +
+                "product.created_at," +
+                "product.updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         String queryAddProductGemColor = "INSERT INTO product_gem_color VALUES (?, ?)";
 
         String querySelectCat = "SELECT * FROM category";
@@ -144,18 +164,27 @@ public class AddProductDAO {
             psAddProduct.setString(8, description);
             psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
 
+            psAddProduct.setInt(10, 0);
+            psAddProduct.setInt(11, 0);
+            psAddProduct.setDate(12, Date.valueOf(LocalDate.now()));
+            psAddProduct.setDate(13, Date.valueOf(LocalDate.now()));
+
             psAddProductGemColor.setInt(1, id);
             psAddProductGemColor.setInt(2, checkIdColor(color));
 
             psAddProduct.executeUpdate();
             psAddProductGemColor.executeUpdate();
 
-            System.out.println("successfully");
+            psAddProduct.close();
+            psAddProductGemColor.close();
+
+//            System.out.println("Add successfully");
 
         } catch (Exception e) {
 
         }
     }
+
 
     public static void main(String[] args) {
 //        System.out.println(new AddProductDAO().getListCat("Ngọc trai"));
