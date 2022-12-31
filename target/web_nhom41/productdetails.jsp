@@ -147,7 +147,7 @@
                 kiếm
             </button>
             <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
-            <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+            <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
                 hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
             <% if (session.getAttribute("Account") != null) {%>
@@ -536,7 +536,7 @@
                         </div>
                         <div class="card-btn">
                             <button><a href="product-detail?product_id=<%=r.getId()%>">Chi tiết</a></button>
-                            <button>Thêm vào giỏ</button>
+                            <button onclick="addtocart(<%=r.getId()%>)">Thêm vào giỏ</button>
                         </div>
                     </div>
                 </li>

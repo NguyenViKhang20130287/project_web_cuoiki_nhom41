@@ -1,23 +1,25 @@
 // Hiển thị hình ảnh chi tiết của sản phẩm
 const allHoverImages = document.querySelectorAll('.hover_container div img');
 const imgContainer = document.querySelector('.img_container');
-window.addEventListener('DOMContentLoaded',() =>{
+window.addEventListener('DOMContentLoaded', () => {
     allHoverImages[0].parentElement.classList.add('active');
 });
-allHoverImages.forEach((image) =>{
-    image.addEventListener('mouseover',() =>{
+allHoverImages.forEach((image) => {
+    image.addEventListener('mouseover', () => {
         imgContainer.querySelector('img').src = image.src;
         resetActiveImg();
         image.parentElement.classList.add('active');
     });
 });
-function resetActiveImg(){
-    allHoverImages.forEach((img) =>{
+
+function resetActiveImg() {
+    allHoverImages.forEach((img) => {
         img.parentElement.classList.remove('active');
     });
 }
+
 // Số lượng sản phẩm
-$(".button").on("click", function() {
+$(".button").on("click", function () {
 
     var $button = $(this);
     var oldValue = $button.parent().find("input").val();
@@ -36,11 +38,11 @@ $(".button").on("click", function() {
 
 });
 // Chuyển đổi tab
-$(document).ready(function (){
+$(document).ready(function () {
     $('.tab-content-item').hide();
     $('.tab-content-item:first-child').fadeIn();
-    $('.nav-tabs li').click(function (){
-       //active nav tabs
+    $('.nav-tabs li').click(function () {
+        //active nav tabs
         $('.nav-tabs li').removeClass('active');
         $(this).addClass('active');
         //show tab-content item
@@ -53,11 +55,11 @@ $(document).ready(function (){
     });
 });
 // Hiển thị sản phẩm liên quan
-$(document).ready(function() {
+$(document).ready(function () {
     $('#autoWidth').lightSlider({
-        autoWidth:true,
-        loop:true,
-        onSliderLoad: function() {
+        autoWidth: true,
+        loop: true,
+        onSliderLoad: function () {
             $('#autoWidth').removeClass('cS-hidden');
         }
     });
@@ -68,16 +70,34 @@ var modal = document.getElementById("myModal");
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
 
-btn.onclick = function() {
+btn.onclick = function () {
     modal.style.display = "block";
 }
 
-span.onclick = function() {
+span.onclick = function () {
     modal.style.display = "none";
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+
+function addtocart(idProduct) {
+    var cartQuantity = document.getElementById("cartQuantity");
+    console.log(idProduct);
+    $.ajax({
+        url: "/web_nhom41_war/addtocart",
+        type: "post",
+        data: {
+            inputId: idProduct
+        },
+        success: function (data) {
+            cartQuantity.innerHTML = data;
+        },
+        error: function (xhr) {
+            //Do Something to handle error
+        }
+    });
 }

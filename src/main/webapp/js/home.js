@@ -36,3 +36,20 @@ window.addEventListener('load', function () {
 
 
 })
+function addtocart(idProduct) {
+    var cartQuantity = document.getElementById("cartQuantity");
+    console.log(idProduct);
+    $.ajax({
+        url: "/web_nhom41_war/addtocart",
+        type: "post",
+        data: {
+            inputId: idProduct
+        },
+        success: function (data) {
+            cartQuantity.innerHTML = data;
+        },
+        error: function (xhr) {
+            //Do Something to handle error
+        }
+    });
+}

@@ -491,11 +491,6 @@
                                             <div class="card-btn">
                                                 <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a>
                                                 </button>
-<%--                                                <form class="addToCart" action="addtocart" method="get">--%>
-<%--                                                    <input type="hidden" value="<%=p.getId()%>"--%>
-<%--                                                           name="inputId">--%>
-<%--                                                    <button type="submit" onclick="">Thêm vào giỏ</button>--%>
-<%--                                                </form>--%>
                                                 <button onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
                                             </div>
                                         </div>
