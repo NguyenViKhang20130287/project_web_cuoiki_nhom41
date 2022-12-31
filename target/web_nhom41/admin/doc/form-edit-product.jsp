@@ -103,43 +103,58 @@
                             <label class="control-label">Tên sản phẩm</label>
                             <input class="form-control" type="text" required value="Bàn ăn gỗ Theresa">
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Tên loại đá</label>
+                            <input class="form-control" type="text" required value="Bàn ăn gỗ Theresa">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="exampleSelect1" class="control-label">Danh mục</label>
+                            <select class="form-control" id="exampleSelect1">
+                                <option>-- Chọn danh mục --</option>
+                                <option>Nhẫn</option>
+                                <option>Hoa tai</option>
+                                <option>Vòng tay</option>
+                                <option>Dây chuyền</option>
+                                <option>Mặt dây chuyền</option>
+                            </select>
+                        </div>
+
                         <div class="form-group  col-md-6">
                             <label class="control-label">Số lượng</label>
                             <input class="form-control" type="number" required value="20">
                         </div>
                         <div class="form-group col-md-6 ">
-                            <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
+                            <label for="exampleSelect1" class="control-label">Màu sắc</label>
                             <select class="form-control" id="exampleSelect1">
-                                <option>Còn hàng</option>
-                                <option>Hết hàng</option>
-                                <option>Đang nhập hàng</option>
+                                <option>-- Chọn màu sắc --</option>
+                                <option>Đen</option>
+                                <option>Xanh da trời</option>
+                                <option>Nâu</option>
+                                <option>Màu Gold</option>
+                                <option>Xanh lá</option>
+                                <option>Nhiều màu</option>
+                                <option>Cam</option>
+                                <option>Hồng</option>
+                                <option>Tím</option>
+                                <option>Đỏ</option>
+                                <option>Trắng</option>
+                                <option>Vàng</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="control-label">Giá bán</label>
                             <input class="form-control" type="text" value="5.600.000">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="exampleSelect1" class="control-label">Danh mục</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>Bàn ăn</option>
-                                <option>Bàn thông minh</option>
-                                <option>Tủ</option>
-                                <option>Ghế gỗ</option>
-                                <option>Ghế sắt</option>
-                                <option>Giường người lớn</option>
-                                <option>Giường trẻ em</option>
-                                <option>Bàn trang điểm</option>
-                                <option>Giá đỡ</option>
-                            </select>
-                        </div>
+
                     </div>
                     <BR>
 
                     <BR>
                     <BR>
                     <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                    <a class="btn btn-cancel" href="ListProductAdminControl">Hủy bỏ</a>
                     <BR>
                 </div>
                 <div class="modal-footer">

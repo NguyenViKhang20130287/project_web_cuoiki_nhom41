@@ -1,7 +1,8 @@
 <%@ page import="java.util.Objects" %>
-<%@ page import="vn.edu.hcmuaf.fit.entity.ProductInCart" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -88,7 +89,7 @@
 </head>
 
 <body>
-<% Map<Integer, ProductInCart> cartList = (Map<Integer, ProductInCart>) session.getAttribute("cart");
+<% Map<Integer, CartItem> cartList = (Map<Integer, CartItem>) session.getAttribute("cart");
     if (cartList == null) {
         cartList = new HashMap<>();
     }
@@ -149,22 +150,25 @@
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                     kiếm
                 </button>
-                <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
-                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
+                <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
+                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                    hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
                 <% if (session.getAttribute("Account") != null) {%>
                 <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
                 <div id="box-admin">
-                    <button><%= session.getAttribute("username") %></button>
+                    <button><%= session.getAttribute("username") %>
+                    </button>
                     <ul id="box-admin-menu">
                         <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                         <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
                         </li>
                     </ul>
                 </div>
-                <% } else if((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
                 <div id="box-admin">
-                    <button><%= session.getAttribute("username") %></button>
+                    <button><%= session.getAttribute("username") %>
+                    </button>
                     <ul id="box-admin-menu">
                         <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                     </ul>
@@ -307,7 +311,7 @@
                 <!-- product -->
                 <% int num = 0;
                     String totalString = null;
-                    for (Map.Entry<Integer, ProductInCart> entry : cartList.entrySet()) {
+                    for (Map.Entry<Integer, CartItem> entry : cartList.entrySet()) {
                         String price = String.valueOf(entry.getValue().getProduct().getDiscount());
                         String total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
                         num += Integer.parseInt(total);
@@ -343,7 +347,7 @@
                         <span> <%=total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) %>đ</span>
                     </th>
                     <th class="product-remove">
-                        <button><i class="fa-solid fa-xmark"></i>
+                        <button><i class="fa-solid fa-trash"></i>
                         </button>
                     </th>
                 </tr>
@@ -357,7 +361,7 @@
             <div class="table table-non-responsive">
 
                 <ul id="productContainer2">
-                    <% for (Map.Entry<Integer, ProductInCart> entry : cartList.entrySet()) {
+                    <% for (Map.Entry<Integer, CartItem> entry : cartList.entrySet()) {
 
                     %>
                     <li class="list_card">
@@ -379,7 +383,7 @@
                             </div>
                         </div>
                         <div class="deleteProduct">
-                            <button class="deleteProductBtn"><i class="fa-solid fa-xmark"></i></button>
+                            <button class="deleteProductBtn"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </li>
                     <% } %>
@@ -395,8 +399,10 @@
                 <input type="text" placeholder="Mã giảm giá">
                 <button>OK</button>
             </div>
+
             <div class="clearCart">
-                <button>Xóa tất cả</button>
+                <button class="refresh" style="margin-right: 10px;padding: 0;"><a href="cart.jsp">Cập nhật giỏ hàng</a></button>
+                <button style="margin-left: 10px;">Xóa tất cả</button>
             </div>
         </div>
 

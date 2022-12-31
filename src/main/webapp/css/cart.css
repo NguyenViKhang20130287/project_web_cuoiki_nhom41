@@ -1,16 +1,19 @@
-.header_page{
+.header_page {
     background-color: #E4E4E4;
     width: 100%;
 }
-.header_page-main{
+
+.header_page-main {
     width: 80%;
     margin: 0 auto;
     background-color: #E4E4E4;
 }
+
 .sticky {
     width: 100%;
     background: #fff;
 }
+
 .body_page {
     /* height: 150vh; */
     /* width: 80%; */
@@ -122,8 +125,6 @@ a:hover {
 }
 
 
-
-
 .product-remove button {
     padding: 15px;
     background: none;
@@ -180,6 +181,22 @@ a:hover {
     color: #bc8247;
 }
 
+.clearCart {
+    display: flex;
+}
+
+.clearCart a {
+    padding: 15px;
+    color: #bc8247;
+}
+
+
+.clearCart a:hover {
+    transform: scale(0.9);
+    background: #bc8247;
+    color: #fff;
+}
+
 /*  */
 
 .body_page-footer {
@@ -224,7 +241,8 @@ a:hover {
     border-bottom: none;
 }
 
-.CartTotals ul li .title {}
+.CartTotals ul li .title {
+}
 
 .CartTotals .totals_btns {
     padding: 15px;
@@ -257,7 +275,7 @@ a:hover {
 
 /*  */
 
-@media screen and (max-width:428px) {
+@media screen and (max-width: 428px) {
     .body_page {
         width: 100%;
     }
@@ -307,7 +325,7 @@ a:hover {
         padding: 5px;
     }
 
-    .table-non-responsive ul .list_card .deleteProduct .deleteProductBtn{
+    .table-non-responsive ul .list_card .deleteProduct .deleteProductBtn {
         background: none;
         border: none;
         font-size: 16px;
@@ -342,7 +360,7 @@ a:hover {
         font-size: 16px;
     }
 
-    .table-non-responsive ul .list_card .product-quantity input{
+    .table-non-responsive ul .list_card .product-quantity input {
         padding: 5px;
         /* border: 1px solid #b2bec3; */
         /* font-size: 15px; */

@@ -146,7 +146,7 @@
             <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                 kiếm
             </button>
-            <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
+            <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
             <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
                 hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
