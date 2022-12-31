@@ -8,6 +8,7 @@ import java.io.File;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,16 +24,21 @@ public class AddProductDAO {
     public List<CatagoryAdmin> getListCat(String nameCatInput) {
         List<CatagoryAdmin> listCat = new LinkedList<>();
         try {
-            psSelectCat = new DBConnect().getConnection().prepareStatement("SELECT * FROM category");
-            rsSelectCat = psSelectCat.executeQuery();
-            while (rsSelectCat.next()) {
-                if (nameCatInput.equals(rsSelectCat.getString(3))) {
-                    listCat.add(new CatagoryAdmin(rsSelectCat.getInt(1),
-                            rsSelectCat.getInt(2), rsSelectCat.getString(3)));
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+
+                psSelectCat = new DBConnect().getConnection().prepareStatement("SELECT * FROM category");
+                rsSelectCat = psSelectCat.executeQuery();
+                while (rsSelectCat.next()) {
+                    if (nameCatInput.equals(rsSelectCat.getString(3))) {
+                        listCat.add(new CatagoryAdmin(rsSelectCat.getInt(1),
+                                rsSelectCat.getInt(2), rsSelectCat.getString(3)));
+                    }
                 }
+//                rsSelectCat.close();
+//                psSelectCat.close();
             }
-            rsSelectCat.close();
-            psSelectCat.close();
+
         } catch (Exception e) {
 
         }
@@ -95,14 +101,16 @@ public class AddProductDAO {
     public List<ColorAdmin> getListColor() {
         List<ColorAdmin> listColor = new LinkedList<>();
         try {
-            psSelectColor = new DBConnect().getConnection().prepareStatement("SELECT * FROM gem_color");
-            rsSelectColor = psSelectColor.executeQuery();
-            while (rsSelectColor.next()) {
-                listColor.add(new ColorAdmin(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                psSelectColor = new DBConnect().getConnection().prepareStatement("SELECT * FROM gem_color");
+                rsSelectColor = psSelectColor.executeQuery();
+                while (rsSelectColor.next()) {
+                    listColor.add(new ColorAdmin(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
+                }
+//                rsSelectColor.close();
+//                psSelectColor.close();
             }
-
-            rsSelectColor.close();
-            psSelectColor.close();
 
         } catch (Exception e) {
 
@@ -145,41 +153,41 @@ public class AddProductDAO {
         String querySelectCat = "SELECT * FROM category";
 
         try {
-            psAddProduct = new DBConnect().getConnection().prepareStatement(queryAddProduct);
-            psAddProductGemColor = new DBConnect().getConnection().prepareStatement(queryAddProductGemColor);
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                psAddProduct = new DBConnect().getConnection().prepareStatement(queryAddProduct);
+                psAddProductGemColor = new DBConnect().getConnection().prepareStatement(queryAddProductGemColor);
 
-            psSelectCat = new DBConnect().getConnection().prepareStatement(querySelectCat);
+                psSelectCat = new DBConnect().getConnection().prepareStatement(querySelectCat);
 
-            rsSelectCat = psSelectCat.executeQuery();
+                rsSelectCat = psSelectCat.executeQuery();
 
 
-            psAddProduct.setInt(1, id);
-            psAddProduct.setString(2, title);
-            psAddProduct.setInt(3, quantity);
-            psAddProduct.setInt(4, price);
-            psAddProduct.setString(5, keyword);
-            psAddProduct.setString(6, design);
-            psAddProduct.setInt(7, checkIdGem(nameGem,
-                    new AddProductDAO().checkParentID(cat)));
-            psAddProduct.setString(8, description);
-            psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
+                psAddProduct.setInt(1, id);
+                psAddProduct.setString(2, title);
+                psAddProduct.setInt(3, quantity);
+                psAddProduct.setInt(4, price);
+                psAddProduct.setString(5, keyword);
+                psAddProduct.setString(6, design);
+                psAddProduct.setInt(7, checkIdGem(nameGem,
+                        new AddProductDAO().checkParentID(cat)));
+                psAddProduct.setString(8, description);
+                psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
 
-            psAddProduct.setInt(10, 0);
-            psAddProduct.setInt(11, 0);
-            psAddProduct.setDate(12, Date.valueOf(LocalDate.now()));
-            psAddProduct.setDate(13, Date.valueOf(LocalDate.now()));
+                psAddProduct.setInt(10, 0);
+                psAddProduct.setInt(11, 0);
+                psAddProduct.setDate(12, Date.valueOf(LocalDate.now()));
+                psAddProduct.setDate(13, Date.valueOf(LocalDate.now()));
 
-            psAddProductGemColor.setInt(1, id);
-            psAddProductGemColor.setInt(2, checkIdColor(color));
+                psAddProductGemColor.setInt(1, id);
+                psAddProductGemColor.setInt(2, checkIdColor(color));
 
-            psAddProduct.executeUpdate();
-            psAddProductGemColor.executeUpdate();
+                psAddProduct.executeUpdate();
+                psAddProductGemColor.executeUpdate();
 
-            psAddProduct.close();
-            psAddProductGemColor.close();
-
-//            System.out.println("Add successfully");
-
+                psAddProduct.close();
+                psAddProductGemColor.close();
+            }
         } catch (Exception e) {
 
         }

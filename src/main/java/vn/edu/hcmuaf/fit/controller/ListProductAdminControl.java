@@ -17,12 +17,10 @@ public class ListProductAdminControl extends HttpServlet {
         List<ProductAdmin> listPro = new ProductAdminDAO().getData();
         request.setAttribute("listProduct", listPro);
         request.getRequestDispatcher("table-data-product.jsp").forward(request, response);
-
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+//        doGet(request, response);
     }
 }

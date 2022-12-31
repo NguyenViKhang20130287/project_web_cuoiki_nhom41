@@ -31,7 +31,7 @@ public class DeleteProductAdminControl extends HttpServlet {
             out.println("alert('Xóa sản phẩm thành công');");
             out.println("location='ListProductAdminControl';");
             out.println("</script>");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

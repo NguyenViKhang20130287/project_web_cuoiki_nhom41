@@ -87,6 +87,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+
                     <div class="row element-button">
                         <div class="col-sm-2">
 
@@ -125,14 +126,13 @@
                                     class="fas fa-trash-alt"></i> Xóa tất cả </a>
                         </div>
                     </div>
-                    <table class="table table-hover table-bordered" id="sampleTable">
-                        <tbody>
 
-                        <% List<ProductAdmin> list = (List<ProductAdmin>)request.getAttribute("listProduct");
+                    <table class="table table-hover table-bordered" id="sampleTable">
+
+                        <tbody>
+                        <% List<ProductAdmin> list = (List<ProductAdmin>) request.getAttribute("listProduct");
                             for (ProductAdmin pa : list) { %>
                         <tr>
-
-
                             <td width="10"><input type="checkbox" name="check1" value="1"></td>
                             <td><%= pa.getId()%>
                             </td>
@@ -152,15 +152,14 @@
                                 ><i class="fas fa-trash-alt"></i>
                                 </a>
                                 <a class="btn btn-primary btn-sm edit" title="Sửa" id="show-emp"
-                                   href="form-edit-product.jsp"
-                                <%--                                   EditProductAdminControl?edit_pid=<%=pa.getId()%>--%>
+                                   href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"
+
                                    data-target="#ModalUP"><i class="fas fa-edit"></i></a>
                             </td>
-
                         </tr>
                         <% } %>
-
                         </tbody>
+
                         <thead>
                         <tr>
                             <th width="10"><input type="checkbox" id="all"></th>
@@ -175,6 +174,7 @@
                         </tr>
                         </thead>
                     </table>
+
                 </div>
             </div>
         </div>

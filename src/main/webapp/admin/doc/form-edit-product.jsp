@@ -1,12 +1,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="java.util.LinkedList" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.AddProductDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.EditProductDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <head>
-    <title>Danh sách nhân viên | Quản trị Admin</title>
+    <title>Sửa sản phẩm | Quản trị Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,74 +91,97 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group  col-md-12">
-          <span class="thong-tin-thanh-toan">
-            <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
-          </span>
+                          <span class="thong-tin-thanh-toan">
+                            <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
+                          </span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Mã sản phẩm </label>
-                            <input class="form-control" type="number" value="71309005">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Tên sản phẩm</label>
-                            <input class="form-control" type="text" required value="Bàn ăn gỗ Theresa">
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Tên loại đá</label>
-                            <input class="form-control" type="text" required value="Bàn ăn gỗ Theresa">
-                        </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="exampleSelect1" class="control-label">Danh mục</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>-- Chọn danh mục --</option>
-                                <option>Nhẫn</option>
-                                <option>Hoa tai</option>
-                                <option>Vòng tay</option>
-                                <option>Dây chuyền</option>
-                                <option>Mặt dây chuyền</option>
-                            </select>
-                        </div>
+                    <form method="post" action="EditProductAdminControl">
+                        <div class="row">
+                            <% List<ProductAdmin> listPro = (List<ProductAdmin>) request.getAttribute("listProductEdit");
+                                for (ProductAdmin pa : listPro) {
+                                    if (pa.getId() == Integer.parseInt(request.getAttribute("edit_id").toString())) { %>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Mã sản phẩm </label>
+                                <input class="form-control" type="number" value="<%=pa.getId()%>"
+                                       name="edit_product-id">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Tên sản phẩm</label>
+                                <input class="form-control" type="text" value="<%=pa.getName()%>"
+                                       name="edit_product-name">
+                            </div>
 
-                        <div class="form-group  col-md-6">
-                            <label class="control-label">Số lượng</label>
-                            <input class="form-control" type="number" required value="20">
-                        </div>
-                        <div class="form-group col-md-6 ">
-                            <label for="exampleSelect1" class="control-label">Màu sắc</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>-- Chọn màu sắc --</option>
-                                <option>Đen</option>
-                                <option>Xanh da trời</option>
-                                <option>Nâu</option>
-                                <option>Màu Gold</option>
-                                <option>Xanh lá</option>
-                                <option>Nhiều màu</option>
-                                <option>Cam</option>
-                                <option>Hồng</option>
-                                <option>Tím</option>
-                                <option>Đỏ</option>
-                                <option>Trắng</option>
-                                <option>Vàng</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Giá bán</label>
-                            <input class="form-control" type="text" value="5.600.000">
-                        </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Tên loại đá</label>
+                                <input class="form-control" type="text" name="edit_product-nameGem"
+                                       value="<%=pa.getNameGem()%>">
+                            </div>
 
-                    </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleSelect1" class="control-label">Danh mục</label>
+                                <select class="form-control" id="exampleSelect1" name="edit_product-cat_name">
+                                    <option><%=pa.getCategory()%>
+                                    </option>
+                                    <option>Nhẫn</option>
+                                    <option>Hoa tai</option>
+                                    <option>Vòng tay</option>
+                                    <option>Dây chuyền</option>
+                                    <option>Mặt dây chuyền</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group  col-md-6">
+                                <label class="control-label">Số lượng</label>
+                                <input class="form-control" type="number" required value="<%=pa.getQuantity()%>"
+                                       name="edit_product-quantity">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <label for="exampleSelect1" class="control-label">Màu sắc</label>
+                                <select class="form-control" id="exampleSelect1" name="edit_product-color">
+                                    <option><%=pa.getColor()%>
+                                    </option>
+                                    <option>Đen</option>
+                                    <option>Xanh da trời</option>
+                                    <option>Nâu</option>
+                                    <option>Màu Gold</option>
+                                    <option>Xanh lá</option>
+                                    <option>Nhiều màu</option>
+                                    <option>Cam</option>
+                                    <option>Hồng</option>
+                                    <option>Tím</option>
+                                    <option>Đỏ</option>
+                                    <option>Trắng</option>
+                                    <option>Vàng</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Giá bán</label>
+                                <input class="form-control" type="text" value="<%=pa.getPrice()%>"
+                                       name="edit_product-price">
+                            </div>
+
+                            <BR>
+                            <BR>
+                            <BR>
+
+                            <div class="form-group col-md-6">
+                            </div>
+                            <%
+                                    }
+                                }
+                            %>
+                        </div>
+                        <button class="btn btn-save" type="submit">Lưu lại</button>
+                        <a class="btn btn-cancel" href="ListProductAdminControl">Hủy bỏ</a>
+                    </form>
                     <BR>
 
-                    <BR>
-                    <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" href="ListProductAdminControl">Hủy bỏ</a>
-                    <BR>
                 </div>
+
+
                 <div class="modal-footer">
                 </div>
             </div>

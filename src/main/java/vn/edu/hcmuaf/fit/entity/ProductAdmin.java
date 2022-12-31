@@ -9,6 +9,8 @@ public class ProductAdmin {
     String status;
     int price;
     String category;
+    String nameGem;
+    String Color;
 
     public ProductAdmin() {
     }
@@ -21,6 +23,18 @@ public class ProductAdmin {
         this.status = status;
         this.price = price;
         this.category = category;
+    }
+
+    public ProductAdmin(int id, String name, String imageLink, int quantity, String status, int price, String category, String nameGem, String color) {
+        this.id = id;
+        this.name = name;
+        this.imageLink = imageLink;
+        this.quantity = quantity;
+        this.status = status;
+        this.price = price;
+        this.category = category;
+        this.nameGem = nameGem;
+        Color = color;
     }
 
     public int getId() {
@@ -79,6 +93,22 @@ public class ProductAdmin {
         this.category = category;
     }
 
+    public String getNameGem() {
+        return nameGem;
+    }
+
+    public void setNameGem(String nameGem) {
+        this.nameGem = nameGem;
+    }
+
+    public String getColor() {
+        return Color;
+    }
+
+    public void setColor(String color) {
+        Color = color;
+    }
+
     @Override
     public String toString() {
         return "ProductAdmin{" +
@@ -89,7 +119,9 @@ public class ProductAdmin {
                 ", status='" + status + '\'' +
                 ", price=" + price +
                 ", category='" + category + '\'' +
-                '}';
+                ", nameGem='" + nameGem + '\'' +
+                ", Color='" + Color + '\'' +
+                '}' + "\n";
     }
 
     public String checkStatus(int quantity) {
