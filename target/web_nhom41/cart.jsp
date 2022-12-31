@@ -347,7 +347,7 @@
                         <span> <%=total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) %>đ</span>
                     </th>
                     <th class="product-remove">
-                        <button><i class="fa-solid fa-trash"></i>
+                        <button><a href="/web_nhom41_war/DeleteProductControl?productId=<%=entry.getKey()%>"><i class="fa-solid fa-trash"></i></a>
                         </button>
                     </th>
                 </tr>
@@ -383,7 +383,7 @@
                             </div>
                         </div>
                         <div class="deleteProduct">
-                            <button class="deleteProductBtn"><i class="fa-solid fa-trash"></i></button>
+                            <button class="deleteProductBtn"><a href="/web_nhom41_war/DeleteProductControl?productId=<%=entry.getKey()%>"><i class="fa-solid fa-trash"></i></a></button>
                         </div>
                     </li>
                     <% } %>

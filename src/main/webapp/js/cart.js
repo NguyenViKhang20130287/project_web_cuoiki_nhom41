@@ -35,3 +35,21 @@ function quantity(id, idProduct) {
         }
     });
 }
+
+function DeleteItem(idProduct) {
+    var cartQuantity = document.getElementById("cartQuantity");
+    console.log(idProduct);
+    $.ajax({
+        url: "/web_nhom41_war/DeleteProductControl",
+        type: "post",
+        data: {
+            inputId: idProduct
+        },
+        success: function (data) {
+
+        },
+        error: function (xhr) {
+            //Do Something to handle error
+        }
+    });
+}
