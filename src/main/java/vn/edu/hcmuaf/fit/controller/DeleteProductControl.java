@@ -19,11 +19,11 @@ public class DeleteProductControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String productID = request.getParameter("productId");
-        
+
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         cart.remove(Integer.parseInt(productID));
         session.setAttribute("cart", cart);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+        response.sendRedirect("cart.jsp");
     }
 }

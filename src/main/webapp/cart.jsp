@@ -347,7 +347,8 @@
                         <span> <%=total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) %>đ</span>
                     </th>
                     <th class="product-remove">
-                        <button><a href="/web_nhom41_war/DeleteProductControl?productId=<%=entry.getKey()%>"><i class="fa-solid fa-trash"></i></a>
+                        <button><a href="/web_nhom41_war/DeleteProductControl?productId=<%=entry.getKey()%>"><i
+                                class="fa-solid fa-trash"></i></a>
                         </button>
                     </th>
                 </tr>
@@ -383,7 +384,9 @@
                             </div>
                         </div>
                         <div class="deleteProduct">
-                            <button class="deleteProductBtn"><a href="/web_nhom41_war/DeleteProductControl?productId=<%=entry.getKey()%>"><i class="fa-solid fa-trash"></i></a></button>
+                            <button class="deleteProductBtn"><a
+                                    href="/web_nhom41_war/DeleteProductControl?productId=<%=entry.getKey()%>"><i
+                                    class="fa-solid fa-trash"></i></a></button>
                         </div>
                     </li>
                     <% } %>
@@ -401,8 +404,10 @@
             </div>
 
             <div class="clearCart">
-                <button class="refresh" style="margin-right: 10px;padding: 0;"><a href="cart.jsp">Cập nhật giỏ hàng</a></button>
-                <button style="margin-left: 10px;">Xóa tất cả</button>
+                <button class="refresh" style="margin-right: 10px;"><a href="cart.jsp">Cập nhật giỏ hàng</a>
+                </button>
+                <button style="margin-left: 10px;"><a href="/web_nhom41_war/DeleteAllItemCartControl">Xóa tất cả</a>
+                </button>
             </div>
         </div>
 
