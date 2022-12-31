@@ -23,21 +23,31 @@ public class CategoryControl extends HttpServlet {
         List<Category> mainCategoryList = categoryDAO.getMainCategory();
         // Lấy id của danh mục đã được chọn
         int category_id = Integer.parseInt(request.getParameter("category_id"));
-        List<Product> productListByCategory = null;
-        if(category_id == 1) {
-            // Lấy ra tất cả các sản phẩm từ cơ sở dữ liệu
-            productListByCategory = productDAO.getAllProducts();
-        }else{
-            // Lấy ra tất cả các sản phẩm theo category_id của danh mục đã cho
-            productListByCategory = productDAO.getAllProductsFromACategory(category_id);
-        }
         // Lấy ra 3 sản phẩm nổi bật
         List<Product> featuredProducts = productDAO.getFeaturedProduct();
+        // Lấy index của button trang
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int index = Integer.parseInt(indexPage);
 
+        int count = productDAO.getTotalProductOfACategory(category_id);
+        int endPage = count / 12;
+        if (count % 12 != 0) {
+            endPage++;
+        }
+        // Lấy ra tất cả các sản phẩm theo category_id của danh mục đã cho và phân trang
+        List<Product> productListByCategory = productDAO.pagingProductOfCategory(category_id, index);
+
+        request.setAttribute("endP", endPage);
+        request.setAttribute("tag", index);
+        request.setAttribute("active", category_id);
         request.setAttribute("productList", productListByCategory);
         request.setAttribute("featuredList", featuredProducts);
         request.setAttribute("mainCategoryList", mainCategoryList);
         request.getRequestDispatcher("product.jsp").forward(request, response);
+
     }
 
     @Override
