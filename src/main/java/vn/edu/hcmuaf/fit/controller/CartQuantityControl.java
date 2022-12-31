@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import vn.edu.hcmuaf.fit.entity.ProductInCart;
+import vn.edu.hcmuaf.fit.entity.CartItem;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,8 +21,8 @@ public class CartQuantityControl extends HttpServlet {
         int num = 0;
         String totalString = "";
 
-        HashMap<Integer, ProductInCart> cart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart");
-        for (Map.Entry<Integer, ProductInCart> entry : cart.entrySet()) {
+        HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
+        for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
             String total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
             num += Integer.parseInt(total);
         }
@@ -48,16 +48,16 @@ public class CartQuantityControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String operator = (String) request.getParameter("operator");
         int browserWidth = Integer.parseInt(request.getParameter("browserWidth"));
-        System.out.println(browserWidth);
+
         int num = 0;
         String pid = request.getParameter("pid");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        HashMap<Integer, ProductInCart> cart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart");
+        HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         if (pid == null) {
             pid = "0";
         }
-        for (Map.Entry<Integer, ProductInCart> entry : cart.entrySet()) {
+        for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
             if (entry.getKey() == Integer.parseInt(pid)) {
                 int quantity = entry.getValue().getQuantity();
                 if (operator.contains("+")) {
@@ -101,7 +101,7 @@ public class CartQuantityControl extends HttpServlet {
                         "                        <span> " + total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) + "đ</span>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-remove\">\n" +
-                        "                        <button><i class=\"fa-solid fa-xmark\"></i>\n" +
+                        "                        <button><i class=\"fa-solid fa-trash\"></i>\n" +
                         "                        </button>\n" +
                         "                    </th>\n" +
                         "                </tr>");
@@ -125,7 +125,7 @@ public class CartQuantityControl extends HttpServlet {
                         "                            </div>\n" +
                         "                        </div>\n" +
                         "                        <div class=\"deleteProduct\">\n" +
-                        "                            <button class=\"deleteProductBtn\"><i class=\"fa-solid fa-xmark\"></i></button>\n" +
+                        "                            <button class=\"deleteProductBtn\"><i class=\"fa-solid fa-trash\"></i></button>\n" +
                         "                        </div>\n" +
                         "                    </li>");
             }

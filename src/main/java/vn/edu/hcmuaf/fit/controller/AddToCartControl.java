@@ -1,13 +1,17 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.CartDao;
+import vn.edu.hcmuaf.fit.entity.CartItem;
 import vn.edu.hcmuaf.fit.entity.Product;
-import vn.edu.hcmuaf.fit.entity.ProductInCart;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 @WebServlet(name = "AddToCartControl", value = "/addtocart")
@@ -23,23 +27,24 @@ public class AddToCartControl extends HttpServlet {
         CartDao CartDao = new CartDao();
         String idProduct = request.getParameter("inputId");
         Product product = CartDao.getProductById(idProduct);
-        ProductInCart productInCart;
+        CartItem cartItem;
         HttpSession session = request.getSession();
-        HashMap<Integer, ProductInCart> cart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart");
+        PrintWriter out = response.getWriter();
+        HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         if (cart == null) {
-            cart = new HashMap<Integer, ProductInCart>();
-            productInCart = new ProductInCart(product, 1);
-            cart.put(Integer.valueOf(idProduct), productInCart);
+            cart = new HashMap<Integer, CartItem>();
+            cartItem = new CartItem(product, 1);
+            cart.put(Integer.valueOf(idProduct), cartItem);
         } else {
             if (cart.containsKey(Integer.parseInt(idProduct))) {
-                productInCart = cart.get(Integer.parseInt(idProduct));
-                productInCart.incrementQuantity();
+                cartItem = cart.get(Integer.parseInt(idProduct));
+                cartItem.incrementQuantity();
             } else {
-                productInCart = new ProductInCart(product, 1);
-                cart.put(Integer.parseInt(idProduct), productInCart);
+                cartItem = new CartItem(product, 1);
+                cart.put(Integer.parseInt(idProduct), cartItem);
             }
         }
         session.setAttribute("cart", cart);
-        request.getRequestDispatcher("product").forward(request, response);
+        out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng("+(cart != null ? cart.size() : 0 )+")</a>");
     }
 }

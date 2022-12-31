@@ -4,16 +4,16 @@ const rangeInput = document.querySelectorAll(".range-input input"),
     range = document.querySelector(".slider .progress");
 let priceGap = 1000;
 
-priceInput.forEach(input =>{
-    input.addEventListener("input", e =>{
+priceInput.forEach(input => {
+    input.addEventListener("input", e => {
         let minPrice = parseInt(priceInput[0].value),
             maxPrice = parseInt(priceInput[1].value);
 
-        if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
-            if(e.target.className === "input-min"){
+        if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max) {
+            if (e.target.className === "input-min") {
                 rangeInput[0].value = minPrice;
                 range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
-            }else{
+            } else {
                 rangeInput[1].value = maxPrice;
                 range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
             }
@@ -21,18 +21,18 @@ priceInput.forEach(input =>{
     });
 });
 
-rangeInput.forEach(input =>{
-    input.addEventListener("input", e =>{
+rangeInput.forEach(input => {
+    input.addEventListener("input", e => {
         let minVal = parseInt(rangeInput[0].value),
             maxVal = parseInt(rangeInput[1].value);
 
-        if((maxVal - minVal) < priceGap){
-            if(e.target.className === "range-min"){
+        if ((maxVal - minVal) < priceGap) {
+            if (e.target.className === "range-min") {
                 rangeInput[0].value = maxVal - priceGap
-            }else{
+            } else {
                 rangeInput[1].value = minVal + priceGap;
             }
-        }else{
+        } else {
             priceInput[0].value = minVal;
             priceInput[1].value = maxVal;
             range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
@@ -41,10 +41,10 @@ rangeInput.forEach(input =>{
     });
 });
 // Hiển thị danh sách sản phẩm từng trang
-$(document).ready(function (){
+$(document).ready(function () {
     $('.tab-content-item').hide();
     $('.tab-content-item:first-child').fadeIn();
-    $('.pagination .page-item').click(function (){
+    $('.pagination .page-item').click(function () {
         //active nav tabs
         $('.pagination .page-item').removeClass('active');
         $(this).addClass('active');
@@ -57,3 +57,21 @@ $(document).ready(function (){
 
     });
 });
+
+function addtocart(idProduct) {
+    var cartQuantity = document.getElementById("cartQuantity");
+    console.log(idProduct);
+    $.ajax({
+        url: "/web_nhom41_war/addtocart",
+        type: "post",
+        data: {
+            inputId: idProduct
+        },
+        success: function (data) {
+            cartQuantity.innerHTML = data;
+        },
+        error: function (xhr) {
+            //Do Something to handle error
+        }
+    });
+}
