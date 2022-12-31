@@ -101,7 +101,8 @@ public class CartQuantityControl extends HttpServlet {
                         "                        <span> " + total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) + "đ</span>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-remove\">\n" +
-                        "                        <button><i class=\"fa-solid fa-trash\"></i>\n" +
+                        "                         <button><a href=\"/web_nhom41_war/DeleteProductControl?productId="+entry.getKey()+"\"><i\n" +
+                        "                                class=\"fa-solid fa-trash\"></i></a>\n" +
                         "                        </button>\n" +
                         "                    </th>\n" +
                         "                </tr>");
@@ -125,7 +126,9 @@ public class CartQuantityControl extends HttpServlet {
                         "                            </div>\n" +
                         "                        </div>\n" +
                         "                        <div class=\"deleteProduct\">\n" +
-                        "                            <button class=\"deleteProductBtn\"><i class=\"fa-solid fa-trash\"></i></button>\n" +
+                        "                            <button class=\"deleteProductBtn\"><a\n" +
+                        "                                    href=\"/web_nhom41_war/DeleteProductControl?productId="+entry.getKey()+"\"><i\n" +
+                        "                                    class=\"fa-solid fa-trash\"></i></a></button>\n" +
                         "                        </div>\n" +
                         "                    </li>");
             }
