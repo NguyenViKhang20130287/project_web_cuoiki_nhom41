@@ -21,18 +21,30 @@ public class ProductControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy ra tất cả các danh mục cha từ cơ sở dữ liệu
         List<Category> mainCategoryList = categoryDAO.getMainCategory();
-        // Lấy ra tất cả các sản phẩm từ cơ sở dữ liệu
-        List<Product> productList = productDAO.getAllProducts();
         // Lấy ra 3 sản phẩm nổi bật
         List<Product> featuredProducts = productDAO.getFeaturedProduct();
 
-//        List<Product> latestProduct = productDAO.getLatestProduct();
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int index = Integer.parseInt(indexPage);
 
+        int count = productDAO.getTotalProduct();
+        int endPage = count / 12;
+        if (count % 12 != 0) {
+            endPage++;
+        }
+        // Danh sách các sản phẩm trên một trang theo index của nút đã nhấn
+        List<Product> productList = productDAO.pagingProduct(index);
+
+        request.setAttribute("endP", endPage);
+        request.setAttribute("tag", index);
         request.setAttribute("mainCategoryList", mainCategoryList);
         request.setAttribute("productList", productList);
         request.setAttribute("featuredList", featuredProducts);
-//        request.setAttribute("latestProductList", latestProduct);
         request.getRequestDispatcher("product.jsp").forward(request, response);
+
     }
 
     @Override
