@@ -89,6 +89,30 @@
         #box-admin-menu li:hover a {
             color: #bc8247;
         }
+        .list_item.active, .list_item ul li.active {
+            background-color: #bc8247;
+            border-radius: 5px;
+            border-color: #bc8247;
+            color: #fff;
+            display: block;
+        }
+        .list_item.active a:hover, .list_item ul li.active a:hover{
+            color: #fff;
+        }
+        .field input{
+            height: 35px;
+        }
+        .currency{
+            position: absolute;
+            bottom: calc(100% - 8px);
+            left: 4px;
+            padding: 1px;
+            background: #fff;
+            color: #494949;
+            letter-spacing: .03em;
+            font-size: 14px;
+            line-height: 16px;
+        }
 
     </style>
 
@@ -331,11 +355,15 @@
                                 <div class="price-input">
                                     <div class="field">
                                         <span style="margin-right: 5px;">Giá: </span>
-                                        <input type="text" class="input-min" value="1200000">
+                                        <div style="position: relative">
+                                            <input type="text" class="input-min" value="1200000">
+                                            <span class="currency">đ</span>
+                                        </div>
                                         <span class="separator">-</span>
                                         <input type="text" class="input-max" value="3600000">
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="sidebar_widget mb_55">
@@ -479,33 +507,24 @@
                         <div class="pagenav">
                             <nav class="clearfix relative nav_pagi w_100">
                                 <ul class="pagination clearfix">
-                                    <li class="page-item"><a class="page-link" href=""><i
+                                    <% int endPage = (int) request.getAttribute("endP");%>
+                                    <% int tag = (int) request.getAttribute("tag");%>
+                                    <% if (tag > 1) {%>
+                                    <li class="page-item"><a class="page-link" href="product?index=<%=tag-1%>"><i
                                             class="fa-solid fa-chevron-left"></i></a></li>
-                                    <li class="active page-item"><a class="page-link"
-                                                                    href="#pills-grid-1"><span>1</span></a></li>
-                                    </li>
-                                    <li class="page-item "><a class="page-link" href="#pills-grid-2"><span>2</span></a>
-                                    </li>
-                                    <li class="page-item "><a class="page-link" href="#pills-grid-3"><span>3</span></a>
-                                    </li>
-                                    <li class="page-item "><a class="page-link" href="#pills-grid-4"><span>4</span></a>
-                                    </li>
-                                    <li class="page-item "><a class="page-link" href="#pills-grid-5"><span>5</span></a>
-                                    </li>
-                                    <li class="page-item  hidden-sm"><a class="page-link"
-                                                                        href="#pills-grid-6"><span>6</span></a></li>
-                                    <li class="page-item  hidden-sm"><a class="page-link"
-                                                                        href="#pills-grid-7"><span>7</span></a></li>
-                                    <li class="page-item  hidden-sm"><a class="page-link"
-                                                                        href="#pills-grid-8"><span>8</span></a></li>
-                                    <li class="page-item  hidden-sm"><a class="page-link"
-                                                                        href="#pills-grid-9"><span>9</span></a></li>
-                                    <li class="page-item  hidden-sm"><a class="page-link"
-                                                                        href="#pills-grid-10"><span>10</span></a></li>
-                                    <li class="page-item"><a class="page-link" href=""><i
+                                    <%}%>
+                                    <% for (int i = 1; i <= endPage; i++) {%>
+                                    <li class="page-item <%if(tag==i){%>active<%}else{%><%}%>"><a class="page-link"
+                                                                                                  href="product?index=<%=i%>"><%=i%>
+                                    </a></li>
+                                    <%}%>
+                                    <% if (tag < endPage) {%>
+                                    <li class="page-item"><a class="page-link" href="product?index=<%=tag+1%>"><i
                                             class="fa-solid fa-chevron-right"></i></a></li>
+                                    <%}%>
                                 </ul>
                             </nav>
+
                         </div>
                     </div>
                 </div>
