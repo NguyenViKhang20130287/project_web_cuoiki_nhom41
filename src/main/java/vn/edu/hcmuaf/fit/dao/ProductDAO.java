@@ -258,6 +258,63 @@ public class ProductDAO {
         }
         return 0;
     }
+    public List<Product> getTop5Product() {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                rs = statement.executeQuery(query);
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setId(rs.getInt(1));
+                    product.setCategory(categoryDAO.getCategory(2));
+                    product.setTitle(rs.getString(3));
+                    product.setKeyword(rs.getString(4));
+                    product.setPrice(rs.getInt(5));
+                    product.setDiscount(rs.getInt(6));
+                    product.setDesign(rs.getString(7));
+                    product.setThumbnail(rs.getString(8));
+                    product.setDescription(rs.getString(9));
+                    product.setQuantity(rs.getInt(10));
+                    list.add(product);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        return list;
+    }
+
+    public List<Product> getNextTop5Product(int amount) {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5 OFFSET ?";
+        try {
+            conn = DBConnect.getInstall().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, amount);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getInt(1));
+                product.setCategory(categoryDAO.getCategory(2));
+                product.setTitle(rs.getString(3));
+                product.setKeyword(rs.getString(4));
+                product.setPrice(rs.getInt(5));
+                product.setDiscount(rs.getInt(6));
+                product.setDesign(rs.getString(7));
+                product.setThumbnail(rs.getString(8));
+                product.setDescription(rs.getString(9));
+                product.setQuantity(rs.getInt(10));
+                list.add(product);
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        return list;
+    }
+
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
