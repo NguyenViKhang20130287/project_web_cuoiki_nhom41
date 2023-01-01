@@ -14,12 +14,10 @@ import java.util.List;
 @WebServlet(name = "HomeControl", value = "/home")
 public class HomeControl extends HttpServlet {
     ProductDAO productDAO = new ProductDAO();
-    CategoryDAO categoryDAO = new CategoryDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy ra danh sách các sản phẩm mới nhất
-        List<Product> latestProduct = productDAO.getLatestProduct();
-
+        List<Product> latestProduct = productDAO.getTop5Product();
         request.setAttribute("productList", latestProduct);
         request.getRequestDispatcher("index.jsp").forward(request,response);
     }
@@ -37,3 +35,4 @@ public class HomeControl extends HttpServlet {
         }
     }
 }
+

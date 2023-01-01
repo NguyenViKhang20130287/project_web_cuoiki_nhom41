@@ -302,7 +302,7 @@
                 <div class="clickbox">
                     <i class="fa-solid fa-folder"></i>
                     <div class="text-inbox">
-                        <p>Bạn đã có tài khoản?<a style="color: #6f7172; transition: all .3s"
+                        <p>Bạn đã có tài khoản?  <a style="color: #6f7172; transition: all .3s"
                                                   id="login" href="LoginControl">Bấm vào đây để đăng nhập</a></p>
                     </div>
                 </div>
