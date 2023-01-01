@@ -82,6 +82,13 @@
         #box-admin-menu li:hover a {
             color: #bc8247;
         }
+        .product-div-right .product_price {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .product-div-right .old_price{
+            display: inline-block;
+        }
 
     </style>
 
@@ -328,7 +335,7 @@
                 <div class="product-div-right col-xl-6 col-lg-6">
                     <span class="product_name mb_18"><%=product.getTitle()%></span>
                     <span class="product_price mb_18"><%=numberFormat.format(product.getDiscount())%></span>
-                    <span style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
+                    <span class="old_price" style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
                     <div class="product_rating mb_18">
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
@@ -545,7 +552,7 @@
                     <div class="body_page-trending-product-list-card">
                         <div class="card-image">
                             <a href="product-detail?product_id=<%=r.getId()%>"><img src="<%=r.getThumbnail()%>"
-                                                              alt=""></a>
+                                                                                    alt=""></a>
                         </div>
                         <div class="card-title-price">
                             <a href=""><p><%=r.getTitle()%></p></a>
@@ -637,5 +644,5 @@
 <script src="js/main.js"></script>
 <script src="js/productdetail.js"></script>
 <script src="js/lightslider.js"></script>
-
 </html>
+

@@ -8,6 +8,9 @@ public class ColorAdmin {
         this.idColor = idColor;
         this.nameColor = nameColor;
     }
+    public ColorAdmin() {
+    }
+
 
     public int getIdColor() {
         return idColor;

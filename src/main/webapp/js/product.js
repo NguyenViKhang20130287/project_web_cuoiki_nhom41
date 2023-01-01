@@ -60,7 +60,6 @@ $(document).ready(function () {
 
 function addtocart(idProduct) {
     var cartQuantity = document.getElementById("cartQuantity");
-    console.log(idProduct);
     $.ajax({
         url: "/web_nhom41_war/addtocart",
         type: "post",

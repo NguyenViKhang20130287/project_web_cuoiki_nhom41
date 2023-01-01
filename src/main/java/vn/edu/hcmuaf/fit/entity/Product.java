@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.entity;
 
-public class Product {
+public class Product implements Comparable<Product>{
     private int id;
     private Category category;
     private String title;
@@ -123,4 +123,15 @@ public class Product {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    @Override
+    public int compareTo(Product o) {
+        if (this.getDiscount() > o.getDiscount()) {
+            return 1;
+        } else if (this.getDiscount() < o.getDiscount()) {
+            return -1;
+        }
+        return 0;
+    }
 }
+
