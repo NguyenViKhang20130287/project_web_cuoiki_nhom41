@@ -11,6 +11,7 @@ priceInput.forEach(input => {
         if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max && minPrice>=rangeInput[0].min) {
             if (e.target.className === "input-min") {
                 rangeInput[0].value = minPrice;
+                console.log(rangeInput[0].value)
                 range.style.left = (((minPrice - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100) + "%";
             } else {
                 rangeInput[1].value = maxPrice;
@@ -20,7 +21,7 @@ priceInput.forEach(input => {
     });
 });
 rangeInput.forEach(input => {
-    input.addEventListener("mouseout", e => {
+    input.addEventListener("mouseleave", e => {
         if (priceFilter != e.target.value) {
             $.ajax({
                 url: "/web_nhom41_war/product?action=listProduct",

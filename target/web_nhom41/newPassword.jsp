@@ -81,12 +81,12 @@
         }
 
         .register-button a{
-            color: #000;
+            color: #fff;
             transition: all.3s;
         }
 
         .register-button:hover a {
-            color: #fff;
+            color: #bc8247;
         }
 
     </style>
