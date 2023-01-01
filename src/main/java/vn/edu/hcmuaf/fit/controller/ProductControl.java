@@ -1,8 +1,10 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.CategoryDAO;
+import vn.edu.hcmuaf.fit.dao.GalleryDAO;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.entity.Category;
+import vn.edu.hcmuaf.fit.entity.ColorAdmin;
 import vn.edu.hcmuaf.fit.entity.Product;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,8 @@ import java.util.List;
 public class ProductControl extends HttpServlet {
     CategoryDAO categoryDAO = new CategoryDAO();
     ProductDAO productDAO = new ProductDAO();
+    GalleryDAO galleryDAO = new GalleryDAO();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy ra tất cả các danh mục cha từ cơ sở dữ liệu
@@ -37,12 +41,16 @@ public class ProductControl extends HttpServlet {
         }
         // Danh sách các sản phẩm trên một trang theo index của nút đã nhấn
         List<Product> productList = productDAO.pagingProduct(index);
+        // Danh sách màu đá quý
+        List<ColorAdmin> colorList = galleryDAO.getListGemColor();
+        //
 
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);
         request.setAttribute("mainCategoryList", mainCategoryList);
         request.setAttribute("productList", productList);
         request.setAttribute("featuredList", featuredProducts);
+        request.setAttribute("colorList", colorList);
         request.getRequestDispatcher("product.jsp").forward(request, response);
 
     }
@@ -52,3 +60,4 @@ public class ProductControl extends HttpServlet {
 
     }
 }
+

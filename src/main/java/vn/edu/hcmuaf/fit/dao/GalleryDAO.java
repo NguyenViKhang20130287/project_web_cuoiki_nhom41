@@ -106,6 +106,25 @@ public class GalleryDAO {
         }
         return variationOptionsList;
     }
+    public List<ColorAdmin> getListGemColor(){
+        List<ColorAdmin> list = new ArrayList<>();
+        String query = "SELECT * FROM gem_color";
+        Statement statement = DBConnect.getInstall().get();
+        try {
+            if(statement!=null){
+                rs = statement.executeQuery(query);
+                while (rs.next()){
+                    ColorAdmin gemColor = new ColorAdmin();
+                    gemColor.setIdColor(rs.getInt(1));
+                    gemColor.setNameColor(rs.getString(2));
+                    list.add(gemColor);
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         CategoryDAO categoryDAO1 = new CategoryDAO();
@@ -114,10 +133,11 @@ public class GalleryDAO {
         Product product = new Product();
         Variation variation = galleryDAO.getVariation(2);
         List<VariationOption> variationOptionList = galleryDAO.getVariationOptionList(variation.getId());
-        for (VariationOption v:variationOptionList){
-            System.out.println(v);
+        List<ColorAdmin> list = galleryDAO.getListGemColor();
+        for (ColorAdmin c : list){
+            System.out.println(c);
         }
-        System.out.println(variation);
     }
 
 }
+

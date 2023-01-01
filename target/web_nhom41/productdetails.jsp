@@ -85,6 +85,13 @@
         #box-admin-menu li:hover a {
             color: #bc8247;
         }
+        .product-div-right .product_price {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .product-div-right .old_price{
+            display: inline-block;
+        }
 
     </style>
 
@@ -147,7 +154,7 @@
                 kiếm
             </button>
             <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
-            <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+            <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
                 hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
             <% if (session.getAttribute("Account") != null) {%>
@@ -311,7 +318,7 @@
                 <div class="product-div-right col-xl-6 col-lg-6">
                     <span class="product_name mb_18"><%=product.getTitle()%></span>
                     <span class="product_price mb_18"><%=numberFormat.format(product.getDiscount())%></span>
-                    <span style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
+                    <span class="old_price" style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
                     <div class="product_rating mb_18">
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
@@ -528,7 +535,7 @@
                     <div class="body_page-trending-product-list-card">
                         <div class="card-image">
                             <a href="product-detail?product_id=<%=r.getId()%>"><img src="<%=r.getThumbnail()%>"
-                                                              alt=""></a>
+                                                                                    alt=""></a>
                         </div>
                         <div class="card-title-price">
                             <a href=""><p><%=r.getTitle()%></p></a>
@@ -536,7 +543,7 @@
                         </div>
                         <div class="card-btn">
                             <button><a href="product-detail?product_id=<%=r.getId()%>">Chi tiết</a></button>
-                            <button onclick="addtocart(<%=r.getId()%>)">Thêm vào giỏ</button>
+                            <button>Thêm vào giỏ</button>
                         </div>
                     </div>
                 </li>
@@ -620,5 +627,5 @@
 <script src="js/main.js"></script>
 <script src="js/productdetail.js"></script>
 <script src="js/lightslider.js"></script>
-
 </html>
+

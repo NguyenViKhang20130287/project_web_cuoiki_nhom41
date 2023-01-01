@@ -1,16 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.entity.Category" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.CategoryDAO" %>
-<%@ page import="java.util.Objects" %>
-<%@ page import="vn.edu.hcmuaf.fit.entity.Product" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.ProductDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.*" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +21,10 @@
 
     <style>
 
-
+        .header_page-btns.non-reponsive {
+            display: flex;
+            justify-content: space-between;
+        }
 
         #box-admin {
             position: relative;
@@ -86,6 +85,7 @@
         #box-admin-menu li:hover a {
             color: #bc8247;
         }
+
         .list_item.active, .list_item ul li.active {
             background-color: #bc8247;
             border-radius: 5px;
@@ -93,13 +93,16 @@
             color: #fff;
             display: block;
         }
-        .list_item.active a:hover, .list_item ul li.active a:hover{
+
+        .list_item.active a:hover, .list_item ul li.active a:hover {
             color: #fff;
         }
-        .field input{
+
+        .field input {
             height: 35px;
         }
-        .currency{
+
+        .currency {
             position: absolute;
             bottom: calc(100% - 8px);
             left: 4px;
@@ -111,6 +114,11 @@
             line-height: 16px;
         }
 
+        .slider .progress {
+            left: 0%;
+            right: 0%;
+        }
+
     </style>
 
 </head>
@@ -119,6 +127,7 @@
     CategoryDAO dao = new CategoryDAO();
     Locale locale = new Locale("vi", "VN");
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);%>
+<% List<Category> categoryList = (List<Category>) request.getAttribute("mainCategoryList");%>
 <div id="product_page">
     <!-- Header page -->
     <div class="header_page">
@@ -135,12 +144,11 @@
                     <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                         <ul class="header_page-category-sub-menu">
-
-                            <li><a href="">Nhẫn</a></li>
-                            <li><a href="">Hoa tai</a></li>
-                            <li><a href="">Dây chuyền</a></li>
-                            <li><a href="">Vòng tay</a></li>
-                            <li><a href="">Mặt dây chuyền</a></li>
+                            <% for (int i = 1; i < categoryList.size(); i++) {%>
+                            <li>
+                                <a href="category?category_id=<%=categoryList.get(i).getId()%>"><%=categoryList.get(i).getName()%>
+                                </a></li>
+                            <%}%>
                         </ul>
                     </li>
 
@@ -157,7 +165,7 @@
                             } %>
                             <% if ((session.getAttribute("Account") == null) ||
                                     (Objects.equals(session.getAttribute("role"), "1"))) { %>
-                            <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
+                            <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
                             <% } %>
@@ -174,34 +182,39 @@
                     kiếm
                 </button>
                 <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
-                <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
+                <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                    hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
-                    <% if (session.getAttribute("Account") != null) {%>
-                    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
-                    <div id="box-admin">
-                        <button><%= session.getAttribute("username") %>
-                        </button>
-                        <ul id="box-admin-menu">
-                            <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                            <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                    <div id="box-admin">
-                        <button><%= session.getAttribute("username") %>
-                        </button>
-                        <ul id="box-admin-menu">
-                            <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                        </ul>
-                    </div>
-                    <% } %>
-                    <% } %>
-
-                    <% if (session.getAttribute("Account") == null) {%>
-                    <button><a href="LoginControl"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
-                    <%}%>
+                <% if (session.getAttribute("Account") != null) {%>
+                <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %>
+                    </button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                        <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                        </li>
+                    </ul>
                 </div>
+                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %>
+                    </button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <%--                <button><%= session.getAttribute("username") %></button>--%>
+                <%--                <ul id="box-admin-menu">--%>
+                <%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
+                <%--                </ul>--%>
+                <% } %>
+                <% } %>
+
+                <% if (session.getAttribute("Account") == null) {%>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+                <%}%>
+
             </div>
             <!--  -->
             <div class="header_page-btns responsive">
@@ -212,14 +225,7 @@
                 <div class="right_btn">
                     <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                     <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></button>
-
-                    <% if (session.getAttribute("Account") != null) {%>
-                    <button><a href="LogoutControl"><i class="fa-solid fa-user-check"></i></a></button>
-                    <% } %>
-
-                    <% if (session.getAttribute("Account") == null) {%>
-                    <button><a href="LoginControl"><i class="fa-solid fa-user"></i></a></button>
-                    <%}%>
+                    <button><a href="login.jsp"><i class="fa-solid fa-user"></i></a></button>
                 </div>
 
                 <div class="category_header-responsive">
@@ -234,11 +240,11 @@
                             </div>
                             <div class="main-menu-content">
                                 <ul>
-                                    <li><a href="" style="font-weight: normal">Nhẫn</a></li>
-                                    <li><a href="" style="font-weight: normal">Hoa tai</a></li>
-                                    <li><a href="" style="font-weight: normal">Dây chuyên</a></li>
-                                    <li><a href="" style="font-weight: normal">Vòng tay</a></li>
-                                    <li><a href="" style="font-weight: normal">Mặt dây chuyền</a></li>
+                                    <% for (int i = 1; i < categoryList.size(); i++) {%>
+                                    <li>
+                                        <a href="category?category_id=<%=categoryList.get(i).getId()%>"><%=categoryList.get(i).getName()%>
+                                        </a></li>
+                                    <%}%>
                                 </ul>
                             </div>
                         </li>
@@ -249,25 +255,9 @@
                             </div>
                             <div class="main-menu-content">
                                 <ul>
-                                    <% if (session.getAttribute("Account") != null) { %>
-                                    <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                                    <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                                    <li><a href="logincontrol" style="font-weight: normal">Đăng nhập</a></li>
                                     <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                     <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                    <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
-
-                                    <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                                    <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                                    <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                                    <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                    <%}%>
-                                    <%}%>
-
-                                    <% if ((session.getAttribute("Account") == null)) { %>
-                                    <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
-                                    <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                                    <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                    <% } %>
                                 </ul>
                             </div>
                         </li>
@@ -293,16 +283,15 @@
             </div>
             <div class="main-modal-category">
                 <ul>
-                    <li>Tất cả</li>
-                    <li>Nhẫn</li>
-                    <li>Hoa tay</li>
-                    <li>Dây chuyền</li>
-                    <li>Vòng tay</li>
-                    <li>Mặt dây chuyền</li>
+                    <% for (int i = 1; i < categoryList.size(); i++) {%>
+                    <li>
+                        <a href="category?category_id=<%=categoryList.get(i).getId()%>"><%=categoryList.get(i).getName()%>
+                        </a></li>
+                    <%}%>
                 </ul>
             </div>
             <div class="main-modal-search">
-                <form action="search" method="post" class="site-block-top-search">
+                <form action="search" method="get" class="site-block-top-search">
                     <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </form>
@@ -325,6 +314,7 @@
             <li><a href="">Sản phẩm</a></li>
         </ul>
     </div>
+    <% List<Product> productList = (List<Product>) request.getAttribute("productList");%>
     <!--Product Categories-->
     <section class="product_categories">
         <div class="container">
@@ -338,8 +328,7 @@
                             </div>
                             <div class="sidebar_widget-content">
                                 <ul>
-                                    <% List<Category> categoryList = (List<Category>) request.getAttribute("mainCategoryList");
-                                        for (Category c : categoryList) {%>
+                                    <% for (Category c : categoryList) {%>
                                     <li class="list_item dropdown"><a
                                             href="category?category_id=<%=c.getId()%>"><%= c.getName()%><i
                                             class="fa-solid fa-chevron-right"></i></a>
@@ -364,21 +353,25 @@
                                 <div class="slider">
                                     <div class="progress"></div>
                                 </div>
+                                <% DecimalFormat formatter = new DecimalFormat("###,###,###");%>
                                 <div class="range-input">
-                                    <input type="range" class="range-min" min="0" max="6000000" value="1200000"
-                                           step="50000">
-                                    <input type="range" class="range-max" min="0" max="6000000" value="3600000"
-                                           step="50000">
+                                    <input type="range" class="range-min" min="0" max="18000000"
+                                           value="0"
+                                           step="100000">
+                                    <input type="range" class="range-max" min="0" max="18000000"
+                                           value="18000000"
+                                           step="100000">
                                 </div>
                                 <div class="price-input">
                                     <div class="field">
                                         <span style="margin-right: 5px;">Giá: </span>
                                         <div style="position: relative">
-                                            <input type="text" class="input-min" value="1200000">
+                                            <input type="text" class="input-min"
+                                                   value="0">
                                             <span class="currency">đ</span>
                                         </div>
                                         <span class="separator">-</span>
-                                        <input type="text" class="input-max" value="3600000">
+                                        <input type="text" class="input-max" value="18000000">
                                     </div>
                                 </div>
 
@@ -391,44 +384,15 @@
                             <div class="sidebar_widget-content">
                                 <div class="color_pick">
                                     <ul>
+                                        <% List<ColorAdmin> colorList = (List<ColorAdmin>) request.getAttribute("colorList");%>
+                                        <% for (int i = 0; i < colorList.size(); i++) {%>
                                         <li>
-                                            <a href="">
-                                                <button type="button" class="color-1" title="Đen"></button>
+                                            <a href="gem_color?color_id=<%=colorList.get(i).getIdColor()%>">
+                                                <button type="button" class="color-<%=i+1%>"
+                                                        title="<%=colorList.get(i).getNameColor()%>"></button>
                                             </a>
                                         </li>
-                                        <li>
-                                            <button type="button" class="color-2" title="Xanh da trời"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-3" title="Nâu"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-4" title="Màu Gold"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-5" title="Xanh lá"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-6" title="Nhiều màu"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-7" title="Cam"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-8" title="Hồng"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-9" title="Tím"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-10" title="Đỏ"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-11" title="Trắng"></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="color-12" title="Vàng"></button>
-                                        </li>
+                                        <%}%>
                                     </ul>
                                 </div>
                             </div>
@@ -476,14 +440,14 @@
                             <div class="product_header-right">
                                 <i class="fa fa-sort" style="color: #a3a3a3" aria-hidden="true"></i>
                                 <span>Sắp xếp:</span>
-                                <select name="sortBy">
-                                    <option>Mặc định</option>
-                                    <option>A &rarr; Z</option>
-                                    <option>Z &rarr; A</option>
-                                    <option>Giá tăng dần</option>
-                                    <option>Giá giảm dần</option>
-                                    <option>Hàng mới nhất</option>
-                                    <option>Hàng cũ nhất</option>
+                                <select id="mySelect" name="sortBy">
+                                    <option value="default">Mặc định</option>
+                                    <option value="atoz">A &rarr; Z</option>
+                                    <option value="ztoa">Z &rarr; A</option>
+                                    <option value="increase">Giá tăng dần</option>
+                                    <option value="descrease">Giá giảm dần</option>
+                                    <option value="newest">Hàng mới nhất</option>
+                                    <option value="oldest">Hàng cũ nhất</option>
                                 </select>
                             </div>
                         </div>
@@ -491,8 +455,7 @@
                             <div class="tab-content-item fade active show" id="pills-grid-1" role="tabpanel"
                                  aria-labelledby="pills-grid">
                                 <div class="row ">
-                                    <% List<Product> productList = (List<Product>) request.getAttribute("productList");
-                                        for (Product p : productList) {%>
+                                    <%    for (Product p : productList) {%>
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                         <div class="body_page-trending-product-list-card">
                                             <div class="card-image">
@@ -509,6 +472,11 @@
                                             <div class="card-btn">
                                                 <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a>
                                                 </button>
+                                                <%--                                                <form class="addToCart" action="addtocart" method="get">--%>
+                                                <%--                                                    <input type="hidden" value="<%=p.getId()%>"--%>
+                                                <%--                                                           name="inputId">--%>
+                                                <%--                                                    <button type="submit" onclick="">Thêm vào giỏ</button>--%>
+                                                <%--                                                </form>--%>
                                                 <button onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
                                             </div>
                                         </div>
@@ -601,3 +569,4 @@
 <script src="js/main.js"></script>
 <script src="js/product.js"></script>
 </html>
+
