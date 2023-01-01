@@ -8,11 +8,16 @@ import javax.servlet.annotation.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @WebServlet(name = "CartQuantityControl", value = "/CartQuantityControl")
 public class CartQuantityControl extends HttpServlet {
+    Locale locale = new Locale("vi", "VN");
+    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -23,14 +28,22 @@ public class CartQuantityControl extends HttpServlet {
 
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
-            String total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
+            String total = "";
+            if (entry.getValue().getProduct().getDiscount() != 0) {
+                total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
+
+            } else {
+                total = String.valueOf(entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity());
+
+            }
             num += Integer.parseInt(total);
+
         }
-        totalString = String.valueOf(num);
+        totalString = numberFormat.format(num);
         out.println("  <h2>Tổng tiền</h2>\n" +
                 "                <ul id=\"totalOrder\"><li>\n" +
                 "                        <span class=\"title\">Tạm tính</span>\n" +
-                "                        <span class=\"price\">" + totalString.substring(0, totalString.length() - 6) + "." + totalString.substring(totalString.length() - 6, totalString.length() - 3) + "." + totalString.substring(totalString.length() - 3) + " đ</span>\n" +
+                "                        <span class=\"price\">" + totalString + " </span>\n" +
                 "                    </li>\n" +
                 "                    <li>\n" +
                 "                        <span class=\"title\">Giảm giá</span>\n" +
@@ -38,7 +51,7 @@ public class CartQuantityControl extends HttpServlet {
                 "                    </li>\n" +
                 "                    <li>\n" +
                 "                        <span class=\"title\">Tổng</span>\n" +
-                "                        <span class=\"price\">" + totalString.substring(0, totalString.length() - 6) + "." + totalString.substring(totalString.length() - 6, totalString.length() - 3) + "." + totalString.substring(totalString.length() - 3) + " đ</span>\n" +
+                "                        <span class=\"price\">" + totalString + " </span>\n" +
                 "                    </li><button class=\"totals_btns\"><a href=\"checkout.html\">Thanh toán</a></button>"
         );
     }
@@ -49,7 +62,6 @@ public class CartQuantityControl extends HttpServlet {
         String operator = (String) request.getParameter("operator");
         int browserWidth = Integer.parseInt(request.getParameter("browserWidth"));
 
-        int num = 0;
         String pid = request.getParameter("pid");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
@@ -71,9 +83,16 @@ public class CartQuantityControl extends HttpServlet {
                 }
                 entry.getValue().setQuantity(quantity);
             }
-            String price = String.valueOf(entry.getValue().getProduct().getDiscount());
-            String total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
-            num += Integer.parseInt(total);
+            String price = "";
+            String total = "";
+            if (entry.getValue().getProduct().getDiscount() != 0) {
+                price = numberFormat.format(entry.getValue().getProduct().getDiscount());
+                total = numberFormat.format(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
+            } else {
+                price = numberFormat.format(entry.getValue().getProduct().getPrice());
+                total = numberFormat.format(entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity());
+            }
+
             if (browserWidth > 428) {
                 out.println("<tr>\n" +
                         "                    <th class=\"product-thumbnail\">\n" +
@@ -86,7 +105,7 @@ public class CartQuantityControl extends HttpServlet {
                         "                        </a>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-price\">\n" +
-                        "                        <span> " + price.substring(0, price.length() - 6) + "." + price.substring(price.length() - 6, price.length() - 3) + "." + price.substring(price.length() - 3) + "đ</span>\n" +
+                        "                        <span> " + price + "</span>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-quantity\">\n" +
                         "                        <div class=\"cart-plus-minus\">\n" +
@@ -98,11 +117,10 @@ public class CartQuantityControl extends HttpServlet {
                         "                        </div>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-total\" id=\"product-total\">\n" +
-                        "                        <span> " + total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) + "đ</span>\n" +
+                        "                        <span> " + total + "</span>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-remove\">\n" +
-                        "                         <button><a href=\"/web_nhom41_war/DeleteProductControl?productId="+entry.getKey()+"\"><i\n" +
-                        "                                class=\"fa-solid fa-trash\"></i></a>\n" +
+                        "                         <button onclick=\"DeleteItem(" + entry.getKey() + ")\"><i class=\"fa-solid fa-trash\"></i>\n" +
                         "                        </button>\n" +
                         "                    </th>\n" +
                         "                </tr>");
@@ -116,7 +134,7 @@ public class CartQuantityControl extends HttpServlet {
                         "                            <a href=\"product-detail?product_id=" + entry.getValue().getProduct().getId() + "\"\n" +
                         "                               class=\"title\">" + entry.getValue().getProduct().getTitle() + "\n" +
                         "                            </a><br>\n" +
-                        "                            <span class=\"price\">" + total.substring(0, total.length() - 6) + "." + total.substring(total.length() - 6, total.length() - 3) + "." + total.substring(total.length() - 3) + "đ</span>\n" +
+                        "                            <span class=\"price\">" + total + "</span>\n" +
                         "                            <div class=\"product-quantity\">\n" +
                         "                                <button id=\"dec1\" onclick=\"quantity(this.id," + entry.getKey() + ")\">-\n" +
                         "                                </button>\n" +
@@ -126,9 +144,8 @@ public class CartQuantityControl extends HttpServlet {
                         "                            </div>\n" +
                         "                        </div>\n" +
                         "                        <div class=\"deleteProduct\">\n" +
-                        "                            <button class=\"deleteProductBtn\"><a\n" +
-                        "                                    href=\"/web_nhom41_war/DeleteProductControl?productId="+entry.getKey()+"\"><i\n" +
-                        "                                    class=\"fa-solid fa-trash\"></i></a></button>\n" +
+                        "                            <button onclick=\"DeleteItem(" + entry.getKey() + ")\"><i class=\"fa-solid fa-trash\"></i>\n" +
+                        "                        </button>\n" +
                         "                        </div>\n" +
                         "                    </li>");
             }
