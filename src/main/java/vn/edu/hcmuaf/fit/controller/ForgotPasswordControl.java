@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.ForgotPasswordDAO;
+import vn.edu.hcmuaf.fit.entity.Account;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -36,6 +37,9 @@ public class ForgotPasswordControl extends HttpServlet {
 
         if (email != null || !email.equals("")) {
             if (fpc.checkEmailExists(email) != null) {
+                Account acc = fpc.checkEmailExists(email);
+
+
                 // sending otp
                 Random rand = new Random();
                 otpvalue = rand.nextInt(899999) + 100000;
@@ -73,6 +77,8 @@ public class ForgotPasswordControl extends HttpServlet {
                 request.setAttribute("message", "OTP is sent to your email id");
                 //request.setAttribute("connection", con);
                 mySession.setAttribute("otp", otpvalue);
+                mySession.setAttribute("oldPass", acc.getPassword());
+                mySession.setAttribute("idUser", acc.getId());
                 mySession.setAttribute("email", email);
                 dispatcher.forward(request, response);
                 //request.setAttribute("status", "success");
