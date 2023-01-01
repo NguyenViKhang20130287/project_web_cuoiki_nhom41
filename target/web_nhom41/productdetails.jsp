@@ -21,7 +21,10 @@
 
     <style>
 
-
+        .header_page-btns.non-reponsive {
+            display: flex;
+            justify-content: space-between;
+        }
 
         #box-admin {
             position: relative;
@@ -134,7 +137,7 @@
                         } %>
                         <% if ((session.getAttribute("Account") == null) ||
                                 (Objects.equals(session.getAttribute("role"), "1"))) { %>
-                        <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
+                        <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
                         <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                         <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
                         <% } %>
@@ -147,40 +150,43 @@
 
         <!--  -->
         <div class="header_page-btns non-reponsive">
-            <div style="display: flex; justify-content: space-between">
-                <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
-                    kiếm
+            <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
+                kiếm
+            </button>
+            <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
+            <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
+
+            <% if (session.getAttribute("Account") != null) {%>
+            <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+            <div id="box-admin">
+                <button><%= session.getAttribute("username") %>
                 </button>
-                <% HashMap<Integer, ProductInCart> listCart = (HashMap<Integer, ProductInCart>) session.getAttribute("cart"); %>
-                <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
-                    hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
-
-                <% if (session.getAttribute("Account") != null) {%>
-                <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
-                <div id="box-admin">
-                    <button><%= session.getAttribute("username") %>
-                    </button>
-                    <ul id="box-admin-menu">
-                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                        <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
-                        </li>
-                    </ul>
-                </div>
-                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                <div id="box-admin">
-                    <button><%= session.getAttribute("username") %>
-                    </button>
-                    <ul id="box-admin-menu">
-                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                    </ul>
-                </div>
-                <% } %>
-                <% } %>
-
-                <% if (session.getAttribute("Account") == null) {%>
-                <button><a href="LoginControl"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
-                <%}%>
+                <ul id="box-admin-menu">
+                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                    <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                    </li>
+                </ul>
             </div>
+            <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+            <div id="box-admin">
+                <button><%= session.getAttribute("username") %>
+                </button>
+                <ul id="box-admin-menu">
+                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                </ul>
+            </div>
+            <%--                <button><%= session.getAttribute("username") %></button>--%>
+            <%--                <ul id="box-admin-menu">--%>
+            <%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
+            <%--                </ul>--%>
+            <% } %>
+            <% } %>
+
+            <% if (session.getAttribute("Account") == null) {%>
+            <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+            <%}%>
+
         </div>
         <!--  -->
         <div class="header_page-btns responsive">
@@ -191,14 +197,7 @@
             <div class="right_btn">
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></button>
-
-                <% if (session.getAttribute("Account") != null) {%>
-                <button><a href="LogoutControl"><i class="fa-solid fa-user-check"></i></a></button>
-                <% } %>
-
-                <% if (session.getAttribute("Account") == null) {%>
-                <button><a href="LoginControl"><i class="fa-solid fa-user"></i></a></button>
-                <%}%>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i></a></button>
             </div>
 
             <div class="category_header-responsive">
@@ -228,25 +227,9 @@
                         </div>
                         <div class="main-menu-content">
                             <ul>
-                                <% if (session.getAttribute("Account") != null) { %>
-                                <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                                <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                                <li><a href="logincontrol" style="font-weight: normal">Đăng nhập</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
-
-                                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                                <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                                <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                                <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <%}%>
-                                <%}%>
-
-                                <% if ((session.getAttribute("Account") == null)) { %>
-                                <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
-                                <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                                <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <% } %>
                             </ul>
                         </div>
                     </li>
