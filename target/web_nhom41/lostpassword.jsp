@@ -78,6 +78,15 @@
             color: #bc8247;
         }
 
+        .cancel-button a{
+            color: #000;
+            transition: all.3s;
+        }
+
+        .cancel-button:hover a {
+            color: #fff;
+        }
+
     </style>
 
 </head>
@@ -318,7 +327,9 @@
 
                 <button class="find-button" type="submit">TÌM KIẾM</button>
 
-                <button class="cancel-button"><a href="LoginControl">HỦY</a></button>
+                <button class="cancel-button"><a href="LoginControl">HỦY</a>
+                </button>
+
 
             </form>
         </div>

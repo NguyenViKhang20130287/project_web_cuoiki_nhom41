@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class ForgotPasswordDAO {
 
     public Account checkEmailExists(String email) {
-        String query = "select `user`.username, `user`.email from `user` where `user`.email = ?";
+        String query = "select `user`.id, `user`.username, `user`.email, `user`.password from `user` where `user`.email = ?";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -18,7 +18,10 @@ public class ForgotPasswordDAO {
                 preparedStatement.setString(1, email);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    Account acc = new Account(resultSet.getString(1), resultSet.getString(2));
+                    Account acc = new Account(resultSet.getInt(1), resultSet.getString(2),
+                            resultSet.getString(3), resultSet.getString(4));
+                    System.out.println(acc.getId());
+                    System.out.println(acc.getPassword());
                     return acc;
                 }
             }
@@ -29,8 +32,31 @@ public class ForgotPasswordDAO {
         return null;
     }
 
+    public void changePassword(int id, String newPassword) {
+        String query = "UPDATE `user`\n" +
+                "SET `user`.`password` = ?" +
+                "WHERE `user`.id = ?";
+
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
+
+                preparedStatement.setString(1, newPassword);
+                preparedStatement.setInt(2, id);
+                preparedStatement.executeUpdate();
+
+                System.out.println("Change password successfully");
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(new ForgotPasswordDAO().checkEmailExists("vikhang17112002@gmail.com"));
+        System.out.println(new ForgotPasswordDAO().checkEmailExists("khangvivi1711@gmail.com"));
+        new ForgotPasswordDAO().changePassword(5, "22222222");
     }
 
 }
