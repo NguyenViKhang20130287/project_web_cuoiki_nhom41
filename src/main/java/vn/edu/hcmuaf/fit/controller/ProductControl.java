@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.dao.CategoryDAO;
 import vn.edu.hcmuaf.fit.dao.GalleryDAO;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
@@ -23,6 +24,11 @@ public class ProductControl extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String param = request.getParameter("action");
+        if (param != null) {
+            getListProduct(request, response);
+            return;
+        }
         // Lấy ra tất cả các danh mục cha từ cơ sở dữ liệu
         List<Category> mainCategoryList = categoryDAO.getMainCategory();
         // Lấy ra 3 sản phẩm nổi bật
@@ -43,7 +49,6 @@ public class ProductControl extends HttpServlet {
         List<Product> productList = productDAO.pagingProduct(index);
         // Danh sách màu đá quý
         List<ColorAdmin> colorList = galleryDAO.getListGemColor();
-        //
 
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);
@@ -53,6 +58,14 @@ public class ProductControl extends HttpServlet {
         request.setAttribute("colorList", colorList);
         request.getRequestDispatcher("product.jsp").forward(request, response);
 
+    }
+
+    private void getListProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson = new Gson();
+        response.setContentType("text/html; charset=UTF-8");
+        List<Product> products = new ProductDAO().getAllProducts();
+        String json = gson.toJson(products);
+        response.getWriter().write(json);
     }
 
     @Override

@@ -354,12 +354,16 @@
                                     <div class="progress"></div>
                                 </div>
                                 <% DecimalFormat formatter = new DecimalFormat("###,###,###");%>
+                                <% Product maxPrice = Collections.max(productList);
+                                    Product minPrice = Collections.min(productList); %>
                                 <div class="range-input">
-                                    <input type="range" class="range-min" min="0" max="18000000"
-                                           value="0"
+                                    <input type="range" class="range-min" min="<%=minPrice.getDiscount()%>"
+                                           max="<%=maxPrice.getDiscount()%>"
+                                           value="<%=minPrice.getDiscount()%>"
                                            step="100000">
-                                    <input type="range" class="range-max" min="0" max="18000000"
-                                           value="18000000"
+                                    <input type="range" class="range-max" min="<%=minPrice.getDiscount()%>"
+                                           max="<%=maxPrice.getDiscount()%>"
+                                           value="<%=maxPrice.getDiscount()%>"
                                            step="100000">
                                 </div>
                                 <div class="price-input">
@@ -367,11 +371,11 @@
                                         <span style="margin-right: 5px;">Giá: </span>
                                         <div style="position: relative">
                                             <input type="text" class="input-min"
-                                                   value="0">
+                                                   value="<%=minPrice.getDiscount()%>">
                                             <span class="currency">đ</span>
                                         </div>
                                         <span class="separator">-</span>
-                                        <input type="text" class="input-max" value="18000000">
+                                        <input type="text" class="input-max" value="<%=maxPrice.getDiscount()%>">
                                     </div>
                                 </div>
 
@@ -454,8 +458,8 @@
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-content-item fade active show" id="pills-grid-1" role="tabpanel"
                                  aria-labelledby="pills-grid">
-                                <div class="row ">
-                                    <%    for (Product p : productList) {%>
+                                <div class="row " id="products">
+                                    <% for (Product p : productList) {%>
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                                         <div class="body_page-trending-product-list-card">
                                             <div class="card-image">
@@ -569,4 +573,3 @@
 <script src="js/main.js"></script>
 <script src="js/product.js"></script>
 </html>
-
