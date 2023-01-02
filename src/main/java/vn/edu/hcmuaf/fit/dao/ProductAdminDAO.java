@@ -50,23 +50,31 @@ public class ProductAdminDAO {
                 "\tproduct.title,\n" +
                 "\tproduct.price,\n" +
                 "\tproduct.discount,\n" +
+                "\tproduct.description,\n" +
                 "\tproduct.thumbnail,\n" +
                 "\tproduct.quantity,\n" +
                 "\tcategory.parent_id,\n" +
-                "\tcategory.`name` \n" +
+                "\tcategory.`name`,\n" +
+                "\tproduct_gem_color.gem_color_id,\n" +
+                "\tgem_color.color\n" +
                 "FROM\n" +
                 "\tproduct\n" +
-                "\tJOIN category ON product.category_id = category.id \n" +
+                "\tJOIN category ON product.category_id = category.id\n" +
+                "\tJOIN product_gem_color ON product_gem_color.product_id = product.id\n" +
+                "\tJOIN gem_color ON gem_color.id = product_gem_color.gem_color_id\n" +
                 "GROUP BY\n" +
                 "\tproduct.id,\n" +
                 "\tproduct.category_id,\n" +
                 "\tproduct.title,\n" +
                 "\tproduct.price,\n" +
                 "\tproduct.discount,\n" +
+                "\tproduct.description,\n" +
                 "\tproduct.thumbnail,\n" +
                 "\tproduct.quantity,\n" +
                 "\tcategory.parent_id,\n" +
-                "\tcategory.`name`";
+                "\tcategory.`name`,\n" +
+                "\tproduct_gem_color.gem_color_id,\n" +
+                "\tgem_color.color";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -75,13 +83,13 @@ public class ProductAdminDAO {
                 while (rs.next()) {
                     ProductAdmin productAdmin = new ProductAdmin(rs.getInt(1),
                             rs.getString(3),
-                            rs.getString(6),
-                            rs.getInt(7),
+                            rs.getString(7),
+                            rs.getInt(8),
                             new ProductAdmin().checkStatus(7),
                             rs.getInt(4),
-                            getNameCategoryWithID(rs.getInt(8)),
-                            new EditProductDAO().checkNameGemWithID(rs.getInt(1)),
-                            new EditProductDAO().checkColorWithID(rs.getInt(1)),
+                            getNameCategoryWithID(rs.getInt(9)),
+                            rs.getString(10),
+                            rs.getString(12),
                             rs.getInt(5)
                     );
                     listPro.add(productAdmin);
