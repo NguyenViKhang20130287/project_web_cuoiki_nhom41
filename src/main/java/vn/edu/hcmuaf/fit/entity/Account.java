@@ -10,6 +10,9 @@ public class Account {
 
     private String fullName;
     private int role;
+    private String phone;
+
+
 
     public Account() {
     }
@@ -88,4 +91,19 @@ public class Account {
         return "Username: " + username + "\n" + "Password: " + password + "\n" + "role: " + role;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    public Account(int id, String username, String password, String email, String fullName, String phone) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.phone = phone;
+    }
 }

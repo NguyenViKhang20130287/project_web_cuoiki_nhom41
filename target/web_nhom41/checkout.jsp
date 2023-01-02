@@ -339,7 +339,11 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         <form action="CheckoutControl" method="get">
+=======
+        <form action="CheckoutControl" method="post">
+>>>>>>> 3ac2c62e8cd3b72ac8b268f9374a6b67c7986cd5
             <div class="checkout-container">
                 <div class="left-container">
 
@@ -397,7 +401,11 @@
                         </div>
                         <div class="item-1">
                             <div class="input-text">
+<<<<<<< HEAD
                                 <input type="checkbox" id="newAccount" name="newAccount">
+=======
+                                <input type="checkbox" id="newAccount" name="newAccount" value="newAccount">
+>>>>>>> 3ac2c62e8cd3b72ac8b268f9374a6b67c7986cd5
                                 <label for="newAccount" id="label-New-Account">Tạo Tài Khoản Mới?</label>
                             </div>
                         </div>
@@ -532,6 +540,7 @@
                                 </tr>
                                 </tfoot>
                             </table>
+<<<<<<< HEAD
                             <div class="collapsible_set">
                                 <button id="collapsible1" onclick="payment(this.id)">
                                     <h5>
@@ -570,6 +579,26 @@
                                         Momo, Zalo Pay, SmartPay,ViettelPay...</p>
                                 </div>
                             </div>
+=======
+
+                            <div class="collapsible_set">
+                                <label for="payment">Hình thức thanh toán: </label>
+                                <select name="payment" id="payment">
+                                    <option value="" disabled selected> Vui lòng chọn hình thức thanh toán</option>
+                                    <option value="1"> Tiền mặt</option>
+                                    <option value="2"> Internet banking</option>
+                                    <option value="3"> Ví điện tử</option>
+                                </select>
+                            </div>
+                            <% if (request.getAttribute("message") != null) {
+
+                            %>
+                            <p style="color: red;text-align: center"><%=request.getAttribute("message") %>
+                            </p>
+                            <%
+                                }
+                            %>
+>>>>>>> 3ac2c62e8cd3b72ac8b268f9374a6b67c7986cd5
                             <button type="submit" class="place-order">ĐẶT HÀNG</button>
                         </div>
 
@@ -640,5 +669,4 @@
 </body>
 <script src="js/main.js"></script>
 <script src="js/checkout.js"></script>
-
 </html>
