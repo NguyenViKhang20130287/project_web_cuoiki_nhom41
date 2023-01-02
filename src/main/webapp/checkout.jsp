@@ -339,7 +339,7 @@
             </div>
         </div>
 
-        <form action="CheckoutControl" method="post">
+        <form action="CheckoutControl" method="get">
             <div class="checkout-container">
                 <div class="left-container">
 
