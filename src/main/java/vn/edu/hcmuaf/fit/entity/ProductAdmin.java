@@ -36,6 +36,13 @@ public class ProductAdmin {
         this.discount = discount;
     }
 
+    public ProductAdmin(int id, String name, int quantity, int price) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }
@@ -116,20 +123,26 @@ public class ProductAdmin {
         this.discount = discount;
     }
 
+//    @Override
+//    public String toString() {
+//        return "ProductAdmin{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", imageLink='" + imageLink + '\'' +
+//                ", quantity=" + quantity +
+//                ", status='" + status + '\'' +
+//                ", price=" + price +
+//                ", category='" + category + '\'' +
+//                ", nameGem='" + nameGem + '\'' +
+//                ", Color='" + Color + '\'' +
+//                ", Discount=' " + discount + '\'' +
+//                '}' + "\n";
+//    }
+
+
     @Override
     public String toString() {
-        return "ProductAdmin{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", imageLink='" + imageLink + '\'' +
-                ", quantity=" + quantity +
-                ", status='" + status + '\'' +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                ", nameGem='" + nameGem + '\'' +
-                ", Color='" + Color + '\'' +
-                ", Discount=' " + discount + '\'' +
-                '}' + "\n";
+        return name;
     }
 
     public String checkStatus(int quantity) {
