@@ -175,7 +175,8 @@
                             <div class="form-group col-md-6">
                             </div>
                             <%
-                                    }
+                                }%>
+                            <%
                                 }
                             %>
                         </div>
