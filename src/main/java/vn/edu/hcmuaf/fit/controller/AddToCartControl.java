@@ -31,6 +31,7 @@ public class AddToCartControl extends HttpServlet {
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
+
         if (cart == null) {
             cart = new HashMap<Integer, CartItem>();
             cartItem = new CartItem(product, 1);
@@ -38,13 +39,17 @@ public class AddToCartControl extends HttpServlet {
         } else {
             if (cart.containsKey(Integer.parseInt(idProduct))) {
                 cartItem = cart.get(Integer.parseInt(idProduct));
-                cartItem.incrementQuantity();
+                if (cartItem.getQuantity() < product.getQuantity()) {
+
+                    cartItem.incrementQuantity();
+                }
             } else {
                 cartItem = new CartItem(product, 1);
                 cart.put(Integer.parseInt(idProduct), cartItem);
             }
         }
+
         session.setAttribute("cart", cart);
-        out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng("+(cart != null ? cart.size() : 0 )+")</a>");
+        out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng(" + (cart != null ? cart.size() : 0) + ")</a>");
     }
 }
