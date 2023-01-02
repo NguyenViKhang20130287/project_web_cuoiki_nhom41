@@ -337,7 +337,7 @@
                 <br>
                 <br>
                 <button class="register-button" id="register-button-login">
-                    <a href="LoginControl">ĐĂNG KÝ</a></button>
+                    <a href="LoginControl">HỦY</a></button>
 
             </form>
         </div>
