@@ -39,4 +39,17 @@ public class CartDao {
         return null;
     }
 
+    public String checkQuantity(String id) {
+        String result = "";
+        Product p = getProductById(id);
+        if (p.getQuantity() > 0) {
+            result = "";
+
+        } else {
+            result = "disabled";
+        }
+        return result;
+    }
+
+
 }

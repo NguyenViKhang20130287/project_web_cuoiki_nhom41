@@ -110,7 +110,9 @@ public class CheckoutControl extends HttpServlet {
                         price = entry.getValue().getProduct().getPrice();
                     }
                     checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
+                    checkoutDAO.updateQuantity(String.valueOf(entry.getKey()),entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
                 }
+
                 session.setAttribute("cart", null);
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Đặt hàng thành công" + registerMessage + "');");

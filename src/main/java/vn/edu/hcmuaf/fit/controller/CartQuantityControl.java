@@ -72,8 +72,12 @@ public class CartQuantityControl extends HttpServlet {
         for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
             if (entry.getKey() == Integer.parseInt(pid)) {
                 int quantity = entry.getValue().getQuantity();
+
                 if (operator.contains("+")) {
-                    quantity++;
+                    if (quantity < entry.getValue().getProduct().getQuantity()) {
+
+                        quantity++;
+                    }
                 } else {
                     if (operator.contains("-")) {
                         if (quantity > 1) {
