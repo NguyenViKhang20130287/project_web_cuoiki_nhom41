@@ -25,8 +25,13 @@ public class ProductControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("action");
+        String param1 = request.getParameter("action1");
         if (param != null) {
             getListProduct(request, response);
+            return;
+        }
+        if(param1 != null){
+            sortListProduct(request, response);
             return;
         }
         // Lấy ra tất cả các danh mục cha từ cơ sở dữ liệu
@@ -61,6 +66,13 @@ public class ProductControl extends HttpServlet {
     }
 
     private void getListProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson = new Gson();
+        response.setContentType("text/html; charset=UTF-8");
+        List<Product> products = new ProductDAO().getAllProducts();
+        String json = gson.toJson(products);
+        response.getWriter().write(json);
+    }
+    private void sortListProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         response.setContentType("text/html; charset=UTF-8");
         List<Product> products = new ProductDAO().getAllProducts();

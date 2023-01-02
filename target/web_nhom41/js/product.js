@@ -8,7 +8,7 @@ priceInput.forEach(input => {
     input.addEventListener("input", e => {
         let minPrice = parseInt(priceInput[0].value),
             maxPrice = parseInt(priceInput[1].value);
-        if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max && minPrice>=rangeInput[0].min) {
+        if ((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max && minPrice >= rangeInput[0].min) {
             if (e.target.className === "input-min") {
                 rangeInput[0].value = minPrice;
                 console.log(rangeInput[0].value)
@@ -136,4 +136,74 @@ function addtocart(idProduct) {
         }
     });
 }
+
+//
+const sortBy = document.querySelectorAll("#mySelect option")
+var arr = new Array();
+$('#mySelect option').each(function(){
+    arr.push($(this).val());
+});
+console.log(arr)
+sortBy.forEach(value=> {
+    value.addEventListener("onclick", e => {
+        if (val != e.target.value) {
+            $.ajax({
+                url: "/web_nhom41_war/product?action1=sortListProduct",
+                type: "get",
+                success: function (data) {
+                    let rs = "";
+                    let arrData = JSON.parse(data)
+                    console.log(arrData)
+                    arrData.map((tmp) => {
+                        // Kiểm tra điều kiện
+                        switch (value) {
+                            case "atoz":
+                                arrData.sort(function (tmp1, tmp2) {
+                                    return tmp1.id - tmp2.id;
+                                });
+                                console.log(arrData)
+                                break;
+                            default:
+                                break;
+                        }
+                        rs += `
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+    <div class="body_page-trending-product-list-card">
+        <div class="card-image">
+            <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
+        </div>
+        <div class="card-title-price">
+            <p>
+                ${tmp.title}
+            </p>
+            <span>
+            
+                ${dis}
+            </span>
+            <span style="margin-left: 10px; color: #6c6c6c"><strike>
+                ${price}
+                </strike></span>
+        </div>
+        <div class="card-btn">
+            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
+            </button>
+            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
+        </div>
+    </div>
+</div>
+                            `
+
+                    })
+                    document.getElementById("products").innerHTML = rs
+                },
+                error: function (xhr) {
+                    //Do Something to handle error
+                }
+            });
+            val = e.target.value;
+            console.log(val)
+        }
+    })
+});
+
 

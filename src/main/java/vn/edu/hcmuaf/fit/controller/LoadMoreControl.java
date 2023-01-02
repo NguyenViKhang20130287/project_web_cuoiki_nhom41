@@ -9,7 +9,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 @WebServlet(name = "LoadMoreControl", value = "/load")
 public class LoadMoreControl extends HttpServlet {
@@ -23,6 +25,8 @@ public class LoadMoreControl extends HttpServlet {
         List<Product> productList = productDAO.getNextTop5Product(amount);
         request.setAttribute("amount", amount);
         PrintWriter out = response.getWriter();
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
         for (Product p : productList) {
             out.println("<div class=\"product body_page-trending-product-list-card\">\n" +
                     "                        <div class=\"card-image\">\n" +
@@ -32,8 +36,8 @@ public class LoadMoreControl extends HttpServlet {
                     "                        <div class=\"card-title-price\">\n" +
                     "                            <p style=\"font-size: 14px; margin-bottom: 5px;\">" + p.getTitle() + "\n" +
                     "                            </p>\n" +
-                    "                            <span style=\"font-size: 15px\">" + p.getDiscount() + "</span>\n" +
-                    "                            <span style=\"margin-left: 10px; color: #6c6c6c; font-size: 15px\"><strike>" + p.getPrice() + "</strike></span>\n" +
+                    "                            <span style=\"font-size: 15px\">"+numberFormat.format(p.getDiscount())+"</span>\n" +
+                    "                            <span style=\"margin-left: 10px; color: #6c6c6c; font-size: 15px\"><strike>"+numberFormat.format(p.getPrice())+"</strike></span>\n" +
                     "                        </div>\n" +
                     "                        <div class=\"card-btn\">\n" +
                     "                            <button><a href=\"product-detail?product_id=" + p.getId() + "\">Chi tiết</a></button>\n" +
