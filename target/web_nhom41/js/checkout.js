@@ -77,5 +77,21 @@ function payment(id) {
 
 }
 
+function checkout() {
+
+    $.ajax({
+        url: "/web_nhom41_war/CheckoutControl",
+        type: "get",
+        data: {},
+        success: function (data) {
+            document.body.innerHTML += data;
+        },
+        error: function (xhr) {
+            //Do Something to handle error
+        }
+    });
+}
+
+
 
 

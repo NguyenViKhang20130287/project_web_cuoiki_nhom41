@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
 
 import java.sql.SQLException;
@@ -146,12 +147,12 @@ public class CheckoutDAO {
         return result;
     }
 
-    public void addCheckout(String name, int idAdd, String mail, String phone, String note, HashMap<Integer, CartItem> map, String userId) {
+    public void addCheckout(String name, int idAdd, String mail, String phone, String note, HashMap<Integer, CartItem> map, String userId, String payment) {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
 
-                String query_order = "INSERT INTO `order`(full_name,user_id,shipping_address,email,phone_number,order_date,order_total,payment_method,`status`) VALUES (?,?,?,?,?,NOW(),?,'Ship COD',1)";
+                String query_order = "INSERT INTO `order`(full_name,user_id,shipping_address,email,phone_number,order_date,order_total,payment_method,`status`) VALUES (?,?,?,?,?,NOW(),?,?,1)";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query_order);
 
 
@@ -162,11 +163,63 @@ public class CheckoutDAO {
                 dbConnect.ps.setString(4, mail);
                 dbConnect.ps.setString(5, phone);
                 dbConnect.ps.setInt(6, total);
-                System.out.println(dbConnect.ps);
+                dbConnect.ps.setString(7, payment);
                 dbConnect.ps.executeUpdate();
                 dbConnect.ps.close();
 
 
+            }
+        } catch (SQLException e) {
+
+        }
+    }
+
+    public Account checkEmail(String email) {
+        try {
+            Statement statement = dbConnect.getInstall().get();
+            if (statement != null) {
+                String query = "SELECT * FROM `user`  WHERE email = ?";
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+
+                dbConnect.ps.setString(1, email);
+                dbConnect.rs = dbConnect.ps.executeQuery();
+                while (dbConnect.rs.next()) {
+                    Account ac = new Account(
+                            dbConnect.rs.getInt(1),
+                            dbConnect.rs.getString(2),
+                            dbConnect.rs.getString(3),
+                            dbConnect.rs.getString(4),
+                            dbConnect.rs.getString(5),
+                            dbConnect.rs.getString(6));
+                    return ac;
+                }
+                dbConnect.ps.close();
+                dbConnect.rs.close();
+                statement.close();
+            }
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+
+    public void registerCheckout(String password, String fullname, String email, String phone) {
+        try {
+            Statement statement = dbConnect.getInstall().get();
+            if (statement != null) {
+                String query = "INSERT INTO `user`(`password`,full_name,email,phone_number,created_at,updated_at,role_id) VALUES (?,?,?,?,NOW(),NOW(),1)";
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+
+                dbConnect.ps.setString(1, password);
+                dbConnect.ps.setString(2, fullname);
+                dbConnect.ps.setString(3, email);
+                dbConnect.ps.setString(4, phone);
+
+                dbConnect.ps.executeUpdate();
+
+                dbConnect.ps.close();
+                dbConnect.rs.close();
+                statement.close();
             }
         } catch (SQLException e) {
 
