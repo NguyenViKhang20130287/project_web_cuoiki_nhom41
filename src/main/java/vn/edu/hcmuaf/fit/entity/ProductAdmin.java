@@ -1,5 +1,9 @@
 package vn.edu.hcmuaf.fit.entity;
 
+import vn.edu.hcmuaf.fit.dao.ProductAdminDAO;
+
+import java.util.List;
+
 public class ProductAdmin {
 
     int id;
@@ -12,20 +16,14 @@ public class ProductAdmin {
     String nameGem;
     String Color;
 
+    int discount;
+
     public ProductAdmin() {
     }
 
-    public ProductAdmin(int id, String name, String imageLink, int quantity, String status, int price, String category) {
-        this.id = id;
-        this.name = name;
-        this.imageLink = imageLink;
-        this.quantity = quantity;
-        this.status = status;
-        this.price = price;
-        this.category = category;
-    }
 
-    public ProductAdmin(int id, String name, String imageLink, int quantity, String status, int price, String category, String nameGem, String color) {
+    public ProductAdmin(int id, String name, String imageLink, int quantity, String status,
+                        int price, String category, String nameGem, String color, int discount) {
         this.id = id;
         this.name = name;
         this.imageLink = imageLink;
@@ -35,6 +33,7 @@ public class ProductAdmin {
         this.category = category;
         this.nameGem = nameGem;
         Color = color;
+        this.discount = discount;
     }
 
     public int getId() {
@@ -109,6 +108,14 @@ public class ProductAdmin {
         Color = color;
     }
 
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
     @Override
     public String toString() {
         return "ProductAdmin{" +
@@ -121,6 +128,7 @@ public class ProductAdmin {
                 ", category='" + category + '\'' +
                 ", nameGem='" + nameGem + '\'' +
                 ", Color='" + Color + '\'' +
+                ", Discount=' " + discount + '\'' +
                 '}' + "\n";
     }
 
@@ -132,7 +140,6 @@ public class ProductAdmin {
         }
         return status;
     }
-
 
 
 

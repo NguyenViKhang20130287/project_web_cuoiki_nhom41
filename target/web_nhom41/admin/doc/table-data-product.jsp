@@ -142,8 +142,13 @@
                             <td><%= pa.getQuantity()%>
                             </td>
                             <td><span class="badge bg-success"> <%= pa.getStatus()%> </span></td>
-                            <td><%= pa.getPrice()%>
-                            </td>
+
+                            <%if (pa.getDiscount() == 0) {%>
+                            <td><%= pa.getPrice()%></td>
+                            <%} else {%>
+                            <td><%= pa.getDiscount()%></td>
+                            <%}%>
+
                             <td><%= pa.getCategory()%>
                             </td>
                             <td>
