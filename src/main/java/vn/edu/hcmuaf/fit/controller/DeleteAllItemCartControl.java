@@ -24,7 +24,7 @@ public class DeleteAllItemCartControl extends HttpServlet {
                 "                    <li>\n" +
                 "                        <span class=\"title\">Tổng</span>\n" +
                 "                        <span class=\"price\">0 ₫</span>\n" +
-                "                    </li><button class=\"totals_btns\"><a href=\"checkout.html\">Thanh toán</a></button>"
+                "                    </li><button class=\"totals_btns\"><a href=\"checkout.jsp\">Thanh toán</a></button>"
         );
     }
 
