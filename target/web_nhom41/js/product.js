@@ -144,6 +144,7 @@ $('#mySelect option').each(function(){
     arr.push($(this).val());
 });
 console.log(arr)
+let val ="";
 sortBy.forEach(value=> {
     value.addEventListener("onclick", e => {
         if (val != e.target.value) {
