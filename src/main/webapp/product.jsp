@@ -478,7 +478,7 @@
                                                 <%--                                                           name="inputId">--%>
                                                 <%--                                                    <button type="submit" onclick="">Thêm vào giỏ</button>--%>
                                                 <%--                                                </form>--%>
-                                                <button onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
+                                                <button onclick="addtocart(<%=p.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>>Thêm vào giỏ</button>
                                             </div>
                                         </div>
                                     </div>
