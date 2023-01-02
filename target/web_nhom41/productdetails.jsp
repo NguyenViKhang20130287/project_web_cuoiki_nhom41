@@ -85,11 +85,13 @@
         #box-admin-menu li:hover a {
             color: #bc8247;
         }
+
         .product-div-right .product_price {
             display: inline-block;
             margin-right: 10px;
         }
-        .product-div-right .old_price{
+
+        .product-div-right .old_price {
             display: inline-block;
         }
 
@@ -150,43 +152,44 @@
 
         <!--  -->
         <div class="header_page-btns non-reponsive">
-            <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
-                kiếm
-            </button>
-            <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
-            <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
-                hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
-
-            <% if (session.getAttribute("Account") != null) {%>
-            <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
-            <div id="box-admin">
-                <button><%= session.getAttribute("username") %>
+            <div style="display: flex; justify-content: space-between">
+                <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
+                    kiếm
                 </button>
-                <ul id="box-admin-menu">
-                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                    <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
-                    </li>
-                </ul>
-            </div>
-            <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-            <div id="box-admin">
-                <button><%= session.getAttribute("username") %>
-                </button>
-                <ul id="box-admin-menu">
-                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                </ul>
-            </div>
-            <%--                <button><%= session.getAttribute("username") %></button>--%>
-            <%--                <ul id="box-admin-menu">--%>
-            <%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
-            <%--                </ul>--%>
-            <% } %>
-            <% } %>
+                <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
+                <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                    hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
-            <% if (session.getAttribute("Account") == null) {%>
-            <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
-            <%}%>
+                <% if (session.getAttribute("Account") != null) {%>
+                <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %>
+                    </button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                        <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                        </li>
+                    </ul>
+                </div>
+                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %>
+                    </button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <%--                <button><%= session.getAttribute("username") %></button>--%>
+                <%--                <ul id="box-admin-menu">--%>
+                <%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
+                <%--                </ul>--%>
+                <% } %>
+                <% } %>
 
+                <% if (session.getAttribute("Account") == null) {%>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+                <%}%>
+            </div>
         </div>
         <!--  -->
         <div class="header_page-btns responsive">
@@ -318,7 +321,8 @@
                 <div class="product-div-right col-xl-6 col-lg-6">
                     <span class="product_name mb_18"><%=product.getTitle()%></span>
                     <span class="product_price mb_18"><%=numberFormat.format(product.getDiscount())%></span>
-                    <span class="old_price" style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
+                    <span class="old_price"
+                          style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
                     <div class="product_rating mb_18">
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
@@ -530,7 +534,7 @@
         <div class="box container">
             <ul id="autoWidth" class="cs-hidden">
                 <% List<Product> relatedList = (List<Product>) request.getAttribute("relatedList");%>
-                <% for (Product r:relatedList){%>
+                <% for (Product r : relatedList) {%>
                 <li class="item-a">
                     <div class="body_page-trending-product-list-card">
                         <div class="card-image">
@@ -538,7 +542,8 @@
                                                                                     alt=""></a>
                         </div>
                         <div class="card-title-price">
-                            <a href=""><p><%=r.getTitle()%></p></a>
+                            <a href=""><p><%=r.getTitle()%>
+                            </p></a>
                             <span><%=numberFormat.format(r.getDiscount())%></span>
                         </div>
                         <div class="card-btn">
