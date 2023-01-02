@@ -102,7 +102,7 @@
                         <div class="row">
                             <% List<ProductAdmin> listPro = (List<ProductAdmin>) request.getAttribute("listProductEdit");
                                 for (ProductAdmin pa : listPro) {
-                                    if (pa.getId() == Integer.parseInt(request.getAttribute("edit_id").toString())) { %>
+                                    if (pa.getId() == Integer.parseInt((String) request.getAttribute("edit_id"))) { %>
                             <div class="form-group col-md-6">
                                 <label class="control-label">Mã sản phẩm </label>
                                 <input class="form-control" type="number" value="<%=pa.getId()%>"
@@ -159,7 +159,12 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="control-label">Giá bán</label>
-                                <input class="form-control" type="text" value="<%=pa.getPrice()%>"
+                                <input class="form-control" type="text"
+                                    <%if (pa.getDiscount() == 0) {%>
+                                       value="<%=pa.getPrice()%>"
+                                    <%} else {%>
+                                       value="<%=pa.getDiscount()%>"
+                                    <%}%>
                                        name="edit_product-price">
                             </div>
 

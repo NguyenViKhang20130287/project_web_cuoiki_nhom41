@@ -1,8 +1,6 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
-import vn.edu.hcmuaf.fit.entity.Category;
-import vn.edu.hcmuaf.fit.entity.ColorAdmin;
 import vn.edu.hcmuaf.fit.entity.ProductAdmin;
 
 import java.sql.PreparedStatement;
@@ -14,26 +12,33 @@ import java.util.List;
 
 public class ProductAdminDAO {
 
-    public String getNameCategoryWithID(int parent_id) {
-        String nameCat = "";
-        String query = " SELECT * FROM category WHERE category.parent_id IS NULL";
-        try {
-            Statement statement = DBConnect.getInstall().get();
-            if (statement != null) {
-                PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    if (resultSet.getInt(1) == parent_id) {
-                        nameCat = resultSet.getString(3);
-                    }
-                }
-                resultSet.close();
-                preparedStatement.close();
-            }
-        } catch (Exception e) {
+    PreparedStatement ps;
+    ResultSet rs;
 
+    public String getNameCategoryWithID(int parent_id) {
+        String result = null;
+        if (parent_id == 1) {
+            result = "Đá quý";
         }
-        return nameCat;
+        if (parent_id == 2) {
+            result = "Nhẫn";
+        }
+        if (parent_id == 3) {
+            result = "Hoa tai";
+        }
+        if (parent_id == 4) {
+            result = "Dây chuyền";
+        }
+        if (parent_id == 5) {
+            result = "Vòng tay";
+        }
+        if (parent_id == 6) {
+            result = "Mặt dây chuyền";
+        }
+        if (parent_id == 7) {
+            result = "Bộ sưu tập";
+        }
+        return result;
     }
 
     public List<ProductAdmin> getData() {
@@ -65,8 +70,8 @@ public class ProductAdminDAO {
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
-                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
-                ResultSet rs = ps.executeQuery();
+                ps = new DBConnect().getConnection().prepareStatement(query);
+                rs = ps.executeQuery();
                 while (rs.next()) {
                     ProductAdmin productAdmin = new ProductAdmin(rs.getInt(1),
                             rs.getString(3),
@@ -76,7 +81,8 @@ public class ProductAdminDAO {
                             rs.getInt(4),
                             getNameCategoryWithID(rs.getInt(8)),
                             new EditProductDAO().checkNameGemWithID(rs.getInt(1)),
-                            new EditProductDAO().checkColorWithID(rs.getInt(1))
+                            new EditProductDAO().checkColorWithID(rs.getInt(1)),
+                            rs.getInt(5)
                     );
                     listPro.add(productAdmin);
                 }
@@ -88,9 +94,10 @@ public class ProductAdminDAO {
         return listPro;
     }
 
+
     public static void main(String[] args) throws SQLException {
 
-        System.out.println(new ProductAdminDAO().getNameCategoryWithID(2));
+//        System.out.println(new ProductAdminDAO().getNameCategoryWithID(4));
 
         System.out.println(new ProductAdminDAO().getData());
     }

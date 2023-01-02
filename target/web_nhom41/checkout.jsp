@@ -339,7 +339,11 @@
             </div>
         </div>
 
+<<<<<<< HEAD
+        <form action="CheckoutControl" method="get">
+=======
         <form action="CheckoutControl" method="post">
+>>>>>>> 3ac2c62e8cd3b72ac8b268f9374a6b67c7986cd5
             <div class="checkout-container">
                 <div class="left-container">
 
@@ -397,7 +401,11 @@
                         </div>
                         <div class="item-1">
                             <div class="input-text">
+<<<<<<< HEAD
+                                <input type="checkbox" id="newAccount" name="newAccount">
+=======
                                 <input type="checkbox" id="newAccount" name="newAccount" value="newAccount">
+>>>>>>> 3ac2c62e8cd3b72ac8b268f9374a6b67c7986cd5
                                 <label for="newAccount" id="label-New-Account">Tạo Tài Khoản Mới?</label>
                             </div>
                         </div>
@@ -532,6 +540,46 @@
                                 </tr>
                                 </tfoot>
                             </table>
+<<<<<<< HEAD
+                            <div class="collapsible_set">
+                                <button id="collapsible1" onclick="payment(this.id)">
+                                    <h5>
+                                        THANH TOÁN KHI NHẬN HÀNG
+                                        (COD)</h5>
+                                </button>
+                                <div class="content1 show">
+                                    <p>Hình thức thanh toán khi nhận hàng, giao hàng thu tiền.
+                                        Người
+                                        mua với hình thức ship COD chỉ thanh toán tiền khi nhận được hàng, sau đó
+                                        tiền sẽ
+                                        chuyển về cho người bán thông qua đơn vị vận chuyển trên.</p>
+                                </div>
+                                <button id="collapsible2" onclick="payment(this.id)">
+                                    <h5>THANH TOÁN BẰNG MOBILE
+                                        BANKING</h5>
+                                </button>
+                                <div class="content2">
+                                    <p>Thanh toán hoá đơn chỉ với một chiếc điện thoại đã được cài đặt
+                                        sẵn ứng dụng của các ngân hàng và có kết nối mạng. Hệ thống thanh toán qua
+                                        Mobile
+                                        Banking đang được các nhà cung cấp dịch vụ nâng cấp để đáp ứng được tối đa
+                                        nhu cầu
+                                        của khách hàng.</p>
+                                </div>
+                                <button id="collapsible3" onclick="payment(this.id)">
+                                    <h5>
+                                        THANH TOÁN BẰNG VÍ ĐIỆN TỬ</h5>
+                                </button>
+                                <div class="content3">
+                                    <p>Hình thức thanh toán hoá đơn bằng ví điện tử được sử dụng rộng
+                                        rãi trong thời đại ngày nay. Chỉ với một vài thao tác đơn giản là bạn có thể
+                                        thanh
+                                        toán tại bất kỳ nơi nào chấp nhận thanh toán. Một số ví điện tử phổ biến
+                                        hiện nay:
+                                        Momo, Zalo Pay, SmartPay,ViettelPay...</p>
+                                </div>
+                            </div>
+=======
 
                             <div class="collapsible_set">
                                 <label for="payment">Hình thức thanh toán: </label>
@@ -550,6 +598,7 @@
                             <%
                                 }
                             %>
+>>>>>>> 3ac2c62e8cd3b72ac8b268f9374a6b67c7986cd5
                             <button type="submit" class="place-order">ĐẶT HÀNG</button>
                         </div>
 

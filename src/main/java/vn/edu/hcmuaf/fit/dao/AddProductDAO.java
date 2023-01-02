@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
-import vn.edu.hcmuaf.fit.entity.CatagoryAdmin;
+import vn.edu.hcmuaf.fit.entity.CategoryAdmin;
 import vn.edu.hcmuaf.fit.entity.ColorAdmin;
 
 import java.io.File;
@@ -21,8 +21,8 @@ public class AddProductDAO {
 
     ResultSet rsSelectProduct = null, rsSelectCat = null, rsSelectColor = null;
 
-    public List<CatagoryAdmin> getListCat(String nameCatInput) {
-        List<CatagoryAdmin> listCat = new LinkedList<>();
+    public List<CategoryAdmin> getListCat(String nameCatInput) {
+        List<CategoryAdmin> listCat = new LinkedList<>();
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -31,7 +31,7 @@ public class AddProductDAO {
                 rsSelectCat = psSelectCat.executeQuery();
                 while (rsSelectCat.next()) {
                     if (nameCatInput.equals(rsSelectCat.getString(3))) {
-                        listCat.add(new CatagoryAdmin(rsSelectCat.getInt(1),
+                        listCat.add(new CategoryAdmin(rsSelectCat.getInt(1),
                                 rsSelectCat.getInt(2), rsSelectCat.getString(3)));
                     }
                 }
@@ -48,8 +48,8 @@ public class AddProductDAO {
 
     public int checkIdGem(String nameInput, int idParentInput) {
         int result = 0;
-        List<CatagoryAdmin> listCat = getListCat(nameInput);
-        for (CatagoryAdmin ca : listCat) {
+        List<CategoryAdmin> listCat = getListCat(nameInput);
+        for (CategoryAdmin ca : listCat) {
             if (idParentInput == ca.getIdParent()) {
                 result = ca.getIdCat();
             }
