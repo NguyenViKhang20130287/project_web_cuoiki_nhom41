@@ -233,7 +233,7 @@ public class CheckoutDAO {
             if (statement != null) {
                 if (quantity > 0) {
                     String query = "UPDATE product\n" +
-                            "SET quantity = ?,updated_at = NOW(),is_on_sale=1\n" +
+                            "SET quantity = ?,updated_at = NOW()\n" +
                             "WHERE id=?;";
                     dbConnect.ps = dbConnect.connection.prepareStatement(query);
                     dbConnect.ps.setInt(1, quantity);
@@ -243,7 +243,7 @@ public class CheckoutDAO {
                     statement.close();
                 } else {
                     String query = "UPDATE product\n" +
-                            "SET quantity = ?,updated_at = NOW(),is_on_sale=0\n" +
+                            "SET quantity = ?,updated_at = NOW()\n" +
                             "WHERE id=?;";
                     dbConnect.ps = dbConnect.connection.prepareStatement(query);
                     dbConnect.ps.setInt(1, quantity);
