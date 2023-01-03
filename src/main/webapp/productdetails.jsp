@@ -409,11 +409,11 @@
                     <%}%>
                     <%}%>
                     <div class="btn-groups">
-                        <button type="button" class="add_cart_btn">
+                        <button onclick="addtocart(<%=product.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(product.getId()))%> type="button" class="add_cart_btn">
                             <i class="fa-solid fa-cart-shopping"></i>
                             thêm vào giỏ hàng
                         </button>
-                        <button <%=new CartDao().checkQuantity(String.valueOf(product.getId())) %> id="buynow" type="button" class="buy_now_btn">
+                        <button <%=new CartDao().checkQuantity(String.valueOf(product.getId()))%> id="buynow" type="button" class="buy_now_btn">
                             <i class="fa-solid fa-wallet"></i>
                             mua ngay
                         </button>
@@ -588,7 +588,7 @@
                         </div>
                         <div class="card-btn">
                             <button><a href="product-detail?product_id=<%=r.getId()%>">Chi tiết</a></button>
-                            <button onclick="addtocart(<%=r.getId()%>)">Thêm vào giỏ</button>
+                            <button <%=new CartDao().checkQuantity(String.valueOf(r.getId()))%> onclick="addtocart(<%=r.getId()%>)">Thêm vào giỏ</button>
                         </div>
                     </div>
                 </li>
