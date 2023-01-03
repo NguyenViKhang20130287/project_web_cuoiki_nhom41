@@ -472,7 +472,7 @@
                     <span class="price"><%=numberFormat.format(totalCart)%></span>
                 </li>
             </ul>
-            <button class="totals_btns"><a href="checkout.jsp">Thanh toán</a></button>
+            <button class="totals_btns"><a href="/web_nhom41_war/CheckoutButtonControl">Thanh toán</a></button>
         </div>
     </div>
 
@@ -480,6 +480,7 @@
 </div>
 
 <!-- footer page -->
+<section class="footer_area">
 <div class="footer_page">
 
     <div class="footer_page-inforCompany">
@@ -530,7 +531,7 @@
     </div>
 
 </div>
-
+</section>
 </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"

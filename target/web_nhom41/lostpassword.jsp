@@ -344,6 +344,7 @@
 </div>
 
 <!-- footer page -->
+<section class="footer_area">
 <div class="footer_page">
 
     <div class="footer_page-inforCompany">
@@ -394,7 +395,7 @@
     </div>
 
 </div>
-
+</section>
 </div>
 </body>
 <script src="js/main.js"></script>

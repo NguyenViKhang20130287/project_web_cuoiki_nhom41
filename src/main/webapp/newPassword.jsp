@@ -320,8 +320,6 @@
             </div>
 
             <form action="NewPasswordControl" method="post">
-                <label for="email">Mật khẩu cũ <span>*</span></label>
-                <input id="email" type="text" placeholder="Nhập mật khẩu cũ..." name="oldPass">
 
                 <label for="pass">Mật khẩu mới <span>*</span></label>
                 <input id="pass" type="password" placeholder="Nhập mật khẩu mới..." name="newPass">
@@ -350,6 +348,7 @@
 </div>
 
 <!-- footer page -->
+<section class="footer_area">
 <div class="footer_page">
 
     <div class="footer_page-inforCompany">
@@ -400,7 +399,7 @@
     </div>
 
 </div>
-
+</section>
 </div>
 </body>
 <script src="js/main.js"></script>

@@ -289,6 +289,9 @@ body {
 }
 
 /* Footer page */
+.footer_area {
+    background-color: #151616;
+}
 .footer_page {
     width: 80%;
     margin: 0 auto;

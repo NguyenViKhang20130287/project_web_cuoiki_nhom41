@@ -8,6 +8,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -374,7 +375,7 @@
                     </div>
                     <div class="card-btn">
                         <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a></button>
-                        <button onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
+                        <button  <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%> onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
                     </div>
                 </div>
                 <%}%>

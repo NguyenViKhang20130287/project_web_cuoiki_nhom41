@@ -4,6 +4,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.GalleryDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -436,7 +437,14 @@
                     <% if (product.getDesign() != null) {%>
                     <span class="product_design mb_18">Thiết kế: <b><%=product.getDesign()%></b></span>
                     <%}%>
+                    <%
+                        if (product.getQuantity() > 0) {
+
+                    %>
                     <span class="product_status mb_18">Tình trạng: <i>Còn hàng</i></span>
+                    <% } else { %>
+                    <span class="product_status mb_18">Tình trạng: <i>Hết hàng</i></span>
+                    <% } %>
                     <div class="size_quantity">
                         <div class="quantity_wrapper">
                             <div style="margin-right: 15px; text-align: center">Số lượng</div>
@@ -476,14 +484,19 @@
                     <%}%>
                     <%}%>
                     <div class="btn-groups">
-                        <button type="button" class="add_cart_btn">
+                        <button onclick="addtocart(<%=product.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(product.getId()))%> type="button" class="add_cart_btn">
                             <i class="fa-solid fa-cart-shopping"></i>
                             thêm vào giỏ hàng
                         </button>
-                        <button type="button" class="buy_now_btn">
+                        <button <%=new CartDao().checkQuantity(String.valueOf(product.getId()))%> id="buynow" type="button" class="buy_now_btn">
                             <i class="fa-solid fa-wallet"></i>
                             mua ngay
                         </button>
+                        <script type="text/javascript">
+                            document.getElementById("buynow").onclick = function () {
+                                location.href = "/web_nhom41_war/BuyNowControl?idProduct=<%=product.getId()%>";
+                            };
+                        </script>
                     </div>
                 </div>
             </div>
@@ -666,7 +679,7 @@
                         </div>
                         <div class="card-btn">
                             <button><a href="product-detail?product_id=<%=r.getId()%>">Chi tiết</a></button>
-                            <button onclick="addtocart(<%=r.getId()%>)">Thêm vào giỏ</button>
+                            <button <%=new CartDao().checkQuantity(String.valueOf(r.getId()))%> onclick="addtocart(<%=r.getId()%>)">Thêm vào giỏ</button>
                         </div>
                     </div>
                 </li>
