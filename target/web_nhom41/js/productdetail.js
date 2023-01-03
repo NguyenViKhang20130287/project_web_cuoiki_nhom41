@@ -68,13 +68,15 @@ $(document).ready(function () {
 // Hiển thị hướng dẫn đo size cho sản phầm nhẫn
 var modal = document.getElementById("myModal");
 var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
+var spans = document.getElementsByClassName("close")[0];
 
-btn.onclick = function () {
-    modal.style.display = "block";
+if(btn !=null) {
+    btn.click(function () {
+        modal.style.display = "block";
+    })
 }
 
-span.onclick = function () {
+spans.onclick = function () {
     modal.style.display = "none";
 }
 
@@ -101,3 +103,4 @@ function addtocart(idProduct) {
         }
     });
 }
+
