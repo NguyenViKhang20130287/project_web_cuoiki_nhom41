@@ -138,7 +138,7 @@
                             <th>Tính năng</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyTable">
                         <%
                             List<OrderAdmin> list = (List<OrderAdmin>) request.getAttribute("listOrder");
                             for (OrderAdmin o : list) {
@@ -152,32 +152,38 @@
                             </td>
                             <td>
                                 <%for (ProductAdmin p : o.getProducts()) {%>
-                                <%=p.getName() + " X " + p.getQuantity() + ", "%>
+                                <%=p.getName()%>
+                                <b>x <%=p.getQuantity()%>  </b>,
                                 <%}%>
-<%--                                <%=o.getProducts()%>--%>
+                                <%--                                <%=o.getProducts()%>--%>
                             </td>
 
-                            <td><%=o.getPhone()%></td>
-                            <td><%=o.getTotalMoney()%></td>
-                            <td>
-                                <%if(o.getId_status() == 1){%>
+                            <td><%=o.getPhone()%>
+                            </td>
+                            <td><%=o.getTotalMoney()%>
+                            </td>
+                            <td id="orderStatus">
+                                <%if (o.getId_status() == 1) {%>
                                 <span class="badge bg-warning">Đang giao hàng</span>
                                 <%}%>
-                                <%if(o.getId_status() == 2){%>
+                                <%if (o.getId_status() == 2) {%>
                                 <span class="badge bg-info">Chờ thanh toán</span>
                                 <%}%>
-                                <%if(o.getId_status() == 3){%>
+                                <%if (o.getId_status() == 3) {%>
                                 <span class="badge bg-success">Hoàn thành</span>
                                 <%}%>
-                                <%if(o.getId_status() == 4){%>
+                                <%if (o.getId_status() == 4) {%>
                                 <span class="badge bg-danger">Đã hủy</span>
                                 <%}%>
                             </td>
-                            <td>
-                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                        class="fas fa-trash-alt"></i></button>
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                        class="fa fa-edit"></i></button>
+                            <td id="buttonGroup">
+
+                                <%--                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">--%>
+                                <%--                                    <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i class="fa fa-edit"></i></a></button>--%>
+                                <button id="editbutton" class="btn btn-primary btn-sm edit" type="button"
+                                        title="Sửa"
+                                        onclick="changeStatus(<%=o.getId()%>,<%=o.getId_status()%>)">
+                                    <i class="fa fa-edit"></i></button>
                             </td>
                         </tr>
                         <%}%>
@@ -315,6 +321,27 @@
     $("#show-emp").on("click", function () {
         $("#ModalUP").modal({backdrop: false, keyboard: false})
     });
+
+    function changeStatus(productId, status) {
+        var orderStatus = document.getElementById("bodyTable");
+
+        $.ajax({
+            url: "/web_nhom41_war/admin/doc/ChangeStatusControl",
+            type: "get",
+            data: {
+                productId: productId,
+                status: status
+            },
+            success: function (data) {
+                orderStatus.innerHTML = data;
+
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+
+    }
 </script>
 </body>
 

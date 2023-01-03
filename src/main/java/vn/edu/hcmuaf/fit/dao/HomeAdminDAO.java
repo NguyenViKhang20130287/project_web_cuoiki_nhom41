@@ -186,17 +186,27 @@ public class HomeAdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT * FROM `user` ORDER BY `user`.created_at DESC LIMIT 4";
+                String query = "SELECT * FROM `user` ORDER BY `user`.id DESC LIMIT 4";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 
                 dbConnect.rs = dbConnect.ps.executeQuery();
                 while (dbConnect.rs.next()) {
-                    Account account = new Account(
-                            dbConnect.rs.getInt(1),
-                            dbConnect.rs.getString(5),
-                            dbConnect.rs.getString(4),
-                            dbConnect.rs.getString(6));
+                    Account account = null;
+                    if (dbConnect.rs.getString(4) != null) {
+                        account = new Account(
+                                dbConnect.rs.getInt(1),
+                                dbConnect.rs.getString(5),
+                                dbConnect.rs.getString(4),
+                                dbConnect.rs.getString(6));
+                    } else {
+                        account = new Account(
+                                dbConnect.rs.getInt(1),
+                                dbConnect.rs.getString(5),
+                                dbConnect.rs.getString(2),
+                                dbConnect.rs.getString(6));
+                    }
+
                     result.add(account);
                 }
                 dbConnect.ps.close();
@@ -237,9 +247,9 @@ public class HomeAdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT product.id, product.title,  SUM(order_details.total_money)\n" +
+                String query = "SELECT product.id, product.title,product.thumbnail,product.price,product.discount,  SUM(order_details.total_money)\n" +
                         "FROM product JOIN order_details on product.id = order_details.product_id\n" +
-                        "GROUP BY  product.id, product.title\n" +
+                        "GROUP BY  product.id, product.title,product.thumbnail,product.price,product.discount\n" +
                         "ORDER BY SUM(order_details.total_money) DESC\n" +
                         "LIMIT 5";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
@@ -248,9 +258,12 @@ public class HomeAdminDAO {
                 dbConnect.rs = dbConnect.ps.executeQuery();
                 while (dbConnect.rs.next()) {
                     Product product = new Product(
-                           dbConnect.rs.getInt(1),
+                            dbConnect.rs.getInt(1),
                             dbConnect.rs.getString(2),
-                            dbConnect.rs.getString(3));
+                            dbConnect.rs.getString(6),
+                            dbConnect.rs.getString(3),
+                            dbConnect.rs.getInt(4),
+                            dbConnect.rs.getInt(5));
                     result.add(product);
                 }
                 dbConnect.ps.close();
@@ -349,7 +362,6 @@ public class HomeAdminDAO {
         }
         return listPro;
     }
-
 
 
 }
