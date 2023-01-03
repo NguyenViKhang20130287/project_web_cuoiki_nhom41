@@ -90,4 +90,11 @@ public class OrderAdmin {
                 ", status='" + status + '\'' +
                 '}' + '\n';
     }
+
+    public OrderAdmin(int id, String fullName, int totalMoney, int id_status) {
+        this.id = id;
+        this.fullName = fullName;
+        this.totalMoney = totalMoney;
+        this.id_status = id_status;
+    }
 }

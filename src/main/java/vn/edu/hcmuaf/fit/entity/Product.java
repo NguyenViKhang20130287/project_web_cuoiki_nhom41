@@ -133,5 +133,11 @@ public class Product implements Comparable<Product>{
         }
         return 0;
     }
+
+    public Product(int id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
 }
 

@@ -1,3 +1,9 @@
+<%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.OrderAdmin" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -20,7 +26,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 </head>
-
+<% Locale locale = new Locale("vi", "VN");
+    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale); %>
 <body onload="time()" class="app sidebar-mini rtl">
 <!-- Navbar-->
 <header class="app-header">
@@ -91,7 +98,7 @@
                     <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
                         <div class="info">
                             <h4>Tổng khách hàng</h4>
-                            <p><b>56 khách hàng</b></p>
+                            <p><b><%=new HomeAdminDAO().getCountUser() %> khách hàng</b></p>
                             <p class="info-tong">Tổng số khách hàng được quản lý.</p>
                         </div>
                     </div>
@@ -101,7 +108,7 @@
                     <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
                         <div class="info">
                             <h4>Tổng sản phẩm</h4>
-                            <p><b>1850 sản phẩm</b></p>
+                            <p><b><%=new HomeAdminDAO().getCountProduct()%> sản phẩm</b></p>
                             <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
                         </div>
                     </div>
@@ -111,7 +118,7 @@
                     <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
                         <div class="info">
                             <h4>Tổng đơn hàng</h4>
-                            <p><b>247 đơn hàng</b></p>
+                            <p><b><%=new HomeAdminDAO().getCountOrder()%> đơn hàng</b></p>
                             <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
                         </div>
                     </div>
@@ -121,7 +128,7 @@
                     <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
                         <div class="info">
                             <h4>Sắp hết hàng</h4>
-                            <p><b>4 sản phẩm</b></p>
+                            <p><b><%=new HomeAdminDAO().getAboutOutOfStock()%> sản phẩm</b></p>
                             <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
                         </div>
                     </div>
@@ -141,38 +148,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+
+                                <% List<OrderAdmin> list = new HomeAdminDAO().getNewestOrder();
+                                    for (OrderAdmin i : list) {
+
+
+                                %>
                                 <tr>
-                                    <td>AL3947</td>
-                                    <td>Phạm Thị Ngọc</td>
-                                    <td>
-                                        19.770.000 đ
+                                    <td><%=i.getId() %>
                                     </td>
-                                    <td><span class="badge bg-info">Chờ xử lý</span></td>
-                                </tr>
-                                <tr>
-                                    <td>ER3835</td>
-                                    <td>Nguyễn Thị Mỹ Yến</td>
-                                    <td>
-                                        16.770.000 đ
+                                    <td><%=i.getFullName() %>
                                     </td>
-                                    <td><span class="badge bg-warning">Đang vận chuyển</span></td>
-                                </tr>
-                                <tr>
-                                    <td>MD0837</td>
-                                    <td>Triệu Thanh Phú</td>
                                     <td>
-                                        9.400.000 đ
+                                        <%=numberFormat.format(i.getTotalMoney()) %>
                                     </td>
-                                    <td><span class="badge bg-success">Đã hoàn thành</span></td>
-                                </tr>
-                                <tr>
-                                    <td>MT9835</td>
-                                    <td>Đặng Hoàng Phúc</td>
+
                                     <td>
-                                        40.650.000 đ
+                                        <%if (i.getId_status() == 1) {%>
+                                        <span class="badge bg-warning">Đang giao hàng</span>
+                                        <%}%>
+                                        <%if (i.getId_status() == 2) {%>
+                                        <span class="badge bg-info">Chờ thanh toán</span>
+                                        <%}%>
+                                        <%if (i.getId_status() == 3) {%>
+                                        <span class="badge bg-success">Hoàn thành</span>
+                                        <%}%>
+                                        <%if (i.getId_status() == 4) {%>
+                                        <span class="badge bg-danger">Đã hủy</span>
+                                        <%}%>
+
                                     </td>
-                                    <td><span class="badge bg-danger">Đã hủy </span></td>
                                 </tr>
+                                <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -190,35 +197,25 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên khách hàng</th>
-                                    <th>Ngày sinh</th>
+                                    <th>Email</th>
                                     <th>Số điện thoại</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <% List<Account> listUser = new HomeAdminDAO().getNewestUser();
+                                    for (Account o : listUser) {
+                                %>
                                 <tr>
-                                    <td>#183</td>
-                                    <td>Nguyễn Phi Khanh</td>
-                                    <td>21/7/2002</td>
-                                    <td><span class="tag tag-success">0921387221</span></td>
+                                    <td>#<%=o.getId() %>
+                                    </td>
+                                    <td><span class="tag tag-success"><%=o.getEmail() %></span></td>
+                                    <td><%=o.getUsername()%>
+                                    </td>
+                                    <td><%=o.getPassword() %>
+                                    </td>
+
                                 </tr>
-                                <tr>
-                                    <td>#219</td>
-                                    <td>Nguyễn Nhất Đăng Khoa</td>
-                                    <td>30/4/2002</td>
-                                    <td><span class="tag tag-warning">0912376352</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#627</td>
-                                    <td>Nguyễn Minh Hiếu</td>
-                                    <td>12/3/2002</td>
-                                    <td><span class="tag tag-primary">01287326654</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#175</td>
-                                    <td>Trần Trung Hiếu</td>
-                                    <td>4/12/2002</td>
-                                    <td><span class="tag tag-danger">0912376763</span></td>
-                                </tr>
+                                <% } %>
                                 </tbody>
                             </table>
                         </div>
