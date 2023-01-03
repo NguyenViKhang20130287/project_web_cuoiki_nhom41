@@ -121,11 +121,31 @@ html a:hover {
 }
 
 .sidebar_widget-content ul ul {
-    display: none;
+    /*display: none;*/
+    /*visibility: hidden;*/
+    /*opacity: 0;*/
+    /*transition: visibility 0s, opacity 0.5s linear;*/
+
+    max-height: 0;
+    overflow: hidden;
+
+    -webkit-transition: max-height 0.2s ease-in;
+    transition: max-height 0.2s ease-in;
+
+
 }
 
 .sidebar_widget-content ul .dropdown:hover ul {
-    display: block;
+    /*display: block;*/
+    /*!*visibility: visible;*!*/
+    /*!*opacity: 1;*!*/
+    /*-webkit-transition:height 200ms ease-in;*/
+    /*-moz-transition:height 200ms ease-in;*/
+    /*-o-transition:height 200ms ease-in;*/
+    /*transition:height 200ms ease-in;*/
+
+    max-height: 800px;
+
 }
 
 .slider_range {
