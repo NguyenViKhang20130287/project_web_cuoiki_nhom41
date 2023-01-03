@@ -1,5 +1,5 @@
 // Thanh kéo lọc theo giá
-var arrProduct =[]
+var arrProduct = []
 const rangeInput = document.querySelectorAll(".range-input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     range = document.querySelector(".slider .progress");
@@ -21,9 +21,9 @@ priceInput.forEach(input => {
         }
     });
 });
-const render =()=>{
-    let rs =``
-    arrProduct.map((tmp)=>{
+const render = () => {
+    let rs = ``
+    arrProduct.map((tmp) => {
         let dis = tmp.discount.toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND'
@@ -73,7 +73,7 @@ rangeInput.forEach(input => {
                     let max = rangeInput[1].value;
                     let rs = "";
                     let arrData = JSON.parse(data)
-                    arrProduct= []
+                    arrProduct = []
                     arrData.map((tmp) => {
                         // Kiểm tra điều kiện
                         if (tmp.discount <= max && tmp.discount >= min) {
@@ -148,13 +148,14 @@ function addtocart(idProduct) {
         }
     });
 }
+
 // Tìm kiếm sản phẩm
-const searchByName = (param)=>{
+const searchByName = (param) => {
     var txtSearch = param.value;
 
     search(txtSearch)
 }
-const search =(txtSearch) => {
+const search = (txtSearch) => {
     $.ajax({
         url: "/web_nhom41_war/product?action=listProduct",
         type: "get",
@@ -167,7 +168,7 @@ const search =(txtSearch) => {
             arrData.map((tmp) => {
                 // Kiểm tra điều kiện
                 let title = tmp.title
-                if (title.toLowerCase().includes(txtSearch.trim().toLowerCase()) ) {
+                if (title.toLowerCase().includes(txtSearch.trim().toLowerCase())) {
                     arrProduct.push(tmp)
                 }
             })
@@ -178,6 +179,56 @@ const search =(txtSearch) => {
         }
     });
 }
+const sort = (id)=>{
+    console.log(id.value)
+    switch(id.value) {
+        case "atoz":
+            arrProduct.sort(function(a, b){
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {return -1;}
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {return 1;}
+                return 0;
+            });
+            break;
+        case "ztoa":
+            // code block
+            arrProduct.sort(function(a, b){
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {return -1;}
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {return 1;}
+                return 0;
+            });
+            break;
+        case "increase":
+            arrProduct.sort(function(a, b){
+                return a.discount - b.discount
+            });
+            break
+        case "descrease":
+            arrProduct.sort(function(a, b){
+                return b.discount - a.discount
+            });
+            break;
+        case "newest":
+            arrProduct.sort(function(a, b){
+                return b.id - a.id
+            });
+            break;
+        case "oldest":
+            arrProduct.sort(function(a, b){
+                return a.id - b.id
+            });
+            break;
+        default:
+        // code block
+            arrProduct.sort(function(a, b){
+                return a.id - b.id
+            });
+
+    }
+
+    render()
+
+}
+
 
 
 

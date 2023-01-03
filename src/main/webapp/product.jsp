@@ -476,7 +476,7 @@
                             <div class="product_header-right">
                                 <i class="fa fa-sort" style="color: #a3a3a3" aria-hidden="true"></i>
                                 <span>Sắp xếp:</span>
-                                <select id="mySelect" name="sortBy">
+                                <select id="mySelect" name="sortBy" onchange="sort(this)">
                                     <option value="default">Mặc định</option>
                                     <option value="atoz">A &rarr; Z</option>
                                     <option value="ztoa">Z &rarr; A</option>
