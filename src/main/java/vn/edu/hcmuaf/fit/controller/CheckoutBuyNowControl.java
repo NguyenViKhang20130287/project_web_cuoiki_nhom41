@@ -4,16 +4,19 @@ import vn.edu.hcmuaf.fit.dao.CheckoutDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "CheckoutControl", value = "/CheckoutControl")
-public class CheckoutControl extends HttpServlet {
+@WebServlet(name = "CheckoutBuyNowControl", value = "/CheckoutBuyNowControl")
+public class CheckoutBuyNowControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -47,7 +50,8 @@ public class CheckoutControl extends HttpServlet {
         PrintWriter out = response.getWriter();
         CheckoutDAO checkoutDAO = new CheckoutDAO();
         String registerMessage = "";
-        if (session.getAttribute("cart") != null) {
+
+        if (session.getAttribute("buynow") != null) {
             if (name.equals("") || streetAddress.equals("") || ward.equals("") || district.equals("") || city.equals("") || phone.equals("") || payment == null) {
 
                 request.setAttribute("message", "Vui lòng điền đủ thông tin");
@@ -91,7 +95,9 @@ public class CheckoutControl extends HttpServlet {
                     }
 
                 }
-                HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
+                HashMap<Integer, CartItem> cart = new HashMap<Integer, CartItem>();
+                CartItem item = (CartItem) session.getAttribute("buynow");
+                cart.put(item.getProduct().getId(), item);
                 int idAdd = 0;
                 if (checkoutDAO.getIdAddress(streetAddress, ward, district, city) != 0) {
                     idAdd = checkoutDAO.getIdAddress(streetAddress, ward, district, city);
@@ -110,10 +116,10 @@ public class CheckoutControl extends HttpServlet {
                         price = entry.getValue().getProduct().getPrice();
                     }
                     checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
-                    checkoutDAO.updateQuantity(String.valueOf(entry.getKey()),entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
+                    checkoutDAO.updateQuantity(String.valueOf(entry.getKey()), entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
                 }
 
-                session.setAttribute("cart", null);
+                session.setAttribute("buynow", null);
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Đặt hàng thành công" + registerMessage + "');");
                 out.println("location='home';");

@@ -7,6 +7,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.*" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -478,7 +479,9 @@
                                                 <%--                                                           name="inputId">--%>
                                                 <%--                                                    <button type="submit" onclick="">Thêm vào giỏ</button>--%>
                                                 <%--                                                </form>--%>
-                                                <button onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
+                                                <button onclick="addtocart(<%=p.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>>
+                                                    Thêm vào giỏ
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

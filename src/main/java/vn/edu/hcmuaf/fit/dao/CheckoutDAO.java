@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.dao;
 import vn.edu.hcmuaf.fit.db.DBConnect;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Product;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -220,6 +221,38 @@ public class CheckoutDAO {
                 dbConnect.ps.close();
                 dbConnect.rs.close();
                 statement.close();
+            }
+        } catch (SQLException e) {
+
+        }
+    }
+
+    public void updateQuantity(String id, int quantity) {
+        try {
+            Statement statement = dbConnect.getInstall().get();
+            if (statement != null) {
+                if (quantity > 0) {
+                    String query = "UPDATE product\n" +
+                            "SET quantity = ?,updated_at = NOW()\n" +
+                            "WHERE id=?;";
+                    dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                    dbConnect.ps.setInt(1, quantity);
+                    dbConnect.ps.setInt(2, Integer.parseInt(id));
+                    dbConnect.ps.executeUpdate();
+                    dbConnect.ps.close();
+                    statement.close();
+                } else {
+                    String query = "UPDATE product\n" +
+                            "SET quantity = ?,updated_at = NOW()\n" +
+                            "WHERE id=?;";
+                    dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                    dbConnect.ps.setInt(1, quantity);
+                    dbConnect.ps.setInt(2, Integer.parseInt(id));
+                    dbConnect.ps.executeUpdate();
+                    dbConnect.ps.close();
+                    statement.close();
+                }
+
             }
         } catch (SQLException e) {
 
