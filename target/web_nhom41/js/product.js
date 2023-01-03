@@ -1,4 +1,5 @@
-// Lọc theo giá
+// Thanh kéo lọc theo giá
+var arrProduct =[]
 const rangeInput = document.querySelectorAll(".range-input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     range = document.querySelector(".slider .progress");
@@ -20,29 +21,18 @@ priceInput.forEach(input => {
         }
     });
 });
-rangeInput.forEach(input => {
-    input.addEventListener("mouseleave", e => {
-        if (priceFilter != e.target.value) {
-            $.ajax({
-                url: "/web_nhom41_war/product?action=listProduct",
-                type: "get",
-                success: function (data) {
-                    let min = rangeInput[0].value;
-                    let max = rangeInput[1].value;
-                    let rs = "";
-                    let arrData = JSON.parse(data)
-                    arrData.map((tmp) => {
-                        // Kiểm tra điều kiện
-                        if (tmp.discount <= max && tmp.discount >= min) {
-                            let dis = tmp.discount.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND'
-                            })
-                            let price = tmp.price.toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND'
-                            })
-                            rs += `
+const render =()=>{
+    let rs =``
+    arrProduct.map((tmp)=>{
+        let dis = tmp.discount.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        })
+        let price = tmp.price.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        })
+        rs += `
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
     <div class="body_page-trending-product-list-card">
         <div class="card-image">
@@ -68,9 +58,30 @@ rangeInput.forEach(input => {
     </div>
 </div>
                             `
+    })
+    document.getElementById("products").innerHTML = rs
+
+}
+rangeInput.forEach(input => {
+    input.addEventListener("mouseleave", e => {
+        if (priceFilter != e.target.value) {
+            $.ajax({
+                url: "/web_nhom41_war/product?action=listProduct",
+                type: "get",
+                success: function (data) {
+                    let min = rangeInput[0].value;
+                    let max = rangeInput[1].value;
+                    let rs = "";
+                    let arrData = JSON.parse(data)
+                    arrProduct= []
+                    arrData.map((tmp) => {
+                        // Kiểm tra điều kiện
+                        if (tmp.discount <= max && tmp.discount >= min) {
+                            arrProduct.push(tmp);
+
                         }
                     })
-                    document.getElementById("products").innerHTML = rs
+                    render()
                 },
                 error: function (xhr) {
                     //Do Something to handle error
@@ -81,6 +92,7 @@ rangeInput.forEach(input => {
 
     });
 });
+
 
 rangeInput.forEach(input => {
     input.addEventListener("input", e => {
@@ -136,75 +148,38 @@ function addtocart(idProduct) {
         }
     });
 }
+// Tìm kiếm sản phẩm
+const searchByName = (param)=>{
+    var txtSearch = param.value;
 
-//
-const sortBy = document.querySelectorAll("#mySelect option")
-var arr = new Array();
-$('#mySelect option').each(function(){
-    arr.push($(this).val());
-});
-console.log(arr)
-let val ="";
-sortBy.forEach(value=> {
-    value.addEventListener("onclick", e => {
-        if (val != e.target.value) {
-            $.ajax({
-                url: "/web_nhom41_war/product?action1=sortListProduct",
-                type: "get",
-                success: function (data) {
-                    let rs = "";
-                    let arrData = JSON.parse(data)
-                    console.log(arrData)
-                    arrData.map((tmp) => {
-                        // Kiểm tra điều kiện
-                        switch (value) {
-                            case "atoz":
-                                arrData.sort(function (tmp1, tmp2) {
-                                    return tmp1.id - tmp2.id;
-                                });
-                                console.log(arrData)
-                                break;
-                            default:
-                                break;
-                        }
-                        rs += `
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-    <div class="body_page-trending-product-list-card">
-        <div class="card-image">
-            <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
-        </div>
-        <div class="card-title-price">
-            <p>
-                ${tmp.title}
-            </p>
-            <span>
-            
-                ${dis}
-            </span>
-            <span style="margin-left: 10px; color: #6c6c6c"><strike>
-                ${price}
-                </strike></span>
-        </div>
-        <div class="card-btn">
-            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
-            </button>
-            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
-        </div>
-    </div>
-</div>
-                            `
+    search(txtSearch)
+}
+const search =(txtSearch) => {
+    $.ajax({
+        url: "/web_nhom41_war/product?action=listProduct",
+        type: "get",
+        success: function (data) {
 
-                    })
-                    document.getElementById("products").innerHTML = rs
-                },
-                error: function (xhr) {
-                    //Do Something to handle error
+            let rs = "";
+            let arrData = JSON.parse(data)
+            console.log(arrData)
+            arrProduct = []
+            arrData.map((tmp) => {
+                // Kiểm tra điều kiện
+                let title = tmp.title
+                if (title.toLowerCase().includes(txtSearch.trim().toLowerCase()) ) {
+                    arrProduct.push(tmp)
                 }
-            });
-            val = e.target.value;
-            console.log(val)
+            })
+            render()
+        },
+        error: function (xhr) {
+            //Do Something to handle error
         }
-    })
-});
+    });
+}
+
+
+
 
 
