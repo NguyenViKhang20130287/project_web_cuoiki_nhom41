@@ -41,7 +41,7 @@ public class GemColorControl extends HttpServlet {
         if (count % 12 != 0) {
             endPage++;
         }
-        List<Product> productByGemColor = productDAO.loadProductByGemColor(color_id, index);
+        List<Product> productByGemColor = productDAO.pagingProductByGemColor(color_id, index);
 
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);
