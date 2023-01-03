@@ -179,10 +179,11 @@ public class CheckoutDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT * FROM `user`  WHERE email = ?";
+                String query = "SELECT * FROM `user`  WHERE email = ? OR username = ?";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
                 dbConnect.ps.setString(1, email);
+                dbConnect.ps.setString(2, email.substring(0, email.indexOf("@") + 1));
                 dbConnect.rs = dbConnect.ps.executeQuery();
                 while (dbConnect.rs.next()) {
                     Account ac = new Account(

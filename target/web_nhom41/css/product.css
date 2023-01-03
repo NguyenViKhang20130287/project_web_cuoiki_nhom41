@@ -121,11 +121,17 @@ html a:hover {
 }
 
 .sidebar_widget-content ul ul {
-    display: none;
+    max-height: 0;
+    overflow: hidden;
+
+    -webkit-transition: max-height 0.2s ease-in;
+    transition: max-height 0.2s ease-in;
+
 }
 
 .sidebar_widget-content ul .dropdown:hover ul {
-    display: block;
+    max-height: 800px;
+
 }
 
 .slider_range {
