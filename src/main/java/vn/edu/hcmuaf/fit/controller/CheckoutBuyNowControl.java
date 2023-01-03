@@ -45,7 +45,14 @@ public class CheckoutBuyNowControl extends HttpServlet {
         String newAccount = request.getParameter("newAccount");
         System.out.println(newAccount);
         String payment = request.getParameter("payment");
-        String username = (String) session.getAttribute("username");
+        Account accSession = (Account) session.getAttribute("Account");
+        String username = "";
+        if (accSession != null) {
+            username = accSession.getUsername();
+
+        } else {
+            username = null;
+        }
 
         PrintWriter out = response.getWriter();
         CheckoutDAO checkoutDAO = new CheckoutDAO();
