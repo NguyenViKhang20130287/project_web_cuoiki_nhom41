@@ -131,11 +131,11 @@
 
                         <ul class="header_page-category-sub-menu">
 
-                            <li><a href="">Nhẫn</a></li>
-                            <li><a href="">Hoa tai</a></li>
-                            <li><a href="">Dây chuyền</a></li>
-                            <li><a href="">Vòng tay</a></li>
-                            <li><a href="">Mặt dây chuyền</a></li>
+                            <li><a href="category?category_id=2">Nhẫn</a></li>
+                            <li><a href="category?category_id=3">Hoa tai</a></li>
+                            <li><a href="category?category_id=4">Dây chuyền</a></li>
+                            <li><a href="category?category_id=5">Vòng tay</a></li>
+                            <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
                         </ul>
                     </li>
 
@@ -237,11 +237,11 @@
                         </div>
                         <div class="main-menu-content">
                             <ul>
-                                <li><a href="" style="font-weight: normal">Nhẫn</a></li>
-                                <li><a href="" style="font-weight: normal">Hoa tai</a></li>
-                                <li><a href="" style="font-weight: normal">Dây chuyên</a></li>
-                                <li><a href="" style="font-weight: normal">Vòng tay</a></li>
-                                <li><a href="" style="font-weight: normal">Mặt dây chuyền</a></li>
+                                <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
+                                <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
+                                <li><a href="category?category_id=4" style="font-weight: normal">Dây chuyên</a></li>
+                                <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
+                                <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
                             </ul>
                         </div>
                     </li>
@@ -299,17 +299,15 @@
             <ul>
                 <li>Tất cả</li>
                 <li>Nhẫn</li>
-                <li>Hoa tay</li>
+                <li>Hoa tai</li>
                 <li>Dây chuyền</li>
                 <li>Vòng tay</li>
                 <li>Mặt dây chuyền</li>
             </ul>
         </div>
         <div class="main-modal-search">
-            <form action="search" method="get" class="site-block-top-search">
-                <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </form>
+            <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
+            <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </div>
     <div class="hide-modal-search"></div>

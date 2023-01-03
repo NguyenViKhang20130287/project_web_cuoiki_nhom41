@@ -102,93 +102,97 @@
 <body>
 <% ProductDAO productDAO = new ProductDAO();
     CategoryDAO categoryDAO = new CategoryDAO();%>
-<!-- Header page -->
-<div class="header_page">
-    <div class="header_page-main">
+<div class="main_page">
 
-        <div class="header_page-logo">
-            <a href="home"><img src="img/logo.png" alt=""></a>
-        </div>
+    <!-- Header page -->
+    <div class="header_page">
+        <div class="header_page-main">
 
-        <div class="header_page-category">
+            <div class="header_page-logo">
+                <a href="home"><img src="img/logo.png" alt=""></a>
+            </div>
 
-            <ul class="header_page-category-main-menu">
-                <li><a href="home">Trang chủ</a></li>
-                <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
+            <div class="header_page-category">
 
-                    <ul class="header_page-category-sub-menu">
+                <ul class="header_page-category-main-menu">
+                    <li><a href="home">Trang chủ</a></li>
+                    <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
-                        <li><a href="">Nhẫn</a></li>
-                        <li><a href="">Hoa tai</a></li>
-                        <li><a href="">Dây chuyền</a></li>
-                        <li><a href="">Vòng tay</a></li>
-                        <li><a href="">Mặt dây chuyền</a></li>
-                    </ul>
-                </li>
+                        <ul class="header_page-category-sub-menu">
 
-                <li><a href="">Trang<i class="fa-solid fa-chevron-down"></i></a>
-                    <ul class="header_page-category-sub-menu">
+                            <li><a href="category?category_id=2">Nhẫn</a></li>
+                            <li><a href="category?category_id=3">Hoa tai</a></li>
+                            <li><a href="category?category_id=4">Dây chuyền</a></li>
+                            <li><a href="category?category_id=5">Vòng tay</a></li>
+                            <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
+                        </ul>
+                    </li>
 
-                        <% if (session.getAttribute("Account") != null) { %>
-                        <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                        <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                        <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                        <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                        <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
-                        <% }
-                        } %>
-                        <% if ((session.getAttribute("Account") == null) ||
-                                (Objects.equals(session.getAttribute("role"), "1"))) { %>
-                        <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
-                        <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                        <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                        <% } %>
+                    <li><a href="">Trang<i class="fa-solid fa-chevron-down"></i></a>
+                        <ul class="header_page-category-sub-menu">
 
-                    </ul>
-                </li>
-                <li><a href="contact.jsp">Liên hệ</a></li>
-            </ul>
-        </div>
+                            <% if (session.getAttribute("Account") != null) { %>
+                            <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                            <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                            <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
 
-        <!--  -->
-        <div class="header_page-btns non-reponsive">
-            <div style="display: flex; justify-content: space-between">
-                <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
-                    kiếm
-                </button>
-                <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
-                <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
-                    hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
+                            <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                            <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                            <%}%>
+                            <%}%>
 
-                <% if (session.getAttribute("Account") != null) {%>
-                <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
-                <div id="box-admin">
-                    <button><%= session.getAttribute("username") %>
+                            <% if ((session.getAttribute("Account") == null)) { %>
+                            <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
+                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                            <% } %>
+
+                        </ul>
+                    </li>
+                    <li><a href="contact.jsp">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <!--  -->
+            <div class="header_page-btns non-reponsive">
+                <div style="display: flex; justify-content: space-between">
+                    <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
+                        kiếm
                     </button>
-                    <ul id="box-admin-menu">
-                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                        <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
-                        </li>
-                    </ul>
-                </div>
-                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                <div id="box-admin">
-                    <button><%= session.getAttribute("username") %>
-                    </button>
-                    <ul id="box-admin-menu">
-                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                    </ul>
-                </div>
-                <%--                <button><%= session.getAttribute("username") %></button>--%>
-                <%--                <ul id="box-admin-menu">--%>
-                <%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
-                <%--                </ul>--%>
-                <% } %>
-                <% } %>
+                    <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
+                    <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                        hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
-                <% if (session.getAttribute("Account") == null) {%>
-                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
-                <%}%>
+                    <% if (session.getAttribute("Account") != null) {%>
+                    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                    <div id="box-admin">
+                        <button><%= session.getAttribute("username") %>
+                        </button>
+                        <ul id="box-admin-menu">
+                            <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                            <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                    <div id="box-admin">
+                        <button><%= session.getAttribute("username") %>
+                        </button>
+                        <ul id="box-admin-menu">
+                            <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                    <% } %>
+                    <% } %>
+
+                    <% if (session.getAttribute("Account") == null) {%>
+                    <button><a href="LoginControl"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+                    <%}%>
+                </div>
             </div>
         </div>
         <!--  -->
@@ -200,7 +204,14 @@
             <div class="right_btn">
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></button>
-                <button><a href="login.jsp"><i class="fa-solid fa-user"></i></a></button>
+
+                <% if (session.getAttribute("Account") != null) {%>
+                <button><a href="LogoutControl"><i class="fa-solid fa-user-check"></i></a></button>
+                <% } %>
+
+                <% if (session.getAttribute("Account") == null) {%>
+                <button><a href="LoginControl"><i class="fa-solid fa-user"></i></a></button>
+                <%}%>
             </div>
 
             <div class="category_header-responsive">
@@ -215,11 +226,11 @@
                         </div>
                         <div class="main-menu-content">
                             <ul>
-                                <li><a href="" style="font-weight: normal">Nhẫn</a></li>
-                                <li><a href="" style="font-weight: normal">Hoa tai</a></li>
-                                <li><a href="" style="font-weight: normal">Dây chuyên</a></li>
-                                <li><a href="" style="font-weight: normal">Vòng tay</a></li>
-                                <li><a href="" style="font-weight: normal">Mặt dây chuyền</a></li>
+                                <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
+                                <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
+                                <li><a href="category?category_id=4" style="font-weight: normal">Dây chuyên</a></li>
+                                <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
+                                <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
                             </ul>
                         </div>
                     </li>
@@ -230,9 +241,26 @@
                         </div>
                         <div class="main-menu-content">
                             <ul>
-                                <li><a href="logincontrol" style="font-weight: normal">Đăng nhập</a></li>
+                                <% if (session.getAttribute("Account") != null) { %>
+                                <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                                <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
+                                </li>
+
+                                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                                <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                                <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                                <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <%}%>
+                                <%}%>
+
+                                <% if ((session.getAttribute("Account") == null)) { %>
+                                <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
+                                <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                                <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <% } %>
                             </ul>
                         </div>
                     </li>
@@ -246,6 +274,7 @@
     </div>
 
 </div>
+
 <div class="header_page-modal-search">
 
     <div class="main-modal">
@@ -259,17 +288,15 @@
             <ul>
                 <li>Tất cả</li>
                 <li>Nhẫn</li>
-                <li>Hoa tay</li>
+                <li>Hoa tai</li>
                 <li>Dây chuyền</li>
                 <li>Vòng tay</li>
                 <li>Mặt dây chuyền</li>
             </ul>
         </div>
         <div class="main-modal-search">
-            <form action="search" method="get" class="site-block-top-search">
                 <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
                 <i class="fa-solid fa-magnifying-glass"></i>
-            </form>
         </div>
     </div>
     <div class="hide-modal-search"></div>
