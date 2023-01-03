@@ -208,14 +208,14 @@ public class CheckoutDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "INSERT INTO `user`(`password`,full_name,email,phone_number,created_at,updated_at,role_id) VALUES (?,?,?,?,NOW(),NOW(),1)";
+                String query = "INSERT INTO `user`(`password`,full_name,email,phone_number,created_at,updated_at,role_id,username) VALUES (?,?,?,?,NOW(),NOW(),1,?)";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
                 dbConnect.ps.setString(1, password);
                 dbConnect.ps.setString(2, fullname);
                 dbConnect.ps.setString(3, email);
                 dbConnect.ps.setString(4, phone);
-
+                dbConnect.ps.setString(5, email.substring(0, email.indexOf("@") + 1));
                 dbConnect.ps.executeUpdate();
 
                 dbConnect.ps.close();
