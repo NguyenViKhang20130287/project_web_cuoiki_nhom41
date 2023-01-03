@@ -319,8 +319,6 @@
             </div>
 
             <form action="NewPasswordControl" method="post">
-                <label for="email">Mật khẩu cũ <span>*</span></label>
-                <input id="email" type="text" placeholder="Nhập mật khẩu cũ..." name="oldPass">
 
                 <label for="pass">Mật khẩu mới <span>*</span></label>
                 <input id="pass" type="password" placeholder="Nhập mật khẩu mới..." name="newPass">

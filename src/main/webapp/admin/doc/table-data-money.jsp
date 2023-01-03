@@ -57,7 +57,7 @@
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
-        <li><a class="app-menu__item " href="table-data-oder.jsp"><i class='app-menu__icon bx bx-task'></i><span
+        <li><a class="app-menu__item " href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
         <li><a class="app-menu__item" href="table-data-banned.jsp"><i class='app-menu__icon bx bx-run'></i><span
                 class="app-menu__label">Quản lý nội bộ
