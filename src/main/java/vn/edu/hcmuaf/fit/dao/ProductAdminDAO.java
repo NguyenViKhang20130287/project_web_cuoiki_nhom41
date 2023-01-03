@@ -85,7 +85,7 @@ public class ProductAdminDAO {
                             rs.getString(3),
                             rs.getString(7),
                             rs.getInt(8),
-                            new ProductAdmin().checkStatus(7),
+                            new ProductAdmin().checkStatus(rs.getInt(8)),
                             rs.getInt(4),
                             getNameCategoryWithID(rs.getInt(9)),
                             rs.getString(10),
