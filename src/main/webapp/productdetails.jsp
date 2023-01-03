@@ -95,6 +95,48 @@
             display: inline-block;
         }
 
+        .stars a {
+            display: inline-block;
+            padding-right: 4px;
+            text-decoration: none;
+            margin: 0;
+        }
+
+        .stars a:after {
+            position: relative;
+            font-size: 18px;
+            font-family: 'FontAwesome', serif;
+            display: block;
+            content: "\f005";
+            color: #9e9e9e;
+        }
+
+        .stars span {
+            font-size: 0;
+            /* trick to remove inline-element's margin */
+        }
+
+        .stars a:hover ~ a:after {
+            color: #9e9e9e !important;
+        }
+
+        span.active a.active ~ a:after {
+            color: #9e9e9e;
+        }
+
+        span:hover a:after {
+            color: #fe9727;
+        }
+
+        span.active a:after,
+        .stars a.active:after {
+            color: #fe9727;
+        }
+
+        .product_rating span i {
+            color: #fe9727;
+        }
+
     </style>
 
 </head>
@@ -102,97 +144,93 @@
 <body>
 <% ProductDAO productDAO = new ProductDAO();
     CategoryDAO categoryDAO = new CategoryDAO();%>
-<div class="main_page">
+<!-- Header page -->
+<div class="header_page">
+    <div class="header_page-main">
 
-    <!-- Header page -->
-    <div class="header_page">
-        <div class="header_page-main">
+        <div class="header_page-logo">
+            <a href="home"><img src="img/logo.png" alt=""></a>
+        </div>
 
-            <div class="header_page-logo">
-                <a href="home"><img src="img/logo.png" alt=""></a>
-            </div>
+        <div class="header_page-category">
 
-            <div class="header_page-category">
+            <ul class="header_page-category-main-menu">
+                <li><a href="home">Trang chủ</a></li>
+                <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
-                <ul class="header_page-category-main-menu">
-                    <li><a href="home">Trang chủ</a></li>
-                    <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
+                    <ul class="header_page-category-sub-menu">
 
-                        <ul class="header_page-category-sub-menu">
+                        <li><a href="">Nhẫn</a></li>
+                        <li><a href="">Hoa tai</a></li>
+                        <li><a href="">Dây chuyền</a></li>
+                        <li><a href="">Vòng tay</a></li>
+                        <li><a href="">Mặt dây chuyền</a></li>
+                    </ul>
+                </li>
 
-                            <li><a href="category?category_id=2">Nhẫn</a></li>
-                            <li><a href="category?category_id=3">Hoa tai</a></li>
-                            <li><a href="category?category_id=4">Dây chuyền</a></li>
-                            <li><a href="category?category_id=5">Vòng tay</a></li>
-                            <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
-                        </ul>
-                    </li>
+                <li><a href="">Trang<i class="fa-solid fa-chevron-down"></i></a>
+                    <ul class="header_page-category-sub-menu">
 
-                    <li><a href="">Trang<i class="fa-solid fa-chevron-down"></i></a>
-                        <ul class="header_page-category-sub-menu">
+                        <% if (session.getAttribute("Account") != null) { %>
+                        <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                        <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                        <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                        <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                        <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
+                        <% }
+                        } %>
+                        <% if ((session.getAttribute("Account") == null) ||
+                                (Objects.equals(session.getAttribute("role"), "1"))) { %>
+                        <li><a href="login.jsp" style="font-weight: normal">Tài khoản</a></li>
+                        <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
+                        <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                        <% } %>
 
-                            <% if (session.getAttribute("Account") != null) { %>
-                            <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                            <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                            <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.jsp">Liên hệ</a></li>
+            </ul>
+        </div>
 
-                            <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                            <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                            <%}%>
-                            <%}%>
+        <!--  -->
+        <div class="header_page-btns non-reponsive">
+            <div style="display: flex; justify-content: space-between">
+                <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
+                    kiếm
+                </button>
+                <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
+                <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
+                    hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
-                            <% if ((session.getAttribute("Account") == null)) { %>
-                            <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
-                            <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                            <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                            <% } %>
-
-                        </ul>
-                    </li>
-                    <li><a href="contact.jsp">Liên hệ</a></li>
-                </ul>
-            </div>
-
-            <!--  -->
-            <div class="header_page-btns non-reponsive">
-                <div style="display: flex; justify-content: space-between">
-                    <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
-                        kiếm
+                <% if (session.getAttribute("Account") != null) {%>
+                <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %>
                     </button>
-                    <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
-                    <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
-                        hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
-
-                    <% if (session.getAttribute("Account") != null) {%>
-                    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
-                    <div id="box-admin">
-                        <button><%= session.getAttribute("username") %>
-                        </button>
-                        <ul id="box-admin-menu">
-                            <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                            <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                    <div id="box-admin">
-                        <button><%= session.getAttribute("username") %>
-                        </button>
-                        <ul id="box-admin-menu">
-                            <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
-                        </ul>
-                    </div>
-                    <% } %>
-                    <% } %>
-
-                    <% if (session.getAttribute("Account") == null) {%>
-                    <button><a href="LoginControl"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
-                    <%}%>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                        <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                        </li>
+                    </ul>
                 </div>
+                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                <div id="box-admin">
+                    <button><%= session.getAttribute("username") %>
+                    </button>
+                    <ul id="box-admin-menu">
+                        <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <%--                <button><%= session.getAttribute("username") %></button>--%>
+                <%--                <ul id="box-admin-menu">--%>
+                <%--                    <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>--%>
+                <%--                </ul>--%>
+                <% } %>
+                <% } %>
+
+                <% if (session.getAttribute("Account") == null) {%>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i>Tài khoản</a></button>
+                <%}%>
             </div>
         </div>
         <!--  -->
@@ -204,14 +242,7 @@
             <div class="right_btn">
                 <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <button><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></button>
-
-                <% if (session.getAttribute("Account") != null) {%>
-                <button><a href="LogoutControl"><i class="fa-solid fa-user-check"></i></a></button>
-                <% } %>
-
-                <% if (session.getAttribute("Account") == null) {%>
-                <button><a href="LoginControl"><i class="fa-solid fa-user"></i></a></button>
-                <%}%>
+                <button><a href="login.jsp"><i class="fa-solid fa-user"></i></a></button>
             </div>
 
             <div class="category_header-responsive">
@@ -241,26 +272,9 @@
                         </div>
                         <div class="main-menu-content">
                             <ul>
-                                <% if (session.getAttribute("Account") != null) { %>
-                                <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
-                                <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
+                                <li><a href="logincontrol" style="font-weight: normal">Đăng nhập</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
-                                </li>
-
-                                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
-                                <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
-                                <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                                <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <%}%>
-                                <%}%>
-
-                                <% if ((session.getAttribute("Account") == null)) { %>
-                                <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
-                                <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
-                                <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <% } %>
                             </ul>
                         </div>
                     </li>
@@ -274,7 +288,6 @@
     </div>
 
 </div>
-
 <div class="header_page-modal-search">
 
     <div class="main-modal">
@@ -288,15 +301,17 @@
             <ul>
                 <li>Tất cả</li>
                 <li>Nhẫn</li>
-                <li>Hoa tai</li>
+                <li>Hoa tay</li>
                 <li>Dây chuyền</li>
                 <li>Vòng tay</li>
                 <li>Mặt dây chuyền</li>
             </ul>
         </div>
         <div class="main-modal-search">
+            <form action="search" method="get" class="site-block-top-search">
                 <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
                 <i class="fa-solid fa-magnifying-glass"></i>
+            </form>
         </div>
     </div>
     <div class="hide-modal-search"></div>
@@ -310,6 +325,7 @@
 <% Product product = (Product) request.getAttribute("product");
     Locale locale = new Locale("vi", "VN");
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);%>
+<% List<Review> reviewList = (List<Review>) request.getAttribute("reviewList");%>
 <div class="body_page-menu">
     <ul>
         <li><a href="home">
@@ -321,7 +337,7 @@
         <li class="second"><a href="category?category_id=<%=category.getId()%>"><%=category.getName()%>
         </a></li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
-        <li><a href=""><%=product.getTitle()%>
+        <li><a href="product-detail?product_id=<%=product.getId()%>"><%=product.getTitle()%>
         </a></li>
     </ul>
 </div>
@@ -351,12 +367,71 @@
                     <span class="old_price"
                           style="color: #6c6c6c; font-size: 18px;"><strike><%=numberFormat.format(product.getPrice())%></strike></span>
                     <div class="product_rating mb_18">
+                        <% double avg = (double) request.getAttribute("avgStar");%>
+                        <% int size = reviewList.size();%>
+                        <% if (size == 0) {%>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg == 1) {%>
                         <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg < 1 && avg < 2) {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg == 2) {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg > 2 && avg < 3) {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg == 3) {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg > 3 && avg < 4) {%>
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star-half-stroke"></i></span>
-                        <span>(2 đánh giá)</span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg == 4) {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else if (avg > 4 && avg < 5) {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                        <span><i class="fa-regular fa-star"></i></span>
+                        <%} else {%>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <%}%>
+                        <span><b><%=avg%></b></span>
+                        <span>(<%=reviewList.size()%> đánh giá)</span>
                     </div>
                     <% if (product.getDesign() != null) {%>
                     <span class="product_design mb_18">Thiết kế: <b><%=product.getDesign()%></b></span>
@@ -478,73 +553,89 @@
                             </div>
                             <div id="menu_3" class="tab-content-item">
                                 <div class="product_review_form">
+                                    <% if (reviewList.size() == 0) {%>
+                                    <div style="color: #7f8989; font-size: 18px;">Sản phẩm này chưa có đánh giá nào
+                                    </div>
+                                    <%}%>
                                     <ol class="comment_list">
+                                        <% for (Review review : reviewList) {%>
                                         <li class="comment">
                                             <div class="comment_container">
                                                 <div class="review_top">
-                                                    <strong class="review_author">Hoàng Thị Bích Ngọc</strong>
+                                                    <strong class="review_author"><%=review.getAccount().getUsername()%>
+                                                    </strong>
                                                 </div>
                                                 <div class="review_mid">
                                                     <div class="star_rating">
+                                                        <% if (review.getRating() == 1) {%>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <%} else if (review.getRating() == 2) {%>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <%} else if (review.getRating() == 3) {%>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <%} else if (review.getRating() == 4) {%>
                                                         <span><i class="fa-solid fa-star"></i></span>
                                                         <span><i class="fa-solid fa-star"></i></span>
                                                         <span><i class="fa-solid fa-star"></i></span>
                                                         <span><i class="fa-solid fa-star"></i></span>
-                                                        <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                                                        <span><i class="fa-regular fa-star"></i></span>
+                                                        <%} else {%>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <span><i class="fa-solid fa-star"></i></span>
+                                                        <%}%>
+
                                                     </div>
-                                                    <div class="description">Giao siêu nhanh, đặt hôm trước hôm sau
-                                                        có. Sản phẩm giống ảnh.
+                                                    <div class="description"><%=review.getMessage()%>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="comment">
-                                            <div class="comment_container">
-                                                <div class="review_top">
-                                                    <strong class="review_author">Nguyễn Văn Hoàng</strong>
-                                                </div>
-                                                <div class="review_mid">
-                                                    <div class="star_rating">
-                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                        <span><i class="fa-solid fa-star"></i></span>
-                                                    </div>
-                                                    <div class="description">Đóng gói cẩn thận. Shop giao hàng
-                                                        nhanh. Sẽ tiếp tục ủng hộ!
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                        <%}%>
                                     </ol>
-                                    <form action="#">
+                                    <% if (session.getAttribute("Account") == null) {%>
+                                    <a style="color: #bc8247; font-size: 18px;" href="login.jsp">Đăng nhập để gửi đánh
+                                        giá của bạn</a>
+                                    <%}%>
+                                    <% if (session.getAttribute("Account") != null) {%>
+                                    <form action="review?id=<%=product.getId()%>" method="post">
                                         <h2>Thêm nhận xét</h2>
 
                                         <div class="row">
-                                            <div class="col-12">
+                                            <div class="col-12" style="margin-top: 10px">
                                                 <label for="review_comment">Nhận xét của bạn </label>
-                                                <div class="star_rating" style="margin-bottom: 20px;">
-                                                    <span><a href=""><i class="fa-regular fa-star"></i></a></span>
-                                                    <span><a href=""><i class="fa-regular fa-star"></i></a></span>
-                                                    <span><a href=""><i class="fa-regular fa-star"></i></a></span>
-                                                    <span><a href=""><i class="fa-regular fa-star"></i></a></span>
-                                                    <span><a href=""><i class="fa-regular fa-star"></i></a></span>
-                                                </div>
                                                 <textarea name="comment" id="review_comment"></textarea>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label for="author">Tên </label>
-                                                <input id="author" type="text">
-
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label for="email">Email </label>
-                                                <input id="email" type="text">
+                                                <div id="rating" class="star_rating" style="margin-bottom: 20px;">
+                                                    <p class="stars">
+                                                        <span>
+                                                          <a class="star-1" href="javascript:void(0)">1</a>
+                                                          <a class="star-2" href="javascript:void(0)">2</a>
+                                                          <a class="star-3" href="javascript:void(0)">3</a>
+                                                          <a class="star-4" href="javascript:void(0)">4</a>
+                                                          <a class="star-5" href="javascript:void(0)">5</a>
+                                                            <input type="hidden" name="hdrating" id="hdrating">
+                                                        </span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit">Gửi</button>
                                     </form>
+                                    <%}%>
                                 </div>
                             </div>
                         </div>
@@ -659,5 +750,13 @@
 <script src="js/main.js"></script>
 <script src="js/productdetail.js"></script>
 <script src="js/lightslider.js"></script>
+<script type="text/javascript">
+    $('.stars a').on('mouseover', function () {
+        $('.stars span, .stars a').removeClass('active');
+        $(this).addClass('active');
+        $('.stars span').addClass('active');
+        $("#hdrating").val($(this).text());
+    });
+</script>
 </html>
 
