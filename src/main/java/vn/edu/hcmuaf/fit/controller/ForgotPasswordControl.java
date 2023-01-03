@@ -77,7 +77,6 @@ public class ForgotPasswordControl extends HttpServlet {
                 request.setAttribute("message", "OTP is sent to your email id");
                 //request.setAttribute("connection", con);
                 mySession.setAttribute("otp", otpvalue);
-                mySession.setAttribute("oldPass", acc.getPassword());
                 mySession.setAttribute("idUser", acc.getId());
                 mySession.setAttribute("email", email);
                 dispatcher.forward(request, response);
