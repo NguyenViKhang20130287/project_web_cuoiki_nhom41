@@ -472,7 +472,7 @@
                     <span class="price"><%=numberFormat.format(totalCart)%></span>
                 </li>
             </ul>
-            <button class="totals_btns"><a href="checkout.jsp">Thanh toán</a></button>
+            <button class="totals_btns"><a href="/web_nhom41_war/CheckoutButtonControl">Thanh toán</a></button>
         </div>
     </div>
 

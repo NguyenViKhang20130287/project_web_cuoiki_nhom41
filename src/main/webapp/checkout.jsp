@@ -341,8 +341,11 @@
                 </form>
             </div>
         </div>
-
+        <% if (session.getAttribute("buynow") == null) { %>
         <form action="CheckoutControl" method="get">
+            <% }else{ %>
+                <form action="CheckoutBuyNowControl" method="get">
+            <% } %>
             <div class="checkout-container">
                 <div class="left-container">
 
@@ -497,15 +500,16 @@
                                 <tbody>
                                 <% int total = 0;
                                     int totalCart = 0;
-                                    if (cart != null) {
-                                        for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
-                                            if (entry.getValue().getProduct().getDiscount() != 0) {
-                                                total = entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity();
+                                    if (session.getAttribute("buynow") == null) {
+                                        if (cart != null) {
+                                            for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
+                                                if (entry.getValue().getProduct().getDiscount() != 0) {
+                                                    total = entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity();
 
-                                            } else {
-                                                total = entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity();
-                                            }
-                                            totalCart += total;
+                                                } else {
+                                                    total = entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity();
+                                                }
+                                                totalCart += total;
                                 %>
                                 <tr>
                                     <td>
@@ -520,6 +524,27 @@
                                 <%
                                         }
                                     }
+                                } else {
+                                    CartItem cartItem = (CartItem) session.getAttribute("buynow");
+                                    if (cartItem.getProduct().getDiscount() != 0) {
+                                        total = cartItem.getProduct().getDiscount() * cartItem.getQuantity();
+
+                                    } else {
+                                        total = cartItem.getProduct().getPrice() * cartItem.getQuantity();
+                                    }
+                                    totalCart += total;
+                                %>
+                                <tr>
+                                    <td>
+                                        <%= cartItem.getProduct().getTitle() %>
+                                        <strong>x <%= cartItem.getQuantity() %>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <%= numberFormat.format(total)%>
+                                    </td>
+                                </tr>
+                                <% }
                                 %>
                                 </tbody>
                                 <tfoot>
