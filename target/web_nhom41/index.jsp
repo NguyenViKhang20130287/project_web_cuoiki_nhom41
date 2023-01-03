@@ -9,6 +9,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -375,7 +376,9 @@
                     </div>
                     <div class="card-btn">
                         <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a></button>
-                        <button  <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%> onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ</button>
+                        <button  <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>
+                                onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ
+                        </button>
                     </div>
                 </div>
                 <%}%>
@@ -387,88 +390,40 @@
 
         <div class="body_page-sub-product">
             <div class="body_page-trending-product-title">
-                <p>Vật phẩm phong thủy</p>
+                <p>Sản phẩm phổ biến</p>
             </div>
             <div class="body_page-trending-product-des">
-                <p>Những sản phẩm mới nhất hiện tại</p>
+                <p>Những sản phẩm bán chạy nhất hiện tại</p>
             </div>
 
             <div class="body_page-trending-product-list">
-
+                <% List<Product> list = new HomeAdminDAO().getTop5();
+                    for (Product p : list) {
+                %>
                 <div class="body_page-trending-product-list-card">
                     <div class="card-image">
-                        <img src="img/sub_products/s1.jpg" alt="">
+                        <a href="product-detail?product_id=<%=p.getId()%>"><img src="<%=p.getThumbnail()%>"
+                                                                                alt=""></a>
                     </div>
                     <div class="card-title-price">
-                        <p>Nhẫn Bạc Hồ Ly Thạch Anh Tóc Vàng</p>
-                        <span>2,400,000 đ</span>
+                        <p><%= p.getTitle() %></p>
+                        <span style="font-size: 15px"><%=numberFormat.format(p.getDiscount())%></span>
+                        <span style="margin-left: 10px; color: #6c6c6c; font-size: 15px"><strike><%=numberFormat.format(p.getPrice())%></strike></span>
                     </div>
                     <div class="card-btn">
-                        <button><a href="#">Chi tiết</a></button>
-                        <button>Thêm vào giỏ</button>
+                        <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a></button>
+                        <button  <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>
+                                onclick="addtocart(<%=p.getId()%>)">Thêm vào giỏ
+                        </button>
                     </div>
                 </div>
 
-                <div class="body_page-trending-product-list-card">
-                    <div class="card-image">
-                        <img src="img/sub_products/s2.jpg" alt="">
-                    </div>
-                    <div class="card-title-price">
-                        <p>Móc khóa 12 con giáp cẩm thạch – Tuổi Dần</p>
-                        <span>540,000 đ</span>
-                    </div>
-                    <div class="card-btn">
-                        <button><a href="#">Chi tiết</a></button>
-                        <button>Thêm vào giỏ</button>
-                    </div>
-                </div>
-
-                <div class="body_page-trending-product-list-card">
-                    <div class="card-image">
-                        <img src="img/sub_products/s3.jpg" alt="">
-                    </div>
-                    <div class="card-title-price">
-                        <p>Móc khóa 12 con giáp cẩm thạch – Tuổi Dậu</p>
-                        <span>540,000 đ</span>
-                    </div>
-                    <div class="card-btn">
-                        <button><a href="#">Chi tiết</a></button>
-                        <button>Thêm vào giỏ</button>
-                    </div>
-                </div>
-
-                <div class="body_page-trending-product-list-card">
-                    <div class="card-image">
-                        <img src="img/sub_products/s4.jpg" alt="">
-                    </div>
-                    <div class="card-title-price">
-                        <p>Móc khóa 12 con giáp cẩm thạch – Tuổi Hợi</p>
-                        <span>450,000 đ</span>
-                    </div>
-                    <div class="card-btn">
-                        <button><a href="#">Chi tiết</a></button>
-                        <button>Thêm vào giỏ</button>
-                    </div>
-                </div>
-
-                <div class="body_page-trending-product-list-card">
-                    <div class="card-image">
-                        <img src="img/sub_products/s5.jpg" alt="">
-                    </div>
-                    <div class="card-title-price">
-                        <p>Móc khóa 12 con giáp cẩm thạch – Tuổi Mùi</p>
-                        <span>540,000 đ</span>
-                    </div>
-                    <div class="card-btn">
-                        <button><a href="#">Chi tiết</a></button>
-                        <button>Thêm vào giỏ</button>
-                    </div>
-                </div>
+                <% } %>
 
             </div>
 
             <div class="body_page-trending-product-seeMoreBtn">
-                <button><a href="">Xem thêm</a></button>
+                <button><a href="product">Xem thêm</a></button>
             </div>
 
         </div>

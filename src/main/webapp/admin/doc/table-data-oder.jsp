@@ -153,7 +153,8 @@
                             <td>
                                 <%for (ProductAdmin p : o.getProducts()) {%>
                                 <%=p.getName()%>
-                                <b>x <%=p.getQuantity()%>  </b>,
+                                <b>x <%=p.getQuantity()%>
+                                </b>,
                                 <%}%>
                                 <%--                                <%=o.getProducts()%>--%>
                             </td>
@@ -178,12 +179,10 @@
                             </td>
                             <td id="buttonGroup">
 
-                                <%--                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">--%>
-                                <%--                                    <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i class="fa fa-edit"></i></a></button>--%>
-                                <button id="editbutton" class="btn btn-primary btn-sm edit" type="button"
-                                        title="Sửa"
-                                        onclick="changeStatus(<%=o.getId()%>,<%=o.getId_status()%>)">
-                                    <i class="fa fa-edit"></i></button>
+                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                    <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i
+                                            class="fa fa-edit"></i></a></button>
+
                             </td>
                         </tr>
                         <%}%>
@@ -322,26 +321,7 @@
         $("#ModalUP").modal({backdrop: false, keyboard: false})
     });
 
-    function changeStatus(productId, status) {
-        var orderStatus = document.getElementById("bodyTable");
 
-        $.ajax({
-            url: "/web_nhom41_war/admin/doc/ChangeStatusControl",
-            type: "get",
-            data: {
-                productId: productId,
-                status: status
-            },
-            success: function (data) {
-                orderStatus.innerHTML = data;
-
-            },
-            error: function (xhr) {
-                //Do Something to handle error
-            }
-        });
-
-    }
 </script>
 </body>
 
