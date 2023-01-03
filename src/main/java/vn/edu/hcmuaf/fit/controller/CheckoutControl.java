@@ -42,7 +42,14 @@ public class CheckoutControl extends HttpServlet {
         String newAccount = request.getParameter("newAccount");
         System.out.println(newAccount);
         String payment = request.getParameter("payment");
-        String username = (String) session.getAttribute("username");
+        Account accSession = (Account) session.getAttribute("Account");
+        String username = "";
+        if (accSession != null) {
+            username = accSession.getUsername();
+
+        } else {
+            username = null;
+        }
 
         PrintWriter out = response.getWriter();
         CheckoutDAO checkoutDAO = new CheckoutDAO();
@@ -110,7 +117,7 @@ public class CheckoutControl extends HttpServlet {
                         price = entry.getValue().getProduct().getPrice();
                     }
                     checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
-                    checkoutDAO.updateQuantity(String.valueOf(entry.getKey()),entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
+                    checkoutDAO.updateQuantity(String.valueOf(entry.getKey()), entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
                 }
 
                 session.setAttribute("cart", null);
