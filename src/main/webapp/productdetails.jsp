@@ -160,12 +160,11 @@
                 <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                     <ul class="header_page-category-sub-menu">
-
-                        <li><a href="">Nhẫn</a></li>
-                        <li><a href="">Hoa tai</a></li>
-                        <li><a href="">Vòng cổ</a></li>
-                        <li><a href="">Vòng tay</a></li>
-                        <li><a href="">Mặt dây chuyền</a></li>
+                        <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
+                        <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
+                        <li><a href="category?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
+                        <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
+                        <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
                     </ul>
                 </li>
 
@@ -477,7 +476,7 @@
                     <% for (Variation v : variationList) {%>
                     <%if (category.getId() == v.getCategory().getId()) {%>
                     <!-- Trigger/Open The Modal -->
-                    <button id="myBtn"><span>Hướng dẫn chọn kích cỡ<i class="fa-solid fa-chevron-right"></i></span>
+                    <button id="myBtn" onclick="showDiv()"><span>Hướng dẫn chọn kích cỡ<i class="fa-solid fa-chevron-right"></i></span>
                     </button>
                     <%}%>
                     <%}%>
@@ -686,7 +685,7 @@
         </div>
     </div>
 </div>
-
+<% if(product.getCategory().getParent_id() == category.getId()){%>
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <!-- Modal content -->
@@ -704,6 +703,7 @@
             được chia cho 3,14. Sau đó đối chiếu với&nbsp;Bảng size nhẫn.</p>
     </div>
 </div>
+<%}%>
 
 <!--footer page-->
 <section class="footer_area">

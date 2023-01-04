@@ -127,18 +127,6 @@ public class GalleryDAO {
         return list;
     }
 
-    public static void main(String[] args) {
-        CategoryDAO categoryDAO1 = new CategoryDAO();
-        ProductDAO productDAO = new ProductDAO();
-        GalleryDAO galleryDAO = new GalleryDAO();
-        Product product = new Product();
-        Variation variation = galleryDAO.getVariation(2);
-        List<VariationOption> variationOptionList = galleryDAO.getVariationOptionList(variation.getId());
-        List<ColorAdmin> list = galleryDAO.getListGemColor();
-        for (ColorAdmin c : list){
-            System.out.println(c);
-        }
-    }
 
 }
 

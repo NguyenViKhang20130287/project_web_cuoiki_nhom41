@@ -96,8 +96,4 @@ public class OrderDAO {
         return list;
     }
 
-    public static void main(String[] args) {
-//        System.out.println(new OrderDAO().getListProductInOrder(7));
-        System.out.println(new OrderDAO().getListOrder());
-    }
 }

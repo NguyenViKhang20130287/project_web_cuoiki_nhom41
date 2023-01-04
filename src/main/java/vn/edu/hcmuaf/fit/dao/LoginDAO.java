@@ -62,9 +62,4 @@ public class LoginDAO {
         return null;
     }
 
-    public static void main(String[] args) {
-        new LoginDAO().login("nguyenvikhang", "88888888");
-        new LoginDAO().login("nguyenvana", "11111111");
-//        System.out.println(new LoginDAO().login("nguyenvikhang", "88888888"));
-    }
 }
