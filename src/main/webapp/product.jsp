@@ -326,7 +326,7 @@
             </div>
             <div class="main-modal-search">
                 <input oninput="searchByName(this)" name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i style="top: 18px; right: 20px" class="fa-solid fa-magnifying-glass"></i>
             </div>
         </div>
         <div class="hide-modal-search"></div>

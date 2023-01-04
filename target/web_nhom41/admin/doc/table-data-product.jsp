@@ -141,7 +141,8 @@
                             <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="50px"></td>
                             <td><%= pa.getQuantity()%>
                             </td>
-                            <td><span class="badge bg-success"> <%= pa.getStatus()%> </span></td>
+
+                            <td><span class="badge bg-<%=pa.getQuantity() >0? "success" : "danger" %>"> <%= pa.getStatus()%> </span></td>
 
                             <%if (pa.getDiscount() == 0) {%>
                             <td><%= pa.getPrice()%></td>

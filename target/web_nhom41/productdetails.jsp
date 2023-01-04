@@ -161,11 +161,11 @@
 
                     <ul class="header_page-category-sub-menu">
 
-                        <li><a href="">Nhẫn</a></li>
-                        <li><a href="">Hoa tai</a></li>
-                        <li><a href="">Vòng cổ</a></li>
-                        <li><a href="">Vòng tay</a></li>
-                        <li><a href="">Mặt dây chuyền</a></li>
+                        <li><a href="category?category_id=2">Nhẫn</a></li>
+                        <li><a href="category?category_id=3">Hoa tai</a></li>
+                        <li><a href="category?category_id=4">Vòng cổ</a></li>
+                        <li><a href="category?category_id=5">Vòng tay</a></li>
+                        <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
                     </ul>
                 </li>
 
