@@ -46,7 +46,7 @@ public class ProductDAO {
 
     /* Phương thức lấy ra danh sách tất cả các sản phẩm từ cơ sở dữ liệu */
     public List<Product> getAllProducts() {
-        String query = "SELECT* FROM product WHERE is_on_sale = TRUE";
+        String query = "SELECT * FROM product WHERE is_on_sale = TRUE";
         return getListProductQuery(query);
     }
 
