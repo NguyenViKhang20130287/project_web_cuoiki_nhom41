@@ -39,19 +39,7 @@ public class DBConnect {
     }
 
     public static void main(String[] args) {
-//        try {
-//            Statement statement = DBConnect.getInstall().get();
-//            if (statement != null) {
-//                ResultSet rs = statement.executeQuery("select * from product");
-//                while (rs.next()){
-//                    System.out.print(rs.getInt(1)+ "----");
-//                    System.out.println(rs.getString(3));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
 
+    }
 
 }

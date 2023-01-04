@@ -108,13 +108,4 @@ public class CategoryDAO {
         return category;
     }
 
-    public static void main(String[] args) {
-        CategoryDAO dao = new CategoryDAO();
-        ProductDAO productDAO = new ProductDAO();
-        Product product = productDAO.getProduct(6);
-        Category category = dao.getCategoryBySubId(30);
-        System.out.println(product.getCategory().getId());
-        System.out.println(category.getId());
-    }
-
 }

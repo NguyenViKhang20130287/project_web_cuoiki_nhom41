@@ -93,15 +93,4 @@ public class EditProductDAO {
 
     }
 
-    public static void main(String[] args) throws SQLException {
-//        System.out.println(new EditProductDAO().checkNameGemWithID(1));
-//        ;
-//        System.out.println(new EditProductDAO().checkColorWithID(1));
-//        ;
-
-        System.out.println(new EditProductDAO().getIdCategory("Ngọc trai", "Nhẫn"));
-        new EditProductDAO().update(69, "sanphamupdate#69", "Kim cương",
-                "Dây chuyền", 10, "Đen", 20000000);
-    }
-
 }

@@ -103,11 +103,4 @@ public class ProductAdminDAO {
     }
 
 
-    public static void main(String[] args) throws SQLException {
-
-//        System.out.println(new ProductAdminDAO().getNameCategoryWithID(4));
-
-        System.out.println(new ProductAdminDAO().getData());
-    }
-
 }

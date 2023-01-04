@@ -160,12 +160,20 @@
                 <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                     <ul class="header_page-category-sub-menu">
+<<<<<<< HEAD
 
                         <li><a href="category?category_id=2">Nhẫn</a></li>
                         <li><a href="category?category_id=3">Hoa tai</a></li>
                         <li><a href="category?category_id=4">Vòng cổ</a></li>
                         <li><a href="category?category_id=5">Vòng tay</a></li>
                         <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
+=======
+                        <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
+                        <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
+                        <li><a href="category?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
+                        <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
+                        <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
+>>>>>>> e7abab0f34cd96a7923c3c2020d711206ebd3adb
                     </ul>
                 </li>
 
@@ -303,16 +311,14 @@
                 <li>Tất cả</li>
                 <li>Nhẫn</li>
                 <li>Hoa tay</li>
-                <li>Dây chuyền</li>
+                <li>Vòng cổ</li>
                 <li>Vòng tay</li>
                 <li>Mặt dây chuyền</li>
             </ul>
         </div>
         <div class="main-modal-search">
-            <form action="search" method="get" class="site-block-top-search">
                 <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
                 <i class="fa-solid fa-magnifying-glass"></i>
-            </form>
         </div>
     </div>
     <div class="hide-modal-search"></div>
@@ -479,7 +485,7 @@
                     <% for (Variation v : variationList) {%>
                     <%if (category.getId() == v.getCategory().getId()) {%>
                     <!-- Trigger/Open The Modal -->
-                    <button id="myBtn"><span>Hướng dẫn chọn kích cỡ<i class="fa-solid fa-chevron-right"></i></span>
+                    <button id="myBtn" onclick="showDiv()"><span>Hướng dẫn chọn kích cỡ<i class="fa-solid fa-chevron-right"></i></span>
                     </button>
                     <%}%>
                     <%}%>
@@ -688,7 +694,7 @@
         </div>
     </div>
 </div>
-
+<% if(product.getCategory().getParent_id() == category.getId()){%>
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <!-- Modal content -->
@@ -706,6 +712,7 @@
             được chia cho 3,14. Sau đó đối chiếu với&nbsp;Bảng size nhẫn.</p>
     </div>
 </div>
+<%}%>
 
 <!--footer page-->
 <section class="footer_area">
@@ -764,6 +771,7 @@
 <script src="js/productdetail.js"></script>
 <script src="js/lightslider.js"></script>
 <script type="text/javascript">
+    // Lấy ra số sao đánh giá
     $('.stars a').on('mouseover', function () {
         $('.stars span, .stars a').removeClass('active');
         $(this).addClass('active');

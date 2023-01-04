@@ -70,10 +70,9 @@ var modal = document.getElementById("myModal");
 var btn = document.getElementById("myBtn");
 var spans = document.getElementsByClassName("close")[0];
 
-if(btn !=null) {
-    btn.click(function () {
-        modal.style.display = "block";
-    })
+
+function showDiv(){
+    modal.style.display = "block"
 }
 
 spans.onclick = function () {

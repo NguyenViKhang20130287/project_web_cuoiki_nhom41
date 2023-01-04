@@ -46,10 +46,5 @@ public class ReviewControl extends HttpServlet {
         out.println("alert('Đánh giá đã được gửi thành công!');");
         out.println("location='product-detail?product_id=" + id + "';");
         out.println("</script>");
-//        response.sendRedirect("product-detail?product_id=" + id);
-    }
-
-    protected void doPost_Send(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

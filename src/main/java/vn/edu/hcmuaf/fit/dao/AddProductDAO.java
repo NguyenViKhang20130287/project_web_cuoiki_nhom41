@@ -193,20 +193,4 @@ public class AddProductDAO {
         }
     }
 
-
-    public static void main(String[] args) {
-//        System.out.println(new AddProductDAO().getListCat("Ngọc trai"));
-//        System.out.println(new AddProductDAO().checkParentID("Hoa tai"));
-        System.out.println(new AddProductDAO().checkIdGem("Ngọc trai",
-                new AddProductDAO().checkParentID("Vòng cổ")));
-//        System.out.println(new AddProductDAO().getListColor());
-//        System.out.println("Hoa tai".equals("Hoa tai"));
-        System.out.println(new AddProductDAO().checkIdColor("Vàng"));
-
-//        new AddProductDAO().addProduct( 32,"Product test", "Ngọc trai", 10,
-//                "Hoa tai", "Vàng", 99999, "key test",
-//                "design test", "link test", "des test");
-
-    }
-
 }
