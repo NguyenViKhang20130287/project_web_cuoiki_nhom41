@@ -25,7 +25,7 @@ public class ProductDAO {
                 while (rs.next()) {
                     Product product = new Product();
                     product.setId(rs.getInt(1));
-                    product.setCategory(categoryDAO.getCategory(2));
+                    product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                     product.setTitle(rs.getString(3));
                     product.setKeyword(rs.getString(4));
                     product.setPrice(rs.getInt(5));
@@ -135,7 +135,7 @@ public class ProductDAO {
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt(1));
-                product.setCategory(categoryDAO.getCategory(2));
+                product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                 product.setTitle(rs.getString(3));
                 product.setKeyword(rs.getString(4));
                 product.setPrice(rs.getInt(5));
@@ -185,7 +185,7 @@ public class ProductDAO {
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt(1));
-                product.setCategory(categoryDAO.getCategory(2));
+                product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                 product.setTitle(rs.getString(3));
                 product.setKeyword(rs.getString(4));
                 product.setPrice(rs.getInt(5));
@@ -215,7 +215,7 @@ public class ProductDAO {
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt(1));
-                product.setCategory(categoryDAO.getCategory(2));
+                product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                 product.setTitle(rs.getString(3));
                 product.setKeyword(rs.getString(4));
                 product.setPrice(rs.getInt(5));
@@ -244,7 +244,7 @@ public class ProductDAO {
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt(1));
-                product.setCategory(categoryDAO.getCategory(2));
+                product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                 product.setTitle(rs.getString(3));
                 product.setKeyword(rs.getString(4));
                 product.setPrice(rs.getInt(5));
@@ -280,7 +280,7 @@ public class ProductDAO {
         }
         return 0;
     }
-
+    /* Phương thức lấy ra top 5 sản phẩm mới nhất*/
     public List<Product> getTop5Product() {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5";
@@ -291,7 +291,7 @@ public class ProductDAO {
                 while (rs.next()) {
                     Product product = new Product();
                     product.setId(rs.getInt(1));
-                    product.setCategory(categoryDAO.getCategory(2));
+                    product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                     product.setTitle(rs.getString(3));
                     product.setKeyword(rs.getString(4));
                     product.setPrice(rs.getInt(5));
@@ -308,7 +308,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    /* Phương thức lấy ra 5 sản phẩm tiếp theo */
     public List<Product> getNextTop5Product(int amount) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5 OFFSET ?";
@@ -320,7 +320,7 @@ public class ProductDAO {
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt(1));
-                product.setCategory(categoryDAO.getCategory(2));
+                product.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                 product.setTitle(rs.getString(3));
                 product.setKeyword(rs.getString(4));
                 product.setPrice(rs.getInt(5));
@@ -340,7 +340,12 @@ public class ProductDAO {
 
 
     public static void main(String[] args) {
+
         ProductDAO dao = new ProductDAO();
+        List<Product> list = dao.loadProductByGemColor(5);
+        for (Product p:list){
+            System.out.println(p);
+        }
     }
 }
 

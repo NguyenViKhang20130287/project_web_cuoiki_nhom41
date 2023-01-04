@@ -25,8 +25,6 @@ public class DeleteProductAdminDAO {
                 statement_color.executeUpdate();
                 statement_product.executeUpdate();
 
-//                statement_color.close();
-//                statement_product.close();
                 System.out.println("Delete Successfully");
             }
         } catch (Exception e) {

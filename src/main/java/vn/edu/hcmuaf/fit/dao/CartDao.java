@@ -21,7 +21,7 @@ public class CartDao {
                 while (dbConnect.rs.next()) {
                     Product product = new Product();
                     product.setId(dbConnect.rs.getInt(1));
-                    product.setCategory(categoryDAO.getCategory(2));
+                    product.setCategory(categoryDAO.getCategory(dbConnect.rs.getInt(2)));
                     product.setTitle(dbConnect.rs.getString(3));
                     product.setKeyword(dbConnect.rs.getString(4));
                     product.setPrice(dbConnect.rs.getInt(5));

@@ -25,7 +25,6 @@ public class ProductControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String param = request.getParameter("action");
-        String param1 = request.getParameter("action1");
         if (param != null) {
             getListProduct(request, response);
             return;

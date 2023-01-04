@@ -18,6 +18,7 @@ public class HomeControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy ra danh sách các sản phẩm mới nhất
         List<Product> latestProduct = productDAO.getTop5Product();
+
         request.setAttribute("productList", latestProduct);
         request.getRequestDispatcher("index.jsp").forward(request,response);
     }

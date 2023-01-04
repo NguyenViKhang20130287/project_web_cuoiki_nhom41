@@ -54,9 +54,4 @@ public class ForgotPasswordDAO {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(new ForgotPasswordDAO().checkEmailExists("khangvivi1711@gmail.com"));
-        new ForgotPasswordDAO().changePassword(5, "22222222");
-    }
-
 }
