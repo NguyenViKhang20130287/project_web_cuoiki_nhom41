@@ -163,7 +163,7 @@
 
                         <li><a href="">Nhẫn</a></li>
                         <li><a href="">Hoa tai</a></li>
-                        <li><a href="">Dây chuyền</a></li>
+                        <li><a href="">Vòng cổ</a></li>
                         <li><a href="">Vòng tay</a></li>
                         <li><a href="">Mặt dây chuyền</a></li>
                     </ul>
@@ -260,7 +260,7 @@
                             <ul>
                                 <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
                                 <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
-                                <li><a href="category?category_id=4" style="font-weight: normal">Dây chuyên</a></li>
+                                <li><a href="category?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
                                 <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
                                 <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
                             </ul>
@@ -422,8 +422,8 @@
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>
+                        <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star-half-stroke"></i></span>
-                        <span><i class="fa-regular fa-star"></i></span>
                         <%} else {%>
                         <span><i class="fa-solid fa-star"></i></span>
                         <span><i class="fa-solid fa-star"></i></span>

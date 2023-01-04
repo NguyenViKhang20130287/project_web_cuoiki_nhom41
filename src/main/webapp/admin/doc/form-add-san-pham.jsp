@@ -239,7 +239,7 @@
                                 <option>Nhẫn</option>
                                 <option>Hoa tai</option>
                                 <option>Vòng tay</option>
-                                <option>Dây chuyền</option>
+                                <option>Vòng cổ</option>
                                 <option>Mặt dây chuyền</option>
 
                             </select>

@@ -109,7 +109,7 @@
 
                             <li><a href="category?category_id=2">Nhẫn</a></li>
                             <li><a href="category?category_id=3">Hoa tai</a></li>
-                            <li><a href="category?category_id=4">Dây chuyền</a></li>
+                            <li><a href="category?category_id=4">Vòng cổ</a></li>
                             <li><a href="category?category_id=5">Vòng tay</a></li>
                             <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
                         </ul>
@@ -215,7 +215,7 @@
                             <ul>
                                 <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
                                 <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
-                                <li><a href="category?category_id=4" style="font-weight: normal">Dây chuyên</a></li>
+                                <li><a href="category?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
                                 <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
                                 <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
                             </ul>
@@ -276,7 +276,7 @@
                 <li>Tất cả</li>
                 <li>Nhẫn</li>
                 <li>Hoa tai</li>
-                <li>Dây chuyền</li>
+                <li>Vòng cổ</li>
                 <li>Vòng tay</li>
                 <li>Mặt dây chuyền</li>
             </ul>
