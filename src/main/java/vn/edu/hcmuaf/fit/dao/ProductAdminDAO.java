@@ -27,7 +27,7 @@ public class ProductAdminDAO {
             result = "Hoa tai";
         }
         if (parent_id == 4) {
-            result = "Dây chuyền";
+            result = "Vòng cổ";
         }
         if (parent_id == 5) {
             result = "Vòng tay";

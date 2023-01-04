@@ -66,7 +66,7 @@ public class AddProductDAO {
             result = 2;
         } else if (cat.equals("Hoa tai")) {
             result = 3;
-        } else if (cat.equals("Dây chuyền")) {
+        } else if (cat.equals("Vòng cổ")) {
             result = 4;
         } else if (cat.equals("Vòng tay")) {
             result = 5;
@@ -198,7 +198,7 @@ public class AddProductDAO {
 //        System.out.println(new AddProductDAO().getListCat("Ngọc trai"));
 //        System.out.println(new AddProductDAO().checkParentID("Hoa tai"));
         System.out.println(new AddProductDAO().checkIdGem("Ngọc trai",
-                new AddProductDAO().checkParentID("Hoa tai")));
+                new AddProductDAO().checkParentID("Vòng cổ")));
 //        System.out.println(new AddProductDAO().getListColor());
 //        System.out.println("Hoa tai".equals("Hoa tai"));
         System.out.println(new AddProductDAO().checkIdColor("Vàng"));
