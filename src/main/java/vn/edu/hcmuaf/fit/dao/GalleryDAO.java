@@ -106,6 +106,7 @@ public class GalleryDAO {
         }
         return variationOptionsList;
     }
+    /* Phương thức lấy ra danh sách màu sắc của sản phẩm */
     public List<ColorAdmin> getListGemColor(){
         List<ColorAdmin> list = new ArrayList<>();
         String query = "SELECT * FROM gem_color";

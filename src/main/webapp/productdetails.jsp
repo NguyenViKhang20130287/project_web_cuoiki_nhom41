@@ -303,16 +303,14 @@
                 <li>Tất cả</li>
                 <li>Nhẫn</li>
                 <li>Hoa tay</li>
-                <li>Dây chuyền</li>
+                <li>Vòng cổ</li>
                 <li>Vòng tay</li>
                 <li>Mặt dây chuyền</li>
             </ul>
         </div>
         <div class="main-modal-search">
-            <form action="search" method="get" class="site-block-top-search">
                 <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
                 <i class="fa-solid fa-magnifying-glass"></i>
-            </form>
         </div>
     </div>
     <div class="hide-modal-search"></div>
@@ -764,6 +762,7 @@
 <script src="js/productdetail.js"></script>
 <script src="js/lightslider.js"></script>
 <script type="text/javascript">
+    // Lấy ra số sao đánh giá
     $('.stars a').on('mouseover', function () {
         $('.stars span, .stars a').removeClass('active');
         $(this).addClass('active');

@@ -280,7 +280,7 @@ public class ProductDAO {
         }
         return 0;
     }
-
+    /* Phương thức lấy ra top 5 sản phẩm mới nhất*/
     public List<Product> getTop5Product() {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5";
@@ -308,7 +308,7 @@ public class ProductDAO {
         }
         return list;
     }
-
+    /* Phương thức lấy ra 5 sản phẩm tiếp theo */
     public List<Product> getNextTop5Product(int amount) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5 OFFSET ?";

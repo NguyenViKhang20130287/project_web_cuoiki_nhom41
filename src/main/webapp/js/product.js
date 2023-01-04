@@ -179,6 +179,7 @@ const search = (txtSearch) => {
         }
     });
 }
+// Sắp xếp sản phẩm theo điều kiện
 const sort = (id)=>{
     console.log(id.value)
     switch(id.value) {
