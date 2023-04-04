@@ -113,8 +113,12 @@ public class CheckoutBuyNowControl extends HttpServlet {
                     checkoutDAO.addAddress(streetAddress, ward, district, city);
                     idAdd = checkoutDAO.getIdAddress(streetAddress, ward, district, city);
                 }
-
-                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod);
+                int statusId = 1;
+                if (paymentMethod.equals("Tiền mặt")) {
+                    statusId = 2;
+                }
+                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId);
+                Map<Integer, CartItem> cartList = (Map<Integer, CartItem>) session.getAttribute("cart");
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;
                     if (entry.getValue().getProduct().getDiscount() != 0) {
@@ -123,6 +127,15 @@ public class CheckoutBuyNowControl extends HttpServlet {
                         price = entry.getValue().getProduct().getPrice();
                     }
                     checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
+                    if (cartList != null) {
+                        if ((cartList.get(entry.getKey()).getQuantity()) > (entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity())) {
+                            cartList.get(entry.getKey()).setQuantity(cartList.get(entry.getKey()).getQuantity() - entry.getValue().getQuantity());
+                            if (cartList.get(entry.getKey()).getQuantity() == 0) {
+                                cartList.remove(entry.getKey());
+                            }
+                        }
+                    }
+
                     checkoutDAO.updateQuantity(String.valueOf(entry.getKey()), entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
                 }
 
@@ -135,10 +148,6 @@ public class CheckoutBuyNowControl extends HttpServlet {
             }
 
 
-        } else {
-
-            request.setAttribute("message", "Giỏ hàng trống vui lòng chọn hàng");
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
         }
 
     }

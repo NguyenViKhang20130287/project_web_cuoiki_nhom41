@@ -107,8 +107,11 @@ public class CheckoutControl extends HttpServlet {
                     checkoutDAO.addAddress(streetAddress, ward, district, city);
                     idAdd = checkoutDAO.getIdAddress(streetAddress, ward, district, city);
                 }
-
-                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod);
+                int statusId = 1;
+                if (paymentMethod.equals("Tiền mặt")) {
+                    statusId = 2;
+                }
+                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId);
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;
                     if (entry.getValue().getProduct().getDiscount() != 0) {

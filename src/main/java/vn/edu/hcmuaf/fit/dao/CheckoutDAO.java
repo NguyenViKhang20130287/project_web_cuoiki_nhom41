@@ -148,12 +148,12 @@ public class CheckoutDAO {
         return result;
     }
 
-    public void addCheckout(String name, int idAdd, String mail, String phone, String note, HashMap<Integer, CartItem> map, String userId, String payment) {
+    public void addCheckout(String name, int idAdd, String mail, String phone, String note, HashMap<Integer, CartItem> map, String userId, String payment, int statusId) {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
 
-                String query_order = "INSERT INTO `order`(full_name,user_id,shipping_address,email,phone_number,order_date,order_total,payment_method,`status`) VALUES (?,?,?,?,?,NOW(),?,?,1)";
+                String query_order = "INSERT INTO `order`(full_name,user_id,shipping_address,email,phone_number,order_date,order_total,payment_method,`status`) VALUES (?,?,?,?,?,NOW(),?,?,?)";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query_order);
 
 
@@ -165,9 +165,10 @@ public class CheckoutDAO {
                 dbConnect.ps.setString(5, phone);
                 dbConnect.ps.setInt(6, total);
                 dbConnect.ps.setString(7, payment);
+                dbConnect.ps.setInt(8, statusId);
                 dbConnect.ps.executeUpdate();
                 dbConnect.ps.close();
-
+                statement.close();
 
             }
         } catch (SQLException e) {

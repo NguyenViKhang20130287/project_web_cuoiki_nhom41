@@ -11,6 +11,7 @@ public class CartDao {
     CategoryDAO categoryDAO = new CategoryDAO();
 
     public Product getProductById(String id) {
+        Product product = new Product();
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
@@ -19,7 +20,6 @@ public class CartDao {
                 dbConnect.ps.setString(1, id);
                 dbConnect.rs = dbConnect.ps.executeQuery();
                 while (dbConnect.rs.next()) {
-                    Product product = new Product();
                     product.setId(dbConnect.rs.getInt(1));
                     product.setCategory(categoryDAO.getCategory(dbConnect.rs.getInt(2)));
                     product.setTitle(dbConnect.rs.getString(3));
@@ -30,13 +30,15 @@ public class CartDao {
                     product.setThumbnail(dbConnect.rs.getString(8));
                     product.setDescription(dbConnect.rs.getString(9));
                     product.setQuantity(dbConnect.rs.getInt(10));
-                    return product;
+                    dbConnect.ps.executeUpdate();
+                    dbConnect.ps.close();
+                    statement.close();
                 }
             }
         } catch (SQLException e) {
 
         }
-        return null;
+        return product;
     }
 
     public String checkQuantity(String id) {

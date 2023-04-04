@@ -28,6 +28,15 @@ public class Product implements Comparable<Product>{
         this.quantity = quantity;
     }
 
+    public Product(int id, String title, int price, int discount, String thumbnail, int quantity) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.discount = discount;
+        this.thumbnail = thumbnail;
+        this.quantity = quantity;
+    }
+
     public int getId() {
         return id;
     }
