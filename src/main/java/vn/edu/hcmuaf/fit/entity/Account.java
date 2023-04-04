@@ -106,4 +106,14 @@ public class Account {
         this.fullName = fullName;
         this.phone = phone;
     }
+
+    public Account(int id, String fullName, String phone) {
+        this.id = id;
+        this.fullName = fullName;
+        this.phone = phone;
+    }
+
+    public Account(int id) {
+        this.id = id;
+    }
 }

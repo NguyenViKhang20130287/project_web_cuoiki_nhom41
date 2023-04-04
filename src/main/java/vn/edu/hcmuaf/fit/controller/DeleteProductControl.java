@@ -23,7 +23,7 @@ public class DeleteProductControl extends HttpServlet {
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         PrintWriter out = response.getWriter();
-        out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng("+(cart != null ? cart.size() : 0 )+")</a>");
+        out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng(" + (cart != null ? cart.size() : 0) + ")</a>");
 
     }
 
@@ -36,7 +36,11 @@ public class DeleteProductControl extends HttpServlet {
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         cart.remove(Integer.parseInt(productID));
-        session.setAttribute("cart", cart);
+        if (cart.size() == 0) {
+            session.setAttribute("cart", null);
+        } else {
+            session.setAttribute("cart", cart);
+        }
         for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
             String price = "";
             String total = "";
