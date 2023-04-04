@@ -53,8 +53,8 @@
 
         <li><a class="app-menu__item " href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label">Bảng điều khiển</span></a></li>
-        <li><a class="app-menu__item " href="table-data-table.jsp"><i class='app-menu__icon bx bx-id-card'></i>
-            <span class="app-menu__label">Quản lý nhân viên</span></a></li>
+        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
 
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
