@@ -81,6 +81,12 @@
         #box-admin-menu li:hover a {
             color: #bc8247;
         }
+        .note{
+            margin-bottom: 10px;
+            margin-left: 10px;
+            font-size: 15px;
+            color: #5f6368;
+        }
 
     </style>
 
@@ -363,7 +369,7 @@
         </div>
     </div>
     <!--        Register Form-->
-    <div class="modal">
+    <div class="modal" style="overflow-y: auto;">
         <div class="modal-content">
 
             <div class="register-container">
@@ -374,11 +380,13 @@
                 <form action="RegisterControl" method="post">
                     <label for="uname">Tên Đăng Nhập <span>*</span></label>
                     <input id="uname" type="text" placeholder="Nhập Tên Đăng Nhập..." name="uname">
+                    <div class="note"><span>Bạn có thể sử dụng chữ cái, số và dấu gạch dưới</span></div>
                     <label for="email-register">Địa Chỉ Email <span>*</span></label>
                     <input id="email-register" type="email" placeholder="Địa Chỉ Email..." name="email_register">
                     <label for="pass-register">Mật Khẩu <span>*</span></label>
                     <input id="pass-register" type="password" placeholder="Nhập Mật Khẩu..." name="pass_register">
-
+                    <div class="note"><span>Sử dụng 8 ký tự trở lên với ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt</span>
+                    </div>
                     <div style="margin-bottom: 20px">
                         <p style="border-radius: 3px; color: #a90312;  font-weight: bold">
                             <%= errorMessageRegister != null ? errorMessageRegister : "" %>
@@ -400,56 +408,56 @@
 
 <!-- footer page -->
 <section class="footer_area">
-<div class="footer_page">
+    <div class="footer_page">
 
-    <div class="footer_page-inforCompany">
-        <h3>Thông tin công ty</h3>
-        <ul>
-            <li>Giới thiệu công ty</li>
-            <li>Hệ thống siêu thị</li>
-            <li>Phương châm bán hàng</li>
-            <li>Cơ hội nghề nghiệp</li>
-            <li>Mua hàng doanh nghiệp</li>
-        </ul>
-    </div>
-    <div class="footer_page-policy">
-        <h3>Chính sách chung</h3>
-        <ul>
-            <li>Bảo trì - Bảo hành - Đổi trả</li>
-            <li>Quy định giao hàng</li>
-            <li>Điều khoản sử dụng</li>
-            <li>Thỏa thuận người dùng</li>
-            <li>Cần thuê mặt bằng</li>
-        </ul>
-    </div>
-    <div class="footer_page-members">
-        <h3>Thẻ thành viên</h3>
-        <ul>
-            <li>Quyền lợi của thành viên</li>
-            <li>Hỗ trợ thành viên</li>
-            <li>Giftcard - Thẻ quà tặng</li>
-            <li>Liên hệ</li>
-        </ul>
-    </div>
-    <div class="footer_page-buyOnline">
-        <h3>Mua hàng online</h3>
-        <ul>
-            <li>Lợi ích khi mua hàng online</li>
-            <li>Thông tin chuyển khoản</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Câu hỏi thường gặp</li>
-        </ul>
-    </div>
-    <div class="footer_page-social">
-        <h3>Kết nối với chúng tôi</h3>
-        <ul>
-            <li class="facebook"><a href=""><i class="fa-brands fa-facebook-f"></i></a></li>
-            <li class="twitter"><a href=""><i class="fa-brands fa-twitter"></i></a></li>
-            <li class="instagram"><a href=""><i class="fa-brands fa-instagram"></i></a></li>
-        </ul>
-    </div>
+        <div class="footer_page-inforCompany">
+            <h3>Thông tin công ty</h3>
+            <ul>
+                <li>Giới thiệu công ty</li>
+                <li>Hệ thống siêu thị</li>
+                <li>Phương châm bán hàng</li>
+                <li>Cơ hội nghề nghiệp</li>
+                <li>Mua hàng doanh nghiệp</li>
+            </ul>
+        </div>
+        <div class="footer_page-policy">
+            <h3>Chính sách chung</h3>
+            <ul>
+                <li>Bảo trì - Bảo hành - Đổi trả</li>
+                <li>Quy định giao hàng</li>
+                <li>Điều khoản sử dụng</li>
+                <li>Thỏa thuận người dùng</li>
+                <li>Cần thuê mặt bằng</li>
+            </ul>
+        </div>
+        <div class="footer_page-members">
+            <h3>Thẻ thành viên</h3>
+            <ul>
+                <li>Quyền lợi của thành viên</li>
+                <li>Hỗ trợ thành viên</li>
+                <li>Giftcard - Thẻ quà tặng</li>
+                <li>Liên hệ</li>
+            </ul>
+        </div>
+        <div class="footer_page-buyOnline">
+            <h3>Mua hàng online</h3>
+            <ul>
+                <li>Lợi ích khi mua hàng online</li>
+                <li>Thông tin chuyển khoản</li>
+                <li>Hướng dẫn mua hàng</li>
+                <li>Câu hỏi thường gặp</li>
+            </ul>
+        </div>
+        <div class="footer_page-social">
+            <h3>Kết nối với chúng tôi</h3>
+            <ul>
+                <li class="facebook"><a href=""><i class="fa-brands fa-facebook-f"></i></a></li>
+                <li class="twitter"><a href=""><i class="fa-brands fa-twitter"></i></a></li>
+                <li class="instagram"><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+            </ul>
+        </div>
 
-</div>
+    </div>
 </section>
 </div>
 </body>

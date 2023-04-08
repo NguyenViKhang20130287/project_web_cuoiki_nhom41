@@ -160,20 +160,11 @@
                 <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                     <ul class="header_page-category-sub-menu">
-<<<<<<< HEAD
-
                         <li><a href="category?category_id=2">Nhẫn</a></li>
                         <li><a href="category?category_id=3">Hoa tai</a></li>
                         <li><a href="category?category_id=4">Vòng cổ</a></li>
                         <li><a href="category?category_id=5">Vòng tay</a></li>
                         <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
-=======
-                        <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
-                        <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
-                        <li><a href="category?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
-                        <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
-                        <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
->>>>>>> e7abab0f34cd96a7923c3c2020d711206ebd3adb
                     </ul>
                 </li>
 
@@ -185,6 +176,7 @@
                         <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                         <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                         <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                        <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                         <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
                         <% }
                         } %>
