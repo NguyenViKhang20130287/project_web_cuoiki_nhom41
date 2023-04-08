@@ -10,6 +10,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.Banner" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -319,12 +320,18 @@
 <div class="body_page_container">
     <div class="body_page">
 
+
+
+
         <div class="body_page-slides">
             <div class="body_page-slides-card">
-                <a href=""><img src="img/Slider/product_1.jpg" alt=""></a>
-                <a href=""><img src="img/Slider/product_2.jpg" alt=""></a>
-                <a href=""><img src="img/Slider/product_3.jpg" alt=""></a>
+                <% List<Banner> listBanner = (List<Banner>) request.getAttribute("listBanner");
+                    for (Banner b : listBanner) {
+                %>
+                <a href=""><img src="<%=b.getImage()%>" alt=""></a>
+                <%}%>
             </div>
+
             <div class="body_page-slides-card-btns">
                 <div class="body_page-slides-card-list-btn">
                     <ul>
@@ -335,7 +342,6 @@
                 </div>
             </div>
         </div>
-
         <div class="body_page-popular-product">
             <div class="body_page-popular-product-card">
                 <a href=""><img src="img/banner/banner-1.jpg" alt=""></a>
