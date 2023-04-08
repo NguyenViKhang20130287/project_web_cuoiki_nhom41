@@ -128,12 +128,14 @@
                             <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                            <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                             <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
 
                             <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
                             <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                            <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                             <%}%>
                             <%}%>
 
@@ -238,6 +240,7 @@
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                 <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
                                 </li>
 
@@ -245,6 +248,7 @@
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                 <%}%>
                                 <%}%>
 

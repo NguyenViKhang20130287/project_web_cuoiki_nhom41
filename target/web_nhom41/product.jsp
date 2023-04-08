@@ -160,6 +160,7 @@
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                 <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
                                 </li>
 
@@ -167,6 +168,7 @@
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                 <%}%>
                                 <%}%>
 
@@ -275,6 +277,7 @@
                                     <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                     <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                     <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                    <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                     <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý
                                         website</a>
                                     </li>
@@ -283,6 +286,7 @@
                                     <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                     <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                     <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                    <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                     <%}%>
                                     <%}%>
 
@@ -290,6 +294,7 @@
                                     <li><a href="LoginControl" style="font-weight: normal">Tài khoản</a></li>
                                     <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                     <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
+                                    <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                     <% } %>
                                 </ul>
                             </div>
@@ -326,7 +331,7 @@
             </div>
             <div class="main-modal-search">
                 <input oninput="searchByName(this)" name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
-                <i style="top: 18px; right: 20px" class="fa-solid fa-magnifying-glass"></i>
+                <i style="top: 20px; right: 20px" class="fa-solid fa-magnifying-glass"></i>
             </div>
         </div>
         <div class="hide-modal-search"></div>

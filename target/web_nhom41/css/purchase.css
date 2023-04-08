@@ -1,0 +1,198 @@
+html a:hover {
+    text-decoration: none !important;
+}
+
+.header_page {
+    background-color: #E4E4E4;
+    width: 100%;
+}
+
+.header_page-main {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #E4E4E4;
+}
+
+.sticky {
+    width: 100%;
+    background-color: #fff;
+}
+
+.body_page {
+    width: 100%;
+    overflow: auto;
+}
+
+.body_page-menu {
+    padding: 15px;
+    background-color: #b2bec3;
+}
+
+.body_page-menu ul {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.body_page-menu ul li {
+    margin-right: 10px;
+}
+
+.body_page-menu span {
+    margin-right: 10px;
+}
+
+.body_page-menu ul li:first-child:hover a {
+    color: #bc8247;
+}
+
+.body_page-menu ul li a {
+    color: #000;
+    transition: all 0.2s;
+}
+
+.body_page-menu ul li a i {
+    margin-right: 3px;
+    font-size: 14px;
+}
+
+.body_page-main {
+    width: 70%;
+    margin: 50px auto;
+}
+
+.nav-item {
+    flex-basis: 20%;
+    text-align: center;
+}
+
+.nav-tabs .nav-link {
+    width: 100%;
+}
+
+.tab-content {
+    background-color: #f5f5f5;
+    overflow: auto;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #f5f5f5;
+    border-color: #dee2e6 #dee2e6 #f5f5f5;
+}
+.tab-pane h1 {
+    padding: 300px 0;
+    text-align: center;
+}
+.orderContainer {
+    margin: 20px auto;
+    background-color: #ffffff;
+    width: 100%;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+.orderContainer .orderStatus {
+    text-align: right;
+    margin: 20px;
+}
+
+.orderContainer .orderStatus .status {
+    color: #bcbcbc;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.orderContainer .orderStatus #orderStatus {
+    color: red;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.orderContainer .line {
+    border-bottom: 2px solid rgba(0, 0, 0, .09);
+    margin: 0 20px;
+
+}
+
+.orderContainer .orderInfo {
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 20px;
+    border-bottom: 2px solid rgba(0, 0, 0, .09);
+}
+
+.orderContainer .orderInfo .orderImg {
+    flex-basis: 10%;
+    align-self: center;
+}
+
+.orderContainer .orderInfo .orderImg img {
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, .09);
+    height: auto;
+}
+
+.orderContainer .orderInfo .orderTitle {
+    flex-basis: 60%;
+}
+
+.orderContainer .orderInfo .itemPrice {
+    text-align: right;
+    flex-basis: 22%;
+}
+
+.orderContainer .orderInfo .itemPrice .price {
+    color: #bcbcbc;
+    display: inline-block;
+}
+
+.orderContainer .orderInfo .itemPrice .itemDiscount {
+    color: red;
+}
+
+.orderContainer .orderPrice {
+    text-align: right;
+    margin: 20px;
+}
+
+.orderContainer .orderPrice .orderTotal {
+    font-size: 30px;
+    color: red;
+    display: inline-block;
+    vertical-align: sub;
+}
+
+.orderContainer .orderPrice i {
+    font-size: 30px;
+    vertical-align: sub;
+    color: red;
+}
+
+.orderContainer .orderButtonGroup {
+    text-align: right;
+    margin: 20px;
+}
+
+.orderContainer .orderButtonGroup button {
+    padding: 10px 40px;
+    border: 1px solid #bc8247;
+    background-color: white;
+    color: #bc8247;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.orderContainer .orderButtonGroup button:hover {
+    transform: scale(0.9);
+    background-color: #bc8247;
+    color: #fff;
+}
+
+.orderContainer .orderButtonGroup button:active {
+    transform: scale(0.5);
+    background-color: #ffd09d;
+    color: #fff;
+}
