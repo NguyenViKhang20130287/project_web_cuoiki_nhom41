@@ -10,6 +10,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.Banner" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,14 +149,12 @@
                             <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                            <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                             <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
 
                             <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
                             <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                            <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                             <%}%>
                             <%}%>
 
@@ -260,7 +259,6 @@
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                 <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
                                 </li>
 
@@ -268,7 +266,6 @@
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                                <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                                 <%}%>
                                 <%}%>
 
@@ -323,12 +320,18 @@
 <div class="body_page_container">
     <div class="body_page">
 
+
+
+
         <div class="body_page-slides">
             <div class="body_page-slides-card">
-                <a href=""><img src="img/Slider/product_1.jpg" alt=""></a>
-                <a href=""><img src="img/Slider/product_2.jpg" alt=""></a>
-                <a href=""><img src="img/Slider/product_3.jpg" alt=""></a>
+                <% List<Banner> listBanner = (List<Banner>) request.getAttribute("listBanner");
+                    for (Banner b : listBanner) {
+                %>
+                <a href=""><img src="<%=b.getImage()%>" alt=""></a>
+                <%}%>
             </div>
+
             <div class="body_page-slides-card-btns">
                 <div class="body_page-slides-card-list-btn">
                     <ul>
@@ -339,7 +342,6 @@
                 </div>
             </div>
         </div>
-
         <div class="body_page-popular-product">
             <div class="body_page-popular-product-card">
                 <a href=""><img src="img/banner/banner-1.jpg" alt=""></a>

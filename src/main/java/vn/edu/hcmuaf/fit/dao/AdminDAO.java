@@ -1,10 +1,12 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.Banner;
 import vn.edu.hcmuaf.fit.entity.Product;
 import vn.edu.hcmuaf.fit.entity.ProductAdmin;
 import vn.edu.hcmuaf.fit.entity.User;
 
+import java.io.File;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -302,10 +304,57 @@ public class AdminDAO {
 
     }
 
+    public List<Banner> getListBanner(){
+        List<Banner> list = new ArrayList<>();
+        String query = "SELECT * FROM banner";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                ps = new DBConnect().getConnection().prepareStatement(query);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Banner b = new Banner();
+                    b.setId(rs.getInt(1));
+                    b.setName(rs.getString(2));
+                    b.setImage(rs.getString(3));
+                    list.add(b);
+                }
+                rs.close();
+                ps.close();
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public void editSlider(int id, String name, File image){
+        String query = "UPDATE banner\n" +
+                "SET banner.name = ?,\n" +
+                "banner.image = ?\n" +
+                "WHERE banner.id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+
+                ps.setString(1, name);
+                ps.setString(2, "http://localhost:8080/web_nhom41_war/img/Slider/" + image.getPath());
+                ps.setInt(3, id);
+
+                System.out.println("Update successfully");
+                ps.executeUpdate();
+                ps.close();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     public static void main(String[] args) {
 
-        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
-                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);
-        System.out.println(new AdminDAO().getListUser());
+//        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
+//                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);
+//        System.out.println(new AdminDAO().getListUser());
+        System.out.println(new AdminDAO().getListBanner());
     }
 }
