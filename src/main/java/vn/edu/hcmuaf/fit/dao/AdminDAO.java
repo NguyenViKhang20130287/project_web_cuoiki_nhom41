@@ -1,10 +1,7 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
-import vn.edu.hcmuaf.fit.entity.Banner;
-import vn.edu.hcmuaf.fit.entity.Product;
-import vn.edu.hcmuaf.fit.entity.ProductAdmin;
-import vn.edu.hcmuaf.fit.entity.User;
+import vn.edu.hcmuaf.fit.entity.*;
 
 import java.io.File;
 import java.sql.*;
@@ -18,6 +15,7 @@ public class AdminDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
+    // load product
 
     public List<User> getListUser() {
         List<User> list = new ArrayList<>();
@@ -245,6 +243,7 @@ public class AdminDAO {
         return id;
     }
 
+
     public int getIdColor(String color) {
         int id = 0;
         String query = "SELECT * FROM gem_color";
@@ -265,7 +264,7 @@ public class AdminDAO {
         return id;
     }
 
-    public void update(int id, String name, String nameGem, String catName, int quantity, String color, int price) {
+    public void update(int id, String name, String nameGem, String catName, int quantity, String color, int price, File image) {
         String query_color = "UPDATE product_gem_color\n" +
                 "SET product_gem_color.gem_color_id = ?\n" +
                 "WHERE product_gem_color.product_id = ?";
@@ -274,7 +273,8 @@ public class AdminDAO {
                 "SET product.title = ?,\n" +
                 "product.category_id = ?,\n" +
                 "product.quantity = ?,\n" +
-                "product.discount = ? \n" +
+                "product.discount = ?, \n" +
+                "product.thumbnail = ? \n" +
                 "WHERE product.id = ?";
         try {
             Statement statement = DBConnect.getInstall().get();
@@ -289,7 +289,8 @@ public class AdminDAO {
                 ps_product.setInt(2, getIdCategory(nameGem, catName));
                 ps_product.setInt(3, quantity);
                 ps_product.setInt(4, price);
-                ps_product.setInt(5, id);
+                ps_product.setString(5, checkParentFolder(checkParentID(catName)) + image.getPath());
+                ps_product.setInt(6, id);
 
                 ps_color.executeUpdate();
                 ps_product.executeUpdate();
@@ -350,11 +351,175 @@ public class AdminDAO {
         }
     }
 
+    // add product
+    public int checkParentID(String cat) {
+        int result = 0;
+        if (cat.equals("Đá quý")) {
+            result = 1;
+        } else if (cat.equals("Nhẫn")) {
+            result = 2;
+        } else if (cat.equals("Hoa tai")) {
+            result = 3;
+        } else if (cat.equals("Vòng cổ")) {
+            result = 4;
+        } else if (cat.equals("Vòng tay")) {
+            result = 5;
+        } else if (cat.equals("Mặt dây chuyền")) {
+            result = 6;
+        } else if (cat.equals("Bộ sưu tập")) {
+            result = 7;
+        }
+        return result;
+    }
+    public String checkParentFolder(int parentID) {
+        String Path = "";
+        if (parentID == 2) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/rings/";
+        }
+        if (parentID == 3) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/earrings/";
+        }
+        if (parentID == 4) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/necklaces/";
+        }
+        if (parentID == 5) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/bracelets/";
+        }
+        if (parentID == 6) {
+            Path = "http://localhost:8080/web_nhom41_war/img/main_products/pendants/";
+        }
+        return Path;
+    }
+    public List<ColorAdmin> getListColor() {
+        List<ColorAdmin> listColor = new LinkedList<>();
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement psSelectColor = new DBConnect().getConnection().prepareStatement("SELECT * FROM gem_color");
+                ResultSet rsSelectColor = psSelectColor.executeQuery();
+                while (rsSelectColor.next()) {
+                    listColor.add(new ColorAdmin(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
+                }
+                rsSelectColor.close();
+                psSelectColor.close();
+            }
+
+        } catch (Exception e) {
+        }
+        return listColor;
+    }
+    public int checkIdColor(String color) {
+        List<ColorAdmin> listColor = getListColor();
+        int idColor = 0;
+        for (ColorAdmin ca : listColor) {
+            if (color.equals(ca.getNameColor())) {
+                idColor = ca.getIdColor();
+            }
+        }
+        return idColor;
+    }
+
+    public List<CategoryAdmin> getListCat(String nameCatInput) {
+        List<CategoryAdmin> listCat = new LinkedList<>();
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+
+                PreparedStatement psSelectCat = new DBConnect().getConnection().prepareStatement("SELECT * FROM category");
+                ResultSet rsSelectCat = psSelectCat.executeQuery();
+                while (rsSelectCat.next()) {
+                    if (nameCatInput.equals(rsSelectCat.getString(3))) {
+                        listCat.add(new CategoryAdmin(rsSelectCat.getInt(1),
+                                rsSelectCat.getInt(2), rsSelectCat.getString(3)));
+                    }
+                }
+                rsSelectCat.close();
+                psSelectCat.close();
+            }
+        } catch (Exception e) {
+
+        }
+        return listCat;
+    }
+    public int checkIdGem(String nameInput, int idParentInput) {
+        int result = 0;
+        List<CategoryAdmin> listCat = getListCat(nameInput);
+        for (CategoryAdmin ca : listCat) {
+            if (idParentInput == ca.getIdParent()) {
+                result = ca.getIdCat();
+            }
+        }
+        return result;
+    }
+
+    public void addProduct(int id, String title, String nameGem, int quantity, String cat,
+                           String color, int price, String keyword, String design,
+                           File imgLink, String description) {
+        String queryAddProduct = "INSERT INTO product (" +
+                "product.id," +
+                "product.title," +
+                "product.quantity," +
+                "product.price," +
+                "product.keyword," +
+                "product.design," +
+                "product.category_id," +
+                "product.description," +
+                "product.thumbnail," +
+                "product.discount," +
+                "product.is_on_sale," +
+                "product.created_at," +
+                "product.updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String queryAddProductGemColor = "INSERT INTO product_gem_color VALUES (?, ?)";
+
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement psAddProduct = new DBConnect().getConnection().prepareStatement(queryAddProduct);
+                PreparedStatement psAddProductGemColor = new DBConnect().getConnection().prepareStatement(queryAddProductGemColor);
+
+                psAddProduct.setInt(1, id);
+                psAddProduct.setString(2, title);
+                psAddProduct.setInt(3, quantity);
+                psAddProduct.setInt(4, price);
+                psAddProduct.setString(5, keyword);
+                psAddProduct.setString(6, design);
+                psAddProduct.setInt(7, checkIdGem(nameGem,checkParentID(cat)));
+                psAddProduct.setString(8, description);
+                psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
+
+                psAddProduct.setInt(10, 0);
+                psAddProduct.setInt(11, 0);
+                psAddProduct.setDate(12, Date.valueOf(LocalDate.now()));
+                psAddProduct.setDate(13, Date.valueOf(LocalDate.now()));
+
+                psAddProductGemColor.setInt(1, id);
+                psAddProductGemColor.setInt(2, checkIdColor(color));
+
+                psAddProduct.executeUpdate();
+                psAddProductGemColor.executeUpdate();
+
+                System.out.println("ADD PRODUCT SUCCESSFULLY");
+
+                psAddProduct.close();
+                psAddProductGemColor.close();
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
     public static void main(String[] args) {
 
 //        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
 //                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);
 //        System.out.println(new AdminDAO().getListUser());
-        System.out.println(new AdminDAO().getListBanner());
+//        System.out.println(new AdminDAO().getListBanner());
+//        new AdminDAO().addProduct(141, "sp1", "Thạch anh vàng", 1,
+//                "Hoa tai", "Đỏ", 1000, "a", "a", new File("ad"), "a");
+
+        System.out.println(new AdminDAO().getData());
+
     }
 }

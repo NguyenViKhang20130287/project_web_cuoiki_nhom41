@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import vn.edu.hcmuaf.fit.dao.ProductAdminDAO;
+import vn.edu.hcmuaf.fit.dao.AdminDAO;
 import vn.edu.hcmuaf.fit.entity.ProductAdmin;
 
 import javax.servlet.*;
@@ -14,7 +14,7 @@ public class ListProductAdminControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<ProductAdmin> listPro = new ProductAdminDAO().getData();
+        List<ProductAdmin> listPro = new AdminDAO().getData();
         request.setAttribute("listProduct", listPro);
         request.getRequestDispatcher("table-data-product.jsp").forward(request, response);
     }
@@ -22,5 +22,10 @@ public class ListProductAdminControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        doGet(request, response);
+    }
+
+    public static void main(String[] args) {
+        List<ProductAdmin> listPro = new AdminDAO().getData();
+        System.out.println(listPro);
     }
 }

@@ -139,11 +139,6 @@
     </li>
     <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
             class="app-menu__label">Quản lý đơn hàng</span></a></li>
-    <li><a class="app-menu__item" href="table-data-banned.jsp"><i class='app-menu__icon bx bx-run'></i><span
-            class="app-menu__label">Quản lý nội bộ
-          </span></a></li>
-    <li><a class="app-menu__item" href="table-data-money.jsp"><i class='app-menu__icon bx bx-dollar'></i><span
-            class="app-menu__label">Bảng kê lương</span></a></li>
     <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i
             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
     </li>
@@ -218,7 +213,7 @@ MODAL
               %>
             </div>
             <button class="btn btn-save" type="submit">Lưu lại</button>
-            <a class="btn btn-cancel" href="UserAdminControl">Hủy bỏ</a>
+            <a class="btn btn-cancel" href="LoadListBannerControl">Hủy bỏ</a>
           </form>
           <BR>
 

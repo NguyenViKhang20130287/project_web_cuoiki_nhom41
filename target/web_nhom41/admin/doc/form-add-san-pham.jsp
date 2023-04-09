@@ -198,20 +198,6 @@
             <div class="tile">
                 <h3 class="tile-title">Tạo mới sản phẩm</h3>
                 <div class="tile-body">
-                    <div class="row element-button">
-                        <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter"><i
-                                    class="fas fa-folder-plus"></i> Thêm nhà cung cấp</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#adddanhmuc"><i
-                                    class="fas fa-folder-plus"></i> Thêm danh mục</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addtinhtrang"><i
-                                    class="fas fa-folder-plus"></i> Thêm tình trạng</a>
-                        </div>
-                    </div>
                     <form class="row" action="AddProductControl" method="post">
 
                         <div class="form-group col-md-3">
@@ -262,8 +248,6 @@
                                 <option>Đỏ</option>
                                 <option>Trắng</option>
                                 <option>Vàng</option>
-
-
                             </select>
                         </div>
                         <div class="form-group col-md-3">
@@ -292,7 +276,6 @@
                                     ảnh</a>
                                 <p style="clear:both"></p>
                             </div>
-
                         </div>
                         <div class="form-group col-md-12">
                             <label class="control-label">Mô tả sản phẩm</label>
