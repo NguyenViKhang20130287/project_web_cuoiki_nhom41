@@ -1,9 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.OrderDAO;
-import vn.edu.hcmuaf.fit.dao.ProductAdminDAO;
 import vn.edu.hcmuaf.fit.entity.OrderAdmin;
-import vn.edu.hcmuaf.fit.entity.ProductAdmin;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

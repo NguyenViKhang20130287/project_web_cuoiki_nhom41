@@ -65,11 +65,6 @@
         </li>
         <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
-        <li><a class="app-menu__item" href="table-data-banned.jsp"><i class='app-menu__icon bx bx-run'></i><span
-                class="app-menu__label">Quản lý nội bộ
-          </span></a></li>
-        <li><a class="app-menu__item" href="table-data-money.jsp"><i class='app-menu__icon bx bx-dollar'></i><span
-                class="app-menu__label">Bảng kê lương</span></a></li>
         <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i
                 class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
         </li>
@@ -97,36 +92,6 @@
                                     class="fas fa-plus"></i>
                                 Tạo mới sản phẩm</a>
                         </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập"
-                               onclick="myFunction(this)"><i
-                                    class="fas fa-file-upload"></i> Tải từ file</a>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                               onclick="myApp.printTable()"><i
-                                    class="fas fa-print"></i> In dữ liệu</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" type="button"
-                               title="Sao chép"><i
-                                    class="fas fa-copy"></i> Sao chép</a>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất
-                                Excel</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                               onclick="myFunction(this)"><i
-                                    class="fas fa-file-pdf"></i> Xuất PDF</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i
-                                    class="fas fa-trash-alt"></i> Xóa tất cả </a>
-                        </div>
                     </div>
 
                     <table class="table table-hover table-bordered" id="sampleTable">
@@ -144,7 +109,7 @@
                             <td><%= pa.getQuantity()%>
                             </td>
 
-                            <td><span class="badge bg-<%=pa.getQuantity() >0? "success" : "danger" %>"> <%= pa.getStatus()%> </span></td>
+                            <td><span class="badge bg-<%=pa.getQuantity() >0 ? "success" : "danger" %>"> <%= pa.getStatus()%> </span></td>
 
                             <%if (pa.getDiscount() == 0) {%>
                             <td><%= pa.getPrice()%></td>
@@ -157,12 +122,9 @@
                             <td>
                                 <a class="btn btn-primary btn-sm trash" title="Xóa"
                                    href="DeleteProductAdminControl?pid=<%=pa.getId()%>"
-                                ><i class="fas fa-trash-alt"></i>
-                                </a>
+                                ><i class="fas fa-trash-alt"></i></a>
                                 <a class="btn btn-primary btn-sm edit" title="Sửa" id="show-emp"
-                                   href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"
-
-                                   data-target="#ModalUP"><i class="fas fa-edit"></i></a>
+                                   href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"><i class="fas fa-edit"></i></a>
                             </td>
                         </tr>
                         <% } %>

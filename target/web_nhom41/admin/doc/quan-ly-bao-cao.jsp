@@ -6,7 +6,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.OrderAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.OrderDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
-<%@ page import="vn.edu.hcmuaf.fit.dao.ProductAdminDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -70,11 +70,6 @@
         </li>
         <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
-        <li><a class="app-menu__item" href="table-data-banned.jsp"><i class='app-menu__icon bx bx-run'></i><span
-                class="app-menu__label">Quản lý nội bộ
-          </span></a></li>
-        <li><a class="app-menu__item" href="table-data-money.jsp"><i class='app-menu__icon bx bx-dollar'></i><span
-                class="app-menu__label">Bảng kê lương</span></a></li>
         <li><a class="app-menu__item active" href="quan-ly-bao-cao.jsp"><i
                 class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
         </li>
@@ -96,14 +91,6 @@
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-3">
-            <div class="widget-small primary coloured-icon"><i class='icon  bx bxs-user fa-3x'></i>
-                <div class="info">
-                    <h4>Tổng Nhân viên</h4>
-                    <p><b>26 nhân viên</b></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
             <div class="widget-small info coloured-icon"><i class='icon bx bxs-purchase-tag-alt fa-3x'></i>
                 <div class="info">
                     <h4>Tổng sản phẩm</h4>
@@ -119,14 +106,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
-            <div class="widget-small danger coloured-icon"><i class='icon fa-3x bx bxs-info-circle'></i>
-                <div class="info">
-                    <h4>Bị cấm</h4>
-                    <p><b>4 nhân viên</b></p>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-3">
@@ -135,14 +114,6 @@
                     <h4>Tổng thu nhập</h4>
                     <p><b><%=numberFormat.format(new HomeAdminDAO().getRevenue()) %>
                     </b></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-            <div class="widget-small info coloured-icon"><i class='icon fa-3x bx bxs-user-badge'></i>
-                <div class="info">
-                    <h4>Nhân viên mới</h4>
-                    <p><b>3 nhân viên</b></p>
                 </div>
             </div>
         </div>
@@ -194,8 +165,6 @@
                         </tr>
                         <% }
                         %>
-
-
                         </tbody>
                     </table>
                 </div>
@@ -301,55 +270,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="tile">
-                <div>
-                    <h3 class="tile-title">NHÂN VIÊN MỚI</h3>
-                </div>
-                <div class="tile-body">
-                    <table class="table table-hover table-bordered" id="sampleTable">
-                        <thead>
-                        <tr>
-                            <th>Họ và tên</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày sinh</th>
-                            <th>Giới tính</th>
-                            <th>SĐT</th>
-                            <th>Chức vụ</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Hồ Thị Thanh Ngân</td>
-                            <td>155-157 Trần Quốc Thảo, Quận 3, Hồ Chí Minh</td>
-                            <td>12/02/1999</td>
-                            <td>Nữ</td>
-                            <td>0926737168</td>
-                            <td>Bán hàng</td>
-                        </tr>
-                        <tr>
-                            <td>Trần Khả Ái</td>
-                            <td>6 Nguyễn Lương Bằng, Tân Phú, Quận 7, Hồ Chí Minh</td>
-                            <td>22/12/1999</td>
-                            <td>Nữ</td>
-                            <td>0931342432</td>
-                            <td>Bán hàng</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Đặng Trọng Nhân</td>
-                            <td>59C Nguyễn Đình Chiểu, Quận 3, Hồ Chí Minh</td>
-                            <td>23/07/1996</td>
-                            <td>Nam</td>
-                            <td>0846881155</td>
-                            <td>Dịch vụ</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-6">
             <div class="tile">
                 <h3 class="tile-title">DỮ LIỆU HÀNG THÁNG</h3>
@@ -368,9 +288,6 @@
         </div>
     </div>
 
-    <div class="text-right" style="font-size: 12px">
-        <p><b>Hệ thống quản lý V2.0 | Code by Trường</b></p>
-    </div>
 </main>
 <!-- Essential javascripts for application to work-->
 <script src="js/jquery-3.2.1.min.js"></script>

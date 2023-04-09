@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import vn.edu.hcmuaf.fit.dao.AddProductDAO;
+import vn.edu.hcmuaf.fit.dao.AdminDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class AddProductControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.getWriter().println("haaaaaaa");
+        doPost(request, response);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class AddProductControl extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        try{
+        try {
 
             int id = Integer.parseInt(request.getParameter("id"));
             String nameProduct = request.getParameter("nameProduct");
@@ -39,25 +39,14 @@ public class AddProductControl extends HttpServlet {
             File imgLink = new File(request.getParameter("ImageUpload"));
             String description = request.getParameter("mota");
 
-
-//            response.getWriter().println(id + " " + nameProduct + " " + nameGem + " " + quantity + " "
-//            + category + " " + color + " " + price + " "  + keyword + " " + design + " " + imgLink + " " + description);
-
-            if(nameProduct != null && nameGem != null &&
-                    quantity != 0 && category != null &&
-                    color != null && price != 0 && keyword != null &&
-                    design != null && imgLink != null && description != null){
-                new AddProductDAO().addProduct(id, nameProduct, nameGem,
-                        quantity, category, color, price,
-                        keyword, design, imgLink, description);
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Thêm sản phẩm thành công');");
-                out.println("location='ListProductAdminControl';");
-                out.println("</script>");
-            }else{
-                request.getRequestDispatcher("form-add-san-pham.jsp").forward(request, response);
-            }
-        }catch (Exception e){
+            new AdminDAO().addProduct(id, nameProduct, nameGem,
+                    quantity, category, color, price,
+                    keyword, design, imgLink, description);
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Thêm sản phẩm thành công');");
+            out.println("location='ListProductAdminControl';");
+            out.println("</script>");
+        } catch (Exception e) {
 
         }
 

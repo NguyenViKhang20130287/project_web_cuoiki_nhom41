@@ -1,9 +1,5 @@
 package vn.edu.hcmuaf.fit.entity;
 
-import vn.edu.hcmuaf.fit.dao.ProductAdminDAO;
-
-import java.util.List;
-
 public class ProductAdmin {
 
     int id;
