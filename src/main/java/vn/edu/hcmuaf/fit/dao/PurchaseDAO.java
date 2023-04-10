@@ -58,17 +58,17 @@ public class PurchaseDAO {
     public int getUserID(String uname) {
         int result = 0;
         try {
-            Statement statement = dbConnect.getInstall().get();
+            Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 String query = "SELECT `user`.id FROM `user` WHERE username = ?";
-                dbConnect.ps = dbConnect.connection.prepareStatement(query);
-                dbConnect.ps.setString(1, uname);
-                dbConnect.rs = dbConnect.ps.executeQuery();
-                while (dbConnect.rs.next()) {
-                    result = dbConnect.rs.getInt(1);
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setString(1, uname);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    result = rs.getInt(1);
                 }
-                dbConnect.ps.close();
-                dbConnect.rs.close();
+                ps.close();
+                rs.close();
                 statement.close();
             }
         } catch (SQLException e) {

@@ -381,9 +381,10 @@
                             </p>
                         </div>
                         <div class="itemPrice">
-                            <span><s
-                                    class="price"><%=numberFormat.format(listAll.get(i).getListItem().get(j).getPrice()) %></s> <p
-                                    class="itemDiscount"> <%=numberFormat.format(listAll.get(i).getListItem().get(j).getDiscount()) %></p></span>
+                            <span><% if (listAll.get(i).getListItem().get(j).getDiscount() != 0) {%>
+                                <s class="price"><%=numberFormat.format(listAll.get(i).getListItem().get(j).getPrice()) %></s>
+                                <% }%>
+                                <p class="itemDiscount"> <%=listAll.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listAll.get(i).getListItem().get(j).getDiscount()) : numberFormat.format(listAll.get(i).getListItem().get(j).getPrice())%></p></span>
                         </div>
                     </div>
                     <%
@@ -396,9 +397,10 @@
                         </span>
                     </div>
                     <div class="orderButtonGroup">
-                        <button>Xem thêm</button>
+                        <button><a href="orderDetailControl?orderDetail=<%=listAll.get(i).getId()%>">Xem thêm</a>
+                        </button>
                         <% if (purchaseDAO.getOrderStatusId(listAll.get(i).getId()) <= 2) {%>
-                        <button>Hủy đơn hàng</button>
+                        <button><a href="">Hủy đơn hàng</a></button>
                         <%}%>
                     </div>
                 </div>
@@ -441,8 +443,8 @@
                         </div>
                         <div class="itemPrice">
                             <span><s
-                                    class="price"><%=numberFormat.format(listToPay.get(i).getListItem().get(j).getPrice()) %></s> <p
-                                    class="itemDiscount"> <%=numberFormat.format(listToPay.get(i).getListItem().get(j).getDiscount()) %></p></span>
+                                    class="price"><%=listToPay.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listToPay.get(i).getListItem().get(j).getPrice()) : "" %></s> <p
+                                    class="itemDiscount"> <%=listToPay.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listToPay.get(i).getListItem().get(j).getDiscount()) : numberFormat.format(listToPay.get(i).getListItem().get(j).getPrice()) %></p></span>
                         </div>
                     </div>
                     <%
@@ -455,8 +457,9 @@
                         </span>
                     </div>
                     <div class="orderButtonGroup">
-                        <button>Xem thêm</button>
-                        <button>Hủy đơn hàng</button>
+                        <button><a href="orderDetailControl?orderDetail=<%=listToPay.get(i).getId()%>">Xem thêm</a>
+                        </button>
+                        <button><a href="">Hủy đơn hàng</a></button>
                     </div>
                 </div>
 
@@ -499,8 +502,8 @@
                         </div>
                         <div class="itemPrice">
                             <span><s
-                                    class="price"><%=numberFormat.format(listToReceive.get(i).getListItem().get(j).getPrice()) %></s> <p
-                                    class="itemDiscount"> <%=numberFormat.format(listToReceive.get(i).getListItem().get(j).getDiscount()) %></p></span>
+                                    class="price"><%=listToReceive.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listToReceive.get(i).getListItem().get(j).getPrice()) : "" %></s> <p
+                                    class="itemDiscount"> <%=listToReceive.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listToReceive.get(i).getListItem().get(j).getDiscount()) : numberFormat.format(listToReceive.get(i).getListItem().get(j).getPrice()) %></p></span>
                         </div>
                     </div>
                     <%
@@ -513,8 +516,9 @@
                         </span>
                     </div>
                     <div class="orderButtonGroup">
-                        <button>Xem thêm</button>
-                        <button>Hủy đơn hàng</button>
+                        <button><a href="orderDetailControl?orderDetail=<%=listToReceive.get(i).getId()%>">Xem thêm</a>
+                        </button>
+                        <button><a href="">Hủy đơn hàng</a></button>
                     </div>
 
                 </div>
@@ -560,8 +564,8 @@
                         </div>
                         <div class="itemPrice">
                             <span><s
-                                    class="price"><%=numberFormat.format(listComplete.get(i).getListItem().get(j).getPrice()) %></s> <p
-                                    class="itemDiscount"> <%=numberFormat.format(listComplete.get(i).getListItem().get(j).getDiscount()) %></p></span>
+                                    class="price"><%=listComplete.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listComplete.get(i).getListItem().get(j).getPrice()) : "" %></s> <p
+                                    class="itemDiscount"> <%=listComplete.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listComplete.get(i).getListItem().get(j).getDiscount()) : numberFormat.format(listComplete.get(i).getListItem().get(j).getPrice()) %></p></span>
                         </div>
                     </div>
                     <%
@@ -574,7 +578,8 @@
                         </span>
                     </div>
                     <div class="orderButtonGroup">
-                        <button>Xem thêm</button>
+                        <button><a href="orderDetailControl?orderDetail=<%=listComplete.get(i).getId()%>">Xem thêm</a>
+                        </button>
                     </div>
 
                 </div>
@@ -620,8 +625,8 @@
                         </div>
                         <div class="itemPrice">
                             <span><s
-                                    class="price"><%=numberFormat.format(listCancel.get(i).getListItem().get(j).getPrice()) %></s> <p
-                                    class="itemDiscount"> <%=numberFormat.format(listCancel.get(i).getListItem().get(j).getDiscount()) %></p></span>
+                                    class="price"><%=listCancel.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listCancel.get(i).getListItem().get(j).getPrice()) : "" %></s> <p
+                                    class="itemDiscount"> <%=listCancel.get(i).getListItem().get(j).getDiscount() != 0 ? numberFormat.format(listCancel.get(i).getListItem().get(j).getDiscount()) : numberFormat.format(listCancel.get(i).getListItem().get(j).getPrice()) %></p></span>
                         </div>
                     </div>
                     <%
@@ -634,7 +639,8 @@
                         </span>
                     </div>
                     <div class="orderButtonGroup">
-                        <button>Xem thêm</button>
+                        <button><a href="orderDetailControl?orderDetail=<%=listCancel.get(i).getId()%>">Xem thêm</a>
+                        </button>
                     </div>
 
                 </div>
