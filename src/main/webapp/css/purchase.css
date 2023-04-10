@@ -79,10 +79,12 @@ html a:hover {
     background-color: #f5f5f5;
     border-color: #dee2e6 #dee2e6 #f5f5f5;
 }
+
 .tab-pane h1 {
     padding: 300px 0;
     text-align: center;
 }
+
 .orderContainer {
     margin: 20px auto;
     background-color: #ffffff;
@@ -149,6 +151,7 @@ html a:hover {
 
 .orderContainer .orderInfo .itemPrice .itemDiscount {
     color: red;
+    display: inline-block;
 }
 
 .orderContainer .orderPrice {
@@ -175,7 +178,7 @@ html a:hover {
 }
 
 .orderContainer .orderButtonGroup button {
-    padding: 10px 40px;
+    padding: 10px 0;
     border: 1px solid #bc8247;
     background-color: white;
     color: #bc8247;
@@ -195,4 +198,14 @@ html a:hover {
     transform: scale(0.5);
     background-color: #ffd09d;
     color: #fff;
+}
+
+.orderContainer .orderButtonGroup button a {
+    color: black;
+    padding: 15px 40px;
+}
+
+
+.orderContainer .orderButtonGroup button:hover a {
+    color: white;
 }
