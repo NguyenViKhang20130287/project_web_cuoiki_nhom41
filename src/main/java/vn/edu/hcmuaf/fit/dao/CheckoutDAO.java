@@ -261,5 +261,9 @@ public class CheckoutDAO {
         }
     }
 
+    public boolean validatePhoneNumber(String phoneNumber) {
+        String regex = "^(\\+84|0)\\d{9}$";
+        return phoneNumber.matches(regex);
+    }
 
 }

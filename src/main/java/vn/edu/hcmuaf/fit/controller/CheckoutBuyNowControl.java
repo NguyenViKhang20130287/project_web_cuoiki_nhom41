@@ -59,9 +59,9 @@ public class CheckoutBuyNowControl extends HttpServlet {
         String registerMessage = "";
 
         if (session.getAttribute("buynow") != null) {
-            if (name.equals("") || streetAddress.equals("") || ward.equals("") || district.equals("") || city.equals("") || phone.equals("") || payment == null) {
+            if (name.equals("") || streetAddress.equals("") || ward.equals("") || district.equals("") || city.equals("") || phone.equals("") || payment == null || !checkoutDAO.validatePhoneNumber(phone)) {
 
-                request.setAttribute("message", "Vui lòng điền đủ thông tin");
+                request.setAttribute("message", "Vui lòng điền đúng và đầy đủ thông tin!");
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
 
             } else {

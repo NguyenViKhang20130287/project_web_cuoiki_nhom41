@@ -348,9 +348,8 @@
                     <div class="orderId">
                         ORDER ID: <%=orderId %>
                     </div>
-                    |
                     <div class="orderStatus">
-                        <%=status%>
+                        | <%=status%>
                     </div>
                 </div>
             </div>
@@ -372,11 +371,15 @@
                     </p>
                 </div>
                 <div class="buttonContainer">
+                    <% if (statusId == 1) {%>
+                    <button onclick="payButton(<%=orderId%>)">Thanh toán</button>
+                    <% }%>
                     <% if (statusId < 3) {%>
-                    <button><a href="">Hủy đơn hàng</a></button>
-                    <% }
-                        if (statusId == 1) {%>
-                    <button><a href="">Thanh toán</a></button>
+                    <button id="cancelButton">Hủy đơn hàng</button>
+                    <div class="confirmCancel">
+                        Xác nhận hủy?
+                        <button class="confirmButton" onclick="cancelButton(<%=orderId%>)">Hủy</button>
+                    </div>
                     <% }%>
                 </div>
             </div>
@@ -441,7 +444,7 @@
                 <div class="paymentMethod">
                     <div class="paymentContainer">
                         <div class="paymentLeft">
-                            Phương thức Thanh toán
+                            <i class="fa-solid fa-shield-halved" style="color: red"></i> Phương thức Thanh toán
                         </div>
                         <div class="paymentRight">
                             <%=paymentMethod%>
@@ -511,5 +514,6 @@
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/orderdetail.js"></script>
 </body>
 </html>
