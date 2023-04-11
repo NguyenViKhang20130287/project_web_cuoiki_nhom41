@@ -399,9 +399,6 @@
                     <div class="orderButtonGroup">
                         <button><a href="orderDetailControl?orderDetail=<%=listAll.get(i).getId()%>">Xem thêm</a>
                         </button>
-                        <% if (purchaseDAO.getOrderStatusId(listAll.get(i).getId()) <= 2) {%>
-                        <button><a href="">Hủy đơn hàng</a></button>
-                        <%}%>
                     </div>
                 </div>
 
@@ -459,7 +456,6 @@
                     <div class="orderButtonGroup">
                         <button><a href="orderDetailControl?orderDetail=<%=listToPay.get(i).getId()%>">Xem thêm</a>
                         </button>
-                        <button><a href="">Hủy đơn hàng</a></button>
                     </div>
                 </div>
 
@@ -518,7 +514,6 @@
                     <div class="orderButtonGroup">
                         <button><a href="orderDetailControl?orderDetail=<%=listToReceive.get(i).getId()%>">Xem thêm</a>
                         </button>
-                        <button><a href="">Hủy đơn hàng</a></button>
                     </div>
 
                 </div>

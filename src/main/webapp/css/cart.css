@@ -132,6 +132,7 @@ a:hover {
     border: none;
     cursor: pointer;
 }
+
 .deleteProduct button {
     padding: 5px 10px;
     border: none;
@@ -398,5 +399,11 @@ a:hover {
 
     .CartTotals .totals_btns {
         float: none;
+    }
+}
+
+@media screen and (min-height: 824px) and (max-width: 428px) {
+    .sticky {
+        position: relative;
     }
 }

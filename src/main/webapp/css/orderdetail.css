@@ -166,6 +166,7 @@ html a:hover {
 .orderContainer .orderInfo {
     padding-bottom: 20px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     margin: 20px 0;
     border-bottom: 2px solid rgba(0, 0, 0, .09);
@@ -231,7 +232,7 @@ html a:hover {
 }
 
 .buttonContainer button {
-    padding: 10px 0;
+    padding: 15px 40px;
     border: 1px solid #bc8247;
     background-color: white;
     color: #bc8247;
@@ -240,16 +241,11 @@ html a:hover {
     cursor: pointer;
     transition: all .3s;
     margin-bottom: 20px;
+    z-index: 1;
 }
 
-.buttonContainer button a {
-    color: black;
-    padding: 15px 40px;
-}
-
-
-.buttonContainer button:hover a {
-    color: white;
+.buttonContainer button#cancelButton:hover {
+    transform: scale(1);
 }
 
 .buttonContainer button:hover {
@@ -262,4 +258,75 @@ html a:hover {
     transform: scale(0.5);
     background-color: #ffd09d;
     color: #fff;
+}
+
+.buttonContainer .confirmCancel {
+    width: 100%;
+    background: #e4e4e4;
+    margin-top: -24px;
+    text-align: center;
+    border: 2px solid red;
+    padding: 10px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-top: none;
+    z-index: 0;
+    font-weight: bold;
+    color: red;
+    display: none;
+    flex-direction: column;
+}
+
+.buttonContainer .confirmCancel .confirmButton {
+    width: 70px;
+    margin: 0;
+    margin-top: 10px;
+    align-self: end;
+    padding: 15px;
+}
+
+/* responsive */
+@media screen and (max-width: 428px) {
+
+    .body_page-main {
+        width: 98%;
+    }
+
+    .body_page-main .detail .addressInfo {
+        flex-direction: column;
+    }
+
+    .body_page-main .detail .items {
+        padding: 0;
+    }
+
+    .body_page-main .detail .items .totalPrice {
+        margin-top: 0;
+    }
+
+    .paymentMethod .paymentRight {
+        width: 150px;
+    }
+
+    .orderContainer .orderInfo .orderImg {
+        flex-basis: 30%;
+    }
+
+    .orderContainer .orderInfo .itemPrice {
+        flex-basis: 95%;
+    }
+
+    .orderContainer .orderInfo {
+        padding-bottom: 0;
+    }
+
+    .body_page-main .detail .items .totalPrice .totalRow .totalRight {
+        width: 190px;
+    }
+}
+
+@media screen and (min-height: 824px) and (max-width: 428px) {
+    .sticky {
+        position: relative;
+    }
 }

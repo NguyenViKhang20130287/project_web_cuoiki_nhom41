@@ -201,11 +201,48 @@ html a:hover {
 }
 
 .orderContainer .orderButtonGroup button a {
-    color: black;
+    color: #bc8247;
     padding: 15px 40px;
 }
 
 
 .orderContainer .orderButtonGroup button:hover a {
     color: white;
+}
+
+/* responsive */
+@media screen and (max-width: 428px) {
+
+    .body_page-main {
+        width: 99%;
+    }
+
+    .orderContainer .orderInfo .orderImg {
+        flex-basis: 30%;
+    }
+
+    .orderContainer .orderInfo .itemPrice {
+        flex-basis: 95%;
+    }
+
+    .nav {
+        display: -webkit-inline-box;
+        flex-wrap: nowrap;
+        overflow: scroll;
+    }
+
+    .nav-item {
+        flex-basis: 40%;
+    }
+
+    .orderContainer .orderInfo {
+        flex-wrap: wrap;
+        padding-bottom: 0;
+    }
+}
+
+@media screen and (min-height: 824px) and (max-width: 428px) {
+    .sticky {
+        position: relative;
+    }
 }

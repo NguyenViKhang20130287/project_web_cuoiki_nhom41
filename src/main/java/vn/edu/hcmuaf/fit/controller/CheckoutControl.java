@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.dao.CheckoutDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
 
+import javax.mail.Message;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -55,9 +56,8 @@ public class CheckoutControl extends HttpServlet {
         CheckoutDAO checkoutDAO = new CheckoutDAO();
         String registerMessage = "";
         if (session.getAttribute("cart") != null) {
-            if (name.equals("") || streetAddress.equals("") || ward.equals("") || district.equals("") || city.equals("") || phone.equals("") || payment == null) {
-
-                request.setAttribute("message", "Vui lòng điền đủ thông tin");
+            if (name.equals("") || streetAddress.equals("") || ward.equals("") || district.equals("") || city.equals("") || phone.equals("") || payment == null || !checkoutDAO.validatePhoneNumber(phone)) {
+                request.setAttribute("message", "Vui lòng điền đúng và đầy đủ thông tin!");
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
 
             } else {
