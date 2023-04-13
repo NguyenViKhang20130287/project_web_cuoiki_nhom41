@@ -34,16 +34,8 @@ public class CheckoutBuyNowControl extends HttpServlet {
         String mail = request.getParameter("mail");
         String phone = request.getParameter("phone");
         String pass = request.getParameter("pass");
-        String name2 = request.getParameter("name2");
-        String streetAddress2 = request.getParameter("streetAddress2");
-        String ward2 = request.getParameter("ward2");
-        String district2 = request.getParameter("district2");
-        String city2 = request.getParameter("city2");
-        String mail2 = request.getParameter("mail2");
-        String phone2 = request.getParameter("phone2");
         String note = request.getParameter("note");
         String newAccount = request.getParameter("newAccount");
-        System.out.println(newAccount);
         String payment = request.getParameter("payment");
         Account accSession = (Account) session.getAttribute("Account");
         String username = "";

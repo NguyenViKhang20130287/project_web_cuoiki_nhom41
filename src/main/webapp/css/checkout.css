@@ -224,7 +224,7 @@ button.login-button:hover {
     color: #6f7172;
 }
 
-.left-container .checkout-area .item-1 input {
+.left-container .checkout-area .item-1 input, .left-container .checkout-area .item-1 select {
     border: 3px solid #eaedff;
     height: 65px;
     padding-left: 10px;
@@ -255,6 +255,8 @@ button.login-button:hover {
 
 .left-container .checkout-area label#label-New-Account {
     display: inline-block;
+    user-select: none;
+    cursor: pointer;
 }
 
 .left-container .checkout-area .item-1 textarea {
