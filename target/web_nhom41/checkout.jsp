@@ -4,6 +4,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -84,6 +85,8 @@
 
 </head>
 <% HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
+    Account accSession = (Account) session.getAttribute("Account");
+
     Locale locale = new Locale("vi", "VN");
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 %>
@@ -347,249 +350,201 @@
         </div>
         <% if (session.getAttribute("buynow") == null) { %>
         <form action="CheckoutControl" method="get">
-            <% }else{ %>
-                <form action="CheckoutBuyNowControl" method="get">
-            <% } %>
-            <div class="checkout-container">
-                <div class="left-container">
+                <% }else{ %>
+            <form action="CheckoutBuyNowControl" method="get">
+                <% } %>
+                <div class="checkout-container">
+                    <div class="left-container">
 
 
-                    <div class="checkout-area">
-                        <h3>Chi Tiết Thanh Toán</h3>
+                        <div class="checkout-area">
+                            <h3>Chi Tiết Thanh Toán</h3>
 
-                        <div class="item-1">
-                            <div class="input-text">
-                                <label for="lastName">Họ Và Tên<span style="color: red">*</span></label>
-                                <input type="text" id="lastName" placeholder="Họ Và Tên" name="name">
-                            </div>
-                        </div>
-
-
-                        <div class="item-1">
-                            <div class="input-text">
-                                <label for="streetAddress">Số Nhà, Tên Đường <span
-                                        style="color: red">*</span></label>
-                                <input type="text" id="streetAddress" placeholder="Số Nhà, Tên Đường"
-                                       name="streetAddress">
-                            </div>
-                        </div>
-                        <div class="item-1">
-                            <div class="input-text">
-                                <label for="ward">Phường / Xã <span style="color: red">*</span></label>
-                                <input type="text" id="ward" placeholder="Phường / Xã" name="ward">
-                            </div>
-                        </div>
-                        <div class="item-1">
-                            <div class="input-text">
-                                <label for="district">Quận / Huyện <span style="color: red">*</span></label>
-                                <input type="text" id="district" placeholder="Quận / Huyện" name="district">
-                            </div>
-                        </div>
-                        <div class="item-1">
-                            <div class="input-text">
-                                <label for="city">Tỉnh / Thành Phố <span style="color: red">*</span></label>
-                                <input type="text" id="city" placeholder="Tỉnh / Thành Phố" name="city">
-                            </div>
-                        </div>
-                        <div class="item-2">
                             <div class="item-1">
                                 <div class="input-text">
-                                    <label for="mail">Địa Chỉ Email <span style="color: red">*</span></label>
-                                    <input type="email" id="mail" placeholder="Địa Chỉ Email" name="mail">
+                                    <label for="lastName">Họ Và Tên<span style="color: red">*</span></label>
+                                    <input type="text" id="lastName" placeholder="Họ Và Tên" name="name">
                                 </div>
                             </div>
                             <div class="item-1">
                                 <div class="input-text">
-                                    <label for="phone">Số Điện Thoại <span style="color: red">*</span></label>
-                                    <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-1">
-                            <div class="input-text">
-                                <input type="checkbox" id="newAccount" name="newAccount" value="newAccount">
-                                <label for="newAccount" id="label-New-Account">Tạo Tài Khoản Mới?</label>
-                            </div>
-                        </div>
-                        <div class="newAccount">
-
-                            <div class="item-1">
-                                <p>Tạo tài khoản mới bằng cách nhập vào thông tin bên dưới. Nếu bạn đã có tài khoản,
-                                    xin
-                                    hãy đăng nhập ở phần đầu trang</p>
-                                <div class="input-text">
-                                    <label for="pass">Mật Khẩu <span style="color: red">*</span></label>
-                                    <input type="password" id="pass" placeholder="Nhập Mật Khẩu" name="pass">
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="difference-Add">Giao Tới Một Địa Chỉ Khác? <input type="checkbox"
-                                                                                     class="difference"
-                                                                                     style="width: 18px;height: 18px;">
-                        </h3>
-                        <div id="difference-Add">
-
-
-                            <div class="item-1">
-                                <div class="input-text">
-                                    <label for="lastName2">Họ Và Tên <span style="color: red">*</span></label>
-                                    <input type="text" id="lastName2" placeholder="Họ Và Tên" name="name2">
-                                </div>
-                            </div>
-
-
-                            <div class="item-1">
-                                <div class="input-text">
-                                    <label for="streetAddress2">Số Nhà, Tên Đường <span
+                                    <label for="streetAddress">Số Nhà, Tên Đường <span
                                             style="color: red">*</span></label>
-                                    <input type="text" id="streetAddress2" placeholder="Số Nhà, Tên Đường"
-                                           name="streetAddress2">
+                                    <input type="text" id="streetAddress" placeholder="Số Nhà, Tên Đường"
+                                           name="streetAddress">
                                 </div>
                             </div>
                             <div class="item-1">
                                 <div class="input-text">
-                                    <label for="ward2">Phường / Xã <span style="color: red">*</span></label>
-                                    <input type="text" id="ward2" placeholder="Phường / Xã" name="ward2">
+                                    <label for="city">Tỉnh / Thành Phố <span style="color: red">*</span></label>
+                                    <select id="city" name="city" onchange="resetDistrict()">
+                                        <option value="" selected disabled>Chọn Tỉnh / Thành Phố</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="item-1">
                                 <div class="input-text">
-                                    <label for="district2">Quận / Huyện <span style="color: red">*</span></label>
-                                    <input type="text" id="district2" placeholder="Quận / Huyện" name="district2">
+                                    <label for="district">Quận / Huyện <span style="color: red">*</span></label>
+                                    <select id="district" name="district" onchange="resetWard()">
+                                        <option value="" selected disabled>Chọn Quận / Huyện</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="item-1">
                                 <div class="input-text">
-                                    <label for="city2">Tỉnh / Thành Phố <span style="color: red">*</span></label>
-                                    <input type="text" id="city2" placeholder="Tỉnh / Thành Phố" name="city2">
+                                    <label for="ward">Phường / Xã <span style="color: red">*</span></label>
+                                    <select id="ward" name="ward">
+                                        <option value="" selected disabled>Chọn Phường / Xã</option>
+                                    </select>
                                 </div>
                             </div>
+
                             <div class="item-2">
                                 <div class="item-1">
                                     <div class="input-text">
-                                        <label for="mail2">Địa Chỉ Email <span style="color: red">*</span></label>
-                                        <input type="email" id="mail2" placeholder="Địa Chỉ Email" name="mail2">
+                                        <label for="mail">Địa Chỉ Email <span style="color: red">*</span></label>
+                                        <input type="email" id="mail" placeholder="Địa Chỉ Email" name="mail">
                                     </div>
                                 </div>
                                 <div class="item-1">
                                     <div class="input-text">
-                                        <label for="phone2">Số Điện Thoại <span style="color: red">*</span></label>
-                                        <input type="tel" id="phone2" placeholder="Số Điện Thoại" name="phone2">
+                                        <label for="phone">Số Điện Thoại <span style="color: red">*</span></label>
+                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="item-1">
-                            <div class="input-text">
-                                <label for="note">Ghi Chú</label>
-                                <textarea name="note" id="note" cols="30" rows="10" name="note"
-                                          placeholder="Ghi chú về đơn hàng của bạn, ví dụ: lưu ý đặc biệt về vận chuyển..."></textarea>
+                            <div class="item-1">
+                                <div class="input-text">
+                                    <input type="checkbox" id="newAccount" name="newAccount" value="newAccount">
+                                    <label for="newAccount" id="label-New-Account">Tạo Tài Khoản Mới?</label>
+                                </div>
+                            </div>
+                            <div class="newAccount">
+
+                                <div class="item-1">
+                                    <p>Tạo tài khoản mới bằng cách nhập vào thông tin bên dưới. Nếu bạn đã có tài khoản,
+                                        xin
+                                        hãy đăng nhập ở phần đầu trang</p>
+                                    <div class="input-text">
+                                        <label for="pass">Mật Khẩu <span style="color: red">*</span></label>
+                                        <input type="password" id="pass" placeholder="Nhập Mật Khẩu" name="pass">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-1">
+                                <div class="input-text">
+                                    <label for="note">Ghi Chú</label>
+                                    <textarea name="note" id="note" cols="30" rows="10" name="note"
+                                              placeholder="Ghi chú về đơn hàng của bạn, ví dụ: lưu ý đặc biệt về vận chuyển..."></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="right-container">
+                    <div class="right-container">
 
 
-                    <div class="your-order">
-                        <h3>Đơn Hàng Của Bạn</h3>
-                        <div class="order-table">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>Sản Phẩm</th>
-                                    <th>Tổng</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <% int total = 0;
-                                    int totalCart = 0;
-                                    if (session.getAttribute("buynow") == null) {
-                                        if (cart != null) {
-                                            for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
-                                                if (entry.getValue().getProduct().getDiscount() != 0) {
-                                                    total = entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity();
+                        <div class="your-order">
+                            <h3>Đơn Hàng Của Bạn</h3>
+                            <div class="order-table">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Sản Phẩm</th>
+                                        <th>Tổng</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% int total = 0;
+                                        int totalCart = 0;
+                                        if (session.getAttribute("buynow") == null) {
+                                            if (cart != null) {
+                                                for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
+                                                    if (entry.getValue().getProduct().getDiscount() != 0) {
+                                                        total = entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity();
 
-                                                } else {
-                                                    total = entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity();
-                                                }
-                                                totalCart += total;
-                                %>
-                                <tr>
-                                    <td>
-                                        <%= entry.getValue().getProduct().getTitle() %>
-                                        <strong>x <%= entry.getValue().getQuantity() %>
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <%= numberFormat.format(total)%>
-                                    </td>
-                                </tr>
-                                <%
+                                                    } else {
+                                                        total = entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity();
+                                                    }
+                                                    totalCart += total;
+                                    %>
+                                    <tr>
+                                        <td>
+                                            <%= entry.getValue().getProduct().getTitle() %>
+                                            <strong>x <%= entry.getValue().getQuantity() %>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <%= numberFormat.format(total)%>
+                                        </td>
+                                    </tr>
+                                    <%
+                                            }
                                         }
-                                    }
-                                } else {
-                                    CartItem cartItem = (CartItem) session.getAttribute("buynow");
-                                    if (cartItem.getProduct().getDiscount() != 0) {
-                                        total = cartItem.getProduct().getDiscount() * cartItem.getQuantity();
-
                                     } else {
-                                        total = cartItem.getProduct().getPrice() * cartItem.getQuantity();
+                                        CartItem cartItem = (CartItem) session.getAttribute("buynow");
+                                        if (cartItem.getProduct().getDiscount() != 0) {
+                                            total = cartItem.getProduct().getDiscount() * cartItem.getQuantity();
+
+                                        } else {
+                                            total = cartItem.getProduct().getPrice() * cartItem.getQuantity();
+                                        }
+                                        totalCart += total;
+                                    %>
+                                    <tr>
+                                        <td>
+                                            <%= cartItem.getProduct().getTitle() %>
+                                            <strong>x <%= cartItem.getQuantity() %>
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <%= numberFormat.format(total)%>
+                                        </td>
+                                    </tr>
+                                    <% }
+                                    %>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr class="cartSubtotal">
+                                        <th>Tổng Giỏ Hàng</th>
+                                        <td><span class="amount"><%= numberFormat.format(totalCart)%></span></td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <th style="border-bottom: none;">Tổng Đơn Hàng</th>
+                                        <td style="border-bottom: none;"><strong><span
+                                                class="amount"><%= numberFormat.format(totalCart)%></span></strong>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+
+                                <div class="collapsible_set">
+                                    <label for="payment">Hình thức thanh toán: </label>
+                                    <select name="payment" id="payment">
+                                        <option value="" disabled selected> Vui lòng chọn hình thức thanh toán</option>
+                                        <option value="1"> Tiền mặt</option>
+                                        <% if (accSession != null) { %>
+                                        <option value="2"> Internet banking</option>
+                                        <option value="3"> Ví điện tử</option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <% if (request.getAttribute("message") != null) {
+
+                                %>
+                                <p style="color: red;text-align: center"><%=request.getAttribute("message") %>
+                                </p>
+                                <%
                                     }
-                                    totalCart += total;
                                 %>
-                                <tr>
-                                    <td>
-                                        <%= cartItem.getProduct().getTitle() %>
-                                        <strong>x <%= cartItem.getQuantity() %>
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <%= numberFormat.format(total)%>
-                                    </td>
-                                </tr>
-                                <% }
-                                %>
-                                </tbody>
-                                <tfoot>
-                                <tr class="cartSubtotal">
-                                    <th>Tổng Giỏ Hàng</th>
-                                    <td><span class="amount"><%= numberFormat.format(totalCart)%></span></td>
-                                </tr>
-                                <tr class="order-total">
-                                    <th style="border-bottom: none;">Tổng Đơn Hàng</th>
-                                    <td style="border-bottom: none;"><strong><span
-                                            class="amount"><%= numberFormat.format(totalCart)%></span></strong>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
-
-                            <div class="collapsible_set">
-                                <label for="payment">Hình thức thanh toán: </label>
-                                <select name="payment" id="payment">
-                                    <option value="" disabled selected> Vui lòng chọn hình thức thanh toán</option>
-                                    <option value="1"> Tiền mặt</option>
-                                    <option value="2"> Internet banking</option>
-                                    <option value="3"> Ví điện tử</option>
-                                </select>
+                                <button type="submit" class="place-order">ĐẶT HÀNG</button>
                             </div>
-                            <% if (request.getAttribute("message") != null) {
 
-                            %>
-                            <p style="color: red;text-align: center"><%=request.getAttribute("message") %>
-                            </p>
-                            <%
-                                }
-                            %>
-                            <button type="submit" class="place-order">ĐẶT HÀNG</button>
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
 
 
     </div>
@@ -598,59 +553,71 @@
 
 <!-- footer page -->
 <section class="footer_area">
-<div class="footer_page">
+    <div class="footer_page">
 
-    <div class="footer_page-inforCompany">
-        <h3>Thông tin công ty</h3>
-        <ul>
-            <li>Giới thiệu công ty</li>
-            <li>Hệ thống siêu thị</li>
-            <li>Phương châm bán hàng</li>
-            <li>Cơ hội nghề nghiệp</li>
-            <li>Mua hàng doanh nghiệp</li>
-        </ul>
-    </div>
-    <div class="footer_page-policy">
-        <h3>Chính sách chung</h3>
-        <ul>
-            <li>Bảo trì - Bảo hành - Đổi trả</li>
-            <li>Quy định giao hàng</li>
-            <li>Điều khoản sử dụng</li>
-            <li>Thỏa thuận người dùng</li>
-            <li>Cần thuê mặt bằng</li>
-        </ul>
-    </div>
-    <div class="footer_page-members">
-        <h3>Thẻ thành viên</h3>
-        <ul>
-            <li>Quyền lợi của thành viên</li>
-            <li>Hỗ trợ thành viên</li>
-            <li>Giftcard - Thẻ quà tặng</li>
-            <li>Liên hệ</li>
-        </ul>
-    </div>
-    <div class="footer_page-buyOnline">
-        <h3>Mua hàng online</h3>
-        <ul>
-            <li>Lợi ích khi mua hàng online</li>
-            <li>Thông tin chuyển khoản</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Câu hỏi thường gặp</li>
-        </ul>
-    </div>
-    <div class="footer_page-social">
-        <h3>Kết nối với chúng tôi</h3>
-        <ul>
-            <li class="facebook"><a href=""><i class="fa-brands fa-facebook-f"></i></a></li>
-            <li class="twitter"><a href=""><i class="fa-brands fa-twitter"></i></a></li>
-            <li class="instagram"><a href=""><i class="fa-brands fa-instagram"></i></a></li>
-        </ul>
-    </div>
+        <div class="footer_page-inforCompany">
+            <h3>Thông tin công ty</h3>
+            <ul>
+                <li>Giới thiệu công ty</li>
+                <li>Hệ thống siêu thị</li>
+                <li>Phương châm bán hàng</li>
+                <li>Cơ hội nghề nghiệp</li>
+                <li>Mua hàng doanh nghiệp</li>
+            </ul>
+        </div>
+        <div class="footer_page-policy">
+            <h3>Chính sách chung</h3>
+            <ul>
+                <li>Bảo trì - Bảo hành - Đổi trả</li>
+                <li>Quy định giao hàng</li>
+                <li>Điều khoản sử dụng</li>
+                <li>Thỏa thuận người dùng</li>
+                <li>Cần thuê mặt bằng</li>
+            </ul>
+        </div>
+        <div class="footer_page-members">
+            <h3>Thẻ thành viên</h3>
+            <ul>
+                <li>Quyền lợi của thành viên</li>
+                <li>Hỗ trợ thành viên</li>
+                <li>Giftcard - Thẻ quà tặng</li>
+                <li>Liên hệ</li>
+            </ul>
+        </div>
+        <div class="footer_page-buyOnline">
+            <h3>Mua hàng online</h3>
+            <ul>
+                <li>Lợi ích khi mua hàng online</li>
+                <li>Thông tin chuyển khoản</li>
+                <li>Hướng dẫn mua hàng</li>
+                <li>Câu hỏi thường gặp</li>
+            </ul>
+        </div>
+        <div class="footer_page-social">
+            <h3>Kết nối với chúng tôi</h3>
+            <ul>
+                <li class="facebook"><a href=""><i class="fa-brands fa-facebook-f"></i></a></li>
+                <li class="twitter"><a href=""><i class="fa-brands fa-twitter"></i></a></li>
+                <li class="instagram"><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+            </ul>
+        </div>
 
-</div>
+    </div>
 </section>
 </div>
 </body>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script>
+    fetch(`https://provinces.open-api.vn/api/?depth=2`)
+        .then((data) => data.json())
+        .then(data => {
+            data.forEach(province => {
+                const city = `<option value="${province.name}">${province.name}</option>`;
+                document.querySelector("select#city").insertAdjacentHTML('beforeend', city);
+            })
+        })
+
+</script>
 <script src="js/main.js"></script>
 <script src="js/checkout.js"></script>
 </html>

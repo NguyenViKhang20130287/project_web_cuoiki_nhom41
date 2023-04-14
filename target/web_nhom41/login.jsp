@@ -326,6 +326,11 @@
                     <%}%>
                        value="<%=request.getAttribute("usernameCookie")%>"
                 >
+                <% String errorPass = (String) request.getAttribute("ErrorPass"); %>
+                <% String errorUsername = (String) request.getAttribute("ErrorUsername"); %>
+                <p style="color: red; margin-bottom: 20px;">
+                    <%= errorUsername != null ? errorUsername : "" %>
+                </p>
                 <label for="pass">Mật Khẩu <span>*</span></label>
                 <input id="pass" type="password" placeholder="Nhập Mật Khẩu..." name="password"
                     <%if(request.getAttribute("passwordCookie") == null) { %>
@@ -333,9 +338,11 @@
                     <%}%>
                        value="<%=request.getAttribute("passwordCookie")%>"
                 >
-
+                <p style="color: red;">
+                    <%= errorPass != null ? errorPass : "" %>
+                </p>
                 <div style="margin-bottom: 20px">
-                    <p style="border-radius: 3px; color: #a90312;  font-weight: bold">
+                    <p style="color: red;">
                         <%= errorMessage != null ? errorMessage : "" %>
                     </p>
                 </div>

@@ -13,7 +13,6 @@ public class Account {
     private String phone;
 
 
-
     public Account() {
     }
 
@@ -52,6 +51,10 @@ public class Account {
 
     public int getRole() {
         return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public String getUsername() {
@@ -98,6 +101,7 @@ public class Account {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public Account(int id, String username, String password, String email, String fullName, String phone) {
         this.id = id;
         this.username = username;

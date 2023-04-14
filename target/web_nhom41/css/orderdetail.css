@@ -1,0 +1,332 @@
+html a:hover {
+    text-decoration: none !important;
+}
+
+.header_page {
+    background-color: #E4E4E4;
+    width: 100%;
+}
+
+.header_page-main {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #E4E4E4;
+}
+
+.sticky {
+    width: 100%;
+    background-color: #fff;
+}
+
+.body_page {
+    width: 100%;
+    overflow: auto;
+}
+
+.body_page-menu {
+    padding: 15px;
+    background-color: #b2bec3;
+}
+
+.body_page-menu ul {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.body_page-menu ul li {
+    margin-right: 10px;
+}
+
+.body_page-menu span {
+    margin-right: 10px;
+}
+
+.body_page-menu ul li:first-child:hover a {
+    color: #bc8247;
+}
+
+.body_page-menu ul li a {
+    color: #000;
+    transition: all 0.2s;
+}
+
+.body_page-menu ul li a i {
+    margin-right: 3px;
+    font-size: 14px;
+}
+
+.body_page-main {
+    width: 70%;
+    margin: 50px auto;
+}
+
+.body_page-main .detail {
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.body_page-main .detail .statusContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.body_page-main .detail .statusContainer .back {
+    background-color: transparent;
+    border: none;
+    color: gray;
+}
+
+.body_page-main .detail .statusContainer .back a {
+    text-decoration: none;
+    color: gray;
+}
+
+.body_page-main .detail .statusContainer .status .orderId {
+    display: inline-block;
+}
+
+.body_page-main .detail .statusContainer .status .orderStatus {
+    display: inline-block;
+    color: red;
+}
+
+.body_page-main .detail .headerline {
+    height: .1875rem;
+    width: 100%;
+    background-position-x: -1.875rem;
+    background-size: 7.25rem .1875rem;
+    background-image: repeating-linear-gradient(45deg, #6fa6d6, #6fa6d6 33px, transparent 0, transparent 41px, #f18d9b 0, #f18d9b 74px, transparent 0, transparent 82px);
+    margin-bottom: 20px;
+}
+
+.body_page-main .detail .addressInfo {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30px;
+}
+
+.body_page-main .detail .addressInfo p {
+    color: rgba(0, 0, 0, .54);
+}
+
+.body_page-main .detail .items {
+    background-color: #fafafa;
+    padding: 0 20px;
+    padding-top: 20px;
+}
+
+.body_page-main .detail .items .lineGray {
+    border-bottom: 1px solid rgba(0, 0, 0, .09);
+}
+
+
+.body_page-main .detail .items .totalPrice {
+    margin-top: -20px;
+}
+
+.body_page-main .detail .items .totalPrice .totalRow {
+    padding: 0 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+    border-bottom: 1px dotted rgba(0, 0, 0, .09);
+}
+
+.body_page-main .detail .items .totalPrice .totalRow .totalLeft {
+    padding: 13px 10px;
+    color: rgba(0, 0, 0, .54);
+    font-size: 13px;
+}
+
+.body_page-main .detail .items .totalPrice .totalRow .totalRight {
+    padding: 13px 0 13px 10px;
+    width: 240px;
+    border-left: 1px dotted rgba(0, 0, 0, .09);
+    justify-content: flex-end;
+    word-wrap: break-word;
+    color: rgba(0, 0, 0, .8);
+}
+
+.orderContainer {
+    width: 100%;
+    overflow: auto;
+}
+
+
+.orderContainer .line {
+    border-bottom: 2px solid rgba(0, 0, 0, .09);
+    margin: 0 20px;
+
+}
+
+.orderContainer .orderInfo {
+    padding-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+    border-bottom: 2px solid rgba(0, 0, 0, .09);
+}
+
+
+.orderContainer .orderInfo .orderImg {
+    flex-basis: 10%;
+    align-self: center;
+}
+
+.orderContainer .orderInfo .orderImg img {
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, .09);
+    height: auto;
+}
+
+.orderContainer .orderInfo .orderTitle {
+    flex-basis: 60%;
+}
+
+.orderContainer .orderInfo .itemPrice {
+    text-align: right;
+    flex-basis: 22%;
+}
+
+.orderContainer .orderInfo .itemPrice .price {
+    color: #bcbcbc;
+    display: inline-block;
+}
+
+.orderContainer .orderInfo .itemPrice .itemDiscount {
+    color: red;
+    display: inline-block;
+}
+
+.paymentMethod .paymentLeft {
+    padding: 13px 10px;
+    color: rgba(0, 0, 0, .54);
+    font-size: 13px;
+}
+
+.paymentMethod .paymentRight {
+    padding: 13px 0 13px 10px;
+    width: 240px;
+    border-left: 1px dotted rgba(0, 0, 0, .09);
+    justify-content: flex-end;
+    word-wrap: break-word;
+    color: rgba(0, 0, 0, .8);
+}
+
+.paymentContainer {
+    padding: 0 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonContainer button {
+    padding: 15px 40px;
+    border: 1px solid #bc8247;
+    background-color: white;
+    color: #bc8247;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .3s;
+    margin-bottom: 20px;
+    z-index: 1;
+}
+
+.buttonContainer button#cancelButton:hover {
+    transform: scale(1);
+}
+
+.buttonContainer button:hover {
+    transform: scale(0.9);
+    background-color: #bc8247;
+    color: #fff;
+}
+
+.buttonContainer button:active {
+    transform: scale(0.5);
+    background-color: #ffd09d;
+    color: #fff;
+}
+
+.buttonContainer .confirmCancel {
+    width: 100%;
+    background: #e4e4e4;
+    margin-top: -24px;
+    text-align: center;
+    border: 2px solid red;
+    padding: 10px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-top: none;
+    z-index: 0;
+    font-weight: bold;
+    color: red;
+    display: none;
+    flex-direction: column;
+}
+
+.buttonContainer .confirmCancel .confirmButton {
+    width: 70px;
+    margin: 0;
+    margin-top: 10px;
+    align-self: end;
+    padding: 15px;
+}
+
+/* responsive */
+@media screen and (max-width: 428px) {
+
+    .body_page-main {
+        width: 98%;
+    }
+
+    .body_page-main .detail .addressInfo {
+        flex-direction: column;
+    }
+
+    .body_page-main .detail .items {
+        padding: 0;
+    }
+
+    .body_page-main .detail .items .totalPrice {
+        margin-top: 0;
+    }
+
+    .paymentMethod .paymentRight {
+        width: 150px;
+    }
+
+    .orderContainer .orderInfo .orderImg {
+        flex-basis: 30%;
+    }
+
+    .orderContainer .orderInfo .itemPrice {
+        flex-basis: 95%;
+    }
+
+    .orderContainer .orderInfo {
+        padding-bottom: 0;
+    }
+
+    .body_page-main .detail .items .totalPrice .totalRow .totalRight {
+        width: 190px;
+    }
+}
+
+@media screen and (min-height: 824px) and (max-width: 428px) {
+    .sticky {
+        position: relative;
+    }
+}

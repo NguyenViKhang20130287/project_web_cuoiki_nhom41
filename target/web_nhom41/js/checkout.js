@@ -1,15 +1,3 @@
-// difference address
-var checkbox_add = document.querySelector('.difference');
-var div_add = document.querySelector('#difference-Add');
-
-checkbox_add.addEventListener('click', function () {
-    if (checkbox_add.checked == true) {
-
-        div_add.style.display = 'block';
-    } else {
-        div_add.style.display = 'none';
-    }
-})
 //register
 var checkBox_newAcc = document.querySelector('#newAccount');
 var div_newAcc = document.querySelector('.newAccount');
@@ -22,6 +10,55 @@ checkBox_newAcc.addEventListener('click', function () {
         div_newAcc.style.display = 'none';
     }
 })
+
+function resetDistrict() {
+    document.querySelector("select#district").innerHTML = "<option value=\"\" selected disabled>Chọn Quận / Huyện</option>";
+}
+
+document.querySelector('#district').addEventListener('mousedown', function () {
+    document.querySelector("select#district").innerHTML = "<option value=\"\" selected disabled>Chọn Quận / Huyện</option>";
+    resetWard();
+});
+document.querySelector('#district').addEventListener('mouseup', function () {
+    var city = document.querySelector("select#city").value;
+    fetch("https://provinces.open-api.vn/api/p/search/?q=" + city)
+        .then((data) => data.json())
+        .then(data => {
+            var code = data[0].code;
+            fetch("https://provinces.open-api.vn/api/p/" + code + "?depth=2")
+                .then((data2) => data2.json())
+                .then(data2 => {
+                    for (let i = 0; i < data2.districts.length; i++) {
+                        const district = `<option value="${data2.districts[i].name}">${data2.districts[i].name}</option>`;
+                        document.querySelector("select#district").insertAdjacentHTML('beforeend', district);
+                    }
+                })
+        })
+});
+
+function resetWard() {
+    document.querySelector("select#ward").innerHTML = " <option value=\"\" selected disabled>Chọn Phường / Xã</option>";
+}
+
+document.querySelector('#ward').addEventListener('mousedown', function () {
+    document.querySelector("select#ward").innerHTML = " <option value=\"\" selected disabled>Chọn Phường / Xã</option>";
+});
+document.querySelector('#ward').addEventListener('mouseup', function () {
+    var district = document.querySelector("select#district").value;
+    fetch("https://provinces.open-api.vn/api/d/search/?q=" + district)
+        .then((data) => data.json())
+        .then(data => {
+            var code = data[0].code;
+            fetch("https://provinces.open-api.vn/api/d/" + code + "?depth=2")
+                .then((data2) => data2.json())
+                .then(data2 => {
+                    for (let i = 0; i < data2.wards.length; i++) {
+                        const ward = `<option value="${data2.wards[i].name}">${data2.wards[i].name}</option>`;
+                        document.querySelector("select#ward").insertAdjacentHTML('beforeend', ward);
+                    }
+                })
+        })
+});
 // login
 var login_span = document.querySelector('#login');
 var div_login = document.querySelector('.checkout-login');

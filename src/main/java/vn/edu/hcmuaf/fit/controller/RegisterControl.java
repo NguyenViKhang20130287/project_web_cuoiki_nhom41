@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.RegisterDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 
@@ -40,6 +41,10 @@ public class RegisterControl extends HttpServlet {
         return matcher.matches();
     }
 
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
@@ -50,6 +55,7 @@ public class RegisterControl extends HttpServlet {
         String uname = request.getParameter("uname");
         String email = request.getParameter("email_register");
         String pass = request.getParameter("pass_register");
+        String hashedPassword = hashPassword(pass);
 
         Account acc = new RegisterDAO().checkAccountUnameAndEmail(uname, email);
         List<String> errors = new ArrayList<String>();
@@ -66,6 +72,8 @@ public class RegisterControl extends HttpServlet {
                     errors.add("Hãy nhập password");
                 } else if (pass.length() < 8) {
                     errors.add("Sử dụng 8 ký tự trở lên cho mật khẩu của bạn");
+                } else if (pass.length() > 16) {
+                    errors.add("Sử dụng 8 - 16 ký tự cho mật khẩu của bạn");
                 } else if (!validatePassword(pass)) {
                     errors.add("Password không hợp lệ");
                 }
@@ -81,7 +89,7 @@ public class RegisterControl extends HttpServlet {
                 out.println("location='LoginControl';");
                 out.println("</script>");
             } else if (validateUsername(uname) && validatePassword(pass) && validateEmail(email)) {
-                new RegisterDAO().signUp(uname, email, pass);
+                new RegisterDAO().signUp(uname, email, hashedPassword);
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Đăng kí thành công');");
                 out.println("location='LoginControl';");
