@@ -42,6 +42,7 @@ public class LoginControl extends HttpServlet {
         Matcher matcher = passwordPattern.matcher(password);
         return matcher.matches();
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -50,6 +51,7 @@ public class LoginControl extends HttpServlet {
             String uname = request.getParameter("uname");
             String pass = request.getParameter("password");
             String remember = request.getParameter("remember");
+            Account account = new LoginDAO().getAccount(uname);
             if (uname.equals("") && pass.equals("")) {
                 request.setAttribute("Error", "Vui lòng nhập tên đăng nhập và mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -59,6 +61,9 @@ public class LoginControl extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (!validateUsername(uname)) {
                 request.setAttribute("ErrorUsername", "Tên đăng nhập không hợp lệ");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }else if(account==null){
+                request.setAttribute("ErrorUsername", "Tên đăng nhập không tồn tại");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             if (pass.equals("")) {
@@ -77,6 +82,8 @@ public class LoginControl extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("Account", acc);
                     session.setAttribute("username", uname);
+                    session.setAttribute("email", acc.getEmail());
+                    session.setAttribute("phoneNumber", acc.getPhone());
                     String role = String.valueOf(acc.getRole());
                     session.setAttribute("role", role);
                     session.setAttribute("fullName", acc.getFullName());
