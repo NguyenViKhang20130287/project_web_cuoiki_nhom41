@@ -53,6 +53,7 @@ public class LoginDAO {
                     account.setPassword(rs.getString(3));
                     account.setFullName(rs.getString(4));
                     account.setEmail(rs.getString(5));
+                    account.setPhone(rs.getString(6));
                     account.setRole(rs.getInt(9));
                     return account;
                 }

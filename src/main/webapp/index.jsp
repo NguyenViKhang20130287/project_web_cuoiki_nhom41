@@ -190,6 +190,7 @@
                         <ul id="box-admin-menu">
                             <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                             <li><a href="admin/doc/index-admin.jsp"><i class="fa-solid fa-user-gear"></i>Quản lý website</a>
+                            <li><a href="accountSettings.jsp"><i class="fa-solid fa-right-from-bracket"></i>Thông tin</a></li>
                             </li>
                         </ul>
                     </div>
@@ -199,6 +200,7 @@
                         </button>
                         <ul id="box-admin-menu">
                             <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                            <li><a href="accountSettings.jsp"><i class="fa-solid fa-right-from-bracket"></i>Thông tin</a></li>
                         </ul>
                     </div>
                     <% } %>
@@ -323,9 +325,6 @@
 <!-- body page -->
 <div class="body_page_container">
     <div class="body_page">
-
-
-
 
         <div class="body_page-slides">
             <div class="body_page-slides-card">
