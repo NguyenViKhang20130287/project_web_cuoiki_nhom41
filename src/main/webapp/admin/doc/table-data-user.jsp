@@ -21,6 +21,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
+    <style>
+
+    </style>
+
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
@@ -94,7 +98,7 @@
                  id="sampleTable">
             <thead>
             <tr>
-              <th width="10"><input type="checkbox" id="all"></th>
+<%--              <th width="10"><input type="checkbox" id="all"></th>--%>
               <th>ID khách hàng</th>
               <th width="150">Tên đăng nhập</th>
               <th width="20">Mật khẩu</th>
@@ -110,14 +114,14 @@
             <% List<User> list = (List<User>) request.getAttribute("listUser");
               for (User u : list) { %>
             <tr>
-              <td width="10"><input type="checkbox" name="check1" value="1"></td>
+<%--              <td width="10"><input type="checkbox" name="check1" value="1"></td>--%>
               <td><%= u.getId()%></td>
               <td><%= u.getUserName()%></td>
               <td><%= u.getPassword()%></td>
               <td><%= u.getFullName()%></td>
               <td><%= u.getEmail()%></td>
               <td><%= u.getPhone()%></td>
-              <td><%= u.getRole()%></td>
+              <td><%= u.getRoleDes()%></td>
               <td class="table-td-center">
                 <a class="btn btn-primary btn-sm trash" type="button" title="Xóa"
                    href="DeleteUserAdminControl?uid=<%=u.getId()%>"

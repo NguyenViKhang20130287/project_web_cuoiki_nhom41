@@ -9,6 +9,8 @@ public class User {
     String phone;
     int role;
 
+    String roleDes;
+
     public User() {
     }
 
@@ -20,6 +22,17 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.role = role;
+    }
+
+    public User(int id, String userName, String password, String fullName, String email, String phone, int role, String roleDes) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.roleDes = roleDes;
     }
 
     public int getId() {
@@ -77,6 +90,15 @@ public class User {
     public void setRole(int role) {
         this.role = role;
     }
+
+    public String getRoleDes() {
+        return roleDes;
+    }
+
+    public void setRoleDes(String roleDes) {
+        this.roleDes = roleDes;
+    }
+
 
     @Override
     public String toString() {

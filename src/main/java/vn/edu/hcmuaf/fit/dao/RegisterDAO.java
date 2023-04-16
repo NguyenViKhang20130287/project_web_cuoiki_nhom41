@@ -44,7 +44,7 @@ public class RegisterDAO {
             ps.setString(1, username);
             ps.setString(2, email);
             ps.setString(3, password);
-            ps.setInt(4, 1);
+            ps.setInt(4, 3);
             ps.setDate(5, Date.valueOf(LocalDate.now()));
             ps.setDate(6, Date.valueOf(LocalDate.now()));
             ps.executeUpdate();

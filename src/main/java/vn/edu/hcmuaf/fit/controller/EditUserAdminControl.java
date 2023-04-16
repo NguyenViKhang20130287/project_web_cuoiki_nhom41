@@ -31,6 +31,8 @@ public class EditUserAdminControl extends HttpServlet {
             String phone = request.getParameter("phone");
             int role = Integer.parseInt(request.getParameter("role"));
 
+            System.out.println(role);
+
             new AdminDAO().editDataUser(uid, uname, password, fullName, email, phone, role);
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Cập nhật thông tin khách hàng thành công');");
