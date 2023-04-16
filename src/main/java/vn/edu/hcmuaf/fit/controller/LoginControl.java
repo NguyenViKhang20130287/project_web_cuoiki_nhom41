@@ -52,9 +52,11 @@ public class LoginControl extends HttpServlet {
             String pass = request.getParameter("password");
             String remember = request.getParameter("remember");
             Account account = new LoginDAO().getAccount(uname);
+            System.out.println(account);
             if (uname.equals("") && pass.equals("")) {
                 request.setAttribute("Error", "Vui lòng nhập tên đăng nhập và mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
             }
             if (uname.equals("")) {
                 request.setAttribute("ErrorUsername", "Vui lòng nhập tên đăng nhập");
@@ -62,7 +64,7 @@ public class LoginControl extends HttpServlet {
             } else if (!validateUsername(uname)) {
                 request.setAttribute("ErrorUsername", "Tên đăng nhập không hợp lệ");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            }else if(account==null){
+            } else if (account == null) {
                 request.setAttribute("ErrorUsername", "Tên đăng nhập không tồn tại");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }

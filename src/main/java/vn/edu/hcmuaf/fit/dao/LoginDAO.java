@@ -44,6 +44,7 @@ public class LoginDAO {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 String query = "SELECT * FROM `user` WHERE username = ?";
+
                 ps = new DBConnect().getConnection().prepareStatement(query);
                 ps.setString(1, username);
                 rs = ps.executeQuery();
@@ -60,6 +61,18 @@ public class LoginDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException();
+        }finally {
+            // Đóng kết nối đến cơ sở dữ liệu
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                // Ignored
+            }
         }
         return null;
     }
