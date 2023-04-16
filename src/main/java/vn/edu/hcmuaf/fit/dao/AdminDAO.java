@@ -15,11 +15,30 @@ public class AdminDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    // load product
-
+    // user
     public List<User> getListUser() {
         List<User> list = new ArrayList<>();
-        String query = "SELECT * FROM `user`";
+        String query = "SELECT\n" +
+                "\t`user`.id,\n" +
+                "\t`user`.username,\n" +
+                "\t`user`.`password`,\n" +
+                "\t`user`.full_name,\n" +
+                "\t`user`.email,\n" +
+                "\t`user`.phone_number,\n" +
+                "\t`user`.role_id,\n" +
+                "\trole.description \n" +
+                "FROM\n" +
+                "\t`user`\n" +
+                "\tJOIN role ON role.id = `user`.role_id \n" +
+                "GROUP BY\n" +
+                "\t`user`.id,\n" +
+                "\t`user`.full_name,\n" +
+                "\t`user`.`password`,\n" +
+                "\t`user`.full_name,\n" +
+                "\t`user`.email,\n" +
+                "\t`user`.phone_number,\n" +
+                "\t`user`.role_id,\n" +
+                "\trole.description";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -33,7 +52,8 @@ public class AdminDAO {
                     u.setFullName(rs.getString(4));
                     u.setEmail(rs.getString(5));
                     u.setPhone(rs.getString(6));
-                    u.setRole(rs.getInt(9));
+                    u.setRole(rs.getInt(7));
+                    u.setRoleDes(rs.getString(8));
                     list.add(u);
                 }
                 rs.close();
@@ -44,7 +64,86 @@ public class AdminDAO {
         return list;
     }
 
-    //
+    public int getRoleID(String roleName){
+        int id = 0;
+        String query = "select * from role";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if(statement != null){
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()){
+                    if(roleName.equals(rs.getString(2))){
+                        id = rs.getInt(1);
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return id;
+    }
+
+    public void editDataUser(int id, String userName, String password, String fullName, String email, String phone, int roleName) {
+        String query = "UPDATE `user`\n" +
+                "SET `user`.username = ?,\n" +
+                "`user`.`password` = ?,\n" +
+                "`user`.full_name = ?,\n" +
+                "`user`.email = ?,\n" +
+                "`user`.phone_number = ?,\n" +
+                "`user`.updated_at = ?,\n" +
+                "`user`.role_id = ?\n" +
+                "WHERE `user`.id = ?";
+
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+
+                ps.setString(1, userName);
+                ps.setString(2, password);
+                ps.setString(3, fullName);
+                ps.setString(4, email);
+                ps.setString(5, phone);
+                ps.setDate(6, Date.valueOf(LocalDate.now()));
+                ps.setInt(7, roleName);
+                ps.setInt(8, id);
+
+                ps.executeUpdate();
+
+                System.out.println("Update successfully");
+                ps.close();
+            }
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public void deleteUser(int uid) {
+        String query_del_uid_In_Order = "DELETE FROM `order` WHERE `order`.user_id = ?";
+        String query_del_user = "DELETE FROM `user` WHERE `user`.id = ?";
+
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps_order = new DBConnect().getConnection().prepareStatement(query_del_uid_In_Order);
+                PreparedStatement ps_user = new DBConnect().getConnection().prepareStatement(query_del_user);
+
+                ps_order.setInt(1, uid);
+
+                ps_user.setInt(1, uid);
+
+                ps_order.executeUpdate();
+                ps_user.executeUpdate();
+
+                System.out.println("Delete Successfully");
+            }
+        } catch (Exception e) {
+
+        }
+    }
+    // products admin
     public String getNameCategoryWithID(int parent_id) {
         String result = null;
         if (parent_id == 1) {
@@ -159,66 +258,6 @@ public class AdminDAO {
 
     }
 
-    public void editDataUser(int id, String userName, String password, String fullName, String email, String phone, int role) {
-        String query = "UPDATE `user`\n" +
-                "SET `user`.username = ?,\n" +
-                "`user`.`password` = ?,\n" +
-                "`user`.full_name = ?,\n" +
-                "`user`.email = ?,\n" +
-                "`user`.phone_number = ?,\n" +
-                "`user`.updated_at = ?,\n" +
-                "`user`.role_id = ?\n" +
-                "WHERE `user`.id = ?";
-
-        try {
-            Statement statement = DBConnect.getInstall().get();
-            if (statement != null) {
-                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
-
-                ps.setString(1, userName);
-                ps.setString(2, password);
-                ps.setString(3, fullName);
-                ps.setString(4, email);
-                ps.setString(5, phone);
-                ps.setDate(6, Date.valueOf(LocalDate.now()));
-                ps.setInt(7, role);
-                ps.setInt(8, id);
-
-                ps.executeUpdate();
-
-                System.out.println("Update successfully");
-                ps.close();
-            }
-        } catch (Exception e) {
-
-        }
-
-    }
-
-    public void deleteUser(int uid){
-        String query_del_uid_In_Order = "DELETE FROM `order` WHERE `order`.user_id = ?";
-        String query_del_user = "DELETE FROM `user` WHERE `user`.id = ?";
-
-        try {
-            Statement statement = DBConnect.getInstall().get();
-            if (statement != null) {
-                PreparedStatement ps_order = new DBConnect().getConnection().prepareStatement(query_del_uid_In_Order);
-                PreparedStatement ps_user = new DBConnect().getConnection().prepareStatement(query_del_user);
-
-                ps_order.setInt(1, uid);
-
-                ps_user.setInt(1, uid);
-
-                ps_order.executeUpdate();
-                ps_user.executeUpdate();
-
-                System.out.println("Delete Successfully");
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
     // edit product
 
     public int getIdCategory(String nameGem, String nameCat) {
@@ -305,7 +344,8 @@ public class AdminDAO {
 
     }
 
-    public List<Banner> getListBanner(){
+    //    banner
+    public List<Banner> getListBanner() {
         List<Banner> list = new ArrayList<>();
         String query = "SELECT * FROM banner";
         try {
@@ -328,7 +368,7 @@ public class AdminDAO {
         return list;
     }
 
-    public void editSlider(int id, String name, File image){
+    public void editSlider(int id, String name, File image) {
         String query = "UPDATE banner\n" +
                 "SET banner.name = ?,\n" +
                 "banner.image = ?\n" +
@@ -351,6 +391,26 @@ public class AdminDAO {
         }
     }
 
+    public Banner getBannerByID(String id) {
+        Banner b = null;
+        String query = "SELECT * from banner WHERE banner.id = ?";
+        try {
+            Statement s = DBConnect.getInstall().get();
+            if (s != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setString(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    b = new Banner(rs.getInt(1), rs.getString(2), rs.getString(3));
+                }
+                rs.close();
+                ps.close();
+            }
+        } catch (Exception e) {
+        }
+        return b;
+    }
+
     // add product
     public int checkParentID(String cat) {
         int result = 0;
@@ -371,6 +431,7 @@ public class AdminDAO {
         }
         return result;
     }
+
     public String checkParentFolder(int parentID) {
         String Path = "";
         if (parentID == 2) {
@@ -390,6 +451,7 @@ public class AdminDAO {
         }
         return Path;
     }
+
     public List<ColorAdmin> getListColor() {
         List<ColorAdmin> listColor = new LinkedList<>();
         try {
@@ -408,6 +470,7 @@ public class AdminDAO {
         }
         return listColor;
     }
+
     public int checkIdColor(String color) {
         List<ColorAdmin> listColor = getListColor();
         int idColor = 0;
@@ -441,6 +504,7 @@ public class AdminDAO {
         }
         return listCat;
     }
+
     public int checkIdGem(String nameInput, int idParentInput) {
         int result = 0;
         List<CategoryAdmin> listCat = getListCat(nameInput);
@@ -485,7 +549,7 @@ public class AdminDAO {
                 psAddProduct.setInt(4, price);
                 psAddProduct.setString(5, keyword);
                 psAddProduct.setString(6, design);
-                psAddProduct.setInt(7, checkIdGem(nameGem,checkParentID(cat)));
+                psAddProduct.setInt(7, checkIdGem(nameGem, checkParentID(cat)));
                 psAddProduct.setString(8, description);
                 psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
 
@@ -519,7 +583,7 @@ public class AdminDAO {
 //        new AdminDAO().addProduct(141, "sp1", "Thạch anh vàng", 1,
 //                "Hoa tai", "Đỏ", 1000, "a", "a", new File("ad"), "a");
 
-        System.out.println(new AdminDAO().getData());
+        System.out.println(new AdminDAO().getRoleID("Khách hàng"));
 
     }
 }

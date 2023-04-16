@@ -14,15 +14,17 @@ import java.util.List;
 public class DataBannerControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-            List<Banner> list = new AdminDAO().getListBanner();
-            request.setAttribute("listBanner", list);
-
-            String id = request.getParameter("id");
-            request.setAttribute("id", id);
+        response.setContentType("text/html;charset=UTF-8");
+//        response.getWriter().println("ok");
+        try {
+            String bid = request.getParameter("bid");
+            AdminDAO ad = new AdminDAO();
+            Banner b = ad.getBannerByID(bid);
+            request.setAttribute("banner", b);
+//            System.out.println(request.getAttribute("banner"));
             request.getRequestDispatcher("form-edit-banner.jsp").forward(request, response);
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
