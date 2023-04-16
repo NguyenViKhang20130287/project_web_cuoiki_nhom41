@@ -33,51 +33,6 @@ public class AccountSettingControl extends HttpServlet {
             request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
         } else if (full_name.equals("") || email.equals("") || phone_number.equals("")) {
             request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
-//        } else if (full_name.equals(account.getFullName())&&!email.equals(account.getEmail())&&!phone_number.equals(account.getPhone())) {
-//            new AccountDAO().updateAccount("", email, phone_number, username);
-//            session.setAttribute("email_update", email);
-//            session.setAttribute("phone_number", phone_number);
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("alert('Cập nhật thông tin thành công');");
-//            out.println("location='/web_nhom41_war/accountSettings.jsp';");
-//            out.println("</script>");
-//        } else if (email.equals(account.getEmail())) {
-//            new AccountDAO().updateAccount(full_name, "", phone_number, username);
-//            session.setAttribute("full_name", full_name);
-//            session.setAttribute("phone_number", phone_number);
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("alert('Cập nhật thông tin thành công');");
-//            out.println("location='/web_nhom41_war/accountSettings.jsp';");
-//            out.println("</script>");
-//        } else if (phone_number.equals(account.getPhone())) {
-//            new AccountDAO().updateAccount(full_name, email, "", username);
-//            session.setAttribute("full_name", full_name);
-//            session.setAttribute("email_update", email);
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("alert('Cập nhật thông tin thành công');");
-//            out.println("location='/web_nhom41_war/accountSettings.jsp';");
-//            out.println("</script>");
-//        } else if (full_name.equals(account.getFullName()) && email.equals(account.getEmail())) {
-//            new AccountDAO().updateAccount("", "", phone_number, username);
-//            session.setAttribute("phone_number", phone_number);
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("alert('Cập nhật thông tin thành công');");
-//            out.println("location='/web_nhom41_war/accountSettings.jsp';");
-//            out.println("</script>");
-//        } else if (email.equals(account.getEmail()) && phone_number.equals(account.getPhone())) {
-//            new AccountDAO().updateAccount(full_name, "", "", username);
-//            session.setAttribute("full_name", full_name);
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("alert('Cập nhật thông tin thành công');");
-//            out.println("location='/web_nhom41_war/accountSettings.jsp';");
-//            out.println("</script>");
-//        } else if (full_name.equals(account.getFullName()) && phone_number.equals(account.getPhone())) {
-//            new AccountDAO().updateAccount("", email, "", username);
-//            session.setAttribute("email_update", email);
-//            out.println("<script type=\"text/javascript\">");
-//            out.println("alert('Cập nhật thông tin thành công');");
-//            out.println("location='/web_nhom41_war/accountSettings.jsp';");
-//            out.println("</script>");
         } else {
             new AccountDAO().updateAccount(full_name, email, phone_number, username);
             session.setAttribute("full_name", full_name);
@@ -88,5 +43,6 @@ public class AccountSettingControl extends HttpServlet {
             out.println("location='/web_nhom41_war/accountSettings.jsp';");
             out.println("</script>");
         }
+
     }
 }

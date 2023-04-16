@@ -1,4 +1,3 @@
-<%@ page import="vn.edu.hcmuaf.fit.entity.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Banner" %>
 <!DOCTYPE html>
@@ -65,11 +64,6 @@
         </li>
         <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
                 class="app-menu__label">Quản lý đơn hàng</span></a></li>
-        <li><a class="app-menu__item" href="table-data-banned.jsp"><i class='app-menu__icon bx bx-run'></i><span
-                class="app-menu__label">Quản lý nội bộ
-          </span></a></li>
-        <li><a class="app-menu__item" href="table-data-money.jsp"><i class='app-menu__icon bx bx-dollar'></i><span
-                class="app-menu__label">Bảng kê lương</span></a></li>
         <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i
                 class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
         </li>
@@ -91,16 +85,6 @@
             <div class="tile">
                 <div class="tile-body">
                     <div class="row element-button">
-<%--                        <div class="col-sm-2">--%>
-
-<%--&lt;%&ndash;                            <a class="btn btn-add btn-sm" href="form-add-san-pham.html" title="Thêm"><i&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                    class="fas fa-plus"></i>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                Thêm banner</a>&ndash;%&gt;--%>
-<%--                        </div>--%>
-<%--                        <div class="col-sm-2">--%>
-<%--                            <a class="btn btn-delete btn-sm" type="button" title="Xóa" onclick="myFunction(this)"><i--%>
-<%--                                    class="fas fa-trash-alt"></i> Xóa tất cả </a>--%>
-<%--                        </div>--%>
                     </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
@@ -124,7 +108,7 @@
                                                                  width="200px" height="100px"></td>
                             <td style="text-align: center">
                                 <a class="btn btn-primary btn-sm edit" type="button" title="Sửa" id="show-emp"
-                                        href="DataBannerControl?id=<%=b.getId()%>"><i class="fas fa-edit"></i></a>
+                                        href="DataBannerControl?bid=<%=b.getId()%>"><i class="fas fa-edit"></i></a>
 
                             </td>
                         </tr>
@@ -151,7 +135,7 @@
 <!-- Page specific javascripts-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 <!-- Data table plugin-->
-<%--<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>--%>
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
     $('#sampleTable').DataTable();

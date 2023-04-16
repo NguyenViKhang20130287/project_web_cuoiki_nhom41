@@ -57,4 +57,32 @@ public class AccountDAO {
             }
         }
     }
+
+    public void updatePassword(String newPassword, String username) {
+        try {
+            String query = "UPDATE `user` SET password=? WHERE username=?";
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                conn = DBConnect.getInstall().connection;
+                ps = conn.prepareStatement(query);
+                ps.setString(1, newPassword);
+                ps.setString(2, username);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        } finally {
+            // Đóng kết nối đến cơ sở dữ liệu
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Ignored
+            }
+        }
+    }
 }

@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/about.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/accountSettings.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/doc/index-admin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin/doc" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/doc/quan-ly-bao-cao.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin/doc" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/doc/table-data-product.html" value="file://$PROJECT_DIR$/src/main/webapp/admin/doc" />

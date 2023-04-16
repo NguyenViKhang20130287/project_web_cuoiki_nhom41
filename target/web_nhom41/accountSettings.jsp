@@ -485,32 +485,40 @@
                     </div>
                     <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
                         <h3 class="mb-4">Cài đặt mặt khẩu</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Mật khẩu cũ</label>
-                                    <input type="password" class="form-control" name="old_password">
+                        <form id="password-form" action="/web_nhom41_war/UpdatePasswordControl" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Mật khẩu cũ</label>
+                                        <input type="password" class="form-control" name="old_password"
+                                               id="old_password" onchange="validateForm()">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p style="color: red"><%=request.getAttribute("errorOldPass") != null ? request.getAttribute("errorOldPass") : ""%>
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Mật khẩu mới</label>
-                                    <input type="password" class="form-control" name="new_password">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Mật khẩu mới</label>
+                                        <input type="password" class="form-control" name="new_password"
+                                               id="new_password" onchange="validateForm()">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Xác nhận mật khẩu mới</label>
-                                    <input type="password" class="form-control">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p style="color: red"><%=request.getAttribute("error") != null ? request.getAttribute("error") : ""%>
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <button class="btn btn-primary">Cập nhật</button>
-                            <button class="btn btn-light">Hủy</button>
-                        </div>
+                            <div>
+                                <button id="updatePassBtn" type="submit" class="btn btn-primary">Cập nhật</button>
+                                <button id="cancelPassBtn" class="btn btn-light">Hủy</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -530,6 +538,8 @@
         var currentName = document.getElementById("currentName").value;
         var currentEmail = document.getElementById("currentEmail").value;
         var currentPhoneNumber = document.getElementById("currentPhoneNumber").value;
+        var oldPassword = document.getElementById("old_password").value;
+        var newPassword = document.getElementById("new_password").value;
         if (name === "" || email === "" || phone_number === "" || (name === currentName && email === currentEmail && phone_number === currentPhoneNumber)) {
             document.getElementById("updateBtn").disabled = true;
             document.getElementById("cancelBtn").disabled = true;
@@ -537,12 +547,24 @@
             document.getElementById("updateBtn").disabled = false;
             document.getElementById("cancelBtn").disabled = false;
         }
+        if (oldPassword === "" || newPassword === "") {
+            document.getElementById("updatePassBtn").disabled = true;
+            document.getElementById("cancelPassBtn").disabled = true;
+        } else {
+            document.getElementById("updatePassBtn").disabled = false;
+            document.getElementById("cancelPassBtn").disabled = false;
+        }
     }
 
     var cancelBtn = document.getElementById("cancelBtn");
     var informationForm = document.getElementById("information-form");
     cancelBtn.addEventListener("click", function () {
         informationForm.reset();
+    });
+    var cancelPassBtn = document.getElementById("cancelPassBtn");
+    var passwordForm = document.getElementById("password-form");
+    cancelPassBtn.addEventListener("click", function () {
+        passwordForm.reset();
     });
 
 
