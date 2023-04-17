@@ -56,27 +56,21 @@
     <div class="body_page-main">
         <div class="lost-pass-container">
             <div class="text-header">
-                <h3>Tìm Tài Khoản Của Bạn</h3>
-            </div>
-            <div class="message">
-                <%String message = (String) request.getAttribute("error"); %>
-                <% if (message == null) { %>
-                <p>Vui lòng nhập email để tìm kiếm tài khoản của bạn</p>
-                <% } else { %>
-                <p style="color: red"><%=message%>
-                </p>
-                <% } %>
+                <h3 style="border-bottom: none!important;">Tìm Tài Khoản Của Bạn</h3>
             </div>
             <form action="ForgotPasswordControl" method="post">
 
                 <input id="email" name="email" type="email" placeholder="Địa Chỉ Email...">
+                <div>
+                    <%String message = (String) request.getAttribute("error"); %>
+                    <p style="color: red; margin-bottom: 20px;"><%=message != null ? message : ""%>
+                    </p>
+                </div>
 
                 <button class="find-button" type="submit">TÌM KIẾM</button>
 
                 <button class="cancel-button"><a href="LoginControl">HỦY</a>
                 </button>
-
-
             </form>
         </div>
     </div>

@@ -49,25 +49,19 @@
     <div class="body_page-main">
         <div class="lost-pass-container">
             <div class="text-header">
-                <h3>Nhập mã xác thực</h3>
-            </div>
-            <div class="message">
-
-                <%String message = (String) request.getAttribute("errorOTP"); %>
-                <% if (message == null) { %>
-                <p>Vui lòng nhập mã xác thực để tạo mật khẩu mới</p>
-                <% } else { %>
-                <p style="color: red"><%=message%>
-                </p>
-                <% } %>
-                <%--                <p>Vui lòng nhập mã xác thực để tạo mật khẩu mới</p>--%>
+                <h3 style="border-bottom: none!important;">Nhập mã xác thực</h3>
             </div>
             <form action="enterOTPControl" method="post">
 
                 <input style="height: 60px; width: 100%; border:2px solid #eaedff;
                 margin-bottom: 20px; line-height: inherit; padding: 0 20px ;
                 font-size: 16px"
-                       id="email" name="otp" type="number" placeholder="Nhập mã xác thực...">
+                       id="email" name="otp" type="text" placeholder="Nhập mã xác thực...">
+                <div>
+                    <%String message = (String) request.getAttribute("errorOTP"); %>
+                    <p style="color: red; margin-bottom: 20px;"><%=message != null ? message : ""%>
+                    </p>
+                </div>
 
                 <button class="find-button" type="submit">OK</button>
 

@@ -1,40 +1,53 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.ForgotPasswordDAO;
+import vn.edu.hcmuaf.fit.entity.ForgotPassword;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "NewPasswordControl", value = "/NewPasswordControl")
 public class NewPasswordControl extends HttpServlet {
+    private Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$");
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
+    private boolean validatePassword(String password) {
+        Matcher matcher = passwordPattern.matcher(password);
+        return matcher.matches();
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-
-        String newPass = request.getParameter("newPass");
-        HttpSession session = request.getSession();
-        int idUser = (int) session.getAttribute("idUser");
-        ForgotPasswordDAO fpd = new ForgotPasswordDAO();
-        PrintWriter out = response.getWriter();
-        try {
-                fpd.changePassword(idUser, newPass);
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Đổi mật khẩu thành công');");
-                out.println("location='LoginControl';");
-                out.println("</script>");
-        } catch (Exception e) {
-
+        try (PrintWriter out = response.getWriter();) {
+            HttpSession session = request.getSession();
+            String newPassword = request.getParameter("newPass");
+            int userId = (int) session.getAttribute("userId");
+            if (newPassword.equals("")) {
+                request.setAttribute("oldPassMess", "Vui lòng nhập mật khẩu mới");
+                request.getRequestDispatcher("newPassword.jsp").forward(request, response);
+            } else {
+                if (validatePassword(newPassword)) {
+                    new ForgotPasswordDAO().changePassword(userId, BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Đổi mật khẩu thành công');");
+                    out.println("location='LoginControl';");
+                    out.println("</script>");
+                } else {
+                    request.setAttribute("oldPassMess", "Mật khẩu không đúng định dạng");
+                    request.getRequestDispatcher("newPassword.jsp").forward(request, response);
+                }
+            }
         }
 
     }
