@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.controller;
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.RegisterDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.UserSignUp;
+import vn.edu.hcmuaf.fit.service.MailService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -57,8 +59,15 @@ public class RegisterControl extends HttpServlet {
         String pass = request.getParameter("pass_register");
         String hashedPassword = hashPassword(pass);
 
-        Account acc = new RegisterDAO().checkAccountUnameAndEmail(uname, email);
+        MailService ms = new MailService();
+        String code = ms.getRandom();
+
+
         List<String> errors = new ArrayList<String>();
+        if(uname.equals("")||email.equals("")||pass.equals("")){
+            errors.add("Vui lòng điền đầy đủ thông tin");
+        }
+        Account acc = new RegisterDAO().checkAccountUnameAndEmail(uname, email);
         if (acc == null) {
             if (!validateUsername(uname) || !validatePassword(pass) || !validateEmail(email)) {
                 if (uname.equals("")) {
@@ -89,11 +98,15 @@ public class RegisterControl extends HttpServlet {
                 out.println("location='LoginControl';");
                 out.println("</script>");
             } else if (validateUsername(uname) && validatePassword(pass) && validateEmail(email)) {
-                new RegisterDAO().signUp(uname, email, hashedPassword);
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Đăng kí thành công');");
-                out.println("location='LoginControl';");
-                out.println("</script>");
+                UserSignUp userSignUp = new UserSignUp(uname, email, BCrypt.hashpw(pass,BCrypt.gensalt()),code);
+                boolean test = ms.sendEmail(userSignUp);
+                if(test){
+                    HttpSession session = request.getSession();
+                    session.setAttribute("authcode", userSignUp);
+                    response.sendRedirect("verifyRegister.jsp");
+                }else {
+                    System.out.println("Gửi không thành công");
+                }
             }
 
         } else {
