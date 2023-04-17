@@ -156,7 +156,9 @@
                             <ul class="header_page-category-sub-menu">
 
                                 <% if (session.getAttribute("Account") != null) { %>
-                                <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                                <% if ((Objects.equals(session.getAttribute("role"), "0")) ||
+                                        (Objects.equals(session.getAttribute("role"), "1")) ||
+                                        (Objects.equals(session.getAttribute("role"), "2"))) { %>
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
@@ -164,7 +166,7 @@
                                 <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a>
                                 </li>
 
-                                <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                                <% } else if ((Objects.equals(session.getAttribute("role"), "3"))) { %>
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
@@ -195,7 +197,9 @@
                             hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
                         <% if (session.getAttribute("Account") != null) {%>
-                        <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                        <% if ((Objects.equals(session.getAttribute("role"), "0")) ||
+                                (Objects.equals(session.getAttribute("role"), "1")) ||
+                                (Objects.equals(session.getAttribute("role"), "2"))) { %>
                         <div id="box-admin">
                             <button><%= session.getAttribute("username") %>
                             </button>
@@ -207,7 +211,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <% } else if ((Objects.equals(session.getAttribute("role"), "1"))) { %>
+                        <% } else if ((Objects.equals(session.getAttribute("role"), "3"))) { %>
                         <div id="box-admin">
                             <button><%= session.getAttribute("username") %>
                             </button>
