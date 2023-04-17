@@ -62,7 +62,7 @@ public class LoginControl extends HttpServlet {
                 request.setAttribute("ErrorUsername", "Vui lòng nhập tên đăng nhập");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (!validateUsername(uname)) {
-                request.setAttribute("ErrorUsername", "Tên đăng nhập không hợp lệ");
+                request.setAttribute("ErrorUsername", "Tên đăng nhập không đúng định dạng");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (account == null) {
                 request.setAttribute("ErrorUsername", "Tên đăng nhập không tồn tại");
@@ -72,12 +72,12 @@ public class LoginControl extends HttpServlet {
                 request.setAttribute("ErrorPass", "Vui lòng nhập mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (!validatePassword(pass)) {
-                request.setAttribute("ErrorPass", "Mật khẩu không hợp lệ");
+                request.setAttribute("ErrorPass", "Mật khẩu không đúng định dạng");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else {
                 String hashedPassword = new LoginDAO().getAccount(uname).getPassword();
                 if (!BCrypt.checkpw(pass, hashedPassword)) {
-                    request.setAttribute("Error", "Mật khẩu không đúng");
+                    request.setAttribute("Error", "Mật khẩu không chính xác");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
                     Account acc = new LoginDAO().getAccount(uname);
