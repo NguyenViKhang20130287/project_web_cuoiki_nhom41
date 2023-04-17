@@ -22,7 +22,6 @@ public class VerifyRegister extends HttpServlet {
         try (PrintWriter out = response.getWriter();) {
             HttpSession session = request.getSession();
             UserSignUp userSignUp = (UserSignUp) session.getAttribute("authcode");
-            System.out.println(userSignUp);
             String code = request.getParameter("authcode");
             if (code.equals("")) {
                 request.setAttribute("errorVerify", "Vui lòng nhập mã xác thực");

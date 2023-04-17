@@ -66,16 +66,11 @@
                 <label for="pass">Mật khẩu mới <span>*</span></label>
                 <input id="pass" type="password" placeholder="Nhập mật khẩu mới..." name="newPass">
 
-                <%String errorMessage = (String) request.getAttribute("oldPassMess"); %>
-                <div style="margin-bottom: 20px">
-                    <% if (errorMessage != null) { %>
-                    <p style="border-radius: 3px; color: #a90312;  font-weight: bold">
-                        <%=errorMessage%>
+                <div>
+                    <%String message = (String) request.getAttribute("oldPassMess"); %>
+                    <p style="color: red; margin-bottom: 20px;"><%=message != null ? message : ""%>
                     </p>
-                    <% } %>
                 </div>
-
-
                 <button class="login-button" type="submit">ĐỔI MẬT KHẨU</button>
                 <br>
                 <br>
