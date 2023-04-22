@@ -140,7 +140,7 @@ public class AdminDAO {
                 System.out.println("Delete Successfully");
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
     // products admin
@@ -281,8 +281,6 @@ public class AdminDAO {
         }
         return id;
     }
-
-
     public int getIdColor(String color) {
         int id = 0;
         String query = "SELECT * FROM gem_color";
