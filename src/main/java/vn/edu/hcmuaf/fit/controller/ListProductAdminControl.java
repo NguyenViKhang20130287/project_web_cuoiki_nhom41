@@ -21,7 +21,6 @@ public class ListProductAdminControl extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        doGet(request, response);
     }
 
     public static void main(String[] args) {

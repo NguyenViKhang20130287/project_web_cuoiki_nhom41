@@ -23,6 +23,78 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
+    <style>
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+            visibility: hidden; /* Hidden by default. Visible on click */
+            min-width: 250px; /* Set a default minimum width */
+            margin-left: -125px; /* Divide value of min-width by 2 */
+            background-color: #333; /* Black background color */
+            color: #fff; /* White text color */
+            text-align: center; /* Centered text */
+            border-radius: 2px; /* Rounded borders */
+            padding: 16px; /* Padding */
+            position: fixed; /* Sit on top of the screen */
+            z-index: 1; /* Add a z-index if needed */
+            left: 50%; /* Center the snackbar */
+            bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+      However, delay the fade out process for 2.5 seconds */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @-webkit-keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
+
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
@@ -95,12 +167,22 @@
                     </div>
 
                     <table class="table table-hover table-bordered" id="sampleTable">
-
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Tình trạng</th>
+                            <th>Giá tiền</th>
+                            <th>Danh mục</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        </thead>
                         <tbody>
                         <% List<ProductAdmin> list = (List<ProductAdmin>) request.getAttribute("listProduct");
                             for (ProductAdmin pa : list) { %>
                         <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
                             <td><%= pa.getId()%>
                             </td>
                             <td><%= pa.getName()%>
@@ -120,30 +202,19 @@
                             <td><%= pa.getCategory()%>
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm trash" title="Xóa"
-                                   href="DeleteProductAdminControl?pid=<%=pa.getId()%>"
-                                ><i class="fas fa-trash-alt"></i></a>
+                                <button class="btn btn-primary btn-sm trash" title="Xóa" type="button"
+                                   onclick="deleteProduct(id=<%=pa.getId()%>)">
+                                    <i class="fas fa-trash-alt"></i></button>
                                 <a class="btn btn-primary btn-sm edit" title="Sửa" id="show-emp"
                                    href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"><i class="fas fa-edit"></i></a>
                             </td>
                         </tr>
                         <% } %>
                         </tbody>
-
-                        <thead>
-                        <tr>
-                            <th width="10"><input type="checkbox" id="all"></th>
-                            <th>STT</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Ảnh</th>
-                            <th>Số lượng</th>
-                            <th>Tình trạng</th>
-                            <th>Giá tiền</th>
-                            <th>Danh mục</th>
-                            <th>Chức năng</th>
-                        </tr>
-                        </thead>
                     </table>
+
+                    <!-- The actual snackbar -->
+                    <div id="snackbar"></div>
 
                 </div>
             </div>
@@ -151,23 +222,13 @@
     </div>
 </main>
 
-
-<!--
-MODAL
--->
-
-<!-- Essential javascripts for application to work-->
-<script src="js/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="src/jquery.table2excel.js"></script>
-<script src="js/main.js"></script>
-<!-- The javascript plugin to display page loading on top-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://rawgit.com/unconditional/jquery-table2excel/master/src/jquery.table2excel.js"></script>
 <script src="js/plugins/pace.min.js"></script>
-<!-- Page specific javascripts-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-<!-- Data table plugin-->
 <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -215,30 +276,59 @@ MODAL
     }
 </script>
 <script>
-    function deleteRow(r) {
-        var i = r.parentNode.parentNode.rowIndex;
-        document.getElementById("myTable").deleteRow(i);
+    $('#sampleTable').DataTable();
+
+    function toastsMessage(message) {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        x.innerHTML = message
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 3000);
+    }
+</script>
+
+<script>
+
+    function deleteProduct(id) {
+        $.ajax({
+            url: "/web_nhom41_war/admin/doc/DeleteProductAdminControl",
+            type: "post",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                console.log(data)
+                let tables = document.querySelector('#sampleTable')
+                tables.innerHTML = `<thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Tình trạng</th>
+                            <th>Giá tiền</th>
+                            <th>Danh mục</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        </thead>` + data;
+
+                $('#sampleTable').DataTable();
+                toastsMessage("Xóa thành công")
+
+            },
+            error: function (error) {
+                alert("error")
+            }
+        })
     }
 
-    jQuery(function () {
-        jQuery(".trash").click(function () {
-            swal({
-                title: "Cảnh báo",
-                text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
-                buttons: ["Hủy bỏ", "Đồng ý"],
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Đã xóa thành công.!", {});
-                    }
-                });
-        });
-    });
-    oTable = $('#sampleTable').dataTable();
-    $('#all').click(function (e) {
-        $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-        e.stopImmediatePropagation();
-    });
 </script>
 </body>
 
