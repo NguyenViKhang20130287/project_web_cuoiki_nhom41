@@ -1,6 +1,7 @@
 // Hiển thị hình ảnh chi tiết của sản phẩm
 const allHoverImages = document.querySelectorAll('.hover_container div img');
 const imgContainer = document.querySelector('.img_container');
+let quantityAdded = document.getElementById('added');
 window.addEventListener('DOMContentLoaded', () => {
     allHoverImages[0].parentElement.classList.add('active');
 });
@@ -23,9 +24,15 @@ $(".button").on("click", function () {
 
     var $button = $(this);
     var oldValue = $button.parent().find("input").val();
-
+    let remain = document.getElementById('remain');
+    let message = document.getElementById('checkQuantity');
+    message.innerHTML = "";
     if ($button.text() == "+") {
-        var newVal = parseFloat(oldValue) + 1;
+        if (parseFloat(oldValue) < remain.innerHTML) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            newVal = parseFloat(remain.innerHTML);
+        }
     } else {
         if (oldValue > 1) {
             var newVal = parseFloat(oldValue) - 1;
@@ -87,15 +94,31 @@ window.onclick = function (event) {
 
 function addtocart(idProduct) {
     var cartQuantity = document.getElementById("cartQuantity");
-    console.log(idProduct);
+    let addQuantity = document.getElementById('number').value;
+    let message = document.getElementById('checkQuantity');
+    let remain = document.getElementById('remain');
     $.ajax({
         url: "/web_nhom41_war/addtocart",
         type: "post",
         data: {
-            inputId: idProduct
+            inputId: idProduct,
+            quantity: addQuantity
         },
         success: function (data) {
             cartQuantity.innerHTML = data;
+            if (parseInt(quantityAdded.innerHTML) + parseInt(addQuantity) <= parseInt(remain.innerHTML)) {
+                quantityAdded.innerHTML = parseInt(quantityAdded.innerHTML) + parseInt(addQuantity);
+                message.innerHTML = "Đã thêm sản phẩm vào giỏ hàng!";
+            } else {
+                message.innerHTML = "Hàng còn lại " + remain.innerHTML + " sản phẩm nên chỉ thêm được " + (parseInt(remain.innerHTML) - parseInt(quantityAdded.innerHTML)) + " sản phẩm vào giỏ!";
+                quantityAdded.innerHTML = parseInt(remain.innerHTML);
+            }
+            if (message.innerHTML.includes("0 sản phẩm vào giỏ!")) {
+                message.innerHTML = "Đã thêm toàn bộ sản phẩm vào giỏ hàng!";
+            }
+            setTimeout(function () {
+                message.innerHTML = "";
+            }, 3000);
         },
         error: function (xhr) {
             //Do Something to handle error
@@ -103,3 +126,32 @@ function addtocart(idProduct) {
     });
 }
 
+function checkQuantity(productQuantity) {
+    let quantity = document.getElementById('number');
+    let message = document.getElementById('checkQuantity');
+    message.innerHTML = "";
+    if (!isNaN(quantity.value) && productQuantity > 0) {
+        if (quantity.value > productQuantity) {
+            quantity.value = productQuantity;
+            message.innerHTML = "Số lượng tồn kho còn lại là " + productQuantity + "!";
+        } else {
+            if (quantity.value < 1) {
+                quantity.value = 1;
+                message.innerHTML = "Số lượng chọn phải lớn hơn 1!";
+
+            }
+        }
+    } else {
+        if (isNaN(quantity.value)) {
+            quantity.value = 1;
+            message.innerHTML = "Số lượng chọn phải là một con số!";
+        }
+        if (productQuantity == 0) {
+            quantity.value = 0;
+            message.innerHTML = "Sản phẩm này đã hết hàng!";
+        }
+    }
+    setTimeout(function () {
+        message.innerHTML = "";
+    }, 3000)
+}

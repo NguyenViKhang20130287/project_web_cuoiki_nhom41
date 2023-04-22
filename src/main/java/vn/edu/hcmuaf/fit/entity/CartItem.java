@@ -37,4 +37,8 @@ public class CartItem {
         this.quantity++;
     }
 
+    public void incrementQuantityWithQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
 }

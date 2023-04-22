@@ -26,6 +26,7 @@ public class AddToCartControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         CartDao CartDao = new CartDao();
         String idProduct = request.getParameter("inputId");
+        String quantity = request.getParameter("quantity");
         Product product = CartDao.getProductById(idProduct);
         CartItem cartItem;
         HttpSession session = request.getSession();
@@ -34,17 +35,33 @@ public class AddToCartControl extends HttpServlet {
 
         if (cart == null) {
             cart = new HashMap<Integer, CartItem>();
-            cartItem = new CartItem(product, 1);
+            if (quantity != null) {
+                cartItem = new CartItem(product, Integer.parseInt(quantity));
+            } else {
+                cartItem = new CartItem(product, 1);
+            }
             cart.put(Integer.valueOf(idProduct), cartItem);
         } else {
             if (cart.containsKey(Integer.parseInt(idProduct))) {
                 cartItem = cart.get(Integer.parseInt(idProduct));
                 if (cartItem.getQuantity() < product.getQuantity()) {
+                    if (quantity == null) {
+                        cartItem.incrementQuantity();
+                    } else {
+                        if ((Integer.parseInt(quantity) + cartItem.getQuantity()) < product.getQuantity()) {
+                            cartItem.incrementQuantityWithQuantity(Integer.parseInt(quantity));
+                        } else {
+                            cartItem.setQuantity(product.getQuantity());
+                        }
 
-                    cartItem.incrementQuantity();
+                    }
                 }
             } else {
-                cartItem = new CartItem(product, 1);
+                if (quantity != null) {
+                    cartItem = new CartItem(product, Integer.parseInt(quantity));
+                } else {
+                    cartItem = new CartItem(product, 1);
+                }
                 cart.put(Integer.parseInt(idProduct), cartItem);
             }
         }

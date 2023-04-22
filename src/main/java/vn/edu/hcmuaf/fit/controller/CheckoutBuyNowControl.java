@@ -122,9 +122,12 @@ public class CheckoutBuyNowControl extends HttpServlet {
                     if (cartList != null) {
                         if ((cartList.get(entry.getKey()).getQuantity()) > (entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity())) {
                             cartList.get(entry.getKey()).setQuantity(cartList.get(entry.getKey()).getQuantity() - entry.getValue().getQuantity());
-                            if (cartList.get(entry.getKey()).getQuantity() == 0) {
+                            if (cartList.get(entry.getKey()).getQuantity() <= 0) {
                                 cartList.remove(entry.getKey());
                             }
+                        }
+                        if (cartList.size() == 0) {
+                            session.setAttribute("cart", null);
                         }
                     }
 
