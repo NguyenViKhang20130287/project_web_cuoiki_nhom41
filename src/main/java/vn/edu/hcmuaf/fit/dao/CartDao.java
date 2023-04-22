@@ -53,5 +53,13 @@ public class CartDao {
         return result;
     }
 
+    public boolean checkQuantityInput(int quantity, String id) {
+        boolean result = true;
+        Product p = getProductById(id);
+        if (quantity > p.getQuantity() || quantity < 1) {
+            result = false;
+        }
+        return result;
+    }
 
 }

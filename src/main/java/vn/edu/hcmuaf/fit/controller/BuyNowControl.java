@@ -26,12 +26,13 @@ public class BuyNowControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         CartDao CartDao = new CartDao();
         String idProduct = request.getParameter("idProduct");
+        String quantity = request.getParameter("quantity");
         Product product = CartDao.getProductById(idProduct);
         CartItem cartItem;
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
 
-        cartItem = new CartItem(product, 1);
+        cartItem = new CartItem(product, Integer.parseInt(quantity));
 
         session.setAttribute("buynow", cartItem);
         response.sendRedirect("checkout.jsp");
