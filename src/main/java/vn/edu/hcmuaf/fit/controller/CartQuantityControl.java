@@ -115,10 +115,12 @@ public class CartQuantityControl extends HttpServlet {
                         "                        <div class=\"cart-plus-minus\">\n" +
                         "                            <button class=\"dec qtybutton\" id=\"dec\" onclick=\"quantity(this.id," + entry.getKey() + ")\">-\n" +
                         "                            </button>\n" +
-                        "                            <input id=\"quantity\" type=\"text\" value=\"" + entry.getValue().getQuantity() + "\">\n" +
+                        "                            <input id=\"quantity quantity" + entry.getKey() + "\" onblur=\"inputQuantity(this.id," + entry.getKey() + ")\" type=\"text\" value=\"" + entry.getValue().getQuantity() + "\">\n" +
                         "                            <button class=\"inc qtybutton\" id=\"inc\" onclick=\"quantity(this.id," + entry.getKey() + ")\">+\n" +
                         "                            </button>\n" +
                         "                        </div>\n" +
+                        "                        <div id=\"max" + entry.getKey() + "\" style=\"display: none\">" + entry.getValue().getProduct().getQuantity() + "</div>\n" +
+                        "                        <div id=\"current" + entry.getKey() + "\" style=\"display: none\">" + entry.getValue().getQuantity() + "</div>\n" +
                         "                    </th>\n" +
                         "                    <th class=\"product-total\" id=\"product-total\">\n" +
                         "                        <span> " + total + "</span>\n" +
@@ -142,10 +144,12 @@ public class CartQuantityControl extends HttpServlet {
                         "                            <div class=\"product-quantity\">\n" +
                         "                                <button id=\"dec1\" onclick=\"quantity(this.id," + entry.getKey() + ")\">-\n" +
                         "                                </button>\n" +
-                        "                                <input type=\"text\" value=\"" + entry.getValue().getQuantity() + "\">\n" +
+                        "                                <input type=\"text\" id=\"quantityResponsive quantity" + entry.getKey() + "\" onblur=\"inputQuantity(this.id," + entry.getKey() + ")\" value=\"" + entry.getValue().getQuantity() + "\">\n" +
                         "                                <button id=\"inc1\" onclick=\"quantity(this.id," + entry.getKey() + ")\">+\n" +
                         "                                </button>\n" +
                         "                            </div>\n" +
+                        "                        <div id=\"max" + entry.getKey() + "\" style=\"display: none\">" + entry.getValue().getProduct().getQuantity() + "</div>\n" +
+                        "                        <div id=\"current" + entry.getKey() + "\" style=\"display: none\">" + entry.getValue().getQuantity() + "</div>\n" +
                         "                        </div>\n" +
                         "                        <div class=\"deleteProduct\">\n" +
                         "                            <button onclick=\"DeleteItem(" + entry.getKey() + ")\"><i class=\"fa-solid fa-trash\"></i>\n" +

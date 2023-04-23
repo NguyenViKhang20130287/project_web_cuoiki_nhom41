@@ -111,7 +111,7 @@
                     <button onclick="payButton(<%=orderId%>)">Thanh toán</button>
                     <% }%>
                     <% if (statusId < 3) {%>
-                    <button id="cancelButton">Hủy đơn hàng</button>
+                    <button id="cancelButton" onclick="showConfirm()">Hủy đơn hàng</button>
                     <div class="confirmCancel">
                         Xác nhận hủy?
                         <button class="confirmButton" onclick="cancelButton(<%=orderId%>)">Hủy</button>
