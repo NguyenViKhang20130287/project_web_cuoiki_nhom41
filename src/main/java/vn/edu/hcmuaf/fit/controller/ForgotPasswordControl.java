@@ -6,6 +6,8 @@ import vn.edu.hcmuaf.fit.entity.ForgotPassword;
 import vn.edu.hcmuaf.fit.service.MailService;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,11 +31,12 @@ public class ForgotPasswordControl extends HttpServlet {
         String email = request.getParameter("email");
         MailService ms = new MailService();
         String otp = ms.getRandom();
-
         if (!email.isEmpty()) {
             if (new ForgotPasswordDAO().checkEmailExists(email) != null) {
                 Account account = new ForgotPasswordDAO().checkEmailExists(email);
-                ForgotPassword forgotPassword = new ForgotPassword(email, otp);
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                Date expireTime = new Date(timestamp.getTime());
+                ForgotPassword forgotPassword = new ForgotPassword(email, otp, expireTime);
                 boolean test = ms.sendEmailForgotPassword(forgotPassword);
                 if (test) {
                     HttpSession session = request.getSession();

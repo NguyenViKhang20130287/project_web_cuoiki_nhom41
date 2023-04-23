@@ -8,6 +8,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.HashMap;
 
 @WebServlet(name = "VerifyRegister", value = "/VerifyRegister")
 public class VerifyRegister extends HttpServlet {
@@ -28,13 +30,24 @@ public class VerifyRegister extends HttpServlet {
                 request.getRequestDispatcher("verifyRegister.jsp").forward(request, response);
             } else {
                 if (code.equals(userSignUp.getCode())) {
-                    new RegisterDAO().signUp(userSignUp.getUsername(), userSignUp.getEmail(), userSignUp.getPassword());
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Đăng kí tài khoản thành công');");
-                    out.println("location='LoginControl';");
-                    out.println("</script>");
+                    Timestamp sentTime = new Timestamp(userSignUp.getExpireTime().getTime());
+                    System.out.print(sentTime);
+                    Timestamp now = new Timestamp(System.currentTimeMillis());
+                    long duration = now.getTime() - sentTime.getTime();
+                    System.out.print(duration);
+                    long expireTime = 5 * 60 * 1000;
+                    if (duration > expireTime) {
+                        request.setAttribute("errorVerify", "Mã xác thực đã hết thời gian hiệu lực");
+                        request.getRequestDispatcher("verifyRegister.jsp").forward(request, response);
+                    } else {
+                        new RegisterDAO().signUp(userSignUp.getUsername(), userSignUp.getEmail(), userSignUp.getPassword());
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Đăng kí tài khoản thành công');");
+                        out.println("location='LoginControl';");
+                        out.println("</script>");
+                    }
                 } else {
-                    request.setAttribute("error", "Mã xác thực không đúng");
+                    request.setAttribute("errorVerify", "Mã xác thực không đúng");
                     request.getRequestDispatcher("verifyRegister.jsp").forward(request, response);
                 }
             }

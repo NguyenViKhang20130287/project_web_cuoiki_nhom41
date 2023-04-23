@@ -10,13 +10,14 @@ import java.util.Properties;
 import java.util.Random;
 
 public class MailService {
-    public String getRandom(){
+    public String getRandom() {
         Random ran = new Random();
         int number = ran.nextInt(999999);
 
         return String.format("%06d", number);
     }
-    public boolean sendEmail(UserSignUp userSignUp){
+
+    public boolean sendEmail(UserSignUp userSignUp) {
         boolean test = false;
         String fromEmail = "gemstore.878895@gmail.com";
         String password = "hqwwsjsnplhgqobw";
@@ -33,13 +34,16 @@ public class MailService {
                 "\n" +
                 "            <p style=\"font-size:16px;line-height:24px\">\n" +
                 "                Để tiếp tục thiết lập tài khoản GemStore, vui lòng xác minh rằng đây là địa chỉ email của bạn bằng cách nhập mã:\n" +
-                "                <strong style=\"font-size:18px;color:#ff0000;font-family:sans-serif\">"+userSignUp.getCode()+"</strong>\n" +
+                "                <strong style=\"font-size:18px;color:#ff0000;font-family:sans-serif\">" + userSignUp.getCode() + "</strong>\n" +
+                "            </p>\n" +
+                "            <p style=\"font-size:13px;line-height:24px;color:#787885\">\n" +
+                "                Mã xác thực này sẽ hết hạn sau 5 phút. Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.\n" +
                 "            </p>\n" +
                 "        </div>\n" +
                 "    </td>\n" +
                 "</tr>\n" +
                 "</tbody>";
-        try{
+        try {
             Properties properties = new Properties();
             properties.setProperty("mail.smtp.host", "smtp.gmail.com");
             properties.setProperty("mail.smtp.port", "587");
@@ -64,16 +68,16 @@ public class MailService {
 
             Transport.send(message);
             System.out.println("Đã gửi email!");
-            test=true;
+            test = true;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return test;
     }
 
-    public boolean sendEmailForgotPassword(ForgotPassword forgotPassword){
+    public boolean sendEmailForgotPassword(ForgotPassword forgotPassword) {
         boolean test = false;
         String fromEmail = "gemstore.878895@gmail.com";
         String password = "hqwwsjsnplhgqobw";
@@ -90,13 +94,16 @@ public class MailService {
                 "\n" +
                 "            <p style=\"font-size:16px;line-height:24px\">\n" +
                 "                Chào bạn, Đây là mã xác nhận để đặt lại mật khẩu của bạn:\n" +
-                "                <strong style=\"font-size:18px;color:#ff0000;font-family:sans-serif\">"+forgotPassword.getOtp()+"</strong>\n" +
+                "                <strong style=\"font-size:18px;color:#ff0000;font-family:sans-serif\">" + forgotPassword.getOtp() + "</strong>\n" +
+                "            </p>\n" +
+                "            <p style=\"font-size:13px;line-height:24px;color:#787885\">\n" +
+                "                Mã xác thực này sẽ hết hạn sau 5 phút. Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.\n" +
                 "            </p>\n" +
                 "        </div>\n" +
                 "    </td>\n" +
                 "</tr>\n" +
                 "</tbody>";
-        try{
+        try {
             Properties properties = new Properties();
             properties.setProperty("mail.smtp.host", "smtp.gmail.com");
             properties.setProperty("mail.smtp.port", "587");
@@ -121,9 +128,9 @@ public class MailService {
 
             Transport.send(message);
             System.out.println("Đã gửi email!");
-            test=true;
+            test = true;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -131,8 +138,6 @@ public class MailService {
     }
 
     public static void main(String[] args) {
-        ForgotPassword forgotPassword = new ForgotPassword("dangkhoa.ng0602@gmail.com","128364");
-        System.out.println(new MailService().sendEmailForgotPassword(forgotPassword));
     }
 
 }

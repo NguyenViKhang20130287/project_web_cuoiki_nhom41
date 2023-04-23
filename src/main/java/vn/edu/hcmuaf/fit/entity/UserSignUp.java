@@ -1,19 +1,23 @@
 package vn.edu.hcmuaf.fit.entity;
 
+import java.util.Date;
+
 public class UserSignUp {
     private String username;
     private String email;
     private String password;
     private String code;
+    private Date expireTime;
 
-    public UserSignUp(){
+    public UserSignUp() {
     }
 
-    public UserSignUp(String username, String email, String password, String code) {
+    public UserSignUp(String username, String email, String password, String code, Date expireTime) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.code = code;
+        this.expireTime = expireTime;
     }
 
     public String getUsername() {
@@ -48,6 +52,14 @@ public class UserSignUp {
         this.code = code;
     }
 
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+    }
+
     @Override
     public String toString() {
         return "UserSignUp{" +
@@ -55,6 +67,7 @@ public class UserSignUp {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", code='" + code + '\'' +
+                ", expireTime=" + expireTime +
                 '}';
     }
 }
