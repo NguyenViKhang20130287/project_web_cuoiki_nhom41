@@ -1,15 +1,20 @@
 package vn.edu.hcmuaf.fit.entity;
 
+import java.util.Date;
+
 public class ForgotPassword {
-    String email;
-    String otp;
+    private String email;
+    private String otp;
+
+    private Date expireTime;
 
     public ForgotPassword() {
     }
 
-    public ForgotPassword(String email, String otp) {
+    public ForgotPassword(String email, String otp, Date expireTime) {
         this.email = email;
         this.otp = otp;
+        this.expireTime = expireTime;
     }
 
     public String getEmail() {
@@ -28,11 +33,20 @@ public class ForgotPassword {
         this.otp = otp;
     }
 
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+    }
+
     @Override
     public String toString() {
         return "ForgotPassword{" +
                 "email='" + email + '\'' +
                 ", otp='" + otp + '\'' +
+                ", expireTime=" + expireTime +
                 '}';
     }
 }

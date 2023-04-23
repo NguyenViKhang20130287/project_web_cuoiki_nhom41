@@ -2,7 +2,9 @@ package vn.edu.hcmuaf.fit.controller;
 
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.ForgotPasswordDAO;
+import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.ForgotPassword;
+import vn.edu.hcmuaf.fit.service.AccountService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -14,16 +16,9 @@ import java.util.regex.Pattern;
 
 @WebServlet(name = "NewPasswordControl", value = "/NewPasswordControl")
 public class NewPasswordControl extends HttpServlet {
-    private Pattern passwordPattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$");
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
-
-    private boolean validatePassword(String password) {
-        Matcher matcher = passwordPattern.matcher(password);
-        return matcher.matches();
     }
 
     @Override
@@ -33,12 +28,13 @@ public class NewPasswordControl extends HttpServlet {
             HttpSession session = request.getSession();
             String newPassword = request.getParameter("newPass");
             int userId = (int) session.getAttribute("userId");
+            AccountService accountService = AccountService.getInstance();
             if (newPassword.equals("")) {
                 request.setAttribute("oldPassMess", "Vui lòng nhập mật khẩu mới");
                 request.getRequestDispatcher("newPassword.jsp").forward(request, response);
             } else {
-                if (validatePassword(newPassword)) {
-                    new ForgotPasswordDAO().changePassword(userId, BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+                if (accountService.validatePassword(newPassword)) {
+                    new ForgotPasswordDAO().changePassword(userId, accountService.hashPassword(newPassword));
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Đổi mật khẩu thành công');");
                     out.println("location='LoginControl';");

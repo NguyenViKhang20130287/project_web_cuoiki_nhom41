@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 
 @WebServlet(name = "enterOTPControl", value = "/enterOTPControl")
 public class enterOTPControl extends HttpServlet {
@@ -25,14 +26,25 @@ public class enterOTPControl extends HttpServlet {
             if (code.equals("")) {
                 request.setAttribute("errorOTP", "Vui lòng nhập mã xác thực");
                 request.getRequestDispatcher("enterOTP.jsp").forward(request, response);
+                return;
             } else {
                 if (code.equals(forgotPassword.getOtp())) {
-                    request.getRequestDispatcher("newPassword.jsp").forward(request, response);
+                    Timestamp sentTime = new Timestamp(forgotPassword.getExpireTime().getTime());
+                    Timestamp now = new Timestamp(System.currentTimeMillis());
+                    long duration = now.getTime() - sentTime.getTime();
+                    long expireTime = 5 * 60 * 1000;
+                    if (duration > expireTime) {
+                        request.setAttribute("errorOTP", "Mã xác thực đã hết thời gian hiệu lực");
+                        request.getRequestDispatcher("enterOTP.jsp").forward(request, response);
+                    } else {
+                        request.getRequestDispatcher("newPassword.jsp").forward(request, response);
+                    }
                 } else {
                     request.setAttribute("errorOTP", "Mã xác thực không đúng");
                     request.getRequestDispatcher("enterOTP.jsp").forward(request, response);
                 }
             }
+
         }
     }
 }
