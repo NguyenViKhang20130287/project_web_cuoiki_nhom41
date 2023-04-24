@@ -107,11 +107,13 @@
                         <button class="dec qtybutton" id="dec"
                                 onclick="quantity(this.id,<%=entry.getKey()%>)">-
                         </button>
-                        <input id="quantity" type="text" value="<%=entry.getValue().getQuantity()%>">
+                        <input id="quantity quantity<%=entry.getKey()%>" onblur="inputQuantity(this.id,<%=entry.getKey()%>)" type="text" value="<%=entry.getValue().getQuantity()%>">
                         <button class="inc qtybutton" id="inc"
                                 onclick="quantity(this.id,<%=entry.getKey()%>)">+
                         </button>
                     </div>
+                    <div id="max<%=entry.getKey()%>" style="display: none"><%=entry.getValue().getProduct().getQuantity()%></div>
+                    <div id="current<%=entry.getKey()%>" style="display: none"><%=entry.getValue().getQuantity()%></div>
                 </th>
                 <th class="product-total" id="product-total">
 
@@ -156,10 +158,12 @@
                         <div class="product-quantity">
                             <button id="dec1" onclick="quantity(this.id,<%=entry.getKey()%>)">-
                             </button>
-                            <input type="text" value="<%=entry.getValue().getQuantity()%>">
+                            <input id="quantityResponsive quantity<%=entry.getKey()%>" onblur="inputQuantity(this.id,<%=entry.getKey()%>)" type="text" value="<%=entry.getValue().getQuantity()%>">
                             <button id="inc1" onclick="quantity(this.id,<%=entry.getKey()%>)">+
                             </button>
                         </div>
+                        <div id="max<%=entry.getKey()%>" style="display: none"><%=entry.getValue().getProduct().getQuantity()%></div>
+                        <div id="current<%=entry.getKey()%>" style="display: none"><%=entry.getValue().getQuantity()%></div>
                     </div>
                     <div class="deleteProduct">
                         <%--                        <button class="deleteProductBtn"><a--%>
@@ -172,9 +176,7 @@
                 <% } %>
 
             </ul>
-
         </div>
-
     </div>
 
     <div class="coupon_clear">
@@ -211,8 +213,7 @@
             <button class="totals_btns"><a href="/web_nhom41_war/CheckoutButtonControl">Thanh toán</a></button>
         </div>
     </div>
-
-
+    <div id="snackbar">Some text some message..</div>
 </div>
 
 <!-- footer page -->

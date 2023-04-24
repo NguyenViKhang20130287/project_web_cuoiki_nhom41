@@ -12,36 +12,66 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-@WebServlet(name = "DeleteProductControl", value = "/DeleteProductControl")
-public class DeleteProductControl extends HttpServlet {
+@WebServlet(name = "InputQuantityCartControl", value = "/InputQuantityCartControl")
+public class InputQuantityCartControl extends HttpServlet {
     Locale locale = new Locale("vi", "VN");
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         PrintWriter out = response.getWriter();
-        out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng(" + (cart != null ? cart.size() : 0) + ")</a>");
+        HttpSession session = request.getSession();
+        int num = 0;
+        String totalString = "";
 
+        HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
+        for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
+            String total = "";
+            if (entry.getValue().getProduct().getDiscount() != 0) {
+                total = String.valueOf(entry.getValue().getProduct().getDiscount() * entry.getValue().getQuantity());
+
+            } else {
+                total = String.valueOf(entry.getValue().getProduct().getPrice() * entry.getValue().getQuantity());
+
+            }
+            num += Integer.parseInt(total);
+
+        }
+        totalString = numberFormat.format(num);
+        out.println("  <h2>Tổng tiền</h2>\n" +
+                "                <ul id=\"totalOrder\"><li>\n" +
+                "                        <span class=\"title\">Tạm tính</span>\n" +
+                "                        <span class=\"price\">" + totalString + " </span>\n" +
+                "                    </li>\n" +
+                "                    <li>\n" +
+                "                        <span class=\"title\">Giảm giá</span>\n" +
+                "                        <span class=\"price\">0 đ</span>\n" +
+                "                    </li>\n" +
+                "                    <li>\n" +
+                "                        <span class=\"title\">Tổng</span>\n" +
+                "                        <span class=\"price\">" + totalString + " </span>\n" +
+                "                    </li><button class=\"totals_btns\"><a href=\"checkout.jsp\">Thanh toán</a></button>"
+        );
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String productID = request.getParameter("productId");
+        String quantity = request.getParameter("quantity");
         int browserWidth = Integer.parseInt(request.getParameter("browserWidth"));
+        String pid = request.getParameter("pid");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
-        cart.remove(Integer.parseInt(productID));
-        if (cart.size() == 0) {
-            session.setAttribute("cart", null);
-        } else {
-            session.setAttribute("cart", cart);
+        if (pid == null) {
+            pid = "0";
         }
         for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
+            if (entry.getKey() == Integer.parseInt(pid)) {
+//                int quantity = entry.getValue().getQuantity();
+                entry.getValue().setQuantity(Integer.parseInt(quantity));
+            }
             String price = "";
             String total = "";
             if (entry.getValue().getProduct().getDiscount() != 0) {
@@ -113,6 +143,15 @@ public class DeleteProductControl extends HttpServlet {
                         "                    </li>");
             }
 
+        }
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }

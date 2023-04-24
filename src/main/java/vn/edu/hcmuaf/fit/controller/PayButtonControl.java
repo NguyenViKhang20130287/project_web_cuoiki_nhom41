@@ -18,10 +18,11 @@ public class PayButtonControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.println("<button id=\"cancelButton\">Hủy đơn hàng</button>\n" +
+        String orderId = request.getParameter("orderId");
+        out.println("<button id=\"cancelButton\" onclick=\"showConfirm()\">Hủy đơn hàng</button>\n" +
                 "                    <div class=\"confirmCancel\">\n" +
                 "                        Xác nhận hủy?\n" +
-                "                        <button class=\"confirmButton\">Hủy</button>\n" +
+                "                        <button class=\"confirmButton\" onclick=\"cancelButton("+orderId+")\">Hủy</button>\n" +
                 "                    </div>");
     }
 
