@@ -175,6 +175,7 @@ html a:hover {
 .wrapper span.plus,
 .wrapper span.minus {
     cursor: pointer;
+    user-select: none;
 }
 .size_wrapper .select_size{
     padding: 8px 5px;
@@ -512,5 +513,5 @@ table {
         padding: 10px;
     }
 
-    
+
 }

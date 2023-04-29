@@ -208,7 +208,7 @@
                             </div>
                             <div>
                                 <button id="updateBtn" type="submit" class="btn btn-primary">Cập nhật</button>
-                                <button id="cancelBtn" class="btn btn-light">Hủy</button>
+                                <button id="cancelBtn" class="btn btn-light" onclick="resetForm()">Hủy</button>
                             </div>
                         </form>
                     </div>
@@ -220,7 +220,7 @@
                                     <div class="form-group">
                                         <label>Mật khẩu cũ</label>
                                         <input type="password" class="form-control" name="old_password"
-                                               id="old_password" onchange="validateForm()">
+                                               id="old_password" onchange="validateForm()" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -233,7 +233,7 @@
                                     <div class="form-group">
                                         <label>Mật khẩu mới</label>
                                         <input type="password" class="form-control" name="new_password"
-                                               id="new_password" onchange="validateForm()">
+                                               id="new_password" onchange="validateForm()" required>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +245,7 @@
                             </div>
                             <div>
                                 <button id="updatePassBtn" type="submit" class="btn btn-primary">Cập nhật</button>
-                                <button id="cancelPassBtn" class="btn btn-light">Hủy</button>
+                                <button id="cancelPassBtn" class="btn btn-light" onclick="resetForm()">Hủy</button>
                             </div>
                         </form>
                     </div>
@@ -256,7 +256,6 @@
 </div>
 <!-- footer page -->
 <%@include file="foooter.jsp" %>
-
 
 
 <script src="js/jquery-3.6.1.min.js"></script>
@@ -289,16 +288,17 @@
         }
     }
 
-    var cancelBtn = document.getElementById("cancelBtn");
-    var informationForm = document.getElementById("information-form");
-    cancelBtn.addEventListener("click", function () {
-        informationForm.reset();
-    });
-    var cancelPassBtn = document.getElementById("cancelPassBtn");
-    var passwordForm = document.getElementById("password-form");
-    cancelPassBtn.addEventListener("click", function () {
-        passwordForm.reset();
-    });
+    function resetForm() {
+        var cancelBtn = document.getElementById("cancelBtn");
+        var informationForm = document.getElementById("information-form");
+        var cancelPassBtn = document.getElementById("cancelPassBtn");
+        var passwordForm = document.getElementById("password-form");
+        if (cancelBtn) {
+            informationForm.reset();
+        } else if (cancelPassBtn) {
+            passwordForm.reset();
+        }
+    }
 
 
 </script>

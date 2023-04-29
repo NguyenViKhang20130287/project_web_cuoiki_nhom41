@@ -20,8 +20,6 @@ public class ForgotPasswordDAO {
                 while (resultSet.next()) {
                     Account acc = new Account(resultSet.getInt(1), resultSet.getString(2),
                             resultSet.getString(3), resultSet.getString(4));
-                    System.out.println(acc.getId());
-                    System.out.println(acc.getPassword());
                     return acc;
                 }
             }
@@ -45,8 +43,6 @@ public class ForgotPasswordDAO {
                 preparedStatement.setString(1, newPassword);
                 preparedStatement.setInt(2, id);
                 preparedStatement.executeUpdate();
-
-                System.out.println("Change password successfully");
             }
 
         } catch (Exception e) {

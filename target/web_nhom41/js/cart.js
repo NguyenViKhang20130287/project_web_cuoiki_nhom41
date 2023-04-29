@@ -18,6 +18,7 @@ function quantity(id, idProduct) {
         },
         success: function (data) {
             price.innerHTML = data;
+            document.getElementById("current" + idProduct).innerHTML = document.getElementById("quantity quantity" + idProduct).value;
             $.ajax({
                 url: "/web_nhom41_war/CartQuantityControl",
                 type: "POST",
@@ -115,4 +116,72 @@ function DeleteAllItem() {
             //Do Something to handle error
         }
     });
+}
+
+function inputQuantity(id, idProduct) {
+    var quantity = document.getElementById(id);
+    var message = document.getElementById("snackbar");
+    let max = document.getElementById("max" + idProduct).innerHTML;
+    let current = document.getElementById("current" + idProduct).innerHTML;
+    var browserWidth = window.innerWidth;
+    var divId = "";
+    if (browserWidth > 428) {
+        divId = "productContainer";
+    } else {
+        divId = "productContainer2";
+    }
+    var price = document.getElementById(divId);
+    if (!isNaN(quantity.value)) {
+        if (quantity.value < 1) {
+            quantity.value = 1;
+            message.innerHTML = "Số lượng nhập vào phải lớn hơn 0!";
+            showSnackbar();
+        }
+        if (parseInt(quantity.value) > parseInt(max)) {
+            quantity.value = parseInt(max);
+            message.innerHTML = "Số lượng nhập vào đã vượt quá tồn kho!";
+            showSnackbar();
+        }
+        document.getElementById("current" + idProduct).innerHTML = document.getElementById("quantity quantity" + idProduct).value;
+        $.ajax({
+            url: "/web_nhom41_war/InputQuantityCartControl",
+            type: "get",
+            data: {
+                quantity: quantity.value,
+                pid: idProduct,
+                browserWidth: browserWidth
+            },
+            success: function (data) {
+                price.innerHTML = data;
+                $.ajax({
+                    url: "/web_nhom41_war/InputQuantityCartControl",
+                    type: "POST",
+                    success: function (data) {
+                        var total = document.getElementById("CartTotalsID");
+                        total.innerHTML = data;
+                    },
+                    error: function (xhr) {
+                        //Do Something to handle error
+                    }
+                });
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    } else {
+        quantity.value = parseInt(current);
+        message.innerHTML = "Số lượng nhập vào phải là số!";
+        showSnackbar();
+        document.getElementById("current" + idProduct).innerHTML = document.getElementById("quantity quantity" + idProduct).value;
+    }
+
+}
+
+function showSnackbar() {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 3000);
 }

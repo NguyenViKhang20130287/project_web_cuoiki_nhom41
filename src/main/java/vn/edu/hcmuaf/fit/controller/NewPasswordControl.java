@@ -24,7 +24,7 @@ public class NewPasswordControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter();) {
+        try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             String newPassword = request.getParameter("newPass");
             int userId = (int) session.getAttribute("userId");

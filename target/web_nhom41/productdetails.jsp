@@ -3,7 +3,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.dao.ProductDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="vn.edu.hcmuaf.fit.dao.GalleryDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +88,12 @@
 <!-- body page -->
 <% Product product = (Product) request.getAttribute("product");
     Locale locale = new Locale("vi", "VN");
-    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);%>
+    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+    Map<Integer, CartItem> cartList = (Map<Integer, CartItem>) session.getAttribute("cart");
+    if (cartList == null) {
+        cartList = new HashMap<>();
+    }
+%>
 <% List<Review> reviewList = (List<Review>) request.getAttribute("reviewList");%>
 <div class="body_page-menu">
     <ul>
@@ -205,7 +209,7 @@
                         if (product.getQuantity() > 0) {
 
                     %>
-                    <span class="product_status mb_18">Tình trạng: <i>Còn hàng</i></span>
+                    <span class="product_status mb_18">Tình trạng: <i>Còn hàng (<%=product.getQuantity() %>)</i></span>
                     <% } else { %>
                     <span class="product_status mb_18">Tình trạng: <i>Hết hàng</i></span>
                     <% } %>
@@ -214,10 +218,17 @@
                             <div style="margin-right: 15px; text-align: center">Số lượng</div>
                             <div class="wrapper">
                                 <span class="button minus">-</span>
-                                <input type="text" value="1" class="number">
+                                <input type="text" value="<%=product.getQuantity() > 0?1:0%>" class="number"
+                                       id="number"
+                                       onblur="checkQuantity(<%=product.getQuantity()%>)">
+                                <div id="remain" style="display: none"><%=product.getQuantity() %>
+                                </div>
+                                <div id="added" style="display: none"><%=cartList.get(product.getId()) != null ? cartList.get(product.getId()).getQuantity() : 0 %>
+                                </div>
                                 <span class="button plus">+</span>
                             </div>
                         </div>
+                        <p id="checkQuantity" style="color: red"></p>
                         <div class="size_wrapper">
                             <% List<Variation> variationList = (List<Variation>) request.getAttribute("variationList");%>
                             <% for (Variation v : variationList) {%>
@@ -258,11 +269,13 @@
                                                                                                   type="button"
                                                                                                   class="buy_now_btn">
                             <i class="fa-solid fa-wallet"></i>
-                            mua ngay
+                            mua
+                            <ngay></ngay>
                         </button>
                         <script type="text/javascript">
                             document.getElementById("buynow").onclick = function () {
-                                location.href = "/web_nhom41_war/BuyNowControl?idProduct=<%=product.getId()%>";
+                                let addQuantity = document.getElementById('number').value;
+                                location.href = "/web_nhom41_war/BuyNowControl?idProduct=<%=product.getId()%>&quantity=" + addQuantity;
                             };
                         </script>
                     </div>

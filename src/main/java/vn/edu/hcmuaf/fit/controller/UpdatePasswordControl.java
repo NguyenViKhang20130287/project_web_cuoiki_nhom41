@@ -43,11 +43,6 @@ public class UpdatePasswordControl extends HttpServlet {
         try {
             LoginDAO loginDAO = new LoginDAO();
             Account account = loginDAO.getAccount(username);
-            if (account == null) {
-                request.setAttribute("error", "Không tìm thấy người dùng");
-                request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
-                return;
-            }
             if (!BCrypt.checkpw(old_password, account.getPassword())) {
                 request.setAttribute("error", "Mật khẩu cũ không đúng");
                 request.getRequestDispatcher("accountSettings.jsp").forward(request, response);

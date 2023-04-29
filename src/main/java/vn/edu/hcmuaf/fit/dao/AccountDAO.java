@@ -43,18 +43,6 @@ public class AccountDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException();
-        } finally {
-            // Đóng kết nối đến cơ sở dữ liệu
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                // Ignored
-            }
         }
     }
 
@@ -71,18 +59,6 @@ public class AccountDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException();
-        } finally {
-            // Đóng kết nối đến cơ sở dữ liệu
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                // Ignored
-            }
         }
     }
 }
