@@ -220,7 +220,7 @@
                                     <div class="form-group">
                                         <label>Mật khẩu cũ</label>
                                         <input type="password" class="form-control" name="old_password"
-                                               id="old_password" onchange="validateForm()">
+                                               id="old_password" onchange="validateForm()" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -233,7 +233,7 @@
                                     <div class="form-group">
                                         <label>Mật khẩu mới</label>
                                         <input type="password" class="form-control" name="new_password"
-                                               id="new_password" onchange="validateForm()">
+                                               id="new_password" onchange="validateForm()" required>
                                     </div>
                                 </div>
                             </div>

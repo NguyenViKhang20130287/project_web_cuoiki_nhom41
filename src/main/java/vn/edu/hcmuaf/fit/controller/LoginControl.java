@@ -1,16 +1,17 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import eu.bitwalker.useragentutils.UserAgent;
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.service.AccountService;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @WebServlet(name = "LoginControl", value = "/LoginControl")
 public class LoginControl extends HttpServlet {
@@ -36,13 +37,17 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         try {
             String uname = request.getParameter("uname");
             String pass = request.getParameter("password");
             String remember = request.getParameter("remember");
+            String clientIP = request.getRemoteAddr();
+            String browserInfo = request.getHeader("User-Agent");
+            UserAgent userAgent = UserAgent.parseUserAgentString(browserInfo);
+            String browserName = userAgent.getBrowser().getName();
             Account account = new LoginDAO().getAccount(uname);
             AccountService accountService = AccountService.getInstance();
+            LogService logService = LogService.getInstance();
             if (uname.equals("") && pass.equals("")) {
                 request.setAttribute("Error", "Vui lòng nhập tên đăng nhập và mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -67,19 +72,22 @@ public class LoginControl extends HttpServlet {
             } else {
                 String hashedPassword = new LoginDAO().getAccount(uname).getPassword();
                 if (!BCrypt.checkpw(pass, hashedPassword)) {
+                    Cookie cookieUsername = new Cookie("usernameC", uname);
+                    cookieUsername.setMaxAge(60);
+                    response.addCookie(cookieUsername);
                     request.setAttribute("Error", "Mật khẩu không chính xác");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 } else {
-                    Account acc = new LoginDAO().getAccount(uname);
                     HttpSession session = request.getSession();
-                    session.setAttribute("Account", acc);
+                    session.setAttribute("Account", account);
                     session.setAttribute("username", uname);
-                    session.setAttribute("email", acc.getEmail());
-                    session.setAttribute("phoneNumber", acc.getPhone());
-                    String role = String.valueOf(acc.getRole());
+                    session.setAttribute("email", account.getEmail());
+                    session.setAttribute("phoneNumber", account.getPhone());
+                    String role = String.valueOf(account.getRole());
                     session.setAttribute("role", role);
-                    session.setAttribute("fullName", acc.getFullName());
+                    session.setAttribute("fullName", account.getFullName());
                     session.setMaxInactiveInterval(60 * 60 * 12 * 24);
+                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thành công", 0, clientIP, browserName));
 
                     // cookie
                     Cookie cookie_username = new Cookie("c_uname", uname);
