@@ -61,4 +61,22 @@ public class AccountDAO {
             throw new RuntimeException();
         }
     }
+    public void lockAccount(int user_id){
+        String query = "UPDATE `user` SET `user`.locked = 1 WHERE `user`.id = ?";
+        try{
+            Statement statement = DBConnect.getInstall().get();
+            if(statement!=null){
+                ps = DBConnect.getInstall().getConnection().prepareStatement(query);
+                ps.setInt(1, user_id);
+                ps.executeUpdate();
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
+    }
+
+    public static void main(String[] args) {
+       new AccountDAO().lockAccount(13);
+    }
 }

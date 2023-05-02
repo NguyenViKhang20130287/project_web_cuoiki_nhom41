@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +45,6 @@ public class LoginDAO {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 String query = "SELECT * FROM `user` WHERE username = ?";
-
                 ps = new DBConnect().getConnection().prepareStatement(query);
                 ps.setString(1, username);
                 rs = ps.executeQuery();
@@ -56,25 +56,37 @@ public class LoginDAO {
                     account.setEmail(rs.getString(5));
                     account.setPhone(rs.getString(6));
                     account.setRole(rs.getInt(9));
+                    account.setLocked(rs.getInt(10));
                     return account;
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException();
-        }finally {
-            // Đóng kết nối đến cơ sở dữ liệu
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                // Ignored
-            }
         }
         return null;
+    }
+    public int countLoginFail(int user_id){
+        String query = "SELECT COUNT(`user`) FROM `logs` WHERE `user` = ? AND content = 'Đăng nhập thất bại'";
+        try{
+            Statement statement = DBConnect.getInstall().get();
+            if(statement!=null){
+                ps = DBConnect.getInstall().getConnection().prepareStatement(query);
+                ps.setInt(1, user_id);
+                rs = ps.executeQuery();
+                while (rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        LoginDAO loginDAO = new LoginDAO();
+        System.out.println(loginDAO.countLoginFail(14));
     }
 
 }
