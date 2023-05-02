@@ -29,10 +29,8 @@ public class LoginControl extends HttpServlet {
                 }
             }
         }
-
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,64 +47,79 @@ public class LoginControl extends HttpServlet {
             AccountService accountService = AccountService.getInstance();
             LogService logService = LogService.getInstance();
             if (uname.equals("") && pass.equals("")) {
-                request.setAttribute("Error", "Vui lòng nhập tên đăng nhập và mật khẩu");
+                request.setAttribute("error", "Vui lòng nhập tên đăng nhập và mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
             if (uname.equals("")) {
-                request.setAttribute("ErrorUsername", "Vui lòng nhập tên đăng nhập");
+                request.setAttribute("errorUsername", "Vui lòng nhập tên đăng nhập");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
             } else if (!accountService.validateUsername(uname)) {
-                request.setAttribute("ErrorUsername", "Tên đăng nhập không đúng định dạng");
+                request.setAttribute("errorUsername", "Tên đăng nhập không đúng định dạng");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else if (account == null) {
-                request.setAttribute("ErrorUsername", "Tên đăng nhập không tồn tại");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
             }
             if (pass.equals("")) {
-                request.setAttribute("ErrorPass", "Vui lòng nhập mật khẩu");
+                request.setAttribute("errorPass", "Vui lòng nhập mật khẩu");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
             } else if (!accountService.validatePassword(pass)) {
-                request.setAttribute("ErrorPass", "Mật khẩu không đúng định dạng");
+                request.setAttribute("errorPass", "Mật khẩu không đúng định dạng");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else {
-                String hashedPassword = new LoginDAO().getAccount(uname).getPassword();
+                return;
+            }
+            if (account != null) {
+                String hashedPassword = account.getPassword();
                 if (!BCrypt.checkpw(pass, hashedPassword)) {
-                    Cookie cookieUsername = new Cookie("usernameC", uname);
-                    cookieUsername.setMaxAge(60);
-                    response.addCookie(cookieUsername);
-                    request.setAttribute("Error", "Mật khẩu không chính xác");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                } else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("Account", account);
-                    session.setAttribute("username", uname);
-                    session.setAttribute("email", account.getEmail());
-                    session.setAttribute("phoneNumber", account.getPhone());
-                    String role = String.valueOf(account.getRole());
-                    session.setAttribute("role", role);
-                    session.setAttribute("fullName", account.getFullName());
-                    session.setMaxInactiveInterval(60 * 60 * 12 * 24);
-                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thành công", 0, clientIP, browserName));
-
-                    // cookie
-                    Cookie cookie_username = new Cookie("c_uname", uname);
-                    Cookie cookie_pass = new Cookie("c_pass", pass);
-                    cookie_username.setMaxAge(60);
-                    if (remember != null) {
-                        cookie_pass.setMaxAge(60);
+                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thất bại", 0, clientIP, browserName));
+                    int countFails = logService.countLoginFail(account.getId());
+                    if (countFails < 5) {
+                        request.setAttribute("error", "Mật khẩu không chính xác. Đăng nhập thất bại. Tài khoản còn " + (5 - countFails) + " lần đăng nhập lại");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
                     } else {
-                        cookie_pass.setMaxAge(0);
+                        accountService.lockUser(account.getId());
+                        request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
                     }
-                    response.addCookie(cookie_username);
-                    response.addCookie(cookie_pass);
+                } else {
+                    if (account.getLocked() == 1) {
+                        request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                    } else {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("Account", account);
+                        session.setAttribute("username", uname);
+                        session.setAttribute("email", account.getEmail());
+                        session.setAttribute("phoneNumber", account.getPhone());
+                        String role = String.valueOf(account.getRole());
+                        session.setAttribute("role", role);
+                        session.setAttribute("fullName", account.getFullName());
+                        session.setMaxInactiveInterval(60 * 60 * 12 * 24);
+                        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thành công", 0, clientIP, browserName));
 
-                    //
-                    response.sendRedirect("home");
+                        // cookie
+                        Cookie cookie_username = new Cookie("c_uname", uname);
+                        Cookie cookie_pass = new Cookie("c_pass", pass);
+                        cookie_username.setMaxAge(60);
+                        if (remember != null) {
+                            cookie_pass.setMaxAge(60);
+                        } else {
+                            cookie_pass.setMaxAge(0);
+                        }
+                        response.addCookie(cookie_username);
+                        response.addCookie(cookie_pass);
+
+                        //
+                        response.sendRedirect("home");
+                    }
                 }
+            } else {
+                request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }

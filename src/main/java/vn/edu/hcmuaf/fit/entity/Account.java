@@ -11,6 +11,7 @@ public class Account {
     private String fullName;
     private int role;
     private String phone;
+    private int locked;
 
 
     public Account() {
@@ -87,6 +88,14 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getLocked() {
+        return locked;
+    }
+
+    public void setLocked(int locked) {
+        this.locked = locked;
     }
 
     @Override

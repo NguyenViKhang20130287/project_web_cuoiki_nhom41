@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.service;
 
 import org.mindrot.jbcrypt.BCrypt;
+import vn.edu.hcmuaf.fit.dao.AccountDAO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,5 +37,9 @@ public class AccountService {
 
     public String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    public void lockUser(int user_id) {
+        new AccountDAO().lockAccount(user_id);
     }
 }

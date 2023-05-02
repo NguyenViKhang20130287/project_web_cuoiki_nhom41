@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-    <% String errorMessage = (String) request.getAttribute("Error"); %>
+    <% String errorMessage = (String) request.getAttribute("error"); %>
     <% String errorMessageRegister = (String) request.getAttribute("message_regis"); %>
 
     <link rel="stylesheet" href="css/login.css">
@@ -62,19 +62,19 @@
 
             <form action="LoginControl" method="post">
                 <label for="email">Tên đăng nhập <span>*</span></label>
-                <input id="email" type="text" placeholder="Username..." name="uname"
+                <input id="email" type="text" placeholder="Nhập tên đăng nhập..." name="uname" required
                     <%if(request.getAttribute("usernameCookie") == null) { %>
                        value=""
                     <%}%>
                        value="<%=request.getAttribute("usernameCookie")%>"
                 >
-                <% String errorPass = (String) request.getAttribute("ErrorPass"); %>
-                <% String errorUsername = (String) request.getAttribute("ErrorUsername"); %>
+                <% String errorPass = (String) request.getAttribute("errorPass"); %>
+                <% String errorUsername = (String) request.getAttribute("errorUsername"); %>
                 <p style="color: red; margin-bottom: 20px;">
                     <%= errorUsername != null ? errorUsername : "" %>
                 </p>
                 <label for="pass">Mật Khẩu <span>*</span></label>
-                <input id="pass" type="password" placeholder="Nhập Mật Khẩu..." name="password"
+                <input id="pass" type="password" placeholder="Nhập mật khẩu..." name="password" required
                     <%if(request.getAttribute("passwordCookie") == null) { %>
                        value=""
                     <%}%>
