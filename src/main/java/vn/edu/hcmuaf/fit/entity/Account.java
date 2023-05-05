@@ -12,6 +12,7 @@ public class Account {
     private int role;
     private String phone;
     private int locked;
+    private int isSocial;
 
 
     public Account() {
@@ -109,6 +110,14 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getIsSocial() {
+        return isSocial;
+    }
+
+    public void setIsSocial(int isSocial) {
+        this.isSocial = isSocial;
     }
 
     public Account(int id, String username, String password, String email, String fullName, String phone) {

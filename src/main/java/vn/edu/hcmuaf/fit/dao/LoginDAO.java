@@ -57,6 +57,7 @@ public class LoginDAO {
                     account.setPhone(rs.getString(6));
                     account.setRole(rs.getInt(9));
                     account.setLocked(rs.getInt(10));
+                    account.setIsSocial(rs.getInt(11));
                     return account;
                 }
             }
@@ -65,20 +66,21 @@ public class LoginDAO {
         }
         return null;
     }
-    public int countLoginFail(int user_id){
+
+    public int countLoginFail(int user_id) {
         String query = "SELECT COUNT(`user`) FROM `logs` WHERE `user` = ? AND content = 'Đăng nhập thất bại'";
-        try{
+        try {
             Statement statement = DBConnect.getInstall().get();
-            if(statement!=null){
+            if (statement != null) {
                 ps = DBConnect.getInstall().getConnection().prepareStatement(query);
                 ps.setInt(1, user_id);
                 rs = ps.executeQuery();
-                while (rs.next()){
+                while (rs.next()) {
                     return rs.getInt(1);
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException();
         }
         return 0;
