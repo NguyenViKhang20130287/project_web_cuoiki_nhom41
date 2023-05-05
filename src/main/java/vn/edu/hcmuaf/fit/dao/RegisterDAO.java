@@ -52,4 +52,22 @@ public class RegisterDAO {
 
         }
     }
+    public void insertSocialAccount(String username, String email, String name) {
+        String query = "INSERT INTO `user` (`user`.username, `user`.email, " +
+                "`user`.full_name, `user`.role_id, `user`.created_at, `user`.updated_at, `user`.is_social) VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            ps = new DBConnect().getConnection().prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, name);
+            ps.setInt(4, 3);
+            ps.setDate(5, Date.valueOf(LocalDate.now()));
+            ps.setDate(6, Date.valueOf(LocalDate.now()));
+            ps.setInt(7, 1);
+            ps.executeUpdate();
+        } catch (Exception e) {
+
+        }
+    }
 }

@@ -21,13 +21,50 @@
     <title>Shop Bán Ngọc Quý</title>
 
     <style>
-        .note{
+        .note {
             margin-bottom: 10px;
             margin-left: 10px;
             font-size: 15px;
             color: #5f6368;
         }
 
+        .social-login a {
+            text-decoration: none;
+            position: relative;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .social-login a.google {
+            background: #ea4335;
+        }
+
+        .social-login a.facebook {
+            background: #3b5998;
+        }
+
+        .social-login a.twitter {
+            background: #1da1f2;
+        }
+
+        .social-login a span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .text-center {
+            text-align: center !important;
+            margin-top: 30px;
+        }
     </style>
 
 </head>
@@ -106,13 +143,17 @@
                     <span>HOẶC</span>
                 </div>
                 <button class="register-button" id="register-button-login">ĐĂNG KÝ</button>
-                <div class="other_login">
-                    <div class="login_google">
-                        <button><i class="fa-brands fa-google-plus-g"></i></button>
-                    </div>
-                    <div class="login_facebook">
-                        <button><i class="fa-brands fa-facebook-f"></i></button>
-                    </div>
+                <div class="social-login text-center">
+                    <a href="#" class="facebook">
+                        <span class="icon-facebook mr-3"><i class="fa-brands fa-facebook"></i></span>
+                    </a>
+                    <a href="#" class="twitter">
+                        <span class="icon-twitter mr-3"><i class="fa-brands fa-twitter"></i></span>
+                    </a>
+                    <a href="https://accounts.google.com/o/oauth2/auth?scope=profile+email&redirect_uri=http://localhost:8080/web_nhom41_war/LoginGoogleControl&response_type=code
+                        &client_id=221698755693-ir2i1mmqa9qkd406ucche62utjtf5l4v.apps.googleusercontent.com&approval_prompt=force" class="google">
+                        <span class="icon-google mr-3"><i class="fa-brands fa-google"></i></span>
+                    </a>
                 </div>
             </form>
         </div>
@@ -156,7 +197,7 @@
 </div>
 
 <!-- footer page -->
-<%@include file="foooter.jsp"%>
+<%@include file="foooter.jsp" %>
 </body>
 <script src="js/main.js"></script>
 <script src="js/login.js"></script>
