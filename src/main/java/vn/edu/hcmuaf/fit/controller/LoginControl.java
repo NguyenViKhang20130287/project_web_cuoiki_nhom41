@@ -2,16 +2,22 @@ package vn.edu.hcmuaf.fit.controller;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import org.mindrot.jbcrypt.BCrypt;
+import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.CartItem;
 import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.entity.Product;
 import vn.edu.hcmuaf.fit.service.AccountService;
 import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.awt.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "LoginControl", value = "/LoginControl")
 public class LoginControl extends HttpServlet {
@@ -87,7 +93,20 @@ public class LoginControl extends HttpServlet {
                         request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     } else {
-                        HttpSession session = request.getSession();
+                        HttpSession session = request.getSession(false);
+//                        String idProduct = request.getParameter("inputId");
+//                        System.out.println(idProduct);
+//                        String quantity = request.getParameter("quantity");
+//                        Product product = new CartDao().getProductById(idProduct);
+//                        int productId = product.getId();
+//                        int qty = Integer.parseInt(quantity);
+//                        CartItem cartItem = cart.get(productId);
+//                        if (cartItem == null) {
+//                            cartItem = new CartItem(product, qty);
+//                            cart.put(productId, cartItem);
+//                        } else {
+//                            cartItem.setQuantity(cartItem.getQuantity() + qty);
+//                        }
                         session.setAttribute("Account", account);
                         session.setAttribute("username", uname);
                         session.setAttribute("email", account.getEmail());
@@ -95,6 +114,12 @@ public class LoginControl extends HttpServlet {
                         String role = String.valueOf(account.getRole());
                         session.setAttribute("role", role);
                         session.setAttribute("fullName", account.getFullName());
+                        List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
+                        HashMap<Integer, CartItem> cart = new HashMap<>();
+                        for (CartItem item : cartItems) {
+                            cart.put(item.getProduct().getId(), item);
+                        }
+                        session.setAttribute("cart", cart);
                         session.setMaxInactiveInterval(60 * 60 * 12 * 24);
                         logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thành công", 0, clientIP, browserName));
 

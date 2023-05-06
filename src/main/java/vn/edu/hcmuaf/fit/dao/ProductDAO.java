@@ -63,7 +63,7 @@ public class ProductDAO {
     }
 
     public List<Product> getRelatedProduct(String categoryName, int product_id) {
-        String query = "SELECT * FROM product p INNER JOIN category c ON p.category_id = c.id WHERE p.title LIKE '%" + categoryName + "%' AND p.id != " + product_id + " AND is_on_sale = TRUE";
+        String query = "SELECT * FROM product p INNER JOIN category c ON p.category_id = c.id WHERE p.title LIKE '%" + categoryName + "%' AND p.id != " + product_id + " AND is_on_sale = TRUE LIMIT 15";
         return getListProductQuery(query);
     }
 
@@ -101,7 +101,7 @@ public class ProductDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return product;
     }
@@ -118,7 +118,7 @@ public class ProductDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return 0;
     }
@@ -147,7 +147,7 @@ public class ProductDAO {
                 list.add(product);
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -166,7 +166,7 @@ public class ProductDAO {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return 0;
     }
@@ -197,7 +197,7 @@ public class ProductDAO {
                 list.add(product);
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -227,7 +227,7 @@ public class ProductDAO {
                 list.add(product);
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -256,7 +256,7 @@ public class ProductDAO {
                 list.add(product);
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -276,7 +276,7 @@ public class ProductDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return 0;
     }
@@ -304,7 +304,7 @@ public class ProductDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -333,7 +333,7 @@ public class ProductDAO {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
         return list;
     }
