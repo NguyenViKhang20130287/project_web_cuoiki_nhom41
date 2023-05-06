@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.CartDao;
+import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
 import vn.edu.hcmuaf.fit.entity.Product;
 
@@ -30,39 +31,82 @@ public class AddToCartControl extends HttpServlet {
         Product product = CartDao.getProductById(idProduct);
         CartItem cartItem;
         HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("Account");
         PrintWriter out = response.getWriter();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
-
-        if (cart == null) {
-            cart = new HashMap<Integer, CartItem>();
-            if (quantity != null) {
-                cartItem = new CartItem(product, Integer.parseInt(quantity));
-            } else {
-                cartItem = new CartItem(product, 1);
-            }
-            cart.put(Integer.valueOf(idProduct), cartItem);
-        } else {
-            if (cart.containsKey(Integer.parseInt(idProduct))) {
-                cartItem = cart.get(Integer.parseInt(idProduct));
-                if (cartItem.getQuantity() < product.getQuantity()) {
-                    if (quantity == null) {
-                        cartItem.incrementQuantity();
-                    } else {
-                        if ((Integer.parseInt(quantity) + cartItem.getQuantity()) < product.getQuantity()) {
-                            cartItem.incrementQuantityWithQuantity(Integer.parseInt(quantity));
-                        } else {
-                            cartItem.setQuantity(product.getQuantity());
-                        }
-
-                    }
-                }
-            } else {
+        if(account==null) {
+            if (cart == null) {
+                cart = new HashMap<Integer, CartItem>();
                 if (quantity != null) {
                     cartItem = new CartItem(product, Integer.parseInt(quantity));
                 } else {
                     cartItem = new CartItem(product, 1);
                 }
-                cart.put(Integer.parseInt(idProduct), cartItem);
+                cart.put(Integer.valueOf(idProduct), cartItem);
+            } else {
+                if (cart.containsKey(Integer.parseInt(idProduct))) {
+                    cartItem = cart.get(Integer.parseInt(idProduct));
+                    if (cartItem.getQuantity() < product.getQuantity()) {
+                        if (quantity == null) {
+                            cartItem.incrementQuantity();
+                        } else {
+                            if ((Integer.parseInt(quantity) + cartItem.getQuantity()) < product.getQuantity()) {
+                                cartItem.incrementQuantityWithQuantity(Integer.parseInt(quantity));
+                            } else {
+                                cartItem.setQuantity(product.getQuantity());
+                            }
+
+                        }
+                    }
+                } else {
+                    if (quantity != null) {
+                        cartItem = new CartItem(product, Integer.parseInt(quantity));
+                    } else {
+                        cartItem = new CartItem(product, 1);
+                    }
+                    cart.put(Integer.parseInt(idProduct), cartItem);
+                }
+            }
+        }else{
+            if (cart == null) {
+                cart = new HashMap<Integer, CartItem>();
+                if (quantity != null) {
+                    cartItem = new CartItem(product, Integer.parseInt(quantity), account);
+                    new CartDao().addCartItem(cartItem);
+                } else {
+                    cartItem = new CartItem(product, 1, account);
+                    new CartDao().addCartItem(cartItem);
+                }
+                cart.put(Integer.valueOf(idProduct), cartItem);
+            } else {
+                if (cart.containsKey(Integer.parseInt(idProduct))) {
+                    cartItem = cart.get(Integer.parseInt(idProduct));
+                    if (cartItem.getQuantity() < product.getQuantity()) {
+                        if (quantity == null) {
+                            cartItem.incrementQuantity();
+                            new CartDao().updateCartItem(cartItem);
+                        } else {
+                            if ((Integer.parseInt(quantity) + cartItem.getQuantity()) < product.getQuantity()) {
+                                cartItem.incrementQuantityWithQuantity(Integer.parseInt(quantity));
+                                new CartDao().updateCartItem(cartItem);
+                            } else {
+                                cartItem.setQuantity(product.getQuantity());
+                                new CartDao().updateCartItem(cartItem);
+                            }
+
+                        }
+                    }
+                } else {
+                    if (quantity != null) {
+                        cartItem = new CartItem(product, Integer.parseInt(quantity), account);
+                        new CartDao().addCartItem(cartItem);
+                    } else {
+                        cartItem = new CartItem(product, 1, account);
+                        new CartDao().addCartItem(cartItem);
+                    }
+                    cart.put(Integer.parseInt(idProduct), cartItem);
+
+                }
             }
         }
 

@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.entity;
 public class CartItem {
     private Product product;
     private int quantity;
+    private Account account;
 
     public CartItem() {
     }
@@ -11,6 +12,12 @@ public class CartItem {
         this.product = product;
         this.quantity = quantity;
     }
+    public CartItem(Product product, int quantity, Account account) {
+        this.product = product;
+        this.quantity = quantity;
+        this.account = account;
+    }
+
 
     public Product getProduct() {
         return product;
@@ -26,6 +33,14 @@ public class CartItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

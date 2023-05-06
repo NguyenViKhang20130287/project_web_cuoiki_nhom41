@@ -1,10 +1,14 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.CartItem;
 import vn.edu.hcmuaf.fit.entity.Product;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartDao {
     DBConnect dbConnect = new DBConnect();
@@ -30,13 +34,10 @@ public class CartDao {
                     product.setThumbnail(dbConnect.rs.getString(8));
                     product.setDescription(dbConnect.rs.getString(9));
                     product.setQuantity(dbConnect.rs.getInt(10));
-                    dbConnect.ps.executeUpdate();
-                    dbConnect.ps.close();
-                    statement.close();
                 }
             }
         } catch (SQLException e) {
-
+            throw new RuntimeException(e);
         }
         return product;
     }
@@ -61,5 +62,95 @@ public class CartDao {
         }
         return result;
     }
+
+
+    public void addCartItem(CartItem cartItem) {
+        String query = "INSERT INTO cart_items (product_id, quantity, user_id) VALUES (?, ?, ?)";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                dbConnect.ps.setInt(1, cartItem.getProduct().getId());
+                dbConnect.ps.setInt(2, cartItem.getQuantity());
+                dbConnect.ps.setInt(3, cartItem.getAccount().getId());
+                dbConnect.ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateCartItem(CartItem cartItem) {
+        String query = "UPDATE cart_items SET quantity = ? WHERE product_id = ? AND user_id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                dbConnect.ps.setInt(1, cartItem.getQuantity());
+                dbConnect.ps.setInt(2, cartItem.getProduct().getId());
+                dbConnect.ps.setInt(3, cartItem.getAccount().getId());
+                dbConnect.ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteCartItem(int product_id, int user_id) {
+        String query = "DELETE FROM cart_items WHERE product_id = ? AND user_id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                dbConnect.ps.setInt(1, product_id);
+                dbConnect.ps.setInt(2, user_id);
+                dbConnect.ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void deleteAllCartItem(int user_id) {
+        String query = "DELETE FROM cart_items WHERE user_id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                dbConnect.ps.setInt(1, user_id);
+                dbConnect.ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<CartItem> getListCartItem(int user_id) {
+        List<CartItem> list = new ArrayList<>();
+        String query = "SELECT* FROM cart_items WHERE user_id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                dbConnect.ps = dbConnect.connection.prepareStatement(query);
+                dbConnect.ps.setInt(1, user_id);
+                dbConnect.rs = dbConnect.ps.executeQuery();
+                while (dbConnect.rs.next()) {
+                    CartItem cartItem = new CartItem();
+                    cartItem.setProduct(new ProductDAO().getProduct(dbConnect.rs.getInt(2)));
+                    cartItem.setQuantity(dbConnect.rs.getInt(3));
+                    cartItem.setAccount(new LoginDAO().getAccount(dbConnect.rs.getInt(4)));
+                    list.add(cartItem);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
 
 }

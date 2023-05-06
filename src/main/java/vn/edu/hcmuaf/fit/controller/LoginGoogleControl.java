@@ -3,9 +3,11 @@ package vn.edu.hcmuaf.fit.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import vn.edu.hcmuaf.fit.dao.AccountDAO;
+import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.dao.RegisterDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.CartItem;
 import vn.edu.hcmuaf.fit.entity.Constants;
 import vn.edu.hcmuaf.fit.entity.UserGoogle;
 
@@ -22,6 +24,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet(name = "LoginGoogleControl", value = "/LoginGoogleControl")
 public class LoginGoogleControl extends HttpServlet {
@@ -78,6 +82,13 @@ public class LoginGoogleControl extends HttpServlet {
             session.setAttribute("fullName", account.getFullName());
             String isSocial = String.valueOf(account.getIsSocial());
             session.setAttribute("isSocial", isSocial);
+            List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
+            HashMap<Integer, CartItem> cart = new HashMap<>();
+            for (CartItem item : cartItems) {
+                cart.put(item.getProduct().getId(), item);
+            }
+            session.setAttribute("cart", cart);
+
         } else {
             new RegisterDAO().insertSocialAccount(user.getId(), user.getEmail(), user.getName());
             account = new LoginDAO().getAccount(user.getId());
@@ -91,6 +102,12 @@ public class LoginGoogleControl extends HttpServlet {
             session.setAttribute("fullName", account.getFullName());
             String isSocial = String.valueOf(account.getIsSocial());
             session.setAttribute("isSocial", isSocial);
+            List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
+            HashMap<Integer, CartItem> cart = new HashMap<>();
+            for (CartItem item : cartItems) {
+                cart.put(item.getProduct().getId(), item);
+            }
+            session.setAttribute("cart", cart);
         }
         response.sendRedirect("home");
     }

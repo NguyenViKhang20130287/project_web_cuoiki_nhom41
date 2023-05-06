@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.dao.CartDao;
+import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
 
 import javax.servlet.*;
@@ -35,11 +37,24 @@ public class DeleteProductControl extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
-        cart.remove(Integer.parseInt(productID));
-        if (cart.size() == 0) {
-            session.setAttribute("cart", null);
+        Account account = (Account) session.getAttribute("Account");
+        if (account == null) {
+            cart.remove(Integer.parseInt(productID));
+            if (cart.size() == 0) {
+                session.setAttribute("cart", null);
+
+            } else {
+                session.setAttribute("cart", cart);
+            }
         } else {
-            session.setAttribute("cart", cart);
+            new CartDao().deleteCartItem(Integer.parseInt(productID), account.getId());
+            cart.remove(Integer.parseInt(productID));
+            if (cart.size() == 0) {
+                session.setAttribute("cart", null);
+
+            } else {
+                session.setAttribute("cart", cart);
+            }
         }
         for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
             String price = "";

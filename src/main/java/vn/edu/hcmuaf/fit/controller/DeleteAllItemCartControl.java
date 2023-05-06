@@ -1,5 +1,8 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.dao.CartDao;
+import vn.edu.hcmuaf.fit.entity.Account;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -33,8 +36,14 @@ public class DeleteAllItemCartControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
+        Account account = (Account) session.getAttribute("Account");
 
-        session.setAttribute("cart", null);
+        if (account == null) {
+            session.setAttribute("cart", null);
+        } else {
+            session.setAttribute("cart", null);
+            new CartDao().deleteAllCartItem(account.getId());
+        }
         out.println("");
     }
 }

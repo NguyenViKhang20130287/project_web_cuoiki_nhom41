@@ -66,6 +66,33 @@ public class LoginDAO {
         }
         return null;
     }
+    public Account getAccount(int id) {
+        Account account = new Account();
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                String query = "SELECT * FROM `user` WHERE id = ?";
+                ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setInt(1, id);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    account.setId(rs.getInt(1));
+                    account.setUsername(rs.getString(2));
+                    account.setPassword(rs.getString(3));
+                    account.setFullName(rs.getString(4));
+                    account.setEmail(rs.getString(5));
+                    account.setPhone(rs.getString(6));
+                    account.setRole(rs.getInt(9));
+                    account.setLocked(rs.getInt(10));
+                    account.setIsSocial(rs.getInt(11));
+                    return account;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        return null;
+    }
 
     public int countLoginFail(int user_id) {
         String query = "SELECT COUNT(`user`) FROM `logs` WHERE `user` = ? AND content = 'Đăng nhập thất bại'";

@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.dao.CartDao;
+import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
 
 import javax.servlet.*;
@@ -65,6 +67,7 @@ public class CartQuantityControl extends HttpServlet {
         String pid = request.getParameter("pid");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("Account");
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         if (pid == null) {
             pid = "0";
@@ -75,7 +78,6 @@ public class CartQuantityControl extends HttpServlet {
 
                 if (operator.contains("+")) {
                     if (quantity < entry.getValue().getProduct().getQuantity()) {
-
                         quantity++;
                     }
                 } else {
@@ -85,7 +87,12 @@ public class CartQuantityControl extends HttpServlet {
                         }
                     }
                 }
-                entry.getValue().setQuantity(quantity);
+                if(account==null){
+                    entry.getValue().setQuantity(quantity);
+                }else {
+                    entry.getValue().setQuantity(quantity);
+                    new CartDao().updateCartItem(entry.getValue());
+                }
             }
             String price = "";
             String total = "";
