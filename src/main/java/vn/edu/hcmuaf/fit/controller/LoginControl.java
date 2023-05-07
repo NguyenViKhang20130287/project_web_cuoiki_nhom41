@@ -93,20 +93,7 @@ public class LoginControl extends HttpServlet {
                         request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     } else {
-                        HttpSession session = request.getSession(false);
-//                        String idProduct = request.getParameter("inputId");
-//                        System.out.println(idProduct);
-//                        String quantity = request.getParameter("quantity");
-//                        Product product = new CartDao().getProductById(idProduct);
-//                        int productId = product.getId();
-//                        int qty = Integer.parseInt(quantity);
-//                        CartItem cartItem = cart.get(productId);
-//                        if (cartItem == null) {
-//                            cartItem = new CartItem(product, qty);
-//                            cart.put(productId, cartItem);
-//                        } else {
-//                            cartItem.setQuantity(cartItem.getQuantity() + qty);
-//                        }
+                        HttpSession session = request.getSession();
                         session.setAttribute("Account", account);
                         session.setAttribute("username", uname);
                         session.setAttribute("email", account.getEmail());

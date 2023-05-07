@@ -108,11 +108,11 @@
                                        name="uname">
                             </div>
 
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Mật khẩu</label>
-                                <input class="form-control" type="text" name="password"
-                                       value="<%=u.getPassword()%>">
-                            </div>
+<%--                            <div class="form-group col-md-6">--%>
+<%--                                <label class="control-label">Mật khẩu</label>--%>
+<%--                                <input class="form-control" type="text" name="password"--%>
+<%--                                       value="<%=u.getPassword()%>">--%>
+<%--                            </div>--%>
 
                             <div class="form-group col-md-6">
                                 <label class="control-label">Họ và tên</label>

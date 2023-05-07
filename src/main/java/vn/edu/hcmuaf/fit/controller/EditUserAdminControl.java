@@ -25,7 +25,6 @@ public class EditUserAdminControl extends HttpServlet {
         try {
             int uid = Integer.parseInt(request.getParameter("uid"));
             String uname = request.getParameter("uname");
-            String password = request.getParameter("password");
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -33,7 +32,7 @@ public class EditUserAdminControl extends HttpServlet {
 
             System.out.println(role);
 
-            new AdminDAO().editDataUser(uid, uname, password, fullName, email, phone, role);
+            new AdminDAO().editDataUser(uid, uname, fullName, email, phone, role);
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Cập nhật thông tin khách hàng thành công');");
             out.println("location='UserAdminControl';");
