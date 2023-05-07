@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -35,6 +37,7 @@ public class DeleteProductControl extends HttpServlet {
         String productID = request.getParameter("productId");
         int browserWidth = Integer.parseInt(request.getParameter("browserWidth"));
         PrintWriter out = response.getWriter();
+        LogService logService = LogService.getInstance();
         HttpSession session = request.getSession();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
         Account account = (Account) session.getAttribute("Account");
@@ -47,8 +50,9 @@ public class DeleteProductControl extends HttpServlet {
                 session.setAttribute("cart", cart);
             }
         } else {
-            new CartDao().deleteCartItem(Integer.parseInt(productID), account.getId());
             cart.remove(Integer.parseInt(productID));
+            new CartDao().deleteCartItem(Integer.parseInt(productID), account.getId());
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Xóa sản phẩm mã " + productID + " khỏi giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             if (cart.size() == 0) {
                 session.setAttribute("cart", null);
 

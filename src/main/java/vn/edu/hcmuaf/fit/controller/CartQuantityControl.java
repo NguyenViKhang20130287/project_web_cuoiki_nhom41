@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -66,6 +68,7 @@ public class CartQuantityControl extends HttpServlet {
 
         String pid = request.getParameter("pid");
         PrintWriter out = response.getWriter();
+        LogService logService = LogService.getInstance();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("Account");
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
@@ -92,6 +95,8 @@ public class CartQuantityControl extends HttpServlet {
                 }else {
                     entry.getValue().setQuantity(quantity);
                     new CartDao().updateCartItem(entry.getValue());
+                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật số lượng sản phẩm mã " + entry.getValue().getProduct().getId() + " thành " + entry.getValue().getQuantity() + "", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+
                 }
             }
             String price = "";

@@ -1,8 +1,11 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import eu.bitwalker.useragentutils.UserAgent;
 import vn.edu.hcmuaf.fit.dao.AccountDAO;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -26,7 +29,8 @@ public class AccountSettingControl extends HttpServlet {
         String phone_number = request.getParameter("phone_number");
         HttpSession session = request.getSession();
         String username = session.getAttribute("username").toString();
-        Account account = new LoginDAO().getAccount(username);
+        Account account = (Account) session.getAttribute("Account");
+        LogService logService = LogService.getInstance();
         if (full_name.equals(account.getFullName()) && email.equals(account.getEmail()) && phone_number.equals(account.getPhone())) {
             request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
         } else if (full_name.equals("") && email.equals("") && phone_number.equals("")) {
@@ -38,6 +42,7 @@ public class AccountSettingControl extends HttpServlet {
             session.setAttribute("full_name", full_name);
             session.setAttribute("email_update", email);
             session.setAttribute("phone_number", phone_number);
+            logService.insertNewLog(new Log(Log.INFO, account.getId(),this.getClass().getName(),"Cập nhật thông tin thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Cập nhật thông tin thành công');");
             out.println("location='/web_nhom41_war/accountSettings.jsp';");
