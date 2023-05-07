@@ -1,5 +1,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -170,7 +171,6 @@
                             <tr>
                                 <th>ID khách hàng</th>
                                 <th width="150">Tên đăng nhập</th>
-                                <th width="20">Mật khẩu</th>
                                 <th width="300">Họ và tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
@@ -187,8 +187,6 @@
                                 <td><%= u.getId()%>
                                 </td>
                                 <td><%= u.getUserName()%>
-                                </td>
-                                <td><%= u.getPassword()%>
                                 </td>
                                 <td><%= u.getFullName()%>
                                 </td>
@@ -218,6 +216,65 @@
 
                         <!-- The actual snackbar -->
                         <div id="snackbar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div>
+                    <h3 class="tile-title">Tài khoản bị khóa</h3>
+                </div>
+                <div class="tile-body">
+
+                    <div class="row element-button">
+                        <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0"
+                               border="0"
+                               id="sampleTable">
+                            <thead>
+                            <tr>
+                                <th>ID khách hàng</th>
+                                <th width="150">Tên đăng nhập</th>
+                                <th width="300">Họ và tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Vai trò</th>
+                                <th width="100">Tính năng</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <% List<Account> lockedAccountList = (List<Account>) request.getAttribute("lockedAccountList");
+                                for (Account account : lockedAccountList) { %>
+                            <tr>
+                                <td><%= account.getId()%>
+                                </td>
+                                <td><%= account.getUsername()%>
+                                </td>
+                                <td><%= account.getFullName()%>
+                                </td>
+                                <td><%= account.getEmail()%>
+                                </td>
+                                <td><%= account.getPhone()%>
+                                </td>
+                                <td><%= account.getRole()%>
+                                </td>
+                                <form action="UserAdminControl" method="get">
+                                    <td class="table-td-center">
+                                        <a href="UserAdminControl?user_id=<%=account.getId()%>"
+                                           class="btn btn-primary btn-sm" style="color: #000000"
+                                           title="Mở khóa"><i class="fa-solid fa-unlock"></i>
+                                        </a>
+                                    </td>
+                                </form>
+                            </tr>
+                            <% } %>
+
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
             </div>

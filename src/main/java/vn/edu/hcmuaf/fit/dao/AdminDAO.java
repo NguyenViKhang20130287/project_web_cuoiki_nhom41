@@ -30,6 +30,7 @@ public class AdminDAO {
                 "FROM\n" +
                 "\t`user`\n" +
                 "\tJOIN role ON role.id = `user`.role_id \n" +
+                "WHERE locked=0\n" +
                 "GROUP BY\n" +
                 "\t`user`.id,\n" +
                 "\t`user`.full_name,\n" +
@@ -64,30 +65,29 @@ public class AdminDAO {
         return list;
     }
 
-    public int getRoleID(String roleName){
+    public int getRoleID(String roleName) {
         int id = 0;
         String query = "select * from role";
         try {
             Statement statement = DBConnect.getInstall().get();
-            if(statement != null){
+            if (statement != null) {
                 PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
-                while(rs.next()){
-                    if(roleName.equals(rs.getString(2))){
+                while (rs.next()) {
+                    if (roleName.equals(rs.getString(2))) {
                         id = rs.getInt(1);
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return id;
     }
 
-    public void editDataUser(int id, String userName, String password, String fullName, String email, String phone, int roleName) {
+    public void editDataUser(int id, String userName, String fullName, String email, String phone, int roleName) {
         String query = "UPDATE `user`\n" +
                 "SET `user`.username = ?,\n" +
-                "`user`.`password` = ?,\n" +
                 "`user`.full_name = ?,\n" +
                 "`user`.email = ?,\n" +
                 "`user`.phone_number = ?,\n" +
@@ -101,13 +101,12 @@ public class AdminDAO {
                 PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
 
                 ps.setString(1, userName);
-                ps.setString(2, password);
-                ps.setString(3, fullName);
-                ps.setString(4, email);
-                ps.setString(5, phone);
-                ps.setDate(6, Date.valueOf(LocalDate.now()));
-                ps.setInt(7, roleName);
-                ps.setInt(8, id);
+                ps.setString(2, fullName);
+                ps.setString(3, email);
+                ps.setString(4, phone);
+                ps.setDate(5, Date.valueOf(LocalDate.now()));
+                ps.setInt(6, roleName);
+                ps.setInt(7, id);
 
                 ps.executeUpdate();
 
@@ -143,6 +142,7 @@ public class AdminDAO {
             e.printStackTrace();
         }
     }
+
     // products admin
     public String getNameCategoryWithID(int parent_id) {
         String result = null;
@@ -281,6 +281,7 @@ public class AdminDAO {
         }
         return id;
     }
+
     public int getIdColor(String color) {
         int id = 0;
         String query = "SELECT * FROM gem_color";

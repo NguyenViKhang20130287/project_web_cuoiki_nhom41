@@ -4,6 +4,8 @@ import vn.edu.hcmuaf.fit.db.DBConnect;
 import vn.edu.hcmuaf.fit.entity.Account;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountDAO {
     Connection conn = null;
@@ -75,8 +77,50 @@ public class AccountDAO {
             throw new RuntimeException();
         }
     }
+    public void unLockAccount(int user_id){
+        String query = "UPDATE `user` SET `user`.locked = 0 WHERE `user`.id = ?";
+        try{
+            Statement statement = DBConnect.getInstall().get();
+            if(statement!=null){
+                ps = DBConnect.getInstall().getConnection().prepareStatement(query);
+                ps.setInt(1, user_id);
+                ps.executeUpdate();
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public List<Account> lockedAccountList(){
+        List<Account> lockedList = new ArrayList<>();
+        String query = "SELECT * FROM `user` WHERE locked = 1";
+        try{
+            Statement statement = DBConnect.getInstall().get();
+            rs = statement.executeQuery(query);
+            while (rs.next()){
+                Account account = new Account();
+                account.setId(rs.getInt(1));
+                account.setUsername(rs.getString(2));
+                account.setPassword(rs.getString(3));
+                account.setFullName(rs.getString(4));
+                account.setEmail(rs.getString(5));
+                account.setPhone(rs.getString(6));
+                account.setRole(rs.getInt(9));
+                account.setLocked(rs.getInt(10));
+                account.setIsSocial(rs.getInt(11));
+                lockedList.add(account);
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        return lockedList;
+    }
 
     public static void main(String[] args) {
-       new AccountDAO().lockAccount(13);
+//       List<Account> list = new AccountDAO().lockedAccountList();
+//       for (Account account : list){
+//           System.out.println(account);
+//       }
+        new AccountDAO().unLockAccount(15);
     }
 }
