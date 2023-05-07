@@ -4,7 +4,9 @@ import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.ForgotPasswordDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.ForgotPassword;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.service.AccountService;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -26,6 +28,7 @@ public class NewPasswordControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
+            LogService logService = LogService.getInstance();
             String newPassword = request.getParameter("newPass");
             int userId = (int) session.getAttribute("userId");
             AccountService accountService = AccountService.getInstance();
@@ -35,6 +38,7 @@ public class NewPasswordControl extends HttpServlet {
             } else {
                 if (accountService.validatePassword(newPassword)) {
                     new ForgotPasswordDAO().changePassword(userId, accountService.hashPassword(newPassword));
+                    logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), "Đổi mật khẩu mới", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Đổi mật khẩu thành công');");
                     out.println("location='LoginControl';");

@@ -4,7 +4,9 @@ import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.AccountDAO;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.service.AccountService;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -30,6 +32,7 @@ public class UpdatePasswordControl extends HttpServlet {
         String old_password = request.getParameter("old_password");
         String new_password = request.getParameter("new_password");
         AccountService accountService = AccountService.getInstance();
+        LogService logService = LogService.getInstance();
         if (old_password == null || new_password == null || old_password.isEmpty() || new_password.isEmpty()) {
             request.setAttribute("error", "Vui lòng nhập đầy đủ mật khẩu cũ và mật khẩu mới");
             request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
@@ -45,12 +48,14 @@ public class UpdatePasswordControl extends HttpServlet {
             Account account = loginDAO.getAccount(username);
             if (!BCrypt.checkpw(old_password, account.getPassword())) {
                 request.setAttribute("error", "Mật khẩu cũ không đúng");
+                logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật thông tin thất bại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
                 return;
             }
             String hashedPassword = accountService.hashPassword(new_password);
             AccountDAO accountDAO = new AccountDAO();
             accountDAO.updatePassword(hashedPassword, username);
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật thông tin thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             request.setAttribute("success", "Đổi mật khẩu thành công");
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Đổi mật khẩu thành công');");

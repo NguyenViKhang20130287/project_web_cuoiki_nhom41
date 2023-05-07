@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.entity.Product;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,12 +31,13 @@ public class AddToCartControl extends HttpServlet {
         String idProduct = request.getParameter("inputId");
         String quantity = request.getParameter("quantity");
         Product product = CartDao.getProductById(idProduct);
+        LogService logService = LogService.getInstance();
         CartItem cartItem;
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("Account");
         PrintWriter out = response.getWriter();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
-        if(account==null) {
+        if (account == null) {
             if (cart == null) {
                 cart = new HashMap<Integer, CartItem>();
                 if (quantity != null) {
@@ -65,19 +68,23 @@ public class AddToCartControl extends HttpServlet {
                         cartItem = new CartItem(product, 1);
                     }
                     cart.put(Integer.parseInt(idProduct), cartItem);
+                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm " + product.getId() + " vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 }
             }
-        }else{
+        } else {
             if (cart == null) {
                 cart = new HashMap<Integer, CartItem>();
                 if (quantity != null) {
                     cartItem = new CartItem(product, Integer.parseInt(quantity), account);
                     new CartDao().addCartItem(cartItem);
+//                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 } else {
                     cartItem = new CartItem(product, 1, account);
                     new CartDao().addCartItem(cartItem);
+//                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 }
                 cart.put(Integer.valueOf(idProduct), cartItem);
+//                logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             } else {
                 if (cart.containsKey(Integer.parseInt(idProduct))) {
                     cartItem = cart.get(Integer.parseInt(idProduct));
@@ -85,6 +92,7 @@ public class AddToCartControl extends HttpServlet {
                         if (quantity == null) {
                             cartItem.incrementQuantity();
                             new CartDao().updateCartItem(cartItem);
+                            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật số lượng sản phẩm mã " + product.getId() + " thành " + cartItem.getQuantity() + "", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                         } else {
                             if ((Integer.parseInt(quantity) + cartItem.getQuantity()) < product.getQuantity()) {
                                 cartItem.incrementQuantityWithQuantity(Integer.parseInt(quantity));
@@ -100,9 +108,12 @@ public class AddToCartControl extends HttpServlet {
                     if (quantity != null) {
                         cartItem = new CartItem(product, Integer.parseInt(quantity), account);
                         new CartDao().addCartItem(cartItem);
+                        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm mã " + product.getId() + " vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+
                     } else {
                         cartItem = new CartItem(product, 1, account);
                         new CartDao().addCartItem(cartItem);
+                        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm mã " + product.getId() + " vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                     }
                     cart.put(Integer.parseInt(idProduct), cartItem);
 

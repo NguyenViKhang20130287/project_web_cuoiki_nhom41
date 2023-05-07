@@ -42,6 +42,7 @@ public class AddProductControl extends HttpServlet {
             new AdminDAO().addProduct(id, nameProduct, nameGem,
                     quantity, category, color, price,
                     keyword, design, imgLink, description);
+
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Thêm sản phẩm thành công');");
             out.println("location='ListProductAdminControl';");

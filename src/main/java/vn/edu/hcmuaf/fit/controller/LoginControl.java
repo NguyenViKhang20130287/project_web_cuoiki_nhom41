@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.controller;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.CartDao;
+import vn.edu.hcmuaf.fit.dao.LogDAO;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
@@ -45,52 +46,40 @@ public class LoginControl extends HttpServlet {
             String uname = request.getParameter("uname");
             String pass = request.getParameter("password");
             String remember = request.getParameter("remember");
-            String clientIP = request.getRemoteAddr();
-            String browserInfo = request.getHeader("User-Agent");
-            UserAgent userAgent = UserAgent.parseUserAgentString(browserInfo);
-            String browserName = userAgent.getBrowser().getName();
             Account account = new LoginDAO().getAccount(uname);
             AccountService accountService = AccountService.getInstance();
             LogService logService = LogService.getInstance();
             if (uname.equals("") && pass.equals("")) {
-                request.setAttribute("error", "Vui lòng nhập tên đăng nhập và mật khẩu");
+                request.setAttribute("error", "Vui lòng nhập tên đăng nhập và mật khẩu.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
             if (uname.equals("")) {
-                request.setAttribute("errorUsername", "Vui lòng nhập tên đăng nhập");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            } else if (!accountService.validateUsername(uname)) {
-                request.setAttribute("errorUsername", "Tên đăng nhập không đúng định dạng");
+                request.setAttribute("errorUsername", "Vui lòng nhập tên đăng nhập.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
             if (pass.equals("")) {
-                request.setAttribute("errorPass", "Vui lòng nhập mật khẩu");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            } else if (!accountService.validatePassword(pass)) {
-                request.setAttribute("errorPass", "Mật khẩu không đúng định dạng");
+                request.setAttribute("errorPass", "Vui lòng nhập mật khẩu.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
             if (account != null) {
                 String hashedPassword = account.getPassword();
                 if (!BCrypt.checkpw(pass, hashedPassword)) {
-                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thất bại", 0, clientIP, browserName));
+                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Đăng nhập thất bại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                     int countFails = logService.countLoginFail(account.getId());
                     if (countFails < 5) {
-                        request.setAttribute("error", "Mật khẩu không chính xác. Đăng nhập thất bại. Tài khoản còn " + (5 - countFails) + " lần đăng nhập lại");
+                        request.setAttribute("error", "Mật khẩu không chính xác. Người dùng lưu ý: Tài khoản sẽ bị khóa nếu nhập sai mật khẩu 5 lần trở lên.");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     } else {
                         accountService.lockUser(account.getId());
-                        request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
+                        request.setAttribute("error", "Tài khoản của bạn đã bị khóa.");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     }
                 } else {
                     if (account.getLocked() == 1) {
-                        request.setAttribute("error", "Tài khoản của bạn đã bị khóa");
+                        request.setAttribute("error", "Tài khoản của bạn đã bị khóa.");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     } else {
                         HttpSession session = request.getSession();
@@ -101,6 +90,7 @@ public class LoginControl extends HttpServlet {
                         String role = String.valueOf(account.getRole());
                         session.setAttribute("role", role);
                         session.setAttribute("fullName", account.getFullName());
+                        new LogDAO().updateStatus(account.getId());
                         List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
                         HashMap<Integer, CartItem> cart = new HashMap<>();
                         for (CartItem item : cartItems) {
@@ -108,7 +98,7 @@ public class LoginControl extends HttpServlet {
                         }
                         session.setAttribute("cart", cart);
                         session.setMaxInactiveInterval(60 * 60 * 12 * 24);
-                        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getSimpleName(), "Đăng nhập thành công", 0, clientIP, browserName));
+                        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Đăng nhập thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
 
                         // cookie
                         Cookie cookie_username = new Cookie("c_uname", uname);
@@ -127,7 +117,7 @@ public class LoginControl extends HttpServlet {
                     }
                 }
             } else {
-                request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai");
+                request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (Exception e) {

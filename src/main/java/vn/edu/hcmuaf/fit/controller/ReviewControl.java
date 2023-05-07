@@ -4,7 +4,10 @@ import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.dao.ReviewDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.entity.Product;
 import vn.edu.hcmuaf.fit.entity.Review;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -29,6 +32,8 @@ public class ReviewControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("Account");
+        LogService logService = LogService.getInstance();
         String username = session.getAttribute("username").toString();
         int id = Integer.parseInt(request.getParameter("id"));
         Double rating = Double.valueOf(request.getParameter("hdrating"));
@@ -36,12 +41,14 @@ public class ReviewControl extends HttpServlet {
         Review review = new Review();
         ProductDAO productDAO = new ProductDAO();
         LoginDAO loginDAO = new LoginDAO();
-        review.setProduct(productDAO.getProduct(id));
+        Product product = productDAO.getProduct(id);
+        review.setProduct(product);
         review.setAccount(loginDAO.getAccount(username));
         review.setMessage(comment);
         review.setRating(rating);
         review.setDatePost(new Date());
         reviewDAO.insertReview(review);
+        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm một bình luận mới cho sản phẩm mã " + product.getId() + "", 0, logService.getIpClient(request), logService.getBrowserName(request)));
         out.println("<script type=\"text/javascript\">");
         out.println("alert('Đánh giá đã được gửi thành công!');");
         out.println("location='product-detail?product_id=" + id + "';");

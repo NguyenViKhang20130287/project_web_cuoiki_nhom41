@@ -95,7 +95,7 @@ public class LoginDAO {
     }
 
     public int countLoginFail(int user_id) {
-        String query = "SELECT COUNT(`user`) FROM `logs` WHERE `user` = ? AND content = 'Đăng nhập thất bại'";
+        String query = "SELECT COUNT(`user`) FROM `logs` WHERE `user` = ? AND content = 'Đăng nhập thất bại' AND status = 0 AND DATE(created_at) = CURDATE()";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -115,7 +115,7 @@ public class LoginDAO {
 
     public static void main(String[] args) {
         LoginDAO loginDAO = new LoginDAO();
-        System.out.println(loginDAO.countLoginFail(14));
+        System.out.println(loginDAO.countLoginFail(13));
     }
 
 }

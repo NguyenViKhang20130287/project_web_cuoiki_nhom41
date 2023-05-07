@@ -3,10 +3,7 @@ package vn.edu.hcmuaf.fit.dao;
 import vn.edu.hcmuaf.fit.db.DBConnect;
 import vn.edu.hcmuaf.fit.entity.Log;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LogDAO {
     Connection conn;
@@ -28,6 +25,21 @@ public class LogDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updateStatus(int user_id) {
+        String query = "UPDATE `logs` SET `status` = 1 WHERE `user` = ? AND content = 'Đăng nhập thất bại' AND DATE(created_at) = CURDATE()";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if(statement!=null){
+                ps = DBConnect.getInstall().getConnection().prepareStatement(query);
+                ps.setInt(1, user_id);
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

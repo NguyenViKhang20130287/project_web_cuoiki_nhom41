@@ -6,10 +6,7 @@ import vn.edu.hcmuaf.fit.dao.AccountDAO;
 import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.dao.RegisterDAO;
-import vn.edu.hcmuaf.fit.entity.Account;
-import vn.edu.hcmuaf.fit.entity.CartItem;
-import vn.edu.hcmuaf.fit.entity.Constants;
-import vn.edu.hcmuaf.fit.entity.UserGoogle;
+import vn.edu.hcmuaf.fit.entity.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 
 import javax.servlet.*;
@@ -71,23 +69,30 @@ public class LoginGoogleControl extends HttpServlet {
         String accessToken = getToken(code);
         UserGoogle user = getUserInfo(accessToken);
         Account account = new LoginDAO().getAccount(user.getId());
+        LogService logService = LogService.getInstance();
         if (account != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("Account", account);
-            session.setAttribute("username", account.getUsername());
-            session.setAttribute("email", account.getEmail());
-            session.setAttribute("phoneNumber", account.getPhone());
-            String role = String.valueOf(account.getRole());
-            session.setAttribute("role", role);
-            session.setAttribute("fullName", account.getFullName());
-            String isSocial = String.valueOf(account.getIsSocial());
-            session.setAttribute("isSocial", isSocial);
-            List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
-            HashMap<Integer, CartItem> cart = new HashMap<>();
-            for (CartItem item : cartItems) {
-                cart.put(item.getProduct().getId(), item);
+            if (account.getLocked() == 1) {
+                request.setAttribute("error", "Tài khoản của bạn đã bị khóa.");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            } else {
+                logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Đăng nhập bằng tài khoản Google thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+                HttpSession session = request.getSession();
+                session.setAttribute("Account", account);
+                session.setAttribute("username", account.getUsername());
+                session.setAttribute("email", account.getEmail());
+                session.setAttribute("phoneNumber", account.getPhone());
+                String role = String.valueOf(account.getRole());
+                session.setAttribute("role", role);
+                session.setAttribute("fullName", account.getFullName());
+                String isSocial = String.valueOf(account.getIsSocial());
+                session.setAttribute("isSocial", isSocial);
+                List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
+                HashMap<Integer, CartItem> cart = new HashMap<>();
+                for (CartItem item : cartItems) {
+                    cart.put(item.getProduct().getId(), item);
+                }
+                session.setAttribute("cart", cart);
             }
-            session.setAttribute("cart", cart);
 
         } else {
             new RegisterDAO().insertSocialAccount(user.getId(), user.getEmail(), user.getName());
