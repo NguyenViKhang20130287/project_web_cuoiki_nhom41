@@ -126,7 +126,7 @@ public class ProductDAO {
     /* Phương thức phân chia số lượng sản phẩm trên một trang */
     public List<Product> pagingProduct(int index) {
         List<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM PRODUCT ORDER BY ID LIMIT ?,12";
+        String query = "SELECT * FROM product ORDER BY ID LIMIT ?,12";
         try {
             conn = DBConnect.getInstall().getConnection();
             ps = conn.prepareStatement(query);
