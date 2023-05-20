@@ -55,6 +55,18 @@
             right: 0%;
         }
 
+        /*.page-item:first-child {*/
+        /*    display: none;*/
+        /*}*/
+
+        /*.page-item:last-child {*/
+        /*    display: block;*/
+        /*}*/
+
+        .hidden {
+            display: none;
+        }
+
     </style>
 
 </head>
@@ -225,56 +237,41 @@
                         <div class="tab-content-item fade active show" id="pills-grid-1" role="tabpanel"
                              aria-labelledby="pills-grid">
                             <div class="row " id="products">
-                                <% for (Product p : productList) {%>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                                    <div class="body_page-trending-product-list-card">
-                                        <div class="card-image">
-                                            <a href="product-detail?product_id=<%=p.getId()%>"><img
-                                                    src="<%=p.getThumbnail()%>"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="card-title-price">
-                                            <p><%=p.getTitle()%>
-                                            </p>
-                                            <span><%=numberFormat.format(p.getDiscount())%></span>
-                                            <span style="margin-left: 10px; color: #6c6c6c"><strike><%=numberFormat.format(p.getPrice())%></strike></span>
-                                        </div>
-                                        <div class="card-btn">
-                                            <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a>
-                                            </button>
-                                            <%--                                                <form class="addToCart" action="addtocart" method="get">--%>
-                                            <%--                                                    <input type="hidden" value="<%=p.getId()%>"--%>
-                                            <%--                                                           name="inputId">--%>
-                                            <%--                                                    <button type="submit" onclick="">Thêm vào giỏ</button>--%>
-                                            <%--                                                </form>--%>
-                                            <button onclick="addtocart(<%=p.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>>
-                                                Thêm vào giỏ
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <%}%>
+                                <%--                                <% for (Product p : productList) {%>--%>
+                                <%--                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">--%>
+                                <%--                                    <div class="body_page-trending-product-list-card">--%>
+                                <%--                                        <div class="card-image">--%>
+                                <%--                                            <a href="product-detail?product_id=<%=p.getId()%>"><img--%>
+                                <%--                                                    src="<%=p.getThumbnail()%>"--%>
+                                <%--                                                    alt=""></a>--%>
+                                <%--                                        </div>--%>
+                                <%--                                        <div class="card-title-price">--%>
+                                <%--                                            <p><%=p.getTitle()%>--%>
+                                <%--                                            </p>--%>
+                                <%--                                            <span><%=numberFormat.format(p.getDiscount())%></span>--%>
+                                <%--                                            <span style="margin-left: 10px; color: #6c6c6c"><strike><%=numberFormat.format(p.getPrice())%></strike></span>--%>
+                                <%--                                        </div>--%>
+                                <%--                                        <div class="card-btn">--%>
+                                <%--                                            <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a>--%>
+                                <%--                                            </button>--%>
+                                <%--                                            &lt;%&ndash;                                                <form class="addToCart" action="addtocart" method="get">&ndash;%&gt;--%>
+                                <%--                                            &lt;%&ndash;                                                    <input type="hidden" value="<%=p.getId()%>"&ndash;%&gt;--%>
+                                <%--                                            &lt;%&ndash;                                                           name="inputId">&ndash;%&gt;--%>
+                                <%--                                            &lt;%&ndash;                                                    <button type="submit" onclick="">Thêm vào giỏ</button>&ndash;%&gt;--%>
+                                <%--                                            &lt;%&ndash;                                                </form>&ndash;%&gt;--%>
+                                <%--                                            <button onclick="addtocart(<%=p.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>>--%>
+                                <%--                                                Thêm vào giỏ--%>
+                                <%--                                            </button>--%>
+                                <%--                                        </div>--%>
+                                <%--                                    </div>--%>
+                                <%--                                </div>--%>
+                                <%--                                <%}%>--%>
                             </div>
                         </div>
                     </div>
-                    <div class="pagenav">
+                    <div class="pagenav" id="pagenav">
                         <nav class="clearfix relative nav_pagi w_100">
                             <ul class="pagination clearfix">
-                                <% int endPage = (int) request.getAttribute("endP");%>
-                                <% int tag = (int) request.getAttribute("tag");%>
-                                <% if (tag > 1) {%>
-                                <li class="page-item"><a class="page-link" href="product?index=<%=tag-1%>"><i
-                                        class="fa-solid fa-chevron-left"></i></a></li>
-                                <%}%>
-                                <% for (int i = 1; i <= endPage; i++) {%>
-                                <li class="page-item <%if(tag==i){%>active<%}else{%><%}%>"><a class="page-link"
-                                                                                              href="product?index=<%=i%>"><%=i%>
-                                </a></li>
-                                <%}%>
-                                <% if (tag < endPage) {%>
-                                <li class="page-item"><a class="page-link" href="product?index=<%=tag+1%>"><i
-                                        class="fa-solid fa-chevron-right"></i></a></li>
-                                <%}%>
                             </ul>
                         </nav>
 
@@ -289,5 +286,156 @@
 </body>
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+    var pageActive = 0
+    var pageTotal = 0
+    const render = () => {
+        console.log(arrProduct)
+        var pageActive = 0
+        pageTotal = Math.floor(arrProduct.length / 12)
+        if (arrProduct.length % 12 != 0) {
+            pageTotal++;
+        }
+        console.log(pageActive, pageTotal)
+
+        let rs = ``
+        arrProduct.map((tmp) => {
+            let dis = tmp.discount.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })
+            let price = tmp.price.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })
+            rs += `
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="body_page-trending-product-list-card">
+        <div class="card-image">
+            <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
+        </div>
+        <div class="card-title-price">
+            <p>
+                ${tmp.title}
+            </p>
+            <span>
+
+                ${dis}
+            </span>
+            <span style="margin-left: 10px; color: #6c6c6c"><strike>
+                ${price}
+                </strike></span>
+        </div>
+        <div class="card-btn">
+            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
+            </button>
+            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
+        </div>
+    </div>
+</div>
+                            `
+        })
+        document.getElementById("products").innerHTML = rs
+        elemPage = ``
+        let elmNavPage = document.querySelector(".pagination")
+        elemPage += `<li class="page-item" onclick='renderPage(${-1})'><a class="page-link" ><i class="fa-solid fa-chevron-left"></i></a></li>`
+        for (let i = 0; i < pageTotal; i++) {
+
+            elemPage += `<li class="page-item pageitem_${i}" onclick='renderPage(${i})'><a class="page-link" >${i+1}
+        </a></li>`
+        }
+        elemPage += `<li class="page-item" onclick='renderPage(${-2})'><a class="page-link" ><i class="fa-solid fa-chevron-right"></i></a></li>`
+        elmNavPage.innerHTML = elemPage
+        renderPage(0)
+    }
+    const renderPage = (i) => {
+        if (i > 0) {
+            document.querySelector(".page-item:first-child").classList.remove("hidden");
+        } else {
+            document.querySelector(".page-item:first-child").classList.add("hidden");
+        }
+        if (i < pageTotal - 1) {
+            document.querySelector(".page-item:last-child").classList.remove("hidden");
+        } else {
+            document.querySelector(".page-item:last-child").classList.add("hidden");
+        }
+        if (i == -1) {
+            i = pageActive - 1;
+            console.log(i)
+            if (i < 0)
+                i = 0;
+            // Ẩn nút "left" khi active bằng trang đầu
+            if (i > 0) {
+                document.querySelector(".page-item:first-child").classList.remove("hidden");
+            } else {
+                document.querySelector(".page-item:first-child").classList.add("hidden");
+            }
+        }
+        if (i == -2) {
+            i = pageActive + 1;
+            console.log(i)
+
+            // if (i > pageTotal - 1)
+            //     i = pageTotal - 1;
+            // Ẩn nút "right" khi ở trang cuối
+            if (i < pageTotal - 1) {
+                document.querySelector(".page-item:last-child").classList.remove("hidden");
+                document.querySelector(".page-item:first-child").classList.remove("hidden");
+            } else {
+                document.querySelector(".page-item:last-child").classList.add("hidden");
+            }
+            if (i === pageTotal - 1) {
+                document.querySelector(".page-item:first-child").classList.remove("hidden");
+            }
+        }
+        let active = i + 1
+        pageActive = active - 1
+        console.log(i)
+        data = arrProduct.slice((active - 1) * 12, active * 12)
+        let rs = ``
+        data.map((tmp) => {
+            let dis = tmp.discount.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })
+            let price = tmp.price.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })
+            rs += `
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+    <div class="body_page-trending-product-list-card">
+        <div class="card-image">
+            <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
+        </div>
+        <div class="card-title-price">
+            <p>
+                ${tmp.title}
+            </p>
+            <span>
+
+                ${dis}
+            </span>
+            <span style="margin-left: 10px; color: #6c6c6c"><strike>
+                ${price}
+                </strike></span>
+        </div>
+        <div class="card-btn">
+            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
+            </button>
+            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
+        </div>
+    </div>
+</div>
+                            `
+        })
+        document.getElementById("products").innerHTML = rs
+        document.querySelectorAll('.page-item').forEach(tmp => {
+            tmp.classList.remove('active')
+        })
+        document.querySelector('.pageitem_' + i).classList.add('active')
+    }
+</script>
 <script src="js/product.js"></script>
+
 </html>
