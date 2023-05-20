@@ -280,6 +280,7 @@ public class ProductDAO {
         }
         return 0;
     }
+
     /* Phương thức lấy ra top 5 sản phẩm mới nhất*/
     public List<Product> getTop5Product() {
         List<Product> list = new ArrayList<>();
@@ -308,6 +309,7 @@ public class ProductDAO {
         }
         return list;
     }
+
     /* Phương thức lấy ra 5 sản phẩm tiếp theo */
     public List<Product> getNextTop5Product(int amount) {
         List<Product> list = new ArrayList<>();
@@ -342,8 +344,8 @@ public class ProductDAO {
     public static void main(String[] args) {
 
         ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.loadProductByGemColor(5);
-        for (Product p:list){
+        List<Product> list = dao.getAllProductsFromACategory(2);
+        for (Product p : list) {
             System.out.println(p);
         }
     }

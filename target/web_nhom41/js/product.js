@@ -1,5 +1,6 @@
 // Thanh kéo lọc theo giá
 var arrProduct = []
+
 const rangeInput = document.querySelectorAll(".range-input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     range = document.querySelector(".slider .progress");
@@ -21,47 +22,48 @@ priceInput.forEach(input => {
         }
     });
 });
-const render = () => {
-    let rs = ``
-    arrProduct.map((tmp) => {
-        let dis = tmp.discount.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
-        })
-        let price = tmp.price.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
-        })
-        rs += `
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-    <div class="body_page-trending-product-list-card">
-        <div class="card-image">
-            <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
-        </div>
-        <div class="card-title-price">
-            <p>
-                ${tmp.title}
-            </p>
-            <span>
-            
-                ${dis}
-            </span>
-            <span style="margin-left: 10px; color: #6c6c6c"><strike>
-                ${price}
-                </strike></span>
-        </div>
-        <div class="card-btn">
-            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
-            </button>
-            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
-        </div>
-    </div>
-</div>
-                            `
-    })
-    document.getElementById("products").innerHTML = rs
-
-}
+// const
+// = () => {
+//     let rs = ``
+//     arrProduct.map((tmp) => {
+//         let dis = tmp.discount.toLocaleString('vi-VN', {
+//             style: 'currency',
+//             currency: 'VND'
+//         })
+//         let price = tmp.price.toLocaleString('vi-VN', {
+//             style: 'currency',
+//             currency: 'VND'
+//         })
+//         rs += `
+//                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+//     <div class="body_page-trending-product-list-card">
+//         <div class="card-image">
+//             <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
+//         </div>
+//         <div class="card-title-price">
+//             <p>
+//                 ${tmp.title}
+//             </p>
+//             <span>
+//
+//                 ${dis}
+//             </span>
+//             <span style="margin-left: 10px; color: #6c6c6c"><strike>
+//                 ${price}
+//                 </strike></span>
+//         </div>
+//         <div class="card-btn">
+//             <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
+//             </button>
+//             <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
+//         </div>
+//     </div>
+// </div>
+//                             `
+//     })
+//     document.getElementById("products").innerHTML = rs
+//
+// }
 rangeInput.forEach(input => {
     input.addEventListener("mouseleave", e => {
         if (priceFilter != e.target.value) {
@@ -114,22 +116,22 @@ rangeInput.forEach(input => {
 });
 
 // Hiển thị danh sách sản phẩm từng trang
-$(document).ready(function () {
-    $('.tab-content-item').hide();
-    $('.tab-content-item:first-child').fadeIn();
-    $('.pagination .page-item').click(function () {
-        //active nav tabs
-        $('.pagination .page-item').removeClass('active');
-        $(this).addClass('active');
-        //show tab-content item
-        let id_tab_content = $(this).children('a').attr('href');
-        //alert
-        $('.tab-content-item').hide();
-        $(id_tab_content).fadeIn();
-        return false;
-
-    });
-});
+// $(document).ready(function () {
+//     $('.tab-content-item').hide();
+//     $('.tab-content-item:first-child').fadeIn();
+//     $('.pagination .page-item').click(function () {
+//         //active nav tabs
+//         $('.pagination .page-item').removeClass('active');
+//         $(this).addClass('active');
+//         //show tab-content item
+//         let id_tab_content = $(this).children('a').attr('href');
+//         //alert
+//         $('.tab-content-item').hide();
+//         $(id_tab_content).fadeIn();
+//         return false;
+//
+//     });
+// });
 
 function addtocart(idProduct) {
     var cartQuantity = document.getElementById("cartQuantity");
@@ -232,6 +234,24 @@ const sort = (id)=>{
 
 
 
+const init = ()=>{
+    $.ajax({
+        url: "/web_nhom41_war/product?action=listProduct",
+        type: "get",
+        success: function (data) {
+            let min = rangeInput[0].value;
+            let max = rangeInput[1].value;
+            let rs = "";
+            let arrData = JSON.parse(data)
+            arrProduct = arrData
+
+            render()
+        },
+        error: function (xhr) {
+            //Do Something to handle error
+        }
+    });
+}
 
 
-
+init()
