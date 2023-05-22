@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="java.util.LinkedList" %>
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -20,7 +21,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
     <style>
@@ -160,9 +161,22 @@
                     <div class="row element-button">
                         <div class="col-sm-2">
 
+                            <% if (session.getAttribute("Account") != null) { %>
+                            <% if ((Objects.equals(session.getAttribute("role"), "1")) ||
+                                    (Objects.equals(session.getAttribute("role"), "0"))) { %>
                             <a class="btn btn-add btn-sm" href="form-add-san-pham.jsp" title="Thêm"><i
                                     class="fas fa-plus"></i>
                                 Tạo mới sản phẩm</a>
+                            <% } else { %>
+                            <td>
+                                <a style="pointer-events: none"
+                                   class="btn btn-add btn-sm" href="form-add-san-pham.jsp" title="Thêm"><i
+                                        class="fas fa-plus"></i>
+                                    Tạo mới sản phẩm</a>
+                            </td>
+                            <% }
+                            } %>
+
                         </div>
                     </div>
 
@@ -191,23 +205,44 @@
                             <td><%= pa.getQuantity()%>
                             </td>
 
-                            <td><span class="badge bg-<%=pa.getQuantity() >0 ? "success" : "danger" %>"> <%= pa.getStatus()%> </span></td>
+                            <td><span
+                                    class="badge bg-<%=pa.getQuantity() >0 ? "success" : "danger" %>"> <%= pa.getStatus()%> </span>
+                            </td>
 
                             <%if (pa.getDiscount() == 0) {%>
-                            <td><%= pa.getPrice()%></td>
+                            <td><%= pa.getPrice()%>
+                            </td>
                             <%} else {%>
-                            <td><%= pa.getDiscount()%></td>
+                            <td><%= pa.getDiscount()%>
+                            </td>
                             <%}%>
 
                             <td><%= pa.getCategory()%>
                             </td>
+
+                            <% if (session.getAttribute("Account") != null) { %>
+                            <% if ((Objects.equals(session.getAttribute("role"), "1")) ||
+                                    (Objects.equals(session.getAttribute("role"), "0"))) { %>
                             <td>
                                 <button class="btn btn-primary btn-sm trash" title="Xóa" type="button"
-                                   onclick="deleteProduct(id=<%=pa.getId()%>)">
+                                        onclick="deleteProduct(id=<%=pa.getId()%>)">
                                     <i class="fas fa-trash-alt"></i></button>
                                 <a class="btn btn-primary btn-sm edit" title="Sửa" id="show-emp"
-                                   href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"><i class="fas fa-edit"></i></a>
+                                   href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"><i
+                                        class="fas fa-edit"></i></a>
                             </td>
+                            <% } else { %>
+                            <td>
+                                <button class="btn btn-primary btn-sm trash" title="Xóa" type="button"
+                                        onclick="deleteProduct(id=<%=pa.getId()%>)" disabled>
+                                    <i class="fas fa-trash-alt"></i></button>
+                                <a style="pointer-events: none" class="btn btn-primary btn-sm edit" title="Sửa"
+                                   id="show-emp"
+                                   href="DetailsProductAdminControl?edit_pid=<%=pa.getId()%>"><i
+                                        class="fas fa-edit"></i></a>
+                            </td>
+                            <% }
+                            } %>
                         </tr>
                         <% } %>
                         </tbody>

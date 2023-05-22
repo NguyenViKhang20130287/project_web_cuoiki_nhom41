@@ -169,13 +169,13 @@
                             <thead>
                             <tr>
                                 <th>ID khách hàng</th>
-                                <th width="150">Tên đăng nhập</th>
-                                <th width="20">Mật khẩu</th>
-                                <th width="300">Họ và tên</th>
+                                <th>Tên đăng nhập</th>
+<%--                                <th>Mật khẩu</th>--%>
+                                <th>Họ và tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
                                 <th>Vai trò</th>
-                                <th width="100">Tính năng</th>
+                                <th>Tính năng</th>
                             </tr>
                             </thead>
 
@@ -188,8 +188,8 @@
                                 </td>
                                 <td><%= u.getUserName()%>
                                 </td>
-                                <td><%= u.getPassword()%>
-                                </td>
+<%--                                <td style="-webkit-text-security: disc;"><%= u.getPassword()%>--%>
+<%--                                </td>--%>
                                 <td><%= u.getFullName()%>
                                 </td>
                                 <td><%= u.getEmail()%>
@@ -237,7 +237,7 @@
 
 <%-- js --%>
 <script>
-    $('#sampleTable').DataTable();
+    $('#sampleTable').DataTable()
 
     function toastsMessage(message) {
         // Get the snackbar DIV
