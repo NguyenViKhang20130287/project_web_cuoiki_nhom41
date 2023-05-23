@@ -1,9 +1,14 @@
 package vn.edu.hcmuaf.fit.dao;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import vn.edu.hcmuaf.fit.db.DBConnect;
 import vn.edu.hcmuaf.fit.entity.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -573,7 +578,98 @@ public class AdminDAO {
         }
     }
 
-    public static void main(String[] args) {
+    public void writeExcel(List<OrderAdmin> list, String excelFilePath) throws IOException {
+        String columns[] = {"Mã đơn", "Họ và tên", "Đơn hàng", "Số điện thoại", "Tổng tiền", "Tình trạng"};
+        String query = "SELECT\n" +
+                "\t`order`.id,\n" +
+                "\t`order`.full_name,\n" +
+                "\torder_details.product_id,\n" +
+                "\tproduct.title,\n" +
+                "\t`order`.phone_number,\n" +
+                "\t`order`.order_total,\n" +
+                "\t`order`.`status`,\n" +
+                "\torder_status.`status` \n" +
+                "FROM\n" +
+                "\t`order`\n" +
+                "\tJOIN order_details ON `order`.id = order_details.order_id\n" +
+                "\tJOIN product ON product.id = order_details.product_id\n" +
+                "\tJOIN order_status ON order_status.id = `order`.`status` \n" +
+                "GROUP BY\n" +
+                "\t`order`.id,\n" +
+                "\t`order`.full_name,\n" +
+                "\torder_details.product_id,\n" +
+                "\tproduct.title,\n" +
+                "\t`order`.phone_number,\n" +
+                "\t`order`.order_total,\n" +
+                "\t`order`.`status`,\n" +
+                "\torder_status.`status` ";
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Sheet");
+
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerFont.setFontHeightInPoints((short) 14);
+        headerFont.setColor(IndexedColors.RED.getIndex());
+
+        // Create a CellStyle with the font
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
+
+        // Create a Row
+        Row headerRow = sheet.createRow(0);
+
+        // Create cells
+        for (int i = 0; i < columns.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+            cell.setCellStyle(headerCellStyle);
+        }
+
+        // Create Other rows and cells with employees data
+        int rowNum = 1;
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Row row = sheet.createRow(rowNum++);
+                    row.createCell(0)
+                            .setCellValue(rs.getInt(1));
+                    row.createCell(1)
+                            .setCellValue(rs.getString(2));
+                    row.createCell(2)
+                            .setCellValue(rs.getString(4));
+                    row.createCell(3)
+                            .setCellValue(rs.getString(5));
+                    row.createCell(4)
+                            .setCellValue(rs.getInt(6));
+                    row.createCell(5)
+                            .setCellValue(rs.getString(8));
+                }
+                rs.close();
+                ps.close();
+            }
+        } catch (Exception e) {
+
+        }
+        for (OrderAdmin o : list) {
+
+        }
+
+        // Write the output to a file
+        FileOutputStream fileOut = new FileOutputStream(excelFilePath);
+        workbook.write(fileOut);
+        fileOut.close();
+
+        // Closing the workbook
+        workbook.close();
+        System.out.println("write successfully!");
+
+    }
+
+    public static void main(String[] args) throws IOException {
 
 //        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
 //                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);
@@ -582,7 +678,10 @@ public class AdminDAO {
 //        new AdminDAO().addProduct(141, "sp1", "Thạch anh vàng", 1,
 //                "Hoa tai", "Đỏ", 1000, "a", "a", new File("ad"), "a");
 
-        System.out.println(new AdminDAO().getRoleID("Khách hàng"));
-
+//        System.out.println(new AdminDAO().getRoleID("Khách hàng"));
+//        System.out.println(new OrderDAO().getListOrder());
+        List<OrderAdmin> list = new OrderDAO().getListOrder();
+        String path = "..\\web_nhom41\\src\\main\\java\\vn\\edu\\hcmuaf\\fit\\excel\\result.xlsx";
+        new AdminDAO().writeExcel(list, path);
     }
 }
