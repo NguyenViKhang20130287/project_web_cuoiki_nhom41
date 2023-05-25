@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.entity;
 
-public class Product implements Comparable<Product>{
+public class Product implements Comparable<Product> {
     private int id;
     private Category category;
     private String title;
@@ -11,11 +11,12 @@ public class Product implements Comparable<Product>{
     private String thumbnail;
     private String description;
     private int quantity;
+    private Color color;
 
     public Product() {
     }
 
-    public Product(int id, Category category, String title, String keyword, int price, int discount, String design, String thumbnail, String description, int quantity) {
+    public Product(int id, Category category, String title, String keyword, int price, int discount, String design, String thumbnail, String description, int quantity, Color color) {
         this.id = id;
         this.category = category;
         this.title = title;
@@ -26,6 +27,7 @@ public class Product implements Comparable<Product>{
         this.thumbnail = thumbnail;
         this.description = description;
         this.quantity = quantity;
+        this.color = color;
     }
 
     public Product(int id, String title, int price, int discount, String thumbnail, int quantity) {
@@ -117,6 +119,14 @@ public class Product implements Comparable<Product>{
         this.quantity = quantity;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -130,6 +140,7 @@ public class Product implements Comparable<Product>{
                 ", thumbnail='" + thumbnail + '\'' +
                 ", description='" + description + '\'' +
                 ", quantity=" + quantity +
+                ", color=" + color +
                 '}';
     }
 
@@ -143,7 +154,7 @@ public class Product implements Comparable<Product>{
         return 0;
     }
 
-    public Product(int id, String title, String description,String thumbnail,int price, int discount) {
+    public Product(int id, String title, String description, String thumbnail, int price, int discount) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -152,4 +163,3 @@ public class Product implements Comparable<Product>{
         this.discount = discount;
     }
 }
-

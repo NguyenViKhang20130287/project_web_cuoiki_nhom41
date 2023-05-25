@@ -4,9 +4,9 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import vn.edu.hcmuaf.fit.db.DBConnect;
 import vn.edu.hcmuaf.fit.entity.*;
+import vn.edu.hcmuaf.fit.entity.Color;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -456,15 +456,15 @@ public class AdminDAO {
         return Path;
     }
 
-    public List<ColorAdmin> getListColor() {
-        List<ColorAdmin> listColor = new LinkedList<>();
+    public List<Color> getListColor() {
+        List<Color> listColor = new LinkedList<>();
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 PreparedStatement psSelectColor = new DBConnect().getConnection().prepareStatement("SELECT * FROM gem_color");
                 ResultSet rsSelectColor = psSelectColor.executeQuery();
                 while (rsSelectColor.next()) {
-                    listColor.add(new ColorAdmin(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
+                    listColor.add(new Color(rsSelectColor.getInt(1), rsSelectColor.getString(2)));
                 }
                 rsSelectColor.close();
                 psSelectColor.close();
@@ -476,9 +476,9 @@ public class AdminDAO {
     }
 
     public int checkIdColor(String color) {
-        List<ColorAdmin> listColor = getListColor();
+        List<Color> listColor = getListColor();
         int idColor = 0;
-        for (ColorAdmin ca : listColor) {
+        for (Color ca : listColor) {
             if (color.equals(ca.getNameColor())) {
                 idColor = ca.getIdColor();
             }

@@ -107,16 +107,10 @@
                         <div class="sidebar_widget-content">
                             <ul>
                                 <% for (Category c : categoryList) {%>
-                                <li class="list_item dropdown"><a
-                                        href="category?category_id=<%=c.getId()%>"><%= c.getName()%><i
-                                        class="fa-solid fa-chevron-right"></i></a>
-                                    <ul>
-                                        <% List<Category> subCategoryList = dao.getSubCategory(c.getId());
-                                            for (Category sc : subCategoryList) {%>
-                                        <li><a href="category?category_id=<%=sc.getId()%>"><%=sc.getName()%>
-                                        </a></li>
-                                        <%}%>
-                                    </ul>
+                                <li class="list_item dropdown <%=(int) request.getAttribute("activeCate")==c.getId()?"active":""%>">
+                                    <a
+                                            href="product?category_id=<%=c.getId()%>"><%= c.getName()%><i
+                                            class="fa-solid fa-chevron-right"></i></a>
                                 </li>
                                 <%}%>
                             </ul>
@@ -127,11 +121,10 @@
                         <div class="sidebar_widget-title">
                             <h3>Lọc theo giá</h3>
                         </div>
-                        <div class="sidebar_widget-content">
+                        <div class="sidebar_widget-content" id="price_filter">
                             <div class="slider">
                                 <div class="progress"></div>
                             </div>
-                            <% DecimalFormat formatter = new DecimalFormat("###,###,###");%>
                             <% Product maxPrice = Collections.max(productList);
                                 Product minPrice = Collections.min(productList); %>
                             <div class="range-input">
@@ -156,7 +149,6 @@
                                     <input type="text" class="input-max" value="<%=maxPrice.getDiscount()%>">
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="sidebar_widget mb_55">
@@ -166,10 +158,10 @@
                         <div class="sidebar_widget-content">
                             <div class="color_pick">
                                 <ul>
-                                    <% List<ColorAdmin> colorList = (List<ColorAdmin>) request.getAttribute("colorList");%>
+                                    <% List<Color> colorList = (List<Color>) request.getAttribute("colorList");%>
                                     <% for (int i = 0; i < colorList.size(); i++) {%>
                                     <li>
-                                        <a href="gem_color?color_id=<%=colorList.get(i).getIdColor()%>">
+                                        <a href="product?color_id=<%=colorList.get(i).getIdColor()%>">
                                             <button type="button" class="color-<%=i+1%>"
                                                     title="<%=colorList.get(i).getNameColor()%>"></button>
                                         </a>
@@ -237,35 +229,6 @@
                         <div class="tab-content-item fade active show" id="pills-grid-1" role="tabpanel"
                              aria-labelledby="pills-grid">
                             <div class="row " id="products">
-                                <%--                                <% for (Product p : productList) {%>--%>
-                                <%--                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">--%>
-                                <%--                                    <div class="body_page-trending-product-list-card">--%>
-                                <%--                                        <div class="card-image">--%>
-                                <%--                                            <a href="product-detail?product_id=<%=p.getId()%>"><img--%>
-                                <%--                                                    src="<%=p.getThumbnail()%>"--%>
-                                <%--                                                    alt=""></a>--%>
-                                <%--                                        </div>--%>
-                                <%--                                        <div class="card-title-price">--%>
-                                <%--                                            <p><%=p.getTitle()%>--%>
-                                <%--                                            </p>--%>
-                                <%--                                            <span><%=numberFormat.format(p.getDiscount())%></span>--%>
-                                <%--                                            <span style="margin-left: 10px; color: #6c6c6c"><strike><%=numberFormat.format(p.getPrice())%></strike></span>--%>
-                                <%--                                        </div>--%>
-                                <%--                                        <div class="card-btn">--%>
-                                <%--                                            <button><a href="product-detail?product_id=<%=p.getId()%>">Chi tiết</a>--%>
-                                <%--                                            </button>--%>
-                                <%--                                            &lt;%&ndash;                                                <form class="addToCart" action="addtocart" method="get">&ndash;%&gt;--%>
-                                <%--                                            &lt;%&ndash;                                                    <input type="hidden" value="<%=p.getId()%>"&ndash;%&gt;--%>
-                                <%--                                            &lt;%&ndash;                                                           name="inputId">&ndash;%&gt;--%>
-                                <%--                                            &lt;%&ndash;                                                    <button type="submit" onclick="">Thêm vào giỏ</button>&ndash;%&gt;--%>
-                                <%--                                            &lt;%&ndash;                                                </form>&ndash;%&gt;--%>
-                                <%--                                            <button onclick="addtocart(<%=p.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(p.getId()))%>>--%>
-                                <%--                                                Thêm vào giỏ--%>
-                                <%--                                            </button>--%>
-                                <%--                                        </div>--%>
-                                <%--                                    </div>--%>
-                                <%--                                </div>--%>
-                                <%--                                <%}%>--%>
                             </div>
                         </div>
                     </div>
@@ -289,26 +252,41 @@
 <script>
     var pageActive = 0
     var pageTotal = 0
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var category = parseInt(urlParams.get('category_id'));
+    var color = parseInt(urlParams.get('color_id'));
+    console.log(category)
+    let data_filter;
     const render = () => {
+        if (category === 0 || color === 0) {
+            data_filter = arrProduct;
+        } else {
+            data_filter = arrProduct.filter(element => element.category.parent_id === category||element.color.idColor===color);
+        }
+
+        console.log(data_filter)
         console.log(arrProduct)
         var pageActive = 0
-        pageTotal = Math.floor(arrProduct.length / 12)
-        if (arrProduct.length % 12 != 0) {
+        pageTotal = Math.floor(data_filter.length / 12)
+        if (data_filter.length % 12 != 0) {
             pageTotal++;
         }
         console.log(pageActive, pageTotal)
-
         let rs = ``
-        arrProduct.map((tmp) => {
-            let dis = tmp.discount.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            })
-            let price = tmp.price.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            })
-            rs += `
+        if (data_filter.length === 0) {
+            rs += `<div class="m-auto">Không có sản phẩm nào.</div>`;
+        } else {
+            data_filter.map((tmp) => {
+                let dis = tmp.discount.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                })
+                let price = tmp.price.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                })
+                rs += `
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
         <div class="body_page-trending-product-list-card">
         <div class="card-image">
@@ -334,7 +312,8 @@
     </div>
 </div>
                             `
-        })
+            })
+        }
         document.getElementById("products").innerHTML = rs
         elemPage = ``
         let elmNavPage = document.querySelector(".pagination")
@@ -391,18 +370,21 @@
         let active = i + 1
         pageActive = active - 1
         console.log(i)
-        data = arrProduct.slice((active - 1) * 12, active * 12)
+        data = data_filter.slice((active - 1) * 12, active * 12)
         let rs = ``
-        data.map((tmp) => {
-            let dis = tmp.discount.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            })
-            let price = tmp.price.toLocaleString('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            })
-            rs += `
+        if (data.length === 0) {
+            rs += `<div class="m-auto">Không có sản phẩm nào.</div>`;
+        } else {
+            data.map((tmp) => {
+                let dis = tmp.discount.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                })
+                let price = tmp.price.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                })
+                rs += `
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
     <div class="body_page-trending-product-list-card">
         <div class="card-image">
@@ -428,12 +410,15 @@
     </div>
 </div>
                             `
-        })
+            })
+        }
         document.getElementById("products").innerHTML = rs
         document.querySelectorAll('.page-item').forEach(tmp => {
             tmp.classList.remove('active')
         })
-        document.querySelector('.pageitem_' + i).classList.add('active')
+        if (i >= 0 && i < pageTotal) {
+            document.querySelector('.pageitem_' + i).classList.add('active');
+        }
     }
 </script>
 <script src="js/product.js"></script>

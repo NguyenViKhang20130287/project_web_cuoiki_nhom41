@@ -34,6 +34,7 @@ public class ProductDAO {
                     product.setThumbnail(rs.getString(8));
                     product.setDescription(rs.getString(9));
                     product.setQuantity(rs.getInt(10));
+                    product.setColor(new GalleryDAO().getGemColorById(rs.getInt(17)));
                     list.add(product);
                 }
 
@@ -46,7 +47,7 @@ public class ProductDAO {
 
     /* Phương thức lấy ra danh sách tất cả các sản phẩm từ cơ sở dữ liệu */
     public List<Product> getAllProducts() {
-        String query = "SELECT * FROM product WHERE is_on_sale = TRUE";
+        String query = "SELECT * FROM product p INNER JOIN product_gem_color pgc on p.id = pgc.product_id WHERE is_on_sale = TRUE";
         return getListProductQuery(query);
     }
 
@@ -69,7 +70,7 @@ public class ProductDAO {
 
     /* Phương thức lấy ra danh sách các sản phẩm nổi bật */
     public List<Product> getFeaturedProduct() {
-        String query = "SELECT * FROM product WHERE is_on_sale = TRUE ORDER BY RAND() LIMIT 3";
+        String query = "SELECT * FROM product p INNER JOIN product_gem_color pgc on p.id = pgc.product_id WHERE is_on_sale = TRUE ORDER BY RAND() LIMIT 3";
         return getListProductQuery(query);
     }
 
@@ -344,10 +345,9 @@ public class ProductDAO {
     public static void main(String[] args) {
 
         ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.getAllProductsFromACategory(2);
+        List<Product> list = dao.getAllProducts();
         for (Product p : list) {
             System.out.println(p);
         }
     }
 }
-

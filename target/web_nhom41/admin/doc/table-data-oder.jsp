@@ -86,10 +86,12 @@
                 <div class="tile-body">
                     <div class="row element-button">
                         <div class="col-sm-2">
-
                             <a class="btn btn-add btn-sm" href="form-add-don-hang.jsp" title="Thêm"><i
                                     class="fas fa-plus"></i>
                                 Tạo mới đơn hàng</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
                         </div>
                     </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
