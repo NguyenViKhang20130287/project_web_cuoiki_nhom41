@@ -1,4 +1,3 @@
-// Thanh kéo lọc theo giá
 var arrProduct = []
 
 const rangeInput = document.querySelectorAll(".range-input input"),

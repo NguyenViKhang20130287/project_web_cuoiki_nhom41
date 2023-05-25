@@ -92,15 +92,15 @@
 
                 <ul class="header_page-category-main-menu">
                     <li><a href="home">Trang chủ</a></li>
-                    <li><a href="product"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
+                    <li><a href="product?category_id=0"> Sản phẩm<i class="fa-solid fa-chevron-down"></i></a>
 
                         <ul class="header_page-category-sub-menu">
 
-                            <li><a href="category?category_id=2">Nhẫn</a></li>
-                            <li><a href="category?category_id=3">Hoa tai</a></li>
-                            <li><a href="category?category_id=4">Vòng cổ</a></li>
-                            <li><a href="category?category_id=5">Vòng tay</a></li>
-                            <li><a href="category?category_id=6">Mặt dây chuyền</a></li>
+                            <li><a href="product?category_id=2">Nhẫn</a></li>
+                            <li><a href="product?category_id=3">Hoa tai</a></li>
+                            <li><a href="product?category_id=4">Vòng cổ</a></li>
+                            <li><a href="product?category_id=5">Vòng tay</a></li>
+                            <li><a href="product?category_id=6">Mặt dây chuyền</a></li>
                         </ul>
                     </li>
 
@@ -197,18 +197,18 @@
                     <li><a href="home">Trang chủ</a></li>
                     <li class="main-menu-list">
                         <div class="main-menu-title">
-                            <a href="product">
+                            <a href="product?category_id=0">
                                 <h1>Sản phẩm</h1>
                             </a>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="main-menu-content">
                             <ul>
-                                <li><a href="category?category_id=2" style="font-weight: normal">Nhẫn</a></li>
-                                <li><a href="category?category_id=3" style="font-weight: normal">Hoa tai</a></li>
-                                <li><a href="category?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
-                                <li><a href="category?category_id=5" style="font-weight: normal">Vòng tay</a></li>
-                                <li><a href="category?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
+                                <li><a href="product?category_id=2" style="font-weight: normal">Nhẫn</a></li>
+                                <li><a href="product?category_id=3" style="font-weight: normal">Hoa tai</a></li>
+                                <li><a href="product?category_id=4" style="font-weight: normal">Vòng cổ</a></li>
+                                <li><a href="product?category_id=5" style="font-weight: normal">Vòng tay</a></li>
+                                <li><a href="product?category_id=6" style="font-weight: normal">Mặt dây chuyền</a></li>
                             </ul>
                         </div>
                     </li>
@@ -275,7 +275,7 @@
             </ul>
         </div>
         <div class="main-modal-search">
-            <input name="keyword" type="text" placeholder="Tìm kiếm sản phẩm...">
+            <input name="keyword" onkeyup="searchByName(this)" type="text" placeholder="Tìm kiếm sản phẩm...">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </div>

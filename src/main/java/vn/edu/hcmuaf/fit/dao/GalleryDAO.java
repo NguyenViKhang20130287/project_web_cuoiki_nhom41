@@ -34,26 +34,26 @@ public class GalleryDAO {
         }
         return galleryList;
     }
+
     /* Phương thức lấy ra biến thể theo id danh mục sản phẩm */
-    public Variation getVariation(int category_id){
+    public Variation getVariation(int category_id) {
         Variation variation = new Variation();
         String query = "SELECT* from variation WHERE category_id = ?";
         try {
             Statement statement = DBConnect.getInstall().get();
-            if(statement!=null){
+            if (statement != null) {
                 ps = DBConnect.getInstall().getConnection().prepareStatement(query);
                 ps.setInt(1, category_id);
                 rs = ps.executeQuery();
-                while (rs.next()){
+                while (rs.next()) {
                     variation.setId(rs.getInt(1));
                     variation.setCategory(categoryDAO.getCategory(rs.getInt(2)));
                     variation.setName(rs.getString(3));
                 }
             }
 
-        }
-        catch (SQLException e){
-            throw  new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return variation;
     }
@@ -81,6 +81,7 @@ public class GalleryDAO {
         }
         return variationList;
     }
+
     /* Phương thức lấy ra danh sách các tùy chọn của biến thể theo id của biến thể */
     public List<VariationOption> getVariationOptionList(int variation_id) {
         List<VariationOption> variationOptionsList = new ArrayList<>();
@@ -106,27 +107,49 @@ public class GalleryDAO {
         }
         return variationOptionsList;
     }
+
     /* Phương thức lấy ra danh sách màu sắc của sản phẩm */
-    public List<ColorAdmin> getListGemColor(){
-        List<ColorAdmin> list = new ArrayList<>();
+    public List<Color> getListGemColor() {
+        List<Color> list = new ArrayList<>();
         String query = "SELECT * FROM gem_color";
         Statement statement = DBConnect.getInstall().get();
         try {
-            if(statement!=null){
+            if (statement != null) {
                 rs = statement.executeQuery(query);
-                while (rs.next()){
-                    ColorAdmin gemColor = new ColorAdmin();
+                while (rs.next()) {
+                    Color gemColor = new Color();
                     gemColor.setIdColor(rs.getInt(1));
                     gemColor.setNameColor(rs.getString(2));
                     list.add(gemColor);
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException();
         }
         return list;
     }
 
+    public Color getGemColorById(int id) {
+        Color color = new Color();
+        String query = "SELECT * FROM gem_color WHERE id = ?";
+        Statement statement = DBConnect.getInstall().get();
+        try {
+            if (statement != null) {
+                ps = DBConnect.getInstall().getConnection().prepareStatement(query);
+                ps.setInt(1, id);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    color.setIdColor(rs.getInt(1));
+                    color.setNameColor(rs.getString(2));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        return color;
+    }
 
+    public static void main(String[] args) {
+        System.out.println(new GalleryDAO().getGemColorById(9));
+    }
 }
-
