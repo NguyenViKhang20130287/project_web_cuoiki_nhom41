@@ -24,7 +24,6 @@
     Locale locale = new Locale("vi", "VN");
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 %>
-
 <body>
 <%--header page--%>
 <%@include file="header.jsp" %>
@@ -109,7 +108,7 @@
                             <div class="item-1">
                                 <div class="input-text">
                                     <label for="city">Tỉnh / Thành Phố <span style="color: red">*</span></label>
-                                    <select id="city" name="city" onchange="resetDistrict()">
+                                    <select id="city" name="city" onchange="getProvinces()">
                                         <option value="" selected disabled>Chọn Tỉnh / Thành Phố</option>
                                     </select>
                                 </div>
@@ -282,21 +281,122 @@
     </div>
 
 </div>
-
 <!-- footer page -->
 <%@include file="foooter.jsp" %>
 </body>
+
 <script src="js/jquery-3.6.1.min.js"></script>
 <script>
-    fetch(`https://provinces.open-api.vn/api/?depth=2`)
-        .then((data) => data.json())
-        .then(data => {
-            data.forEach(province => {
-                const city = `<option value="${province.name}">${province.name}</option>`;
-                document.querySelector("select#city").insertAdjacentHTML('beforeend', city);
-            })
-        })
+    <%--fetch(`https://provinces.open-api.vn/api/?depth=2`)--%>
+    <%--    .then((data) => data.json())--%>
+    <%--    .then(data => {--%>
+    <%--        data.forEach(province => {--%>
+    <%--            const city = `<option value="${province.name}">${province.name}</option>`;--%>
+    <%--            document.querySelector("select#city").insertAdjacentHTML('beforeend', city);--%>
+    <%--        })--%>
+    <%--    })--%>
 
+    function getAccessTokenFromStorage() {
+        // Lấy access_token từ sessionStorage hoặc localStorage
+        return localStorage.getItem('access_token');
+    }
+
+    function saveAccessTokenToStorage(access_token) {
+        // Lưu access_token vào sessionStorage hoặc localStorage
+        localStorage.setItem('access_token', access_token);
+    }
+
+    let access_token = getAccessTokenFromStorage();
+
+    function checkAccessTokenValidity() {
+        const access_token = getAccessTokenFromStorage();
+
+        if (access_token) {
+            console.log(access_token);
+
+            const expiration_time = parseFloat(localStorage.getItem('expires_in')); // Thời điểm hết hạn (tính bằng giây)
+            const current_time = Math.floor(Date.now() / 1000); // Thời gian hiện tại (tính bằng giây)
+
+            if (current_time >= expiration_time) {
+                console.log('Access_token đã hết hạn');
+                login();
+            } else {
+                console.log('Access_token còn hiệu lực');
+                getProvinces();
+            }
+        } else {
+            login();
+        }
+    }
+
+    function login() {
+        fetch('./api/login', {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const access_token = data.access_token;
+                const expires_in = data.expires_in; // Thời gian hết hạn của access_token từ phản hồi của API
+
+                // Lưu access_token vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
+                saveAccessTokenToStorage(access_token);
+
+                const current_time = Math.floor(Date.now() / 1000); // Thời gian hiện tại (tính bằng giây)
+                const expiration_time = current_time + expires_in; // Tính thời điểm hết hạn (tính bằng giây)
+
+                // Lưu thời điểm hết hạn vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
+                localStorage.setItem('expires_in', expiration_time.toString());
+
+                // // Xử lý phản hồi
+                checkAccessTokenValidity();
+                // getProvinces();
+            });
+    }
+
+    // Kiểm tra và sử dụng access_token
+    checkAccessTokenValidity();
+
+    function getProvinces() {
+        fetch('./api?action=getProvinces', {
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+            },
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Xử lý phản hồi
+                console.log(data);
+                const provinces = data.original.data;
+
+                // Lấy thẻ select từ DOM
+                const selectElement = document.getElementById('city');
+                const selectedProvince = selectElement.value;
+
+                // Xóa các phần tử <option> hiện tại trong thẻ select
+                selectElement.innerHTML = '';
+
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Chọn Tỉnh / Thành Phố';
+                selectElement.appendChild(defaultOption);
+
+                // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
+                provinces.forEach(province => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = province.ProvinceID;
+                    optionElement.textContent = province.ProvinceName;
+                    selectElement.appendChild(optionElement);
+                });
+                if (selectedProvince) {
+                    selectElement.value = selectedProvince;
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
 </script>
 <script src="js/main.js"></script>
 <script src="js/checkout.js"></script>
