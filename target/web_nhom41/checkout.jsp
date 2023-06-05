@@ -108,7 +108,7 @@
                             <div class="item-1">
                                 <div class="input-text">
                                     <label for="city">Tỉnh / Thành Phố <span style="color: red">*</span></label>
-                                    <select id="city" name="city" onchange="getProvinces()">
+                                    <select id="city" name="city" onchange="getDistricts()">
                                         <option value="" selected disabled>Chọn Tỉnh / Thành Phố</option>
                                     </select>
                                 </div>
@@ -116,7 +116,7 @@
                             <div class="item-1">
                                 <div class="input-text">
                                     <label for="district">Quận / Huyện <span style="color: red">*</span></label>
-                                    <select id="district" name="district" onchange="resetWard()">
+                                    <select id="district" name="district" onchange="getWards()">
                                         <option value="" selected disabled>Chọn Quận / Huyện</option>
                                     </select>
                                 </div>
@@ -309,7 +309,7 @@
     let access_token = getAccessTokenFromStorage();
 
     function checkAccessTokenValidity() {
-        const access_token = getAccessTokenFromStorage();
+        // const access_token = getAccessTokenFromStorage();
 
         if (access_token) {
             console.log(access_token);
@@ -339,18 +339,21 @@
                 const access_token = data.access_token;
                 const expires_in = data.expires_in; // Thời gian hết hạn của access_token từ phản hồi của API
 
-                // Lưu access_token vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
-                saveAccessTokenToStorage(access_token);
+                if (access_token && expires_in) {
+                    // Lưu access_token vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
+                    saveAccessTokenToStorage(access_token);
 
-                const current_time = Math.floor(Date.now() / 1000); // Thời gian hiện tại (tính bằng giây)
-                const expiration_time = current_time + expires_in; // Tính thời điểm hết hạn (tính bằng giây)
+                    const current_time = Math.floor(Date.now() / 1000); // Thời gian hiện tại (tính bằng giây)
+                    const expiration_time = current_time + expires_in; // Tính thời điểm hết hạn (tính bằng giây)
 
-                // Lưu thời điểm hết hạn vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
-                localStorage.setItem('expires_in', expiration_time.toString());
+                    // Lưu thời điểm hết hạn vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
+                    localStorage.setItem('expires_in', expiration_time.toString());
 
-                // // Xử lý phản hồi
+                    // Gọi hàm getProvinces() sau khi đăng nhập thành công
+                    getProvinces();
+                }
+                // Xử lý phản hồi
                 checkAccessTokenValidity();
-                // getProvinces();
             });
     }
 
@@ -372,7 +375,7 @@
 
                 // Lấy thẻ select từ DOM
                 const selectElement = document.getElementById('city');
-                const selectedProvince = selectElement.value;
+                // const selectedProvince = selectElement.value;
 
                 // Xóa các phần tử <option> hiện tại trong thẻ select
                 selectElement.innerHTML = '';
@@ -380,6 +383,8 @@
                 const defaultOption = document.createElement('option');
                 defaultOption.value = '';
                 defaultOption.textContent = 'Chọn Tỉnh / Thành Phố';
+                defaultOption.selected = true;
+                defaultOption.disabled = true;
                 selectElement.appendChild(defaultOption);
 
                 // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
@@ -389,9 +394,113 @@
                     optionElement.textContent = province.ProvinceName;
                     selectElement.appendChild(optionElement);
                 });
-                if (selectedProvince) {
-                    selectElement.value = selectedProvince;
-                }
+                // if (selectedProvince) {
+                //     selectElement.value = selectedProvince;
+                // }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function getDistricts() {
+        // Lấy giá trị provinceId từ thẻ tỉnh/thành phố
+        const selectedProvince = document.getElementById('city').value;
+        console.log(selectedProvince)
+
+        // Kiểm tra nếu không có tỉnh được chọn, không làm gì cả
+        if (!selectedProvince) {
+            return;
+        }
+        fetch('./api?action=getDistricts', {
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+                ProvinceID: selectedProvince
+            },
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Xử lý phản hồi
+                console.log(data);
+                const districts = data.original.data;
+
+                // Lấy thẻ select từ DOM
+                const selectElement = document.getElementById('district');
+                // const selectedDistrict = selectElement.value;
+
+                // Xóa các phần tử <option> hiện tại trong thẻ select
+                selectElement.innerHTML = '';
+
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Chọn Quận / Huyện';
+                defaultOption.selected = true;
+                defaultOption.disabled = true;
+                selectElement.appendChild(defaultOption);
+
+                // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
+                districts.forEach(district => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = district.DistrictID;
+                    optionElement.textContent = district.DistrictName;
+                    selectElement.appendChild(optionElement);
+                });
+                // if (selectedDistrict) {
+                //     selectElement.value = selectedDistrict;
+                // }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function getWards() {
+        // Lấy giá trị provinceId từ thẻ tỉnh/thành phố
+        const selectedDistrict = document.getElementById('district').value;
+        console.log(selectedDistrict)
+
+        // Kiểm tra nếu không có tỉnh được chọn, không làm gì cả
+        if (!selectedDistrict) {
+            return;
+        }
+        fetch('./api?action=getWards', {
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+                DistrictID: selectedDistrict
+            },
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Xử lý phản hồi
+                console.log(data);
+                const wards = data.original.data;
+
+                // Lấy thẻ select từ DOM
+                const selectElement = document.getElementById('ward');
+                // const selectedDistrict = selectElement.value;
+
+                // Xóa các phần tử <option> hiện tại trong thẻ select
+                selectElement.innerHTML = '';
+
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Chọn Phường / Xã';
+                defaultOption.selected = true;
+                defaultOption.disabled = true;
+                selectElement.appendChild(defaultOption);
+
+                // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
+                wards.forEach(ward => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = ward.WardCode;
+                    optionElement.textContent = ward.WardName;
+                    selectElement.appendChild(optionElement);
+                });
+                // if (selectedDistrict) {
+                //     selectElement.value = selectedDistrict;
+                // }
             })
             .catch(error => {
                 console.error(error);
@@ -399,5 +508,5 @@
     }
 </script>
 <script src="js/main.js"></script>
-<script src="js/checkout.js"></script>
+<%--<script src="js/checkout.js"></script>--%>
 </html>

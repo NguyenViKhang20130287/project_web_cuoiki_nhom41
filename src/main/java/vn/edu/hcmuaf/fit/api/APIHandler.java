@@ -2,7 +2,6 @@ package vn.edu.hcmuaf.fit.api;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -17,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 
 public class APIHandler {
-    public static String login(){
+    public static String login() {
         JSONObject loginData = new JSONObject();
         loginData.put("email", "20130295@st.hcmuaf.edu.vn");
         loginData.put("password", "20130295");
@@ -43,6 +42,7 @@ public class APIHandler {
         }
         return null;
     }
+
     public static String getProvinces(String accessToken) {
         try {
             String url = "http://140.238.54.136/api/province?token=" + accessToken;
@@ -63,6 +63,50 @@ public class APIHandler {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public static String getDistricts(String accessToken, String provinceID) {
+        try {
+            String url = "http://140.238.54.136/api/district?token=" + accessToken + "&provinceID=" + provinceID;
+            HttpClient client = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
+            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+
+            HttpResponse response = client.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+
+            if (responseEntity != null) {
+                String responseString = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+                return responseString;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    public static String getWards(String accessToken, String districtID){
+        try {
+            String url = "http://140.238.54.136/api/ward?token=" + accessToken + "&districtID=" + districtID;
+            HttpClient client = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
+            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+
+            HttpResponse response = client.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+
+            if (responseEntity != null) {
+                String responseString = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+                return responseString;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
