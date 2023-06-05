@@ -15,6 +15,7 @@ public class APIServlet extends HttpServlet {
             String access_token = authorizationHeader.substring(7);
             System.out.println(access_token);
             String action = request.getParameter("action");
+
             String result = "";
 
             if (action.equals("getProvinces")) {
@@ -22,20 +23,24 @@ public class APIServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
+            }else if(action.equals("getDistricts")){
+                String provinceId = request.getHeader("ProvinceID");
+                System.out.print(provinceId);
+                result = APIHandler.getDistricts(access_token, provinceId);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(result);
+            }else if(action.equals("getWards")){
+                String districtId = request.getHeader("DistrictID");
+                System.out.println(districtId);
+                result = APIHandler.getWards(access_token, districtId);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(result);
             }
         } else {
             // Không có access_token hợp lệ, xử lý lỗi hoặc chuyển hướng đến trang đăng nhập
         }
-        //            } else if (action.equals("getDistricts")) {
-//                String provinceId = request.getParameter("provinceId");
-//                JSONArray districts = APIHandler.getDistrictsByProvince(access_token, provinceId);
-//                response.setContentType("application/json");
-//                response.getWriter().write(districts.toString());
-//            } else if (action.equals("getWards")) {
-//                String districtId = request.getParameter("districtId");
-//                JSONArray wards = APIHandler.getWardsByDistrict(access_token, districtId);
-//                response.setContentType("application/json");
-//                response.getWriter().write(wards.toString());
     }
 
     @Override
