@@ -4,6 +4,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -22,7 +23,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 </head>
@@ -55,6 +56,8 @@
         </div>
     </div>
     <hr>
+    <% if (session.getAttribute("Account") != null) { %>
+    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
     <ul class="app-menu">
         <li><a class="app-menu__item active" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label">Bảng điều khiển</span></a></li>
@@ -74,6 +77,53 @@
                 class="app-menu__label">Về trang chủ</span></a>
         </li>
     </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "1"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item active" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <li><a class="app-menu__item" href="ListProductAdminControl"><i
+                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
+        </li>
+        <%--        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span--%>
+        <%--                class="app-menu__label">Quản lý đơn hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i--%>
+        <%--                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "2"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item active" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
+        <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
+                class="app-menu__label">Quản lý đơn hàng</span></a></li>
+        <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i
+                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
+        </li>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+    <%}%>
+
 </aside>
 <main class="app-content">
     <div class="row">
@@ -95,7 +145,7 @@
                     <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
                         <div class="info">
                             <h4>Tổng khách hàng</h4>
-                            <p><b><%=new HomeAdminDAO().getCountUser() %> khách hàng</b></p>
+                            <p><b><%= new HomeAdminDAO().getCountUser() %> khách hàng</b></p>
                             <p class="info-tong">Tổng số khách hàng được quản lý.</p>
                         </div>
                     </div>
@@ -105,7 +155,14 @@
                     <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
                         <div class="info">
                             <h4>Tổng sản phẩm</h4>
-                            <p><b><%=new HomeAdminDAO().getCountProduct()%> sản phẩm</b></p>
+                            <p><b><%=new
+                                HomeAdminDAO
+                                (
+                                )
+                                .
+                                getCountProduct
+                                (
+                                )%> sản phẩm</b></p>
                             <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
                         </div>
                     </div>
@@ -115,7 +172,14 @@
                     <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
                         <div class="info">
                             <h4>Tổng đơn hàng</h4>
-                            <p><b><%=new HomeAdminDAO().getCountOrder()%> đơn hàng</b></p>
+                            <p><b><%=new
+                                HomeAdminDAO
+                                (
+                                )
+                                .
+                                getCountOrder
+                                (
+                                )%> đơn hàng</b></p>
                             <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
                         </div>
                     </div>
@@ -125,7 +189,14 @@
                     <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
                         <div class="info">
                             <h4>Sắp hết hàng</h4>
-                            <p><b><%=new HomeAdminDAO().getAboutOutOfStock()%> sản phẩm</b></p>
+                            <p><b><%=new
+                                HomeAdminDAO
+                                (
+                                )
+                                .
+                                getAboutOutOfStock
+                                (
+                                )%> sản phẩm</b></p>
                             <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
                         </div>
                     </div>
@@ -146,31 +217,117 @@
                                 </thead>
                                 <tbody>
 
-                                <% List<OrderAdmin> list = new HomeAdminDAO().getNewestOrder();
-                                    for (OrderAdmin i : list) {
+                                <% List
+                                    <
+                                    OrderAdmin
+                                    >
+                                    list
+                                    =
+                                    new
+                                    HomeAdminDAO
+                                    (
+                                    )
+                                    .
+                                    getNewestOrder
+                                    (
+                                    )
+                                    ;
+                                    for
+                                    (
+                                    OrderAdmin
+                                    i
+                                    :
+                                    list
+                                    )
+                                    {
 
 
                                 %>
                                 <tr>
-                                    <td><%=i.getId() %>
+                                    <td><%=i
+                                        .
+                                        getId
+                                        (
+                                        ) %>
                                     </td>
-                                    <td><%=i.getFullName() %>
+                                    <td><%=i
+                                        .
+                                        getFullName
+                                        (
+                                        ) %>
                                     </td>
                                     <td>
-                                        <%=numberFormat.format(i.getTotalMoney()) %>
+                                        <%=numberFormat
+                                            .
+                                            format
+                                            (
+                                            i
+                                            .
+                                            getTotalMoney
+                                            (
+                                            )
+                                            ) %>
                                     </td>
 
                                     <td>
-                                        <%if (i.getId_status() == 1) {%>
+                                        <%
+                                            if
+                                            (
+                                            i
+                                            .
+                                            getId_status
+                                            (
+                                            )
+                                            ==
+                                            1
+                                            )
+                                            {
+                                        %>
                                         <span class="badge bg-warning">Đang giao hàng</span>
                                         <%}%>
-                                        <%if (i.getId_status() == 2) {%>
+                                        <%
+                                            if
+                                            (
+                                            i
+                                            .
+                                            getId_status
+                                            (
+                                            )
+                                            ==
+                                            2
+                                            )
+                                            {
+                                        %>
                                         <span class="badge bg-info">Chờ thanh toán</span>
                                         <%}%>
-                                        <%if (i.getId_status() == 3) {%>
+                                        <%
+                                            if
+                                            (
+                                            i
+                                            .
+                                            getId_status
+                                            (
+                                            )
+                                            ==
+                                            3
+                                            )
+                                            {
+                                        %>
                                         <span class="badge bg-success">Hoàn thành</span>
                                         <%}%>
-                                        <%if (i.getId_status() == 4) {%>
+                                        <%
+                                            if
+                                            (
+                                            i
+                                            .
+                                            getId_status
+                                            (
+                                            )
+                                            ==
+                                            4
+                                            )
+                                            {
+                                        %>
                                         <span class="badge bg-danger">Đã hủy</span>
                                         <%}%>
 
@@ -199,16 +356,53 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% List<Account> listUser = new HomeAdminDAO().getNewestUser();
-                                    for (Account o : listUser) {
+                                <% List
+                                    <
+                                    Account
+                                    >
+                                    listUser
+                                    =
+                                    new
+                                    HomeAdminDAO
+                                    (
+                                    )
+                                    .
+                                    getNewestUser
+                                    (
+                                    )
+                                    ;
+                                    for
+                                    (
+                                    Account
+                                    o
+                                    :
+                                    listUser
+                                    )
+                                    {
                                 %>
                                 <tr>
-                                    <td>#<%=o.getId() %>
+                                    <td>#<%=o
+                                        .
+                                        getId
+                                        (
+                                        ) %>
                                     </td>
-                                    <td><span class="tag tag-success"><%=o.getEmail() %></span></td>
-                                    <td><%=o.getUsername()%>
+                                    <td><span class="tag tag-success"><%=o
+                                        .
+                                        getEmail
+                                        (
+                                        ) %></span></td>
+                                    <td><%=o
+                                        .
+                                        getUsername
+                                        (
+                                        )%>
                                     </td>
-                                    <td><%=o.getPassword() %>
+                                    <td><%=o
+                                        .
+                                        getPassword
+                                        (
+                                        ) %>
                                     </td>
 
                                 </tr>
