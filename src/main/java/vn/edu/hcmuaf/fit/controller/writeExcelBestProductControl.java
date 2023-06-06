@@ -4,24 +4,30 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import vn.edu.hcmuaf.fit.dao.HomeAdminDAO;
 import vn.edu.hcmuaf.fit.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.entity.OrderAdmin;
+import vn.edu.hcmuaf.fit.entity.Product;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
-@WebServlet(name = "writeExcelControl", value = "/admin/doc/writeExcelControl")
-public class writeExcelControl extends HttpServlet {
+@WebServlet(name = "writeExcelBestProductControl", value = "/admin/doc/writeExcelBestProductControl")
+public class writeExcelBestProductControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<OrderAdmin> list = new OrderDAO().getListOrder();
-//        PrintWriter out = response.getWriter();
+        List<Product> list = new HomeAdminDAO().getTop5();
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment;filename=DonHang.xlsx");
+        response.setHeader("Content-Disposition", "attachment;filename=SanPhamBanChay.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook();
         XSSFSheet sheet = wb.createSheet("total");
         //
@@ -30,43 +36,26 @@ public class writeExcelControl extends HttpServlet {
         int cellNum = 0;
 
         Cell cell = row.createCell(cellNum++);
-        cell.setCellValue("Mã đơn");
+        cell.setCellValue("Mã sản phẩm");
 
         cell = row.createCell(cellNum++);
-        cell.setCellValue("Họ và tên");
+        cell.setCellValue("Tên sản phẩm");
 
         cell = row.createCell(cellNum++);
-        cell.setCellValue("Đơn hàng");
+        cell.setCellValue("Gía tiền");
 
-        cell = row.createCell(cellNum++);
-        cell.setCellValue("Số điện thoại");
-
-        cell = row.createCell(cellNum++);
-        cell.setCellValue("Tổng tiền");
-
-        cell = row.createCell(cellNum++);
-        cell.setCellValue("Tình trạng");
-
-        for(OrderAdmin oa: list){
+        for(Product p: list){
             cellNum = 0;
             row = sheet.createRow(rowNo++);
             cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getId());
+            cell.setCellValue(p.getId());
 
             cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getFullName());
+            cell.setCellValue(p.getTitle());
 
             cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getProducts().toString());
+            cell.setCellValue(numberFormat.format(Integer.parseInt(p.getDescription())));
 
-            cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getPhone());
-
-            cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getTotalMoney());
-
-            cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getStatus());
         }
         wb.write(response.getOutputStream());
         wb.close();

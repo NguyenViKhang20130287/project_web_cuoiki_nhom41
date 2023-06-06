@@ -140,6 +140,11 @@
                 <div>
                     <h3 class="tile-title">SẢN PHẨM BÁN CHẠY</h3>
                 </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelBestProductControl" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
+                </div>
                 <div class="tile-body">
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
@@ -176,6 +181,11 @@
             <div class="tile">
                 <div>
                     <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelTotalRevenueControl" title="In1"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
                 </div>
                 <div class="tile-body" style="overflow-y:scroll; height: 450px;">
                     <table class="table table-hover table-bordered" id="sampleTable">
