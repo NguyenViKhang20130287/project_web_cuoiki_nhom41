@@ -4,24 +4,29 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import vn.edu.hcmuaf.fit.dao.HomeAdminDAO;
 import vn.edu.hcmuaf.fit.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.entity.OrderAdmin;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
-@WebServlet(name = "writeExcelControl", value = "/admin/doc/writeExcelControl")
-public class writeExcelControl extends HttpServlet {
+@WebServlet(name = "writeExcelTotalRevenueControl", value = "/admin/doc/writeExcelTotalRevenueControl")
+public class writeExcelTotalRevenueControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<OrderAdmin> list = new OrderDAO().getListOrder();
-//        PrintWriter out = response.getWriter();
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment;filename=DonHang.xlsx");
+        response.setHeader("Content-Disposition", "attachment;filename=TongDoanhThu.xlsx");
         XSSFWorkbook wb = new XSSFWorkbook();
         XSSFSheet sheet = wb.createSheet("total");
         //
@@ -68,14 +73,19 @@ public class writeExcelControl extends HttpServlet {
             cell = row.createCell(cellNum++);
             cell.setCellValue(oa.getStatus());
         }
+
+        cellNum = 0;
+        row = sheet.createRow(rowNo++);
+        cell = row.createCell(cellNum++);
+        cell.setCellValue("Tổng cộng");
+
+        cell = row.createCell(cellNum++);
+        cell.setCellValue(numberFormat.format(new HomeAdminDAO().getRevenue()));
+
         wb.write(response.getOutputStream());
         wb.close();
 
         request.getRequestDispatcher("table-data-user.jsp").forward(request, response);
-//        out.println("<script type=\"text/javascript\">");
-//        out.println("alert('Xuất file thành công');");
-//        out.println("location='UserAdminControl';");
-//        out.println("</script>");
 
     }
 
