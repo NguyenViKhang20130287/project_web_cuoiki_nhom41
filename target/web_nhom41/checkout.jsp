@@ -124,7 +124,7 @@
                             <div class="item-1">
                                 <div class="input-text">
                                     <label for="ward">Phường / Xã <span style="color: red">*</span></label>
-                                    <select id="ward" name="ward">
+                                    <select id="ward" name="ward" onchange="getLeadTime()">
                                         <option value="" selected disabled>Chọn Phường / Xã</option>
                                     </select>
                                 </div>
@@ -240,6 +240,18 @@
                                         <th>Tổng Giỏ Hàng</th>
                                         <td><span class="amount"><%= numberFormat.format(totalCart)%></span></td>
                                     </tr>
+                                    <tr class="cartSubtotal">
+                                        <th>Vận Chuyển Tới</th>
+                                        <td><span class="amount" id="transit_to"></span></td>
+                                    </tr>
+                                    <tr class="cartSubtotal">
+                                        <th>Nhận Hàng Dự Kiến Vào</th>
+                                        <td><span class="amount" id="transit_time"></span></td>
+                                    </tr>
+                                    <tr class="cartSubtotal">
+                                        <th>Phí Vận Chuyển</th>
+                                        <td><span class="amount"></span></td>
+                                    </tr>
                                     <tr class="order-total">
                                         <th style="border-bottom: none;">Tổng Đơn Hàng</th>
                                         <td style="border-bottom: none;"><strong><span
@@ -297,25 +309,23 @@
     <%--    })--%>
 
     function getAccessTokenFromStorage() {
-        // Lấy access_token từ sessionStorage hoặc localStorage
+        // Lấy access_token từ localStorage
         return localStorage.getItem('access_token');
     }
 
     function saveAccessTokenToStorage(access_token) {
-        // Lưu access_token vào sessionStorage hoặc localStorage
+        // Lưu access_token vào localStorage
         localStorage.setItem('access_token', access_token);
     }
 
     let access_token = getAccessTokenFromStorage();
 
     function checkAccessTokenValidity() {
-        // const access_token = getAccessTokenFromStorage();
-
         if (access_token) {
             console.log(access_token);
 
-            const expiration_time = parseFloat(localStorage.getItem('expires_in')); // Thời điểm hết hạn (tính bằng giây)
-            const current_time = Math.floor(Date.now() / 1000); // Thời gian hiện tại (tính bằng giây)
+            const expiration_time = parseFloat(localStorage.getItem('expires_in'));
+            const current_time = Math.floor(Date.now() / 1000);
 
             if (current_time >= expiration_time) {
                 console.log('Access_token đã hết hạn');
@@ -337,16 +347,15 @@
             .then(data => {
                 console.log(data);
                 const access_token = data.access_token;
-                const expires_in = data.expires_in; // Thời gian hết hạn của access_token từ phản hồi của API
+                const expires_in = data.expires_in;
 
                 if (access_token && expires_in) {
-                    // Lưu access_token vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
+
                     saveAccessTokenToStorage(access_token);
 
-                    const current_time = Math.floor(Date.now() / 1000); // Thời gian hiện tại (tính bằng giây)
-                    const expiration_time = current_time + expires_in; // Tính thời điểm hết hạn (tính bằng giây)
+                    const current_time = Math.floor(Date.now() / 1000);
+                    const expiration_time = current_time + expires_in;
 
-                    // Lưu thời điểm hết hạn vào lưu trữ dữ liệu (ví dụ: sessionStorage hoặc localStorage)
                     localStorage.setItem('expires_in', expiration_time.toString());
 
                     // Gọi hàm getProvinces() sau khi đăng nhập thành công
@@ -375,7 +384,6 @@
 
                 // Lấy thẻ select từ DOM
                 const selectElement = document.getElementById('city');
-                // const selectedProvince = selectElement.value;
 
                 // Xóa các phần tử <option> hiện tại trong thẻ select
                 selectElement.innerHTML = '';
@@ -394,9 +402,6 @@
                     optionElement.textContent = province.ProvinceName;
                     selectElement.appendChild(optionElement);
                 });
-                // if (selectedProvince) {
-                //     selectElement.value = selectedProvince;
-                // }
             })
             .catch(error => {
                 console.error(error);
@@ -427,7 +432,6 @@
 
                 // Lấy thẻ select từ DOM
                 const selectElement = document.getElementById('district');
-                // const selectedDistrict = selectElement.value;
 
                 // Xóa các phần tử <option> hiện tại trong thẻ select
                 selectElement.innerHTML = '';
@@ -446,9 +450,6 @@
                     optionElement.textContent = district.DistrictName;
                     selectElement.appendChild(optionElement);
                 });
-                // if (selectedDistrict) {
-                //     selectElement.value = selectedDistrict;
-                // }
             })
             .catch(error => {
                 console.error(error);
@@ -479,7 +480,6 @@
 
                 // Lấy thẻ select từ DOM
                 const selectElement = document.getElementById('ward');
-                // const selectedDistrict = selectElement.value;
 
                 // Xóa các phần tử <option> hiện tại trong thẻ select
                 selectElement.innerHTML = '';
@@ -498,14 +498,70 @@
                     optionElement.textContent = ward.WardName;
                     selectElement.appendChild(optionElement);
                 });
-                // if (selectedDistrict) {
-                //     selectElement.value = selectedDistrict;
-                // }
             })
             .catch(error => {
                 console.error(error);
             });
     }
+
+    function getMonthName(monthIndex) {
+        var monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+        return monthNames[monthIndex];
+    }
+
+    function address() {
+        const province = $("#city option:selected").text();
+        const district = $("#district option:selected").text();
+        const ward = $("#ward option:selected").text();
+        const address = ward + ", " + district + ", " + province;
+        const element = document.getElementById("transit_to");
+        element.innerHTML = address;
+    }
+
+    function getLeadTime() {
+        const selectedDistrict = document.getElementById('district').value;
+        const selectedWard = document.getElementById('ward').value;
+        console.log(selectedWard)
+        const requestData = {
+            DistrictID: selectedDistrict,
+            WardID: selectedWard,
+        };
+        fetch('./api?action=getLeadTime', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                address();
+                const leadTime = data.data
+                console.log(leadTime)
+                const element = document.getElementById("transit_time");
+
+                leadTime.forEach(time => {
+                    var date = new Date(time.formattedDate);
+                    console.log(date)
+                    var dayIndex = date.getDay();
+                    console.log(dayIndex)
+                    var formattedDate = "";
+
+                    if (dayIndex === 0) {
+                        formattedDate = "CN, " + date.getDate() + " Tháng " + (date.getMonth() + 1) + " " + date.getFullYear();
+                    } else {
+                        formattedDate = "T" + (dayIndex + 1) + ", " + date.getDate() + " Tháng " + (date.getMonth() + 1) + " " + date.getFullYear();
+                    }
+                    element.innerHTML = formattedDate;
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
 </script>
 <script src="js/main.js"></script>
 <%--<script src="js/checkout.js"></script>--%>

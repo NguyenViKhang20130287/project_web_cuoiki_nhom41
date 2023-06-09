@@ -37,6 +37,7 @@ public class AddToCartControl extends HttpServlet {
         Account account = (Account) session.getAttribute("Account");
         PrintWriter out = response.getWriter();
         HashMap<Integer, CartItem> cart = (HashMap<Integer, CartItem>) session.getAttribute("cart");
+
         if (account == null) {
             if (cart == null) {
                 cart = new HashMap<Integer, CartItem>();
@@ -68,7 +69,6 @@ public class AddToCartControl extends HttpServlet {
                         cartItem = new CartItem(product, 1);
                     }
                     cart.put(Integer.parseInt(idProduct), cartItem);
-                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm " + product.getId() + " vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 }
             }
         } else {
@@ -125,3 +125,5 @@ public class AddToCartControl extends HttpServlet {
         out.println("<a href=\"cart.jsp\"><i class=\"fa-solid fa-bag-shopping\"></i>Giỏ hàng(" + (cart != null ? cart.size() : 0) + ")</a>");
     }
 }
+
+
