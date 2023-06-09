@@ -7,6 +7,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.dao.OrderDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -60,9 +61,13 @@
         </div>
     </div>
     <hr>
+    <% if (session.getAttribute("Account") != null) { %>
+    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
     <ul class="app-menu">
-        <li><a class="app-menu__item " href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
         <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
                 class="app-menu__label">Quản lý khách hàng</span></a></li>
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
@@ -77,6 +82,53 @@
                 class="app-menu__label">Về trang chủ</span></a>
         </li>
     </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "1"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <li><a class="app-menu__item" href="ListProductAdminControl"><i
+                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
+        </li>
+        <%--        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span--%>
+        <%--                class="app-menu__label">Quản lý đơn hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i--%>
+        <%--                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "2"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
+        <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
+                class="app-menu__label">Quản lý đơn hàng</span></a></li>
+        <li><a class="app-menu__item active" href="quan-ly-bao-cao.jsp"><i
+                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
+        </li>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+    <%}%>
+
 </aside>
 <main class="app-content">
     <div class="row">
@@ -140,6 +192,11 @@
                 <div>
                     <h3 class="tile-title">SẢN PHẨM BÁN CHẠY</h3>
                 </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelBestProductControl" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
+                </div>
                 <div class="tile-body">
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
@@ -176,6 +233,11 @@
             <div class="tile">
                 <div>
                     <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelTotalRevenueControl" title="In1"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
                 </div>
                 <div class="tile-body" style="overflow-y:scroll; height: 450px;">
                     <table class="table table-hover table-bordered" id="sampleTable">

@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Banner" %>
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -51,14 +52,15 @@
         </div>
     </div>
     <hr>
+    <% if (session.getAttribute("Account") != null) { %>
+    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
     <ul class="app-menu">
-        <li><a class="app-menu__item " href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label">Bảng điều khiển</span></a></li>
-        <li><a class="app-menu__item active" href="LoadListBannerControl"><i
-                class="app-menu__icon fa-solid fa-sliders"></i>
+        <li><a class="app-menu__item active" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-        <li><a class="app-menu__item" href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i>
-            <span class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <li><a class="app-menu__item" href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
@@ -71,6 +73,53 @@
                 class="app-menu__label">Về trang chủ</span></a>
         </li>
     </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "1"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item active" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+        <li><a class="app-menu__item" href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <li><a class="app-menu__item" href="ListProductAdminControl"><i
+                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
+        </li>
+        <%--        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span--%>
+        <%--                class="app-menu__label">Quản lý đơn hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i--%>
+        <%--                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "2"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item active" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+        <li><a class="app-menu__item" href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
+        <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
+                class="app-menu__label">Quản lý đơn hàng</span></a></li>
+        <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i
+                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
+        </li>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+    <%}%>
+
 </aside>
 <main class="app-content">
     <div class="app-title">

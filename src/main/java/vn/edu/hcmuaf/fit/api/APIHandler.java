@@ -16,6 +16,9 @@ import java.nio.charset.StandardCharsets;
 
 
 public class APIHandler {
+    private final static String from_district_id = "3695";
+    private final static String from_ward_id = "90737";
+
     public static String login() {
         JSONObject loginData = new JSONObject();
         loginData.put("email", "20130295@st.hcmuaf.edu.vn");
@@ -50,7 +53,7 @@ public class APIHandler {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
-            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+//            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
             HttpResponse response = client.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -73,7 +76,6 @@ public class APIHandler {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
-            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
             HttpResponse response = client.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -88,16 +90,56 @@ public class APIHandler {
 
         return null;
     }
-    public static String getWards(String accessToken, String districtID){
+
+    public static String getWards(String accessToken, String districtID) {
         try {
             String url = "http://140.238.54.136/api/ward?token=" + accessToken + "&districtID=" + districtID;
             HttpClient client = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
-            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+//            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
             HttpResponse response = client.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+
+            if (responseEntity != null) {
+                String responseString = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+                return responseString;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String leadTime(String accessToken, String to_district_id, String to_ward_id) {
+        try {
+            String url = "http://140.238.54.136/api/leadTime?token=" + accessToken;
+            HttpClient client = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost(url);
+
+            // Thiết lập header
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpPost.setHeader(HttpHeaders.ACCEPT, "application/json");
+
+            // Tạo đối tượng JSON để chứa thông tin yêu cầu
+            JSONObject requestJson = new JSONObject();
+            requestJson.put("from_district_id", from_district_id);
+            requestJson.put("from_ward_id", from_ward_id);
+            requestJson.put("to_district_id", to_district_id);
+            requestJson.put("to_ward_id", to_ward_id);
+            requestJson.put("height", "100");
+            requestJson.put("length", "100");
+            requestJson.put("width", "100");
+            requestJson.put("weight", "100");
+
+            // Gán dữ liệu yêu cầu vào body của POST request
+            StringEntity requestBody = new StringEntity(requestJson.toString());
+            httpPost.setEntity(requestBody);
+
+            // Gửi yêu cầu POST
+            HttpResponse response = client.execute(httpPost);
             HttpEntity responseEntity = response.getEntity();
 
             if (responseEntity != null) {
@@ -111,6 +153,6 @@ public class APIHandler {
     }
 
     public static void main(String[] args) {
-        System.out.println(getProvinces("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTQwLjIzOC41NC4xMzYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODU4NTQwMzAsImV4cCI6MTY4NTg1NDYzMCwibmJmIjoxNjg1ODU0MDMwLCJqdGkiOiIzMzNIaVl6SjlRZTd4RVJoIiwic3ViIjoiODg2ZDkzMjQ3ZjgxNDE5ZDhlYjg2YTk3NDUwY2NkMGUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.G4L-9jzGidLrAfXhmS_TdQSBXzOpvKnjomdSARramHc"));
+        System.out.println(leadTime("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTQwLjIzOC41NC4xMzYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODYzMjUzNDksImV4cCI6MTY4NjMyNTk0OSwibmJmIjoxNjg2MzI1MzQ5LCJqdGkiOiJ2QkpxSFp0TXFvc3B0QkljIiwic3ViIjoiODg2ZDkzMjQ3ZjgxNDE5ZDhlYjg2YTk3NDUwY2NkMGUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.asDvfLYvSetb71gabtSzYuokvCPFPTqZcUi4Miqk1FA", "2270", "231013"));
     }
 }
