@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import vn.edu.hcmuaf.fit.dao.HomeAdminDAO;
+import vn.edu.hcmuaf.fit.dao.AdminDAO;
 import vn.edu.hcmuaf.fit.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.entity.OrderAdmin;
 
@@ -80,7 +80,7 @@ public class writeExcelTotalRevenueControl extends HttpServlet {
         cell.setCellValue("Tổng cộng");
 
         cell = row.createCell(cellNum++);
-        cell.setCellValue(numberFormat.format(new HomeAdminDAO().getRevenue()));
+        cell.setCellValue(numberFormat.format(new AdminDAO().getRevenue()));
 
         wb.write(response.getOutputStream());
         wb.close();

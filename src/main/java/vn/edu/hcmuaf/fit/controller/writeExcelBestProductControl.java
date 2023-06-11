@@ -4,9 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import vn.edu.hcmuaf.fit.dao.HomeAdminDAO;
-import vn.edu.hcmuaf.fit.dao.OrderDAO;
-import vn.edu.hcmuaf.fit.entity.OrderAdmin;
+import vn.edu.hcmuaf.fit.dao.AdminDAO;
 import vn.edu.hcmuaf.fit.entity.Product;
 
 import javax.servlet.ServletException;
@@ -23,7 +21,7 @@ import java.util.Locale;
 public class writeExcelBestProductControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> list = new HomeAdminDAO().getTop5();
+        List<Product> list = new AdminDAO().getTop5();
         Locale locale = new Locale("vi", "VN");
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
         response.setContentType("application/vnd.ms-excel");

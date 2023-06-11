@@ -24,6 +24,15 @@ public class OrderAdmin {
         this.phone = phone;
     }
 
+    public OrderAdmin() {
+    }
+
+
+
+    public OrderAdmin(int totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
     public int getId() {
         return id;
     }

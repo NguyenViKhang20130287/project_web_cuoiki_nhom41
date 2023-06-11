@@ -1,16 +1,13 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
-import vn.edu.hcmuaf.fit.dao.DeleteProductAdminDAO;
 import vn.edu.hcmuaf.fit.entity.ProductAdmin;
-import vn.edu.hcmuaf.fit.entity.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "DeleteProductAdminControl", value = "/admin/doc/DeleteProductAdminControl")
@@ -55,7 +52,7 @@ public class DeleteProductAdminControl extends HttpServlet {
 
 
         try {
-            new DeleteProductAdminDAO().Delete(pid);
+            new AdminDAO().DeleteUser(pid);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
