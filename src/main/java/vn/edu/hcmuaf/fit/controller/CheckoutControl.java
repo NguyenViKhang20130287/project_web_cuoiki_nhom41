@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.dao.CheckoutDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
@@ -35,6 +36,9 @@ public class CheckoutControl extends HttpServlet {
         String note = request.getParameter("note");
         String newAccount = request.getParameter("newAccount");
         String payment = request.getParameter("payment");
+        int shippingCost = Integer.parseInt(request.getParameter("costs"));
+
+        System.out.println(shippingCost);
         Account accSession = (Account) session.getAttribute("Account");
         String username = "";
         if (accSession != null) {
@@ -103,7 +107,7 @@ public class CheckoutControl extends HttpServlet {
                 if (paymentMethod.equals("Tiền mặt")) {
                     statusId = 2;
                 }
-                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId);
+                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId, shippingCost);
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;
                     if (entry.getValue().getProduct().getDiscount() != 0) {
@@ -111,11 +115,14 @@ public class CheckoutControl extends HttpServlet {
                     } else {
                         price = entry.getValue().getProduct().getPrice();
                     }
-                    checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
+                    checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart, shippingCost)), price, entry.getValue().getQuantity());
                     checkoutDAO.updateQuantity(String.valueOf(entry.getKey()), entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
                 }
 
                 session.setAttribute("cart", null);
+                if (accSession != null) {
+                    new CartDao().deleteAllCartItem(accSession.getId());
+                }
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Đặt hàng thành công" + registerMessage + "');");
                 out.println("location='home';");

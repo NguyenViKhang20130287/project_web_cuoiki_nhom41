@@ -90,6 +90,8 @@ public class LoginControl extends HttpServlet {
                         String role = String.valueOf(account.getRole());
                         session.setAttribute("role", role);
                         session.setAttribute("fullName", account.getFullName());
+                        String isSocial = String.valueOf(account.getIsSocial());
+                        session.setAttribute("isSocial", isSocial);
                         new LogDAO().updateStatus(account.getId());
                         List<CartItem> cartItems = new CartDao().getListCartItem(account.getId());
                         HashMap<Integer, CartItem> cart = new HashMap<>();
