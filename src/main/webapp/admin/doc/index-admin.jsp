@@ -1,10 +1,10 @@
-<%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.OrderAdmin" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -145,7 +145,7 @@
                     <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
                         <div class="info">
                             <h4>Tổng khách hàng</h4>
-                            <p><b><%= new HomeAdminDAO().getCountUser() %> khách hàng</b></p>
+                            <p><b><%= new AdminDAO().getCountUser() %> khách hàng</b></p>
                             <p class="info-tong">Tổng số khách hàng được quản lý.</p>
                         </div>
                     </div>
@@ -156,13 +156,11 @@
                         <div class="info">
                             <h4>Tổng sản phẩm</h4>
                             <p><b><%=new
-                                HomeAdminDAO
-                                (
-                                )
-                                .
-                                getCountProduct
-                                (
-                                )%> sản phẩm</b></p>
+                                    AdminDAO()
+                                    .
+                                    getCountProduct
+                                            (
+                                            )%> sản phẩm</b></p>
                             <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
                         </div>
                     </div>
@@ -173,13 +171,11 @@
                         <div class="info">
                             <h4>Tổng đơn hàng</h4>
                             <p><b><%=new
-                                HomeAdminDAO
-                                (
-                                )
-                                .
-                                getCountOrder
-                                (
-                                )%> đơn hàng</b></p>
+                                    AdminDAO()
+                                    .
+                                    getCountOrder
+                                            (
+                                            )%> đơn hàng</b></p>
                             <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
                         </div>
                     </div>
@@ -190,13 +186,11 @@
                         <div class="info">
                             <h4>Sắp hết hàng</h4>
                             <p><b><%=new
-                                HomeAdminDAO
-                                (
-                                )
-                                .
-                                getAboutOutOfStock
-                                (
-                                )%> sản phẩm</b></p>
+                                    AdminDAO()
+                                    .
+                                    getAboutOutOfStock
+                                            (
+                                            )%> sản phẩm</b></p>
                             <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
                         </div>
                     </div>
@@ -218,115 +212,107 @@
                                 <tbody>
 
                                 <% List
-                                    <
-                                    OrderAdmin
-                                    >
-                                    list
-                                    =
-                                    new
-                                    HomeAdminDAO
-                                    (
-                                    )
-                                    .
-                                    getNewestOrder
-                                    (
-                                    )
-                                    ;
+                                        <
+                                                OrderAdmin
+                                                >
+                                        list
+                                        =
+                                        new
+                                                AdminDAO()
+                                                .
+                                                getNewestOrder
+                                                        (
+                                                        );
                                     for
                                     (
-                                    OrderAdmin
-                                    i
-                                    :
-                                    list
-                                    )
-                                    {
+                                            OrderAdmin
+                                                    i
+                                            :
+                                            list
+                                    ) {
 
 
                                 %>
                                 <tr>
                                     <td><%=i
-                                        .
-                                        getId
-                                        (
-                                        ) %>
+                                            .
+                                            getId
+                                                    (
+                                                    ) %>
                                     </td>
                                     <td><%=i
-                                        .
-                                        getFullName
-                                        (
-                                        ) %>
+                                            .
+                                            getFullName
+                                                    (
+                                                    ) %>
                                     </td>
                                     <td>
                                         <%=numberFormat
-                                            .
-                                            format
-                                            (
-                                            i
-                                            .
-                                            getTotalMoney
-                                            (
-                                            )
-                                            ) %>
+                                                .
+                                                format
+                                                        (
+                                                                i
+                                                                        .
+                                                                        getTotalMoney
+                                                                                (
+                                                                                )
+                                                        ) %>
                                     </td>
 
                                     <td>
                                         <%
                                             if
                                             (
-                                            i
-                                            .
-                                            getId_status
-                                            (
-                                            )
-                                            ==
-                                            1
-                                            )
-                                            {
+                                                    i
+                                                            .
+                                                            getId_status
+                                                                    (
+                                                                    )
+                                                            ==
+                                                            1
+                                            ) {
                                         %>
                                         <span class="badge bg-warning">Đang giao hàng</span>
                                         <%}%>
                                         <%
                                             if
                                             (
-                                            i
-                                            .
-                                            getId_status
-                                            (
-                                            )
-                                            ==
-                                            2
-                                            )
-                                            {
+                                                    i
+                                                            .
+                                                            getId_status
+                                                                    (
+                                                                    )
+                                                            ==
+                                                            2
+                                            ) {
                                         %>
                                         <span class="badge bg-info">Chờ thanh toán</span>
                                         <%}%>
                                         <%
                                             if
                                             (
-                                            i
-                                            .
-                                            getId_status
-                                            (
-                                            )
-                                            ==
-                                            3
-                                            )
-                                            {
+                                                    i
+                                                            .
+                                                            getId_status
+                                                                    (
+                                                                    )
+                                                            ==
+                                                            3
+                                            ) {
                                         %>
                                         <span class="badge bg-success">Hoàn thành</span>
                                         <%}%>
                                         <%
                                             if
                                             (
-                                            i
-                                            .
-                                            getId_status
-                                            (
-                                            )
-                                            ==
-                                            4
-                                            )
-                                            {
+                                                    i
+                                                            .
+                                                            getId_status
+                                                                    (
+                                                                    )
+                                                            ==
+                                                            4
+                                            ) {
                                         %>
                                         <span class="badge bg-danger">Đã hủy</span>
                                         <%}%>
@@ -357,52 +343,48 @@
                                 </thead>
                                 <tbody>
                                 <% List
-                                    <
-                                    Account
-                                    >
-                                    listUser
-                                    =
-                                    new
-                                    HomeAdminDAO
-                                    (
-                                    )
-                                    .
-                                    getNewestUser
-                                    (
-                                    )
-                                    ;
+                                        <
+                                                Account
+                                                >
+                                        listUser
+                                        =
+                                        new
+                                                AdminDAO()
+                                                .
+                                                getNewestUser
+                                                        (
+                                                        );
                                     for
                                     (
-                                    Account
-                                    o
-                                    :
-                                    listUser
-                                    )
-                                    {
+                                            Account
+                                                    o
+                                            :
+                                            listUser
+                                    ) {
                                 %>
                                 <tr>
                                     <td>#<%=o
-                                        .
-                                        getId
-                                        (
-                                        ) %>
+                                            .
+                                            getId
+                                                    (
+                                                    ) %>
                                     </td>
                                     <td><span class="tag tag-success"><%=o
-                                        .
-                                        getEmail
-                                        (
-                                        ) %></span></td>
+                                            .
+                                            getEmail
+                                                    (
+                                                    ) %></span></td>
                                     <td><%=o
-                                        .
-                                        getUsername
-                                        (
-                                        )%>
+                                            .
+                                            getUsername
+                                                    (
+                                                    )%>
                                     </td>
                                     <td><%=o
-                                        .
-                                        getPassword
-                                        (
-                                        ) %>
+                                            .
+                                            getPassword
+                                                    (
+                                                    ) %>
                                     </td>
 
                                 </tr>
@@ -461,25 +443,27 @@
     var data = {
         labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
         datasets: [{
-            label: "Dữ liệu đầu tiên",
+            label: "Doanh thu 6 tháng mới nhất",
             fillColor: "rgba(255, 213, 59, 0.767), 212, 59)",
             strokeColor: "rgb(255, 212, 59)",
             pointColor: "rgb(255, 212, 59)",
             pointStrokeColor: "rgb(255, 212, 59)",
             pointHighlightFill: "rgb(255, 212, 59)",
             pointHighlightStroke: "rgb(255, 212, 59)",
-            data: [20, 59, 90, 51, 56, 100]
-        },
-            {
-                label: "Dữ liệu kế tiếp",
-                fillColor: "rgba(9, 109, 239, 0.651)  ",
-                pointColor: "rgb(9, 109, 239)",
-                strokeColor: "rgb(9, 109, 239)",
-                pointStrokeColor: "rgb(9, 109, 239)",
-                pointHighlightFill: "rgb(9, 109, 239)",
-                pointHighlightStroke: "rgb(9, 109, 239)",
-                data: [48, 48, 49, 39, 86, 10]
-            }
+            // data: [20, 59, 90, 51, 56, 100]
+            data: <%=new AdminDAO().get6MonthTotalRevenue()%>
+        }
+        // ,
+        //     {
+        //         label: "Dữ liệu kế tiếp",
+        //         fillColor: "rgba(9, 109, 239, 0.651)  ",
+        //         pointColor: "rgb(9, 109, 239)",
+        //         strokeColor: "rgb(9, 109, 239)",
+        //         pointStrokeColor: "rgb(9, 109, 239)",
+        //         pointHighlightFill: "rgb(9, 109, 239)",
+        //         pointHighlightStroke: "rgb(9, 109, 239)",
+        //         data: [48, 48, 49, 39, 86, 10]
+        //     }
         ]
     };
     var ctxl = $("#lineChartDemo").get(0).getContext("2d");
