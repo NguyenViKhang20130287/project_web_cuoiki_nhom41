@@ -85,9 +85,38 @@ public class APIServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
-            }else{
-
+            } else if (action.equals("getShippingCosts")) {
+                StringBuilder requestBody = new StringBuilder();
+                BufferedReader reader = request.getReader();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    requestBody.append(line);
+                }
+                JSONObject requestJson = new JSONObject(requestBody.toString());
+                String to_district_id = requestJson.getString("DistrictID");
+                System.out.println(to_district_id);
+                String to_ward_id = requestJson.getString("WardID");
+                result = APIHandler.shippingCosts(access_token, to_district_id, to_ward_id);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(result);
+            } else if (action.equals("registerTransports")) {
+                StringBuilder requestBody = new StringBuilder();
+                BufferedReader reader = request.getReader();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    requestBody.append(line);
+                }
+                JSONObject requestJson = new JSONObject(requestBody.toString());
+                String to_district_id = requestJson.getString("DistrictID");
+                System.out.println(to_district_id);
+                String to_ward_id = requestJson.getString("WardID");
+                result = APIHandler.registerTransports(access_token, to_district_id, to_ward_id);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(result);
             }
+
         }
     }
 }

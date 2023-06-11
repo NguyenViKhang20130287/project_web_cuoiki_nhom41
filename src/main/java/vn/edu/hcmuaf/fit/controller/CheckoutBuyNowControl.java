@@ -36,7 +36,8 @@ public class CheckoutBuyNowControl extends HttpServlet {
         String pass = request.getParameter("pass");
         String note = request.getParameter("note");
         String newAccount = request.getParameter("newAccount");
-        String payment = request.getParameter("payment");
+        String payment = request.getParameter("payment");int shippingCost = Integer.parseInt(request.getParameter("costs"));
+
         Account accSession = (Account) session.getAttribute("Account");
         String username = "";
         if (accSession != null) {
@@ -109,7 +110,7 @@ public class CheckoutBuyNowControl extends HttpServlet {
                 if (paymentMethod.equals("Tiền mặt")) {
                     statusId = 2;
                 }
-                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId);
+                checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId, shippingCost);
                 Map<Integer, CartItem> cartList = (Map<Integer, CartItem>) session.getAttribute("cart");
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;
@@ -118,7 +119,7 @@ public class CheckoutBuyNowControl extends HttpServlet {
                     } else {
                         price = entry.getValue().getProduct().getPrice();
                     }
-                    checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
+                    checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart, shippingCost)), price, entry.getValue().getQuantity());
                     if (cartList != null) {
                         if ((cartList.get(entry.getKey()).getQuantity()) > (entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity())) {
                             cartList.get(entry.getKey()).setQuantity(cartList.get(entry.getKey()).getQuantity() - entry.getValue().getQuantity());

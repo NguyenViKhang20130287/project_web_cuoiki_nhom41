@@ -94,7 +94,8 @@
                             <div class="item-1">
                                 <div class="input-text">
                                     <label for="lastName">Họ Và Tên<span style="color: red">*</span></label>
-                                    <input type="text" id="lastName" placeholder="Họ Và Tên" name="name">
+                                    <input type="text" id="lastName" placeholder="Họ Và Tên" name="name"
+                                           value="<%=accSession!=null?accSession.getFullName():""%>">
                                 </div>
                             </div>
                             <div class="item-1">
@@ -134,13 +135,15 @@
                                 <div class="item-1">
                                     <div class="input-text">
                                         <label for="mail">Địa Chỉ Email <span style="color: red">*</span></label>
-                                        <input type="email" id="mail" placeholder="Địa Chỉ Email" name="mail">
+                                        <input type="email" id="mail" placeholder="Địa Chỉ Email" name="mail"
+                                               value="<%=accSession!=null?accSession.getEmail():""%>">
                                     </div>
                                 </div>
                                 <div class="item-1">
                                     <div class="input-text">
                                         <label for="phone">Số Điện Thoại <span style="color: red">*</span></label>
-                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone">
+                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone"
+                                               value="<%=accSession!=null?accSession.getPhone():""%>">
                                     </div>
                                 </div>
                             </div>
@@ -250,12 +253,14 @@
                                     </tr>
                                     <tr class="cartSubtotal">
                                         <th>Phí Vận Chuyển</th>
-                                        <td><span class="amount"></span></td>
+                                        <td><span class="amount" id="costs"><%= numberFormat.format(0)%></span></td>
+                                        <input type="hidden" name="costs" id="shipping_costs">
                                     </tr>
                                     <tr class="order-total">
                                         <th style="border-bottom: none;">Tổng Đơn Hàng</th>
                                         <td style="border-bottom: none;"><strong><span
-                                                class="amount"><%= numberFormat.format(totalCart)%></span></strong>
+                                                class="amount"
+                                                id="total"><%= numberFormat.format(totalCart)%></span></strong>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -280,7 +285,7 @@
                                 <%
                                     }
                                 %>
-                                <button type="submit" class="place-order">ĐẶT HÀNG</button>
+                                <button type="submit" class="place-order" onclick="registerTransports()">ĐẶT HÀNG</button>
                             </div>
 
                         </div>
@@ -299,14 +304,6 @@
 
 <script src="js/jquery-3.6.1.min.js"></script>
 <script>
-    <%--fetch(`https://provinces.open-api.vn/api/?depth=2`)--%>
-    <%--    .then((data) => data.json())--%>
-    <%--    .then(data => {--%>
-    <%--        data.forEach(province => {--%>
-    <%--            const city = `<option value="${province.name}">${province.name}</option>`;--%>
-    <%--            document.querySelector("select#city").insertAdjacentHTML('beforeend', city);--%>
-    <%--        })--%>
-    <%--    })--%>
 
     function getAccessTokenFromStorage() {
         // Lấy access_token từ localStorage
@@ -361,7 +358,7 @@
                     // Gọi hàm getProvinces() sau khi đăng nhập thành công
                     getProvinces();
                 }
-                // Xử lý phản hồi
+                // // Xử lý phản hồi
                 checkAccessTokenValidity();
             });
     }
@@ -539,7 +536,6 @@
             .then(data => {
                 address();
                 const leadTime = data.data
-                console.log(leadTime)
                 const element = document.getElementById("transit_time");
 
                 leadTime.forEach(time => {
@@ -556,6 +552,76 @@
                     }
                     element.innerHTML = formattedDate;
                 })
+                getShippingCosts();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function getShippingCosts() {
+        const selectedDistrict = document.getElementById('district').value;
+        const selectedWard = document.getElementById('ward').value;
+        console.log(selectedWard)
+        const requestData = {
+            DistrictID: selectedDistrict,
+            WardID: selectedWard,
+        };
+        fetch('./api?action=getShippingCosts', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const costs = data.data;
+                const element = document.getElementById("costs");
+                let dong = Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'});
+                costs.forEach(item => {
+                    element.innerHTML = dong.format(item.service_fee);
+                })
+                let total = document.getElementById("total");
+                let totalAmount = parseInt(total.textContent.replace(/[.,₫]/g, ""));
+
+                let transit_cost = document.getElementById("costs");
+                let costAmount = parseInt(transit_cost.textContent.replace(/[.,₫]/g, ""));
+
+                let newTotalAmount = totalAmount + costAmount;
+
+                total.innerHTML = dong.format(newTotalAmount);
+
+                let inputElement = document.getElementById("shipping_costs");
+                inputElement.value = costAmount;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+    function registerTransports() {
+        const selectedDistrict = document.getElementById('district').value;
+        const selectedWard = document.getElementById('ward').value;
+        console.log(selectedWard)
+        const requestData = {
+            DistrictID: selectedDistrict,
+            WardID: selectedWard,
+        };
+        fetch('./api?action=registerTransports', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
             })
             .catch(error => {
                 console.error(error);
@@ -564,5 +630,5 @@
 
 </script>
 <script src="js/main.js"></script>
-<%--<script src="js/checkout.js"></script>--%>
+<script src="js/checkout.js"></script>
 </html>

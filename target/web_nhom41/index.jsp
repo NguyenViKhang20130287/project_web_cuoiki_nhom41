@@ -9,8 +9,8 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.CartDao" %>
-<%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Banner" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,7 +135,7 @@
             </div>
 
             <div class="body_page-trending-product-list">
-                <% List<Product> list = new HomeAdminDAO().getTop5();
+                <% List<Product> list = new AdminDAO().getTop5();
                     for (Product p : list) {
                 %>
                 <div class="body_page-trending-product-list-card">

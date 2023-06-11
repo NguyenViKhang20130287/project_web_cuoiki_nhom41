@@ -13,7 +13,7 @@ import java.util.Map;
 public class CheckoutDAO {
     DBConnect dbConnect = new DBConnect();
 
-    public int getTotalMoney(HashMap<Integer, CartItem> map) {
+    public int getTotalMoney(HashMap<Integer, CartItem> map, int shippingCost) {
         int result = 0;
         for (Map.Entry<Integer, CartItem> entry : map.entrySet()) {
 
@@ -26,7 +26,7 @@ public class CheckoutDAO {
 
             }
         }
-        return result;
+        return result + shippingCost;
     }
 
     public int getIdAddress(String streetAddress, String ward, String district, String city) {
@@ -148,7 +148,7 @@ public class CheckoutDAO {
         return result;
     }
 
-    public void addCheckout(String name, int idAdd, String mail, String phone, String note, HashMap<Integer, CartItem> map, String userId, String payment, int statusId) {
+    public void addCheckout(String name, int idAdd, String mail, String phone, String note, HashMap<Integer, CartItem> map, String userId, String payment, int statusId, int shippingCost) {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
@@ -157,7 +157,7 @@ public class CheckoutDAO {
                 dbConnect.ps = dbConnect.connection.prepareStatement(query_order);
 
 
-                int total = getTotalMoney(map);
+                int total = getTotalMoney(map, shippingCost);
                 dbConnect.ps.setString(1, name);
                 dbConnect.ps.setString(2, userId);
                 dbConnect.ps.setInt(3, idAdd);
