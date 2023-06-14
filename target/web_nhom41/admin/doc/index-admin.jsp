@@ -170,12 +170,7 @@
                     <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
                         <div class="info">
                             <h4>Tổng đơn hàng</h4>
-                            <p><b><%=new
-                                    AdminDAO()
-                                    .
-                                    getCountOrder
-                                            (
-                                            )%> đơn hàng</b></p>
+                            <p><b><%=new AdminDAO().getCountOrder()%> đơn hàng</b></p>
                             <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
                         </div>
                     </div>
@@ -185,12 +180,7 @@
                     <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
                         <div class="info">
                             <h4>Sắp hết hàng</h4>
-                            <p><b><%=new
-                                    AdminDAO()
-                                    .
-                                    getAboutOutOfStock
-                                            (
-                                            )%> sản phẩm</b></p>
+                            <p><b><%=new AdminDAO().getAboutOutOfStock()%> sản phẩm</b></p>
                             <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
                         </div>
                     </div>
@@ -211,108 +201,36 @@
                                 </thead>
                                 <tbody>
 
-                                <% List
-                                        <
-                                                OrderAdmin
-                                                >
-                                        list
-                                        =
-                                        new
-                                                AdminDAO()
-                                                .
-                                                getNewestOrder
-                                                        (
-                                                        );
-                                    for
-                                    (
-                                            OrderAdmin
-                                                    i
-                                            :
-                                            list
-                                    ) {
-
-
+                                <% List<OrderAdmin> list = new AdminDAO().getNewestOrder();
+                                    for (OrderAdmin i : list) {
                                 %>
                                 <tr>
-                                    <td><%=i
-                                            .
-                                            getId
-                                                    (
-                                                    ) %>
+                                    <td><%=i.getId() %>
                                     </td>
-                                    <td><%=i
-                                            .
-                                            getFullName
-                                                    (
-                                                    ) %>
+                                    <td><%=i.getFullName() %>
                                     </td>
                                     <td>
-                                        <%=numberFormat
-                                                .
-                                                format
-                                                        (
-                                                                i
-                                                                        .
-                                                                        getTotalMoney
-                                                                                (
-                                                                                )
-                                                        ) %>
+                                        <%=numberFormat.format(i.getTotalMoney() + i.getShippingCost()) %>
                                     </td>
 
                                     <td>
                                         <%
-                                            if
-                                            (
-                                                    i
-                                                            .
-                                                            getId_status
-                                                                    (
-                                                                    )
-                                                            ==
-                                                            1
-                                            ) {
+                                            if (i.getId_status() == 1) {
                                         %>
-                                        <span class="badge bg-warning">Đang giao hàng</span>
+                                        <span class="badge bg-warning">Chờ xác nhận</span>
                                         <%}%>
                                         <%
-                                            if
-                                            (
-                                                    i
-                                                            .
-                                                            getId_status
-                                                                    (
-                                                                    )
-                                                            ==
-                                                            2
-                                            ) {
+                                            if (i.getId_status() == 2) {
                                         %>
-                                        <span class="badge bg-info">Chờ thanh toán</span>
+                                        <span class="badge bg-info">Đang giao hàng</span>
                                         <%}%>
                                         <%
-                                            if
-                                            (
-                                                    i
-                                                            .
-                                                            getId_status
-                                                                    (
-                                                                    )
-                                                            ==
-                                                            3
-                                            ) {
+                                            if (i.getId_status() == 3) {
                                         %>
-                                        <span class="badge bg-success">Hoàn thành</span>
+                                        <span class="badge bg-success">Đã giao</span>
                                         <%}%>
                                         <%
-                                            if
-                                            (
-                                                    i
-                                                            .
-                                                            getId_status
-                                                                    (
-                                                                    )
-                                                            ==
-                                                            4
-                                            ) {
+                                            if (i.getId_status() == 4) {
                                         %>
                                         <span class="badge bg-danger">Đã hủy</span>
                                         <%}%>
@@ -342,51 +260,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% List
-                                        <
-                                                Account
-                                                >
-                                        listUser
-                                        =
-                                        new
-                                                AdminDAO()
-                                                .
-                                                getNewestUser
-                                                        (
-                                                        );
-                                    for
-                                    (
-                                            Account
-                                                    o
-                                            :
-                                            listUser
-                                    ) {
+                                <% List<Account> listUser = new AdminDAO().getNewestUser();
+                                    for (Account o : listUser) {
                                 %>
                                 <tr>
-                                    <td>#<%=o
-                                            .
-                                            getId
-                                                    (
-                                                    ) %>
+                                    <td>#<%=o.getId() %>
                                     </td>
-                                    <td><span class="tag tag-success"><%=o
-                                            .
-                                            getEmail
-                                                    (
-                                                    ) %></span></td>
-                                    <td><%=o
-                                            .
-                                            getUsername
-                                                    (
-                                                    )%>
+                                    <td><span class="tag tag-success"><%=o.getEmail() %></span></td>
+                                    <td><%=o.getUsername()%>
                                     </td>
-                                    <td><%=o
-                                            .
-                                            getPassword
-                                                    (
-                                                    ) %>
+                                    <td><%=o.getPassword() %>
                                     </td>
-
                                 </tr>
                                 <% } %>
                                 </tbody>
@@ -453,17 +337,17 @@
             // data: [20, 59, 90, 51, 56, 100]
             data: <%=new AdminDAO().get6MonthTotalRevenue()%>
         }
-        // ,
-        //     {
-        //         label: "Dữ liệu kế tiếp",
-        //         fillColor: "rgba(9, 109, 239, 0.651)  ",
-        //         pointColor: "rgb(9, 109, 239)",
-        //         strokeColor: "rgb(9, 109, 239)",
-        //         pointStrokeColor: "rgb(9, 109, 239)",
-        //         pointHighlightFill: "rgb(9, 109, 239)",
-        //         pointHighlightStroke: "rgb(9, 109, 239)",
-        //         data: [48, 48, 49, 39, 86, 10]
-        //     }
+            // ,
+            //     {
+            //         label: "Dữ liệu kế tiếp",
+            //         fillColor: "rgba(9, 109, 239, 0.651)  ",
+            //         pointColor: "rgb(9, 109, 239)",
+            //         strokeColor: "rgb(9, 109, 239)",
+            //         pointStrokeColor: "rgb(9, 109, 239)",
+            //         pointHighlightFill: "rgb(9, 109, 239)",
+            //         pointHighlightStroke: "rgb(9, 109, 239)",
+            //         data: [48, 48, 49, 39, 86, 10]
+            //     }
         ]
     };
     var ctxl = $("#lineChartDemo").get(0).getContext("2d");

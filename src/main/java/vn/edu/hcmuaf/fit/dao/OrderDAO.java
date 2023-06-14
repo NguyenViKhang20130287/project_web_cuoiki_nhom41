@@ -62,6 +62,7 @@ public class OrderDAO {
                 "\t`order`.id,\n" +
                 "\t`order`.full_name,\n" +
                 "\t`order`.order_total,\n" +
+                "\t`order`.shipping_cost,\n" +
                 "\torder_status.id,\n" +
                 "\torder_status.`status`,\n" +
                 "\t`order`.phone_number\n" +
@@ -73,6 +74,7 @@ public class OrderDAO {
                 "\t`order`.id,\n" +
                 "\t`order`.full_name,\n" +
                 "\t`order`.order_total,\n" +
+                "\t`order`.shipping_cost,\n" +
                 "\torder_status.id,\n" +
                 "\torder_status.`status`,\n" +
                 "\t`order`.phone_number";
@@ -86,8 +88,9 @@ public class OrderDAO {
                             getListProductInOrder(rs.getInt(1)),
                             rs.getInt(3),
                             rs.getInt(4),
-                            rs.getString(5),
-                            rs.getString(6)));
+                            rs.getInt(5),
+                            rs.getString(6),
+                            rs.getString(7)));
                 }
             }
         } catch (Exception e) {

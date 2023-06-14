@@ -25,6 +25,7 @@
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 </head>
@@ -193,7 +194,8 @@
                 </div>
                 <div class="row element-button">
                     <div class="col-sm-2">
-                        <a class="btn btn-excel btn-sm" href="writeExcelBestProductControl" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                        <a class="btn btn-excel btn-sm" href="writeExcelBestProductControl" title="In"><i
+                                class="fas fa-file-excel"></i> Xuất Excel</a>
                     </div>
                 </div>
                 <div class="tile-body">
@@ -235,7 +237,8 @@
                 </div>
                 <div class="row element-button">
                     <div class="col-sm-2">
-                        <a class="btn btn-excel btn-sm" href="writeExcelTotalRevenueControl" title="In1"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                        <a class="btn btn-excel btn-sm" href="writeExcelTotalRevenueControl" title="In1"><i
+                                class="fas fa-file-excel"></i> Xuất Excel</a>
                     </div>
                 </div>
                 <div class="tile-body" style="overflow-y:scroll; height: 450px;">
@@ -264,7 +267,7 @@
                                 <%}%></td>
                             <td><%=o.getPhone() %>
                             </td>
-                            <td><%=numberFormat.format(o.getTotalMoney()) %>
+                            <td><%=numberFormat.format(o.getTotalMoney()+o.getShippingCost()) %>
                             </td>
                         </tr>
                         <% } %>
@@ -312,12 +315,16 @@
                             <td><%= pa.getQuantity()%>
                             </td>
 
-                            <td><span class="badge bg-<%=pa.getQuantity() >0? "success" : "danger" %>"> <%= pa.getStatus()%> </span></td>
+                            <td><span
+                                    class="badge bg-<%=pa.getQuantity() >0? "success" : "danger" %>"> <%= pa.getStatus()%> </span>
+                            </td>
 
                             <%if (pa.getDiscount() == 0) {%>
-                            <td><%= numberFormat.format(pa.getPrice())%></td>
+                            <td><%= numberFormat.format(pa.getPrice())%>
+                            </td>
                             <%} else {%>
-                            <td><%= numberFormat.format(pa.getDiscount())%></td>
+                            <td><%= numberFormat.format(pa.getDiscount())%>
+                            </td>
                             <%}%>
 
                             <td><%= pa.getCategory()%>

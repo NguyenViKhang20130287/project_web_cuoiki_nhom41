@@ -27,9 +27,15 @@ public class CheckoutControl extends HttpServlet {
         HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String streetAddress = request.getParameter("streetAddress");
-        String ward = request.getParameter("ward");
-        String district = request.getParameter("district");
-        String city = request.getParameter("city");
+        String wardValue = request.getParameter("ward");
+        String[] wardParts = wardValue.split("-");
+        String ward = wardParts[1];
+        String districtValue = request.getParameter("district");
+        String[] districtParts = districtValue.split("-");
+        String district = districtParts[1];
+        String cityValue = request.getParameter("city");
+        String[] cityParts = cityValue.split("-");
+        String city = cityParts[1];
         String mail = request.getParameter("mail");
         String phone = request.getParameter("phone");
         String pass = request.getParameter("pass");
@@ -104,9 +110,9 @@ public class CheckoutControl extends HttpServlet {
                     idAdd = checkoutDAO.getIdAddress(streetAddress, ward, district, city);
                 }
                 int statusId = 1;
-                if (paymentMethod.equals("Tiền mặt")) {
-                    statusId = 2;
-                }
+//                if (paymentMethod.equals("Tiền mặt")) {
+//                    statusId = 2;
+//                }
                 checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId, shippingCost);
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;
@@ -115,7 +121,7 @@ public class CheckoutControl extends HttpServlet {
                     } else {
                         price = entry.getValue().getProduct().getPrice();
                     }
-                    checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart, shippingCost)), price, entry.getValue().getQuantity());
+                    checkoutDAO.addOrderDetail(entry.getKey(), checkoutDAO.getOrderID(name, checkoutDAO.getIdAddress(streetAddress, ward, district, city), mail, phone, checkoutDAO.getTotalMoney(cart)), price, entry.getValue().getQuantity());
                     checkoutDAO.updateQuantity(String.valueOf(entry.getKey()), entry.getValue().getProduct().getQuantity() - entry.getValue().getQuantity());
                 }
 

@@ -48,6 +48,7 @@
     String email = orderdetailDAO.getEmail(orderId);
     String orderDate = orderdetailDAO.getOrderDate(orderId);
     int total = orderdetailDAO.getTotal(orderId);
+    int shipping_cost = orderdetailDAO.getShippingCost(orderId);
     int statusId = orderdetailDAO.getStatusId(orderId);
     List<Product> listProduct = purchaseDAO.getListItem(orderId);
     Locale locale = new Locale("vi", "VN");
@@ -107,15 +108,22 @@
                     </p>
                 </div>
                 <div class="buttonContainer">
-                    <% if (statusId == 1) {%>
+                    <% if (statusId == 1 && !paymentMethod.equals("Tiền mặt")) {%>
                     <button onclick="payButton(<%=orderId%>)">Thanh toán</button>
                     <% }%>
-                    <% if (statusId < 3) {%>
+                    <% if (statusId == 1) {%>
                     <button id="cancelButton" onclick="showConfirm()">Hủy đơn hàng</button>
                     <div class="confirmCancel">
                         Xác nhận hủy?
                         <button class="confirmButton" onclick="cancelButton(<%=orderId%>)">Hủy</button>
                     </div>
+                    <% }%>
+                    <% if (statusId == 2) {%>
+                    <button id="cancelButton">Đã nhận hàng</button>
+<%--                    <div class="confirmCancel">--%>
+<%--                        Xác nhận đã nhận hàng?--%>
+<%--                        <button class="confirmButton">Hủy</button>--%>
+<%--                    </div>--%>
                     <% }%>
                 </div>
             </div>
@@ -168,10 +176,19 @@
                     </div>
                     <div class="totalRow">
                         <div class="totalLeft">
+                            <span>Phí vận chuyển</span>
+                        </div>
+                        <div class="totalRight">
+                            <div><%=numberFormat.format(shipping_cost)%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="totalRow">
+                        <div class="totalLeft">
                             <span>Thành tiền</span>
                         </div>
                         <div class="totalRight">
-                            <div><%=numberFormat.format(total)%>
+                            <div><%=numberFormat.format(total + shipping_cost)%>
                             </div>
                         </div>
                     </div>
@@ -194,7 +211,7 @@
 </div>
 
 <!-- footer page -->
-<%@include file="foooter.jsp"%>
+<%@include file="foooter.jsp" %>
 
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

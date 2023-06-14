@@ -13,7 +13,7 @@ import java.util.Map;
 public class CheckoutDAO {
     DBConnect dbConnect = new DBConnect();
 
-    public int getTotalMoney(HashMap<Integer, CartItem> map, int shippingCost) {
+    public int getTotalMoney(HashMap<Integer, CartItem> map) {
         int result = 0;
         for (Map.Entry<Integer, CartItem> entry : map.entrySet()) {
 
@@ -26,7 +26,7 @@ public class CheckoutDAO {
 
             }
         }
-        return result + shippingCost;
+        return result;
     }
 
     public int getIdAddress(String streetAddress, String ward, String district, String city) {
@@ -153,11 +153,10 @@ public class CheckoutDAO {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
 
-                String query_order = "INSERT INTO `order`(full_name,user_id,shipping_address,email,phone_number,order_date,order_total,payment_method,`status`) VALUES (?,?,?,?,?,NOW(),?,?,?)";
+                String query_order = "INSERT INTO `order`(full_name,user_id,shipping_address,email,phone_number,order_date,order_total,payment_method,`status`, shipping_cost) VALUES (?,?,?,?,?,NOW(),?,?,?,?)";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query_order);
 
-
-                int total = getTotalMoney(map, shippingCost);
+                int total = getTotalMoney(map);
                 dbConnect.ps.setString(1, name);
                 dbConnect.ps.setString(2, userId);
                 dbConnect.ps.setInt(3, idAdd);
@@ -166,6 +165,7 @@ public class CheckoutDAO {
                 dbConnect.ps.setInt(6, total);
                 dbConnect.ps.setString(7, payment);
                 dbConnect.ps.setInt(8, statusId);
+                dbConnect.ps.setInt(9, shippingCost);
                 dbConnect.ps.executeUpdate();
                 dbConnect.ps.close();
                 statement.close();
