@@ -285,7 +285,8 @@
                                 <%
                                     }
                                 %>
-                                <button type="submit" class="place-order" onclick="registerTransports()">ĐẶT HÀNG</button>
+                                <button type="submit" class="place-order">ĐẶT HÀNG
+                                </button>
                             </div>
 
                         </div>
@@ -395,7 +396,7 @@
                 // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
                 provinces.forEach(province => {
                     const optionElement = document.createElement('option');
-                    optionElement.value = province.ProvinceID;
+                    optionElement.value = `${province.ProvinceID}-${province.ProvinceName}`;
                     optionElement.textContent = province.ProvinceName;
                     selectElement.appendChild(optionElement);
                 });
@@ -409,6 +410,7 @@
         // Lấy giá trị provinceId từ thẻ tỉnh/thành phố
         const selectedProvince = document.getElementById('city').value;
         console.log(selectedProvince)
+        const [provinceID, provinceName] = selectedProvince.split('-');
 
         // Kiểm tra nếu không có tỉnh được chọn, không làm gì cả
         if (!selectedProvince) {
@@ -417,7 +419,7 @@
         fetch('./api?action=getDistricts', {
             headers: {
                 Authorization: 'Bearer ' + access_token,
-                ProvinceID: selectedProvince
+                ProvinceID: provinceID
             },
             method: 'GET',
         })
@@ -443,7 +445,7 @@
                 // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
                 districts.forEach(district => {
                     const optionElement = document.createElement('option');
-                    optionElement.value = district.DistrictID;
+                    optionElement.value = `${district.DistrictID}-${district.DistrictName}`;
                     optionElement.textContent = district.DistrictName;
                     selectElement.appendChild(optionElement);
                 });
@@ -457,6 +459,7 @@
         // Lấy giá trị provinceId từ thẻ tỉnh/thành phố
         const selectedDistrict = document.getElementById('district').value;
         console.log(selectedDistrict)
+        const [districtID, districtName] = selectedDistrict.split('-');
 
         // Kiểm tra nếu không có tỉnh được chọn, không làm gì cả
         if (!selectedDistrict) {
@@ -465,7 +468,7 @@
         fetch('./api?action=getWards', {
             headers: {
                 Authorization: 'Bearer ' + access_token,
-                DistrictID: selectedDistrict
+                DistrictID: districtID
             },
             method: 'GET',
         })
@@ -491,7 +494,7 @@
                 // Tạo và thêm các phần tử <option> dựa trên dữ liệu từ API
                 wards.forEach(ward => {
                     const optionElement = document.createElement('option');
-                    optionElement.value = ward.WardCode;
+                    optionElement.value = `${ward.WardCode}-${ward.WardName}`;
                     optionElement.textContent = ward.WardName;
                     selectElement.appendChild(optionElement);
                 });
@@ -518,10 +521,12 @@
     function getLeadTime() {
         const selectedDistrict = document.getElementById('district').value;
         const selectedWard = document.getElementById('ward').value;
+        const [districtID, districtName] = selectedDistrict.split('-');
+        const [wardID, wardName] = selectedWard.split('-');
         console.log(selectedWard)
         const requestData = {
-            DistrictID: selectedDistrict,
-            WardID: selectedWard,
+            DistrictID: districtID,
+            WardID: wardID,
         };
         fetch('./api?action=getLeadTime', {
             method: 'POST',
@@ -562,10 +567,12 @@
     function getShippingCosts() {
         const selectedDistrict = document.getElementById('district').value;
         const selectedWard = document.getElementById('ward').value;
+        const [districtID, districtName] = selectedDistrict.split('-');
+        const [wardID, wardName] = selectedWard.split('-');
         console.log(selectedWard)
         const requestData = {
-            DistrictID: selectedDistrict,
-            WardID: selectedWard,
+            DistrictID: districtID,
+            WardID: wardID,
         };
         fetch('./api?action=getShippingCosts', {
             method: 'POST',
@@ -602,13 +609,16 @@
                 console.error(error);
             });
     }
+
     function registerTransports() {
         const selectedDistrict = document.getElementById('district').value;
         const selectedWard = document.getElementById('ward').value;
+        const [districtID, districtName] = selectedDistrict.split('-');
+        const [wardID, wardName] = selectedWard.split('-');
         console.log(selectedWard)
         const requestData = {
-            DistrictID: selectedDistrict,
-            WardID: selectedWard,
+            DistrictID: districtID,
+            WardID: districtName,
         };
         fetch('./api?action=registerTransports', {
             method: 'POST',

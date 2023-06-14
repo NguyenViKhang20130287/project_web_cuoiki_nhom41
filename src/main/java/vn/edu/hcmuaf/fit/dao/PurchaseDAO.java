@@ -116,7 +116,7 @@ public class PurchaseDAO {
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT `order`.id,`order`.order_total,order_status.`status`\n" +
+                String query = "SELECT `order`.id,`order`.order_total,`order`.shipping_cost,order_status.`status`\n" +
                         "FROM `order` JOIN order_status ON order_status.id = `order`.`status`\n" +
                         "WHERE `order`.user_id = ?\n" +
                         "ORDER BY `order`.order_date DESC";
@@ -129,7 +129,8 @@ public class PurchaseDAO {
                             orderId,
                             getListItem(orderId),
                             rs.getInt(2),
-                            rs.getString(3)
+                            rs.getInt(3),
+                            rs.getString(4)
                     );
                     result.add(orderUser);
                 }
@@ -149,7 +150,7 @@ public class PurchaseDAO {
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT `order`.id,`order`.order_total,order_status.`status`\n" +
+                String query = "SELECT `order`.id,`order`.order_total,`order`.shipping_cost,order_status.`status`\n" +
                         "FROM `order` JOIN order_status ON order_status.id = `order`.`status`\n" +
                         "WHERE `order`.user_id = ? AND order_status.id = ?\n" +
                         "ORDER BY `order`.order_date DESC";
@@ -163,7 +164,8 @@ public class PurchaseDAO {
                             orderId,
                             getListItem(orderId),
                             rs.getInt(2),
-                            rs.getString(3)
+                            rs.getInt(3),
+                            rs.getString(4)
                     );
                     result.add(orderUser);
                 }

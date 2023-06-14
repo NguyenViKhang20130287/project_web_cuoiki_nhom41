@@ -309,4 +309,28 @@ public class orderdetailDAO {
         }
         return result;
     }
+
+    public int getShippingCost(int orderId) {
+        int result = 0;
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            String query = "SELECT `order`.shipping_cost\n" +
+                    "FROM `order`\n" +
+                    "WHERE `order`.id = ?";
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setInt(1, orderId);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    result = rs.getInt(1);
+                }
+                ps.close();
+                rs.close();
+                statement.close();
+            }
+        } catch (SQLException e) {
+
+        }
+        return result;
+    }
 }

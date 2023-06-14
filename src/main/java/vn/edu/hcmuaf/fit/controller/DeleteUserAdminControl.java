@@ -41,7 +41,6 @@ public class DeleteUserAdminControl extends HttpServlet {
                     "                            <tr>\n" +
                     "                                <td>" + u.getId() + "</td>\n" +
                     "                                <td>" + u.getUserName() + "</td>\n" +
-                    "                                <td>" + u.getPassword() + "</td>\n" +
                     "                                <td>" + u.getFullName() + "</td>\n" +
                     "                                <td>" + u.getEmail() + "</td>\n" +
                     "                                <td>" + u.getPhone() + "</td>\n" +

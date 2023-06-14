@@ -125,20 +125,26 @@ public class AdminDAO {
     }
 
     public void deleteUser(int uid) {
+        String query_del_uid_logs = "DELETE FROM `logs` WHERE `logs`.`user` = ?";
+        String query_del_uid_order_details = "DELETE FROM order_details WHERE order_details.order_id IN (SELECT id FROM `order` WHERE `order`.user_id = ?)";
         String query_del_uid_In_Order = "DELETE FROM `order` WHERE `order`.user_id = ?";
         String query_del_user = "DELETE FROM `user` WHERE `user`.id = ?";
 
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
+                PreparedStatement ps_logs = new DBConnect().getConnection().prepareStatement(query_del_uid_logs);
+                PreparedStatement ps_order_details = new DBConnect().getConnection().prepareStatement(query_del_uid_order_details);
                 PreparedStatement ps_order = new DBConnect().getConnection().prepareStatement(query_del_uid_In_Order);
                 PreparedStatement ps_user = new DBConnect().getConnection().prepareStatement(query_del_user);
 
+                ps_order_details.setInt(1, uid);
+                ps_order_details.executeUpdate();
                 ps_order.setInt(1, uid);
-
-                ps_user.setInt(1, uid);
-
                 ps_order.executeUpdate();
+                ps_logs.setInt(1, uid);
+                ps_logs.executeUpdate();
+                ps_user.setInt(1, uid);
                 ps_user.executeUpdate();
 
                 System.out.println("Delete Successfully");
@@ -750,7 +756,7 @@ public class AdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT COUNT(`order`.id) FROM `order`";
+                String query = "SELECT COUNT(`order`.id) FROM `order` WHERE `order`.`status` = 3";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 
@@ -852,6 +858,7 @@ public class AdminDAO {
                             dbConnect.rs.getInt(1),
                             dbConnect.rs.getString(4),
                             dbConnect.rs.getInt(8),
+                            dbConnect.rs.getInt(12),
                             dbConnect.rs.getInt(10));
                     result.add(orderAdmin);
                 }
@@ -932,10 +939,10 @@ public class AdminDAO {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
                 String query = "SELECT product.id, product.title,product.thumbnail,product.price,product.discount,  SUM(order_details.total_money)\n" +
-                        "FROM product JOIN order_details on product.id = order_details.product_id\n" +
+                        "FROM product JOIN order_details on product.id = order_details.product_id JOIN `order` on `order`.id = order_details.order_id\n" +
+                        "WHERE `order`.`status` = 3\n" +
                         "GROUP BY  product.id, product.title,product.thumbnail,product.price,product.discount\n" +
-                        "ORDER BY SUM(order_details.total_money) DESC\n" +
-                        "LIMIT 5";
+                        "ORDER BY SUM(order_details.total_money) DESC LIMIT 5";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 
@@ -1050,7 +1057,7 @@ public class AdminDAO {
     //
 
 
-    public ArrayList<Integer> get6MonthTotalRevenue(){
+    public ArrayList<Integer> get6MonthTotalRevenue() {
         ArrayList<Integer> total = new ArrayList<>();
         String query = "SELECT \n" +
                 "\tYEAR( `order`.order_date ),\n" +
@@ -1070,7 +1077,7 @@ public class AdminDAO {
                 PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
 
                 ResultSet rs = preparedStatement.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     total.add(rs.getInt(3));
                 }
                 rs.close();
@@ -1082,7 +1089,7 @@ public class AdminDAO {
         return total;
     }
 
-    public ArrayList<String> get6MonthLatest(){
+    public ArrayList<String> get6MonthLatest() {
         ArrayList<String> months = new ArrayList<>();
         String m = "Tháng ";
         String query = "SELECT \n" +
@@ -1102,7 +1109,7 @@ public class AdminDAO {
             if (statement != null) {
                 PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
                 ResultSet rs = preparedStatement.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     months.add(m + rs.getString(2));
                 }
                 rs.close();
@@ -1113,9 +1120,9 @@ public class AdminDAO {
         return months;
     }
 
-    public String test(){
+    public String test() {
         String x = "";
-        for(int i = 0; i < get6MonthLatest().size();i++){
+        for (int i = 0; i < get6MonthLatest().size(); i++) {
             x += get6MonthLatest().get(i) + ", ";
         }
         return x;
@@ -1124,7 +1131,7 @@ public class AdminDAO {
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println(new AdminDAO().test());
+        System.out.println(new AdminDAO().getNewestOrder());
 
 //        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
 //                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);

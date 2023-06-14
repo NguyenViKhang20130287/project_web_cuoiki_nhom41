@@ -8,17 +8,19 @@ public class OrderAdmin {
     String fullName;
     List<ProductAdmin> products;
     int totalMoney;
+    int shippingCost;
 
     int id_status;
     String status;
 
     String phone;
 
-    public OrderAdmin(int id, String fullName, List<ProductAdmin> products, int totalMoney, int id_status, String status, String phone) {
+    public OrderAdmin(int id, String fullName, List<ProductAdmin> products, int totalMoney, int shippingCost,  int id_status, String status, String phone) {
         this.id = id;
         this.fullName = fullName;
         this.products = products;
         this.totalMoney = totalMoney;
+        this.shippingCost = shippingCost;
         this.id_status = id_status;
         this.status = status;
         this.phone = phone;
@@ -89,6 +91,26 @@ public class OrderAdmin {
         this.phone = phone;
     }
 
+    public int getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(int shippingCost) {
+        this.shippingCost = shippingCost;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "OrderAdmin{" +
+//                "id=" + id +
+//                ", fullName='" + fullName + '\'' +
+//                ", products=" + products +
+//                ", totalMoney=" + totalMoney +
+//                ", status='" + status + '\'' +
+//                '}' + '\n';
+//    }
+
+
     @Override
     public String toString() {
         return "OrderAdmin{" +
@@ -96,16 +118,18 @@ public class OrderAdmin {
                 ", fullName='" + fullName + '\'' +
                 ", products=" + products +
                 ", totalMoney=" + totalMoney +
+                ", shippingCost=" + shippingCost +
+                ", id_status=" + id_status +
                 ", status='" + status + '\'' +
-                '}' + '\n';
+                ", phone='" + phone + '\'' +
+                '}';
     }
 
-
-
-    public OrderAdmin(int id, String fullName, int totalMoney, int id_status) {
+    public OrderAdmin(int id, String fullName, int totalMoney, int shippingCost, int id_status) {
         this.id = id;
         this.fullName = fullName;
         this.totalMoney = totalMoney;
+        this.shippingCost = shippingCost;
         this.id_status = id_status;
     }
 

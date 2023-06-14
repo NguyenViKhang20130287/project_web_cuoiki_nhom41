@@ -18,11 +18,11 @@ public class ChangeStatusDAO {
 
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
                 if (status >= 4) {
-                    dbConnect.ps.setInt(1, 1);
+                    return;
 
                 } else {
 
-                    dbConnect.ps.setInt(1, status+1);
+                    dbConnect.ps.setInt(1, status + 1);
                 }
                 dbConnect.ps.setInt(2, id);
                 dbConnect.ps.executeUpdate();

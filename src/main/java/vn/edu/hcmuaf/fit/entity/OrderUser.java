@@ -7,6 +7,7 @@ public class OrderUser {
     int id;
     List<Product> listItem;
     int total;
+    int shippingCost;
     String status;
     Date orderDate;
     Address address;
@@ -16,10 +17,11 @@ public class OrderUser {
     public OrderUser() {
     }
 
-    public OrderUser(int id, List<Product> listItem, int total, String status, Date orderDate, Address address, Account user, double promotion) {
+    public OrderUser(int id, List<Product> listItem, int total, int shippinp_cost, String status, Date orderDate, Address address, Account user, double promotion) {
         this.id = id;
         this.listItem = listItem;
         this.total = total;
+        this.shippingCost = shippinp_cost;
         this.status = status;
         this.orderDate = orderDate;
         this.address = address;
@@ -27,10 +29,11 @@ public class OrderUser {
         this.promotion = promotion;
     }
 
-    public OrderUser(int id, List<Product> listItem, int total, String status) {
+    public OrderUser(int id, List<Product> listItem, int total, int shipping_cost, String status) {
         this.id = id;
         this.listItem = listItem;
         this.total = total;
+        this.shippingCost = shipping_cost;
         this.status = status;
     }
 
@@ -96,6 +99,14 @@ public class OrderUser {
 
     public void setPromotion(double promotion) {
         this.promotion = promotion;
+    }
+
+    public int getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(int shippingCost) {
+        this.shippingCost = shippingCost;
     }
 
     public OrderUser(int id, int total, String status) {

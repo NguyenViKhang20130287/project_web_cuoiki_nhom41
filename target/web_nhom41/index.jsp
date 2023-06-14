@@ -162,7 +162,7 @@
             </div>
 
             <div class="body_page-trending-product-seeMoreBtn">
-                <button><a href="product">Xem thêm</a></button>
+                <button><a href="product?category_id=0">Xem thêm</a></button>
             </div>
 
         </div>

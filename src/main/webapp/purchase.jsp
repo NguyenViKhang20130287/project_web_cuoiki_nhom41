@@ -72,13 +72,13 @@
                 <a class="nav-link active" data-toggle="tab" href="#all">Tất cả(<%=listAll.size()%>)</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#toPay">Chờ thanh toán(<%=listToPay.size()%>)</a>
+                <a class="nav-link" data-toggle="tab" href="#toPay">Chờ xác nhận(<%=listToPay.size()%>)</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#toReceive">Đang giao hàng(<%=listToReceive.size()%>)</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#completed">Hoàn thành(<%=listComplete.size()%>)</a>
+                <a class="nav-link" data-toggle="tab" href="#completed">Đã giao(<%=listComplete.size()%>)</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#cancelled">Đã hủy(<%=listCancel.size()%>)</a>
@@ -129,7 +129,7 @@
                     <div class="orderPrice">
                         <span>
                         <i class="fa-solid fa-shield-halved"></i> Order Total: <p
-                                class="orderTotal"><%=numberFormat.format(listAll.get(i).getTotal()) %></p>
+                                class="orderTotal"><%=numberFormat.format(listAll.get(i).getTotal()+listAll.get(i).getShippingCost()) %></p>
                         </span>
                     </div>
                     <div class="orderButtonGroup">
@@ -186,7 +186,7 @@
                     <div class="orderPrice">
                         <span>
                         <i class="fa-solid fa-shield-halved"></i> Order Total: <p
-                                class="orderTotal"><%=numberFormat.format(listToPay.get(i).getTotal()) %></p>
+                                class="orderTotal"><%=numberFormat.format(listToPay.get(i).getTotal()+listToPay.get(i).getShippingCost()) %></p>
                         </span>
                     </div>
                     <div class="orderButtonGroup">
@@ -244,7 +244,7 @@
                     <div class="orderPrice">
                         <span>
                         <i class="fa-solid fa-shield-halved"></i> Order Total: <p
-                                class="orderTotal"><%=numberFormat.format(listToReceive.get(i).getTotal()) %></p>
+                                class="orderTotal"><%=numberFormat.format(listToReceive.get(i).getTotal()+listToReceive.get(i).getShippingCost()) %></p>
                         </span>
                     </div>
                     <div class="orderButtonGroup">
@@ -305,7 +305,7 @@
                     <div class="orderPrice">
                         <span>
                         <i class="fa-solid fa-shield-halved"></i> Order Total: <p
-                                class="orderTotal"><%=numberFormat.format(listComplete.get(i).getTotal()) %></p>
+                                class="orderTotal"><%=numberFormat.format(listComplete.get(i).getTotal()+listComplete.get(i).getShippingCost()) %></p>
                         </span>
                     </div>
                     <div class="orderButtonGroup">
@@ -321,7 +321,6 @@
                 %>
                 <h1>BẠN CHƯA CÓ ĐƠN NÀO</h1>
                 <% }%>
-
             </div>
             <div class="tab-pane container fade" id="cancelled">
                 <%--                đơn đã hủy--%>
@@ -366,7 +365,7 @@
                     <div class="orderPrice">
                         <span>
                         <i class="fa-solid fa-shield-halved"></i> Order Total: <p
-                                class="orderTotal"><%=numberFormat.format(listCancel.get(i).getTotal()) %></p>
+                                class="orderTotal"><%=numberFormat.format(listCancel.get(i).getTotal()+listCancel.get(i).getShippingCost()) %></p>
                         </span>
                     </div>
                     <div class="orderButtonGroup">

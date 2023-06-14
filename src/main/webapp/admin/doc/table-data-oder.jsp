@@ -3,6 +3,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.OrderAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -21,11 +23,12 @@
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 </head>
-
+<% Locale locale = new Locale("vi", "VN");
+    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale); %>
 <body onload="time()" class="app sidebar-mini rtl">
 <!-- Navbar-->
 <header class="app-header">
@@ -141,7 +144,8 @@
                                 Tạo mới đơn hàng</a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i
+                                    class="fas fa-file-excel"></i> Xuất Excel</a>
                         </div>
                     </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
@@ -180,17 +184,17 @@
 
                             <td><%=o.getPhone()%>
                             </td>
-                            <td><%=o.getTotalMoney()%>
+                            <td><%=numberFormat.format(o.getTotalMoney() + o.getShippingCost())%>
                             </td>
                             <td id="orderStatus">
                                 <%if (o.getId_status() == 1) {%>
-                                <span class="badge bg-warning">Đang giao hàng</span>
+                                <span class="badge bg-warning">Chờ xác nhận</span>
                                 <%}%>
                                 <%if (o.getId_status() == 2) {%>
-                                <span class="badge bg-info">Chờ thanh toán</span>
+                                <span class="badge bg-info">Đang giao hàng</span>
                                 <%}%>
                                 <%if (o.getId_status() == 3) {%>
-                                <span class="badge bg-success">Hoàn thành</span>
+                                <span class="badge bg-success">Đã giao</span>
                                 <%}%>
                                 <%if (o.getId_status() == 4) {%>
                                 <span class="badge bg-danger">Đã hủy</span>

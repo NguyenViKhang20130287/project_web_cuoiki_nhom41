@@ -379,7 +379,6 @@
                             <tr>
                                 <th>ID khách hàng</th>
                                 <th width="150">Tên đăng nhập</th>
-                                <th width="20">Mật khẩu</th>
                                 <th width="300">Họ và tên</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
