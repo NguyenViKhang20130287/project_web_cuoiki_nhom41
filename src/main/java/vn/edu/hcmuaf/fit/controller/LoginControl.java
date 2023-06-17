@@ -5,10 +5,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.dao.LogDAO;
 import vn.edu.hcmuaf.fit.dao.LoginDAO;
-import vn.edu.hcmuaf.fit.entity.Account;
-import vn.edu.hcmuaf.fit.entity.CartItem;
-import vn.edu.hcmuaf.fit.entity.Log;
-import vn.edu.hcmuaf.fit.entity.Product;
+import vn.edu.hcmuaf.fit.dao.ProductDAO;
+import vn.edu.hcmuaf.fit.entity.*;
 import vn.edu.hcmuaf.fit.service.AccountService;
 import vn.edu.hcmuaf.fit.service.LogService;
 
@@ -98,7 +96,9 @@ public class LoginControl extends HttpServlet {
                         for (CartItem item : cartItems) {
                             cart.put(item.getProduct().getId(), item);
                         }
+                        List<Favorite> favoriteList = new ProductDAO().getListFavoriteItem(account.getId());
                         session.setAttribute("cart", cart);
+                        session.setAttribute("favorite", favoriteList);
                         session.setMaxInactiveInterval(60 * 60 * 12 * 24);
                         logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Đăng nhập thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
 

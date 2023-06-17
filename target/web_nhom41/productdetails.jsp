@@ -72,6 +72,36 @@
             color: #fe9727;
         }
 
+        .favorite {
+            font-size: 25px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .favorite i {
+            color: #757575 !important;
+        }
+
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            color: #270;
+            background-color: #DFF2BF;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            animation: fadeOut 3s ease-in-out;
+            display: none;
+            /*width: 500px;*/
+            /*height: 50px;*/
+        }
+
+        #heartIcon.heart-red {
+            color: red !important;
+        }
+
     </style>
 
 </head>
@@ -201,6 +231,26 @@
                         <%}%>
                         <span><b><%=avg%></b></span>
                         <span>(<%=reviewList.size()%> đánh giá)</span>
+                        <%
+                            boolean isFavorite = false;
+                            if (session.getAttribute("Account") != null) {%>
+                        <%List<Favorite> favoriteProducts = (List<Favorite>) session.getAttribute("favorite");%>
+                        <%
+                            isFavorite = false;
+                            if (favoriteProducts != null) {
+                                List<Integer> favoriteProductIds = new ArrayList<>();
+                                for (Favorite favorite : favoriteProducts) {
+                                    int productId = favorite.getProduct().getId();
+                                    favoriteProductIds.add(productId);
+                                }
+                                isFavorite = favoriteProductIds != null && favoriteProductIds.contains(product.getId());
+                            }
+                        %>
+                        <%}%>
+                        <span onclick="addToFavorites(<%=isFavorite?"":product.getId()%>)" class="favorite"><i
+                                id="heartIcon"
+                                class="<%=isFavorite ? "fa-solid fa-heart heart-red" : "fa-regular fa-heart"%>"></i></span>
+                        <div id="messageDiv" class="notification"></div>
                     </div>
                     <% if (product.getDesign() != null) {%>
                     <span class="product_design mb_18">Thiết kế: <b><%=product.getDesign()%></b></span>
@@ -209,7 +259,7 @@
                         if (product.getQuantity() > 0) {
 
                     %>
-                    <span class="product_status mb_18">Tình trạng: <i>Còn hàng (<%=product.getQuantity() %>)</i></span>
+                    <span class="product_status mb_18">Tình trạng: <i>Còn hàng (<%=product.getQuantity()%>)</i></span>
                     <% } else { %>
                     <span class="product_status mb_18">Tình trạng: <i>Hết hàng</i></span>
                     <% } %>
@@ -218,12 +268,13 @@
                             <div style="margin-right: 15px; text-align: center">Số lượng</div>
                             <div class="wrapper">
                                 <span class="button minus">-</span>
-                                <input type="text" value="<%=product.getQuantity() > 0?1:0%>" class="number"
+                                <input type="text" value="<%=product.getQuantity() > 0 ? 1 : 0%>" class="number"
                                        id="number"
                                        onblur="checkQuantity(<%=product.getQuantity()%>)">
-                                <div id="remain" style="display: none"><%=product.getQuantity() %>
+                                <div id="remain" style="display: none"><%=product.getQuantity()%>
                                 </div>
-                                <div id="added" style="display: none"><%=cartList.get(product.getId()) != null ? cartList.get(product.getId()).getQuantity() : 0 %>
+                                <div id="added"
+                                     style="display: none"><%=cartList.get(product.getId()) != null ? cartList.get(product.getId()).getQuantity() : 0%>
                                 </div>
                                 <span class="button plus">+</span>
                             </div>
@@ -241,7 +292,8 @@
                             <%if (category.getId() == v.getCategory().getId()) {%>
                             <select class="select_size">
                                 <option>-- Vui lòng chọn --</option>
-                                <% List<VariationOption> variationOptionList = (List<VariationOption>) request.getAttribute("variationOptionList");
+                                <%
+                                    List<VariationOption> variationOptionList = (List<VariationOption>) request.getAttribute("variationOptionList");
                                     for (VariationOption vo : variationOptionList) {%>
                                 <option><%=vo.getValue()%>
                                 </option>
@@ -506,6 +558,46 @@
         $('.stars span').addClass('active');
         $("#hdrating").val($(this).text());
     });
+
+    function showNotification(message) {
+        var messageDiv = document.getElementById("messageDiv");
+        messageDiv.innerHTML = message;
+        messageDiv.style.display = "block";
+    }
+
+    function hideNotification() {
+        var messageDiv = document.getElementById("messageDiv");
+        messageDiv.style.display = "none";
+    }
+
+    function addToFavorites(idProduct) {
+        console.log(idProduct);
+        $.ajax({
+            url: "/web_nhom41_war/addtofavorites",
+            type: "post",
+            data: {
+                product_id: idProduct
+            },
+            success: function (data) {
+                if (data.includes("success")) {
+                    $("#heartIcon").removeClass("fa-regular").addClass("fa-solid");
+                    $("#heartIcon").addClass("heart-red");
+                    $(".favorite").attr("onclick", "");
+                    showNotification("Sản phẩm đã được thêm vào danh sách yêu thích!");
+                } else {
+                    showNotification(data);
+                }
+
+                // Tự động ẩn thông báo sau 3 giây
+                setTimeout(function () {
+                    hideNotification();
+                }, 3000);
+            },
+            error: function (xhr) {
+                // Xử lý lỗi (nếu có)
+            }
+        });
+    }
 </script>
 </html>
 

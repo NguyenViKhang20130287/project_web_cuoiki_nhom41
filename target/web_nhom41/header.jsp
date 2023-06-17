@@ -1,6 +1,8 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.CartItem" %>
-<%@ page import="java.util.HashMap" %><%--
+<%@ page import="java.util.HashMap" %>
+<%@ page import="vn.edu.hcmuaf.fit.entity.Favorite" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: ASUS
   Date: 4/16/2023
@@ -12,7 +14,7 @@
 <head>
     <style>
         .header_page-btns.non-reponsive {
-            /*display: flex;*/
+            display: flex;
             justify-content: space-between;
         }
 
@@ -74,6 +76,15 @@
 
         #box-admin-menu li:hover a {
             color: #bc8247;
+        }
+
+        .header_page-category {
+            padding: 0;
+            width: 55% !important;
+        }
+
+        .header_page-btns {
+            width: 45% !important;
         }
     </style>
 </head>
@@ -141,6 +152,10 @@
                     <button type="button" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i>Tìm
                         kiếm
                     </button>
+                    <% List<Favorite> listFavorites = (List<Favorite>) session.getAttribute("favorite");%>
+                    <button id="favoriteQuantity" type="button" class="favorite-btn"><a href="addtofavorites"><i
+                            class="fa-solid fa-heart"></i>Yêu thích(<%=listFavorites!= null ? listFavorites.size() : 0%>)</a>
+                    </button>
                     <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
                     <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ
                         hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
@@ -161,7 +176,7 @@
                     </div>
                     <% } else if ((Objects.equals(session.getAttribute("role"), "3"))) { %>
                     <div id="box-admin">
-                        <button><%= session.getAttribute("isSocial").equals(0)?session.getAttribute("username"):session.getAttribute("fullName") %>
+                        <button><%= session.getAttribute("isSocial").equals(0) ? session.getAttribute("username") : session.getAttribute("fullName") %>
                         </button>
                         <ul id="box-admin-menu">
                             <li><a href="accountSettings.jsp"><i class="fa-solid fa-user"></i>Thông tin</a></li>
