@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.db.DBConnect;
+import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Favorite;
 import vn.edu.hcmuaf.fit.entity.Product;
 
 import java.sql.*;
@@ -340,13 +342,52 @@ public class ProductDAO {
         }
         return list;
     }
+    public void addFavoriteProduct(Favorite favorite){
+        String query = "INSERT INTO favorites (product_id, user_id) VALUES (?, ?)";
+        try{
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                conn = DBConnect.getInstall().getConnection();
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, favorite.getProduct().getId());
+                ps.setInt(2, favorite.getAccount().getId());
+                ps.executeUpdate();
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public List<Favorite> getListFavoriteItem(int user_id) {
+        List<Favorite> list = new ArrayList<>();
+        String query = "SELECT* FROM favorites WHERE user_id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                conn = DBConnect.getInstall().getConnection();
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, user_id);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Favorite favorite = new Favorite();
+                    favorite.setProduct(new ProductDAO().getProduct(rs.getInt(2)));
+                    favorite.setAccount(new LoginDAO().getAccount(rs.getInt(3)));
+                    list.add(favorite);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
 
 
     public static void main(String[] args) {
 
         ProductDAO dao = new ProductDAO();
-        List<Product> list = dao.getAllProducts();
-        for (Product p : list) {
+        List<Favorite> list = dao.getListFavoriteItem(13);
+        for (Favorite p : list) {
             System.out.println(p);
         }
     }
