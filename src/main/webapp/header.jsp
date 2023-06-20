@@ -153,7 +153,7 @@
                         kiếm
                     </button>
                     <% List<Favorite> listFavorites = (List<Favorite>) session.getAttribute("favorite");%>
-                    <button id="favoriteQuantity" type="button" class="favorite-btn"><a href="addtofavorites"><i
+                    <button id="favoriteQuantity" type="button" class="favorite-btn"><a href="favorite.jsp"><i
                             class="fa-solid fa-heart"></i>Yêu thích(<%=listFavorites!= null ? listFavorites.size() : 0%>)</a>
                     </button>
                     <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>

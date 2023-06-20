@@ -54,14 +54,9 @@
             left: 0%;
             right: 0%;
         }
-
-        /*.page-item:first-child {*/
-        /*    display: none;*/
-        /*}*/
-
-        /*.page-item:last-child {*/
-        /*    display: block;*/
-        /*}*/
+        .page-item {
+            cursor: pointer;
+        }
 
         .hidden {
             display: none;
@@ -74,6 +69,10 @@
             -webkit-line-clamp: 2;
             overflow: hidden;
             margin-bottom: 4px;
+        }
+        .sidebar_widget-content ul .active a {
+            color: #ffffff;
+            padding: 3px;
         }
 
     </style>

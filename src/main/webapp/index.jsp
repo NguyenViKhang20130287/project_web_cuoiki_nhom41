@@ -78,15 +78,15 @@
         <div class="body_page-popular-product">
             <div class="body_page-popular-product-card">
                 <a href=""><img src="img/banner/banner-1.jpg" alt=""></a>
-                <button><a href="product">Khám phá ngay</a></button>
+                <button><a href="product?category_id=0">Khám phá ngay</a></button>
             </div>
             <div class="body_page-popular-product-card">
                 <a href=""><img src="img/banner/banner-2.jpg" alt=""></a>
-                <button><a href="product">Khám phá ngay</a></button>
+                <button><a href="product?category_id=0">Khám phá ngay</a></button>
             </div>
             <div class="body_page-popular-product-card">
                 <a href=""><img src="img/banner/banner-3.jpg" alt=""></a>
-                <button><a href="product">Khám phá ngay</a></button>
+                <button><a href="product?category_id=0">Khám phá ngay</a></button>
             </div>
         </div>
 
