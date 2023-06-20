@@ -94,12 +94,19 @@
             border: 1px solid #ccc;
             animation: fadeOut 3s ease-in-out;
             display: none;
-            /*width: 500px;*/
-            /*height: 50px;*/
         }
 
         #heartIcon.heart-red {
             color: red !important;
+        }
+
+        .card-title-price p {
+            height: 50px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            margin-bottom: 4px;
         }
 
     </style>
@@ -509,6 +516,9 @@
                             <a href=""><p><%=r.getTitle()%>
                             </p></a>
                             <span><%=numberFormat.format(r.getDiscount())%></span>
+                            <span style="margin-left: 10px; color: #6c6c6c"><strike>
+                                <%=numberFormat.format(r.getPrice())%>
+                            </strike></span>
                         </div>
                         <div class="card-btn">
                             <button><a href="product-detail?product_id=<%=r.getId()%>">Chi tiết</a></button>
@@ -571,6 +581,7 @@
     }
 
     function addToFavorites(idProduct) {
+        var favorites = document.getElementById("favoriteQuantity");
         console.log(idProduct);
         $.ajax({
             url: "/web_nhom41_war/addtofavorites",
@@ -579,13 +590,14 @@
                 product_id: idProduct
             },
             success: function (data) {
-                if (data.includes("success")) {
+                if (data === "login_required") {
+                    showNotification("Đăng nhập trước khi thêm sản phẩm vào danh sách yêu thích!");
+                } else {
+                    $("#favoriteQuantity").html(data);
                     $("#heartIcon").removeClass("fa-regular").addClass("fa-solid");
                     $("#heartIcon").addClass("heart-red");
                     $(".favorite").attr("onclick", "");
                     showNotification("Sản phẩm đã được thêm vào danh sách yêu thích!");
-                } else {
-                    showNotification(data);
                 }
 
                 // Tự động ẩn thông báo sau 3 giây

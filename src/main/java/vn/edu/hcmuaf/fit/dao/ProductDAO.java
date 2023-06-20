@@ -358,6 +358,22 @@ public class ProductDAO {
             throw new RuntimeException(e);
         }
     }
+    public void deleteFavoriteProduct(int product_id, int user_id) {
+        String query = "DELETE FROM favorites WHERE product_id =? AND user_id = ?";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                conn = DBConnect.getInstall().getConnection();
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, product_id);
+                ps.setInt(2, user_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Favorite> getListFavoriteItem(int user_id) {
         List<Favorite> list = new ArrayList<>();
         String query = "SELECT* FROM favorites WHERE user_id = ?";

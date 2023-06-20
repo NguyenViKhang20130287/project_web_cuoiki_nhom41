@@ -99,7 +99,7 @@
 
 </head>
 <body>
-<% List<Favorite> favoriteList = (List<Favorite>) request.getAttribute("favoriteList");
+<% List<Favorite> favoriteList = (List<Favorite>) session.getAttribute("favorite");
     Locale locale = new Locale("vi", "VN");
     NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);%>
 <%--header page--%>
@@ -143,7 +143,7 @@
                                             </a>
                                         </div>
                                         <div class="card-title-price">
-                                            <div class="delete-icon-circle">
+                                            <div onclick="deleteFavorites(<%=favorite.getProduct().getId()%>)" class="delete-icon-circle">
                                                 <i class="fas fa-trash"></i>
                                             </div>
                                             <p>
@@ -202,5 +202,34 @@
             }
         });
     }
+
+    function deleteFavorites(productId) {
+        console.log(productId);
+        $.ajax({
+            url: "/web_nhom41_war/deletefavorites",
+            type: "post",
+            data: {
+                product_id: productId
+            },
+            success: function (data) {
+                $("#products").html(data);
+                $.ajax({
+                    url: "/web_nhom41_war/deletefavorites",
+                    type: "get",
+                    data:{},
+                    success: function (data){
+                        $("#favoriteQuantity").html(data);
+                    },
+                    error: function (xhr) {
+                        //Do Something to handle error
+                    }
+                })
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        })
+    }
+
 </script>
 </html>
