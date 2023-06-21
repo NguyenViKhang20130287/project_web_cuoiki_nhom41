@@ -108,7 +108,9 @@
                         <ul class="header_page-category-sub-menu">
 
                             <% if (session.getAttribute("Account") != null) { %>
-                            <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                            <% if ((Objects.equals(session.getAttribute("role"), "0")) ||
+                                    (Objects.equals(session.getAttribute("role"), "1")) ||
+                                    (Objects.equals(session.getAttribute("role"), "2"))) { %>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
                             <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
@@ -144,7 +146,9 @@
                         hàng(<%=listCart != null ? listCart.size() : 0 %>)</a></button>
 
                     <% if (session.getAttribute("Account") != null) {%>
-                    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
+                    <% if ((Objects.equals(session.getAttribute("role"), "0")) ||
+                            (Objects.equals(session.getAttribute("role"), "1")) ||
+                            (Objects.equals(session.getAttribute("role"), "2"))) { %>
                     <div id="box-admin">
                         <button><%= session.getAttribute("username") %>
                         </button>
@@ -157,8 +161,9 @@
                     </div>
                     <% } else if ((Objects.equals(session.getAttribute("role"), "3"))) { %>
                     <div id="box-admin">
-                        <button><%= session.getAttribute("isSocial").equals(0)?session.getAttribute("username"):session.getAttribute("fullName") %>
-                        </button>
+                        <button><%= session.getAttribute("username") %>
+<%--                        <button><%= session.getAttribute("isSocial").equals(0)?session.getAttribute("username"):session.getAttribute("fullName") %>--%>
+<%--                        </button>--%>
                         <ul id="box-admin-menu">
                             <li><a href="accountSettings.jsp"><i class="fa-solid fa-user"></i>Thông tin</a></li>
                             <li><a href="LogoutControl"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
@@ -220,7 +225,9 @@
                         <div class="main-menu-content">
                             <ul>
                                 <% if (session.getAttribute("Account") != null) { %>
-                                <% if (Objects.equals(session.getAttribute("role"), "0")) { %>
+                                <% if ((Objects.equals(session.getAttribute("role"), "0")) ||
+                                        (Objects.equals(session.getAttribute("role"), "1")) ||
+                                        (Objects.equals(session.getAttribute("role"), "2"))) { %>
                                 <li><a href="LogoutControl" style="font-weight: normal">Đăng xuất</a></li>
                                 <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                                 <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>

@@ -1,4 +1,3 @@
-<%@ page import="vn.edu.hcmuaf.fit.dao.HomeAdminDAO" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.List" %>
@@ -7,6 +6,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.dao.OrderDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
+<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -60,9 +60,13 @@
         </div>
     </div>
     <hr>
+    <% if (session.getAttribute("Account") != null) { %>
+    <% if ((Objects.equals(session.getAttribute("role"), "0"))) { %>
     <ul class="app-menu">
-        <li><a class="app-menu__item " href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
         <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
                 class="app-menu__label">Quản lý khách hàng</span></a></li>
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
@@ -77,6 +81,53 @@
                 class="app-menu__label">Về trang chủ</span></a>
         </li>
     </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "1"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <li><a class="app-menu__item" href="ListProductAdminControl"><i
+                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
+        </li>
+        <%--        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span--%>
+        <%--                class="app-menu__label">Quản lý đơn hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item" href="quan-ly-bao-cao.jsp"><i--%>
+        <%--                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+
+    <%if ((Objects.equals(session.getAttribute("role"), "2"))) {%>
+    <ul class="app-menu">
+        <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
+            <span class="app-menu__label">Quản lý banner</span></a></li>
+<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
+        <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
+        <%--        </li>--%>
+        <li><a class="app-menu__item" href="ListOrderControl"><i class='app-menu__icon bx bx-task'></i><span
+                class="app-menu__label">Quản lý đơn hàng</span></a></li>
+        <li><a class="app-menu__item active" href="quan-ly-bao-cao.jsp"><i
+                class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
+        </li>
+        <li><a class="app-menu__item" href="../../home"><i class='app-menu__icon bx bx-user-circle'></i><span
+                class="app-menu__label">Về trang chủ</span></a>
+        </li>
+    </ul>
+    <%}%>
+    <%}%>
+
 </aside>
 <main class="app-content">
     <div class="row">
@@ -94,7 +145,7 @@
             <div class="widget-small info coloured-icon"><i class='icon bx bxs-purchase-tag-alt fa-3x'></i>
                 <div class="info">
                     <h4>Tổng sản phẩm</h4>
-                    <p><b><%=new HomeAdminDAO().getCountProduct()%> sản phẩm</b></p>
+                    <p><b><%=new AdminDAO().getCountProduct()%> sản phẩm</b></p>
                 </div>
             </div>
         </div>
@@ -102,7 +153,7 @@
             <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
                 <div class="info">
                     <h4>Tổng đơn hàng</h4>
-                    <p><b><%= new HomeAdminDAO().getCountOrder() %> đơn hàng</b></p>
+                    <p><b><%= new AdminDAO().getCountOrder() %> đơn hàng</b></p>
                 </div>
             </div>
         </div>
@@ -112,7 +163,7 @@
             <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart'></i>
                 <div class="info">
                     <h4>Tổng thu nhập</h4>
-                    <p><b><%=numberFormat.format(new HomeAdminDAO().getRevenue()) %>
+                    <p><b><%=numberFormat.format(new AdminDAO().getRevenue()) %>
                     </b></p>
                 </div>
             </div>
@@ -121,7 +172,7 @@
             <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-tag-x'></i>
                 <div class="info">
                     <h4>Hết hàng</h4>
-                    <p><b><%=new HomeAdminDAO().getOutOfStock() %> sản phẩm</b></p>
+                    <p><b><%=new AdminDAO().getOutOfStock() %> sản phẩm</b></p>
                 </div>
             </div>
         </div>
@@ -129,7 +180,7 @@
             <div class="widget-small danger coloured-icon"><i class='icon fa-3x bx bxs-receipt'></i>
                 <div class="info">
                     <h4>Đơn hàng hủy</h4>
-                    <p><b><%=new HomeAdminDAO().getBeCanceled() %> đơn hàng</b></p>
+                    <p><b><%=new AdminDAO().getBeCanceled() %> đơn hàng</b></p>
                 </div>
             </div>
         </div>
@@ -139,6 +190,11 @@
             <div class="tile">
                 <div>
                     <h3 class="tile-title">SẢN PHẨM BÁN CHẠY</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelBestProductControl" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
                 </div>
                 <div class="tile-body">
                     <table class="table table-hover table-bordered" id="sampleTable">
@@ -152,7 +208,7 @@
                         </thead>
                         <tbody>
 
-                        <% List<Product> list = new HomeAdminDAO().getTop5();
+                        <% List<Product> list = new AdminDAO().getTop5();
                             for (Product p : list) {
                         %>
                         <tr>
@@ -176,6 +232,11 @@
             <div class="tile">
                 <div>
                     <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelTotalRevenueControl" title="In1"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
                 </div>
                 <div class="tile-body" style="overflow-y:scroll; height: 450px;">
                     <table class="table table-hover table-bordered" id="sampleTable">
@@ -209,7 +270,7 @@
                         <% } %>
                         <tr>
                             <th colspan="4">Tổng cộng:</th>
-                            <td><%=numberFormat.format(new HomeAdminDAO().getRevenue()) %>
+                            <td><%=numberFormat.format(new AdminDAO().getRevenue()) %>
                             </td>
                         </tr>
                         </tbody>
@@ -239,7 +300,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% List<ProductAdmin> listPro = new HomeAdminDAO().getListOutOfStock();
+                        <% List<ProductAdmin> listPro = new AdminDAO().getListOutOfStock();
                             for (ProductAdmin pa : listPro) {
                         %>
                         <tr>
