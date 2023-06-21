@@ -1110,7 +1110,7 @@ public class AdminDAO {
                 PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
                 ResultSet rs = preparedStatement.executeQuery();
                 while (rs.next()) {
-                    months.add(m + rs.getString(2));
+                    months.add(rs.getString(2));
                 }
                 rs.close();
                 preparedStatement.close();
@@ -1118,6 +1118,27 @@ public class AdminDAO {
         } catch (Exception e) {
         }
         return months;
+    }
+
+    public String print6MonthLatest(){
+        ArrayList<String> monthList = get6MonthLatest(); // Gọi phương thức để lấy danh sách 6 tháng gần đây
+
+        StringBuilder sb = new StringBuilder(); // Sử dụng StringBuilder để xây dựng chuỗi kết quả
+        sb.append("["); // Thêm ký tự "[" vào đầu chuỗi
+
+        for (int i = 0; i < monthList.size(); i++) {
+            String month = monthList.get(i);
+            sb.append("\"Tháng ").append(month).append("\""); // Thêm tiền tố "tháng" vào mỗi phần tử
+            if (i < monthList.size() - 1) {
+                sb.append(", "); // Thêm dấu phẩy và khoảng trắng sau mỗi phần tử, trừ phần tử cuối cùng
+            }
+        }
+
+        sb.append("]"); // Thêm ký tự "]" vào cuối chuỗi
+        String result = sb.toString(); // Chuyển StringBuilder thành chuỗi kết quả
+
+//        System.out.println(result); //
+        return result;// In ra chuỗi kết quả
     }
 
     public String test() {
