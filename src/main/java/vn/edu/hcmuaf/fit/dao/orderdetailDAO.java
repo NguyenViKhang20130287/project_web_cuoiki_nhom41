@@ -266,6 +266,23 @@ public class orderdetailDAO {
 
         }
     }
+    public void confirmReceipt(int orderId){
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            String query = "UPDATE `order`\n" +
+                    "SET `order`.`status` = 3\n" +
+                    "WHERE `order`.id = ?";
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setInt(1, orderId);
+                ps.executeUpdate();
+                ps.close();
+                statement.close();
+            }
+        } catch (SQLException e) {
+
+        }
+    }
 
     public void updateQuantityAfterCancel(int productId, int quantity) {
         try {

@@ -1,6 +1,9 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
+import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -38,10 +41,14 @@ public class AddProductControl extends HttpServlet {
             String design = request.getParameter("design");
             File imgLink = new File(request.getParameter("ImageUpload"));
             String description = request.getParameter("mota");
+            LogService logService = LogService.getInstance();
+            HttpSession session = request.getSession();
+            Account account = (Account) session.getAttribute("Account");
 
             new AdminDAO().addProduct(id, nameProduct, nameGem,
                     quantity, category, color, price,
                     keyword, design, imgLink, description);
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm một sản phẩm mới vào kho hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
 
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Thêm sản phẩm thành công');");

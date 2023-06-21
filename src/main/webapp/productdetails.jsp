@@ -140,7 +140,7 @@
         </li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
         <% Category category = (Category) request.getAttribute("categoryByProductId");%>
-        <li class="second"><a href="category?category_id=<%=category.getId()%>"><%=category.getName()%>
+        <li class="second"><a href="product?category_id=<%=category.getId()%>"><%=category.getName()%>
         </a></li>
         <span><i class="fa-solid fa-chevron-right"></i></span>
         <li><a href="product-detail?product_id=<%=product.getId()%>"><%=product.getTitle()%>

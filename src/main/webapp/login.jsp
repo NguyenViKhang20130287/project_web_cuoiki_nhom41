@@ -150,7 +150,7 @@
                     <a href="#" class="twitter">
                         <span class="icon-twitter mr-3"><i class="fa-brands fa-twitter"></i></span>
                     </a>
-                    <a href="https://accounts.google.com/o/oauth2/auth?scope=profile+email&redirect_uri=http://localhost:8080/web_nhom41_war/LoginGoogleControl&response_type=code
+                    <a href="https://accounts.google.com/o/oauth2/auth?scope=profile+email&redirect_uri=https://redirectmeto.com/http://192.168.65.100:8080/web_nhom41_war/LoginGoogleControl&response_type=code
                         &client_id=221698755693-ir2i1mmqa9qkd406ucche62utjtf5l4v.apps.googleusercontent.com&approval_prompt=force" class="google">
                         <span class="icon-google mr-3"><i class="fa-brands fa-google"></i></span>
                     </a>

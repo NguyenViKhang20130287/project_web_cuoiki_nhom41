@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.Favorite;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.entity.Product;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -38,6 +40,8 @@ public class DeleteFavoriteControl extends HttpServlet {
         Account account = (Account) session.getAttribute("Account");
         int product_id = Integer.parseInt(request.getParameter("product_id"));
         new ProductDAO().deleteFavoriteProduct(product_id, account.getId());
+        LogService logService = LogService.getInstance();
+        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Xoá sản phẩm " + product_id + " ra khỏi danh sách yêu thích", 0, logService.getIpClient(request), logService.getBrowserName(request)));
         List<Favorite> listFavorites = (List<Favorite>) session.getAttribute("favorite");
 
         Favorite favoriteToRemove = null;

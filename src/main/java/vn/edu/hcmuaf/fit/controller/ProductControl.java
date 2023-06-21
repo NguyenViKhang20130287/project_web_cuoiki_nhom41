@@ -44,9 +44,6 @@ public class ProductControl extends HttpServlet {
         // Danh sách màu đá quý
         List<Color> colorList = galleryDAO.getListGemColor();
 
-
-//        request.setAttribute("endP", endPage);
-//        request.setAttribute("tag", index);
         request.setAttribute("activeCate", category_id);
         request.setAttribute("mainCategoryList", mainCategoryList);
         request.setAttribute("productList", productList);

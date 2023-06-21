@@ -2,10 +2,7 @@ package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import vn.edu.hcmuaf.fit.dao.AccountDAO;
-import vn.edu.hcmuaf.fit.dao.CartDao;
-import vn.edu.hcmuaf.fit.dao.LoginDAO;
-import vn.edu.hcmuaf.fit.dao.RegisterDAO;
+import vn.edu.hcmuaf.fit.dao.*;
 import vn.edu.hcmuaf.fit.entity.*;
 
 import javax.servlet.http.HttpServlet;
@@ -91,6 +88,8 @@ public class LoginGoogleControl extends HttpServlet {
                 for (CartItem item : cartItems) {
                     cart.put(item.getProduct().getId(), item);
                 }
+                List<Favorite> favoriteList = new ProductDAO().getListFavoriteItem(account.getId());
+                session.setAttribute("favorite", favoriteList);
                 session.setAttribute("cart", cart);
             }
 
@@ -112,6 +111,8 @@ public class LoginGoogleControl extends HttpServlet {
             for (CartItem item : cartItems) {
                 cart.put(item.getProduct().getId(), item);
             }
+            List<Favorite> favoriteList = new ProductDAO().getListFavoriteItem(account.getId());
+            session.setAttribute("favorite", favoriteList);
             session.setAttribute("cart", cart);
         }
         response.sendRedirect("home");

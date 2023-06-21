@@ -8,7 +8,6 @@ function showConfirm() {
         if (cancelButtonStatus == 1) {
             document.querySelector(".confirmCancel").style.display = "none";
             cancelButtonStatus = 0;
-
         }
     }
 }
@@ -32,37 +31,6 @@ function payButton(orderId) {
                 success: function (data) {
                     buttonContainer.innerHTML = data;
 
-                },
-                error: function (xhr) {
-                    //Do Something to handle error
-                }
-            });
-
-        },
-        error: function (xhr) {
-            //Do Something to handle error
-        }
-    });
-}
-
-function cancelButton(orderId) {
-    var status = document.querySelector(".orderStatus");
-    var buttonContainer = document.querySelector(".buttonContainer");
-    $.ajax({
-        url: "/web_nhom41_war/CancelButtonControl",
-        type: "post",
-        data: {
-            orderId: orderId,
-        },
-        success: function (data) {
-            status.innerHTML = data;
-            $.ajax({
-                url: "/web_nhom41_war/CancelButtonControl",
-                type: "get",
-                success: function (data) {
-                    buttonContainer.innerHTML = data;
-                    document.querySelector(".confirmCancel").style.display = "none";
-                    cancelButtonStatus = 0;
                 },
                 error: function (xhr) {
                     //Do Something to handle error

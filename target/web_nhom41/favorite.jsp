@@ -109,7 +109,7 @@
     <h1>Sản phẩm yêu thích</h1>
 </div>
 <div class="body_page-menu">
-    <ul>
+    <ul style="align-items: center">
         <li><a href="home">
             <i class="fa-solid fa-house"></i>
             Trang chủ</a>
@@ -133,6 +133,7 @@
                              aria-labelledby="pills-grid">
                             <div class="row " id="products">
                                 <%if (session.getAttribute("Account") != null) {%>
+                                <%if (favoriteList.size() != 0) {%>
                                 <%for (Favorite favorite : favoriteList) {%>
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="body_page-trending-product-list-card">
@@ -143,7 +144,8 @@
                                             </a>
                                         </div>
                                         <div class="card-title-price">
-                                            <div onclick="deleteFavorites(<%=favorite.getProduct().getId()%>)" class="delete-icon-circle">
+                                            <div onclick="deleteFavorites(<%=favorite.getProduct().getId()%>)"
+                                                 class="delete-icon-circle">
                                                 <i class="fas fa-trash"></i>
                                             </div>
                                             <p>
@@ -160,6 +162,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <%}%>
+                                <%} else {%>
+                                <div class="m-auto">Bạn chưa có sản phẩm yêu thích nào.</div>
                                 <%}%>
                                 <%} else {%>
                                 <div class="m-auto">Bạn chưa đăng nhập tài khoản.</div>
@@ -216,8 +221,8 @@
                 $.ajax({
                     url: "/web_nhom41_war/deletefavorites",
                     type: "get",
-                    data:{},
-                    success: function (data){
+                    data: {},
+                    success: function (data) {
                         $("#favoriteQuantity").html(data);
                     },
                     error: function (xhr) {

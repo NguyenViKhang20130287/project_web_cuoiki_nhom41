@@ -65,13 +65,14 @@ public class LoginControl extends HttpServlet {
             if (account != null) {
                 String hashedPassword = account.getPassword();
                 if (!BCrypt.checkpw(pass, hashedPassword)) {
-                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Đăng nhập thất bại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+                    logService.insertNewLog(new Log(Log.WARNING, account.getId(), this.getClass().getName(), "Đăng nhập thất bại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                     int countFails = logService.countLoginFail(account.getId());
                     if (countFails < 5) {
                         request.setAttribute("error", "Mật khẩu không chính xác. Người dùng lưu ý: Tài khoản sẽ bị khóa nếu nhập sai mật khẩu 5 lần trở lên.");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     } else {
                         accountService.lockUser(account.getId());
+                        logService.insertNewLog(new Log(Log.DANGER, account.getId(), this.getClass().getName(), "Tài khoản có tên đăng nhập: "+account.getUsername()+" đã bị khóa sau nhiều lần đăng nhập thất bại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                         request.setAttribute("error", "Tài khoản của bạn đã bị khóa.");
                         request.getRequestDispatcher("login.jsp").forward(request, response);
                     }

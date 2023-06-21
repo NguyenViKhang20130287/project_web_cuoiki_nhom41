@@ -278,7 +278,6 @@ html a:hover {
 }
 
 .buttonContainer .confirmCancel .confirmButton {
-    width: 70px;
     margin: 0;
     margin-top: 10px;
     align-self: end;

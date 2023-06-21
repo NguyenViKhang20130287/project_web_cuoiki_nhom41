@@ -48,14 +48,14 @@ public class UpdatePasswordControl extends HttpServlet {
             Account account = loginDAO.getAccount(username);
             if (!BCrypt.checkpw(old_password, account.getPassword())) {
                 request.setAttribute("error", "Mật khẩu cũ không đúng");
-                logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật thông tin thất bại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+                logService.insertNewLog(new Log(Log.WARNING, account.getId(), this.getClass().getName(), "Nhập sai mật khẩu hiện tại", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 request.getRequestDispatcher("accountSettings.jsp").forward(request, response);
                 return;
             }
             String hashedPassword = accountService.hashPassword(new_password);
             AccountDAO accountDAO = new AccountDAO();
             accountDAO.updatePassword(hashedPassword, username);
-            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật thông tin thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Cập nhật mật khẩu mới thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             request.setAttribute("success", "Đổi mật khẩu thành công");
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Đổi mật khẩu thành công');");

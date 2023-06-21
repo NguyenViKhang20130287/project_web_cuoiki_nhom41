@@ -77,14 +77,11 @@ public class AddToCartControl extends HttpServlet {
                 if (quantity != null) {
                     cartItem = new CartItem(product, Integer.parseInt(quantity), account);
                     new CartDao().addCartItem(cartItem);
-//                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 } else {
                     cartItem = new CartItem(product, 1, account);
                     new CartDao().addCartItem(cartItem);
-//                    logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 }
                 cart.put(Integer.valueOf(idProduct), cartItem);
-//                logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm vào giỏ hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             } else {
                 if (cart.containsKey(Integer.parseInt(idProduct))) {
                     cartItem = cart.get(Integer.parseInt(idProduct));

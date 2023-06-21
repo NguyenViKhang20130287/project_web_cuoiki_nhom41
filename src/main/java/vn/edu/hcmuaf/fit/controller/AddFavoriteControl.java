@@ -1,9 +1,12 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.dao.LogDAO;
 import vn.edu.hcmuaf.fit.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.Favorite;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.entity.Product;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -32,9 +35,11 @@ public class AddFavoriteControl extends HttpServlet {
         int product_id = Integer.parseInt(request.getParameter("product_id"));
         Product product = productDAO.getProduct(product_id);
         Favorite favorite;
+        LogService logService = LogService.getInstance();
         if (account != null) {
             favorite = new Favorite(product, account);
             new ProductDAO().addFavoriteProduct(favorite);
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm sản phẩm mã " + product_id + " vào danh sách yêu thích", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             List<Favorite> listFavorites = (List<Favorite>) session.getAttribute("favorite");
 
             if (listFavorites == null) {

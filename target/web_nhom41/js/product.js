@@ -21,48 +21,7 @@ priceInput.forEach(input => {
         }
     });
 });
-// const
-// = () => {
-//     let rs = ``
-//     arrProduct.map((tmp) => {
-//         let dis = tmp.discount.toLocaleString('vi-VN', {
-//             style: 'currency',
-//             currency: 'VND'
-//         })
-//         let price = tmp.price.toLocaleString('vi-VN', {
-//             style: 'currency',
-//             currency: 'VND'
-//         })
-//         rs += `
-//                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
-//     <div class="body_page-trending-product-list-card">
-//         <div class="card-image">
-//             <a href="product-detail?product_id=${tmp.id}"><img src="${tmp.thumbnail}" alt=""></a>
-//         </div>
-//         <div class="card-title-price">
-//             <p>
-//                 ${tmp.title}
-//             </p>
-//             <span>
-//
-//                 ${dis}
-//             </span>
-//             <span style="margin-left: 10px; color: #6c6c6c"><strike>
-//                 ${price}
-//                 </strike></span>
-//         </div>
-//         <div class="card-btn">
-//             <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
-//             </button>
-//             <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
-//         </div>
-//     </div>
-// </div>
-//                             `
-//     })
-//     document.getElementById("products").innerHTML = rs
-//
-// }
+
 rangeInput.forEach(input => {
     input.addEventListener("mouseleave", e => {
         if (priceFilter != e.target.value) {
