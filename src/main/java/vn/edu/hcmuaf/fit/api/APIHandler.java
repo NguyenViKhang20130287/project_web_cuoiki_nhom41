@@ -53,7 +53,6 @@ public class APIHandler {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
-//            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
             HttpResponse response = client.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -98,7 +97,6 @@ public class APIHandler {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
-//            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 
             HttpResponse response = client.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
@@ -119,11 +117,9 @@ public class APIHandler {
             HttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
 
-            // Thiết lập header
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setHeader(HttpHeaders.ACCEPT, "application/json");
 
-            // Tạo đối tượng JSON để chứa thông tin yêu cầu
             JSONObject requestJson = new JSONObject();
             requestJson.put("from_district_id", from_district_id);
             requestJson.put("from_ward_id", from_ward_id);
@@ -134,11 +130,9 @@ public class APIHandler {
             requestJson.put("width", "100");
             requestJson.put("weight", "100");
 
-            // Gán dữ liệu yêu cầu vào body của POST request
             StringEntity requestBody = new StringEntity(requestJson.toString());
             httpPost.setEntity(requestBody);
 
-            // Gửi yêu cầu POST
             HttpResponse response = client.execute(httpPost);
             HttpEntity responseEntity = response.getEntity();
 
@@ -196,11 +190,9 @@ public class APIHandler {
             HttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
 
-            // Thiết lập header
             httpPost.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
             httpPost.setHeader(HttpHeaders.ACCEPT, "application/json");
 
-            // Tạo đối tượng JSON để chứa thông tin yêu cầu
             JSONObject requestJson = new JSONObject();
             requestJson.put("from_district_id", from_district_id);
             requestJson.put("from_ward_id", from_ward_id);
@@ -211,11 +203,9 @@ public class APIHandler {
             requestJson.put("width", "100");
             requestJson.put("weight", "100");
 
-            // Gán dữ liệu yêu cầu vào body của POST request
             StringEntity requestBody = new StringEntity(requestJson.toString());
             httpPost.setEntity(requestBody);
 
-            // Gửi yêu cầu POST
             HttpResponse response = client.execute(httpPost);
             HttpEntity responseEntity = response.getEntity();
 

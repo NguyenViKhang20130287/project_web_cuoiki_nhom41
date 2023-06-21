@@ -124,7 +124,7 @@
                                     (Objects.equals(session.getAttribute("role"), "2"))) { %>
                             <li><a href="cart.jsp" style="font-weight: normal">Giỏ hàng</a></li>
                             <li><a href="about.jsp" style="font-weight: normal">Giới thiệu</a></li>
-                            <%--                            <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>--%>
+                            <li><a href="purchase.jsp" style="font-weight: normal">Đơn mua</a></li>
                             <li><a href="admin/doc/index-admin.jsp" style="font-weight: normal">Quản lý website</a></li>
 
                             <% } else if ((Objects.equals(session.getAttribute("role"), "3"))) { %>
@@ -154,7 +154,8 @@
                     </button>
                     <% List<Favorite> listFavorites = (List<Favorite>) session.getAttribute("favorite");%>
                     <button id="favoriteQuantity" type="button" class="favorite-btn"><a href="favorite.jsp"><i
-                            class="fa-solid fa-heart"></i>Yêu thích(<%=listFavorites!= null ? listFavorites.size() : 0%>)</a>
+                            class="fa-solid fa-heart"></i>Yêu
+                        thích(<%=listFavorites != null ? listFavorites.size() : 0%>)</a>
                     </button>
                     <% HashMap<Integer, CartItem> listCart = (HashMap<Integer, CartItem>) session.getAttribute("cart"); %>
                     <button id="cartQuantity"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i>Giỏ

@@ -26,6 +26,12 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/orderdetail.css">
     <title>Chi tiết đơn hàng</title>
+    <style>
+        .confirmButton{
+            width: fit-content !important;
+            padding: 10px !important;
+        }
+    </style>
 
 </head>
 
@@ -115,15 +121,15 @@
                     <button id="cancelButton" onclick="showConfirm()">Hủy đơn hàng</button>
                     <div class="confirmCancel">
                         Xác nhận hủy?
-                        <button class="confirmButton" onclick="cancelButton(<%=orderId%>)">Hủy</button>
+                        <button class="confirmButton" onclick="cancelButton(<%=orderId%>)">Xác nhận</button>
                     </div>
                     <% }%>
                     <% if (statusId == 2) {%>
-                    <button id="cancelButton">Đã nhận hàng</button>
-<%--                    <div class="confirmCancel">--%>
-<%--                        Xác nhận đã nhận hàng?--%>
-<%--                        <button class="confirmButton">Hủy</button>--%>
-<%--                    </div>--%>
+                    <button id="cancelButton" onclick="showConfirm()">Đã nhận hàng</button>
+                    <div class="confirmCancel">
+                        Xác nhận đã nhận hàng?
+                        <button class="confirmButton" onclick="confirmReceipt(<%=orderId%>)">Xác nhận</button>
+                    </div>
                     <% }%>
                 </div>
             </div>
@@ -217,5 +223,67 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/orderdetail.js"></script>
+<script>
+    function cancelButton(orderId) {
+        var status = document.querySelector(".orderStatus");
+        var buttonContainer = document.querySelector(".buttonContainer");
+        $.ajax({
+            url: "/web_nhom41_war/CancelButtonControl?action=cancel",
+            type: "post",
+            data: {
+                orderId: orderId,
+            },
+            success: function (data) {
+                status.innerHTML = data;
+                $.ajax({
+                    url: "/web_nhom41_war/CancelButtonControl?action=cancel",
+                    type: "get",
+                    success: function (data) {
+                        buttonContainer.innerHTML = data;
+                        document.querySelector(".confirmCancel").style.display = "none";
+                        cancelButtonStatus = 0;
+                    },
+                    error: function (xhr) {
+                        //Do Something to handle error
+                    }
+                });
+
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+    function confirmReceipt(orderId){
+        var status = document.querySelector(".orderStatus");
+        var buttonContainer = document.querySelector(".buttonContainer");
+        $.ajax({
+            url: "/web_nhom41_war/CancelButtonControl?action=confirm",
+            type: "post",
+            data: {
+                orderId: orderId,
+            },
+            success: function (data) {
+                status.innerHTML = data;
+                $.ajax({
+                    url: "/web_nhom41_war/CancelButtonControl?action=confirm",
+                    type: "get",
+                    success: function (data) {
+                        buttonContainer.innerHTML = data;
+                        document.querySelector(".confirmCancel").style.display = "none";
+                        cancelButtonStatus = 0;
+                    },
+                    error: function (xhr) {
+                        //Do Something to handle error
+                    }
+                });
+
+            },
+            error: function (xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+</script>
 </body>
 </html>

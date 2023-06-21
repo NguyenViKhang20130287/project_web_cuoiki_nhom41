@@ -756,7 +756,7 @@ public class AdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT COUNT(`order`.id) FROM `order` WHERE `order`.`status` = 3";
+                String query = "SELECT COUNT(`order`.id) FROM `order`";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 

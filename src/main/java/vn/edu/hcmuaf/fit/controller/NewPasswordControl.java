@@ -38,7 +38,7 @@ public class NewPasswordControl extends HttpServlet {
             } else {
                 if (accountService.validatePassword(newPassword)) {
                     new ForgotPasswordDAO().changePassword(userId, accountService.hashPassword(newPassword));
-                    logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), "Đổi mật khẩu mới", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+                    logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), "Đổi mật khẩu mới thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Đổi mật khẩu thành công');");
                     out.println("location='LoginControl';");

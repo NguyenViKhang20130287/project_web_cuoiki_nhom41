@@ -42,7 +42,7 @@ public class AccountSettingControl extends HttpServlet {
             session.setAttribute("full_name", full_name);
             session.setAttribute("email_update", email);
             session.setAttribute("phone_number", phone_number);
-            logService.insertNewLog(new Log(Log.INFO, account.getId(),this.getClass().getName(),"Cập nhật thông tin thành công", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Người dùng có tên đăng nhập: " + account.getUsername() + " đã thay đổi thông tin tài khoản", 0, logService.getIpClient(request), logService.getBrowserName(request)));
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Cập nhật thông tin thành công');");
             out.println("location='/web_nhom41_war/accountSettings.jsp';");

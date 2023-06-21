@@ -112,6 +112,9 @@
             border-radius: 100%;
             border: 5px solid #fff;
         }
+        .nav-pills .nav-link.active{
+            background-color: #bc8247!important;
+        }
 
 
     </style>
@@ -207,7 +210,7 @@
                                 </div>
                             </div>
                             <div>
-                                <button id="updateBtn" type="submit" class="btn btn-primary">Cập nhật</button>
+                                <button style="background-color: #bc8247; border-color: #bc8247" id="updateBtn" type="submit" class="btn btn-primary">Cập nhật</button>
                                 <button id="cancelBtn" class="btn btn-light" onclick="resetForm()">Hủy</button>
                             </div>
                         </form>
@@ -244,7 +247,7 @@
                                 </div>
                             </div>
                             <div>
-                                <button id="updatePassBtn" type="submit" class="btn btn-primary">Cập nhật</button>
+                                <button style="background-color: #bc8247; border-color: #bc8247" id="updatePassBtn" type="submit" class="btn btn-primary">Cập nhật</button>
                                 <button id="cancelPassBtn" class="btn btn-light" onclick="resetForm()">Hủy</button>
                             </div>
                         </form>

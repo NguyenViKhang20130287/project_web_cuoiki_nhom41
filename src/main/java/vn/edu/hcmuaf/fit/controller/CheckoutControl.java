@@ -4,6 +4,8 @@ import vn.edu.hcmuaf.fit.dao.CartDao;
 import vn.edu.hcmuaf.fit.dao.CheckoutDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.mail.Message;
 import javax.servlet.*;
@@ -43,6 +45,7 @@ public class CheckoutControl extends HttpServlet {
         String newAccount = request.getParameter("newAccount");
         String payment = request.getParameter("payment");
         int shippingCost = Integer.parseInt(request.getParameter("costs"));
+        LogService logService = LogService.getInstance();
 
         System.out.println(shippingCost);
         Account accSession = (Account) session.getAttribute("Account");
@@ -114,6 +117,8 @@ public class CheckoutControl extends HttpServlet {
 //                    statusId = 2;
 //                }
                 checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId, shippingCost);
+                logService.insertNewLog(new Log(Log.INFO, accSession.getId(), this.getClass().getName(), "Người dùng có tên đăng nhập: " + accSession.getUsername() + " đã đặt một đơn hàng mới", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;
                     if (entry.getValue().getProduct().getDiscount() != 0) {

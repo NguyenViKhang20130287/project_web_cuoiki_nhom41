@@ -285,7 +285,7 @@
                                 <%
                                     }
                                 %>
-                                <button type="submit" class="place-order">ĐẶT HÀNG
+                                <button type="submit" class="place-order" onclick="registerTransports()">ĐẶT HÀNG
                                 </button>
                             </div>
 
@@ -306,6 +306,7 @@
 <script src="js/jquery-3.6.1.min.js"></script>
 <script>
 
+
     function getAccessTokenFromStorage() {
         // Lấy access_token từ localStorage
         return localStorage.getItem('access_token');
@@ -316,11 +317,13 @@
         localStorage.setItem('access_token', access_token);
     }
 
-    let access_token = getAccessTokenFromStorage();
+    let access_token;
 
     function checkAccessTokenValidity() {
+        access_token = getAccessTokenFromStorage();
         if (access_token) {
             console.log(access_token);
+            console.log(localStorage.getItem('expires_in'))
 
             const expiration_time = parseFloat(localStorage.getItem('expires_in'));
             const current_time = Math.floor(Date.now() / 1000);
@@ -336,6 +339,9 @@
             login();
         }
     }
+    // Kiểm tra và sử dụng access_token
+    checkAccessTokenValidity();
+
 
     function login() {
         fetch('./api/login', {
@@ -359,13 +365,10 @@
                     // Gọi hàm getProvinces() sau khi đăng nhập thành công
                     getProvinces();
                 }
-                // // Xử lý phản hồi
+                // Xử lý phản hồi
                 checkAccessTokenValidity();
             });
     }
-
-    // Kiểm tra và sử dụng access_token
-    checkAccessTokenValidity();
 
     function getProvinces() {
         fetch('./api?action=getProvinces', {
