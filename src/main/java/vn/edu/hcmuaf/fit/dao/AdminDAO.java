@@ -1120,7 +1120,7 @@ public class AdminDAO {
         return months;
     }
 
-    public String print6MonthLatest(){
+    public String print6MonthLatest() {
         ArrayList<String> monthList = get6MonthLatest(); // Gọi phương thức để lấy danh sách 6 tháng gần đây
 
         StringBuilder sb = new StringBuilder(); // Sử dụng StringBuilder để xây dựng chuỗi kết quả
@@ -1141,18 +1141,72 @@ public class AdminDAO {
         return result;// In ra chuỗi kết quả
     }
 
-    public String test() {
-        String x = "";
-        for (int i = 0; i < get6MonthLatest().size(); i++) {
-            x += get6MonthLatest().get(i) + ", ";
-        }
-        return x;
-    }
 
+    //
+    public List<ProductAdmin> getProductInLatestMonth() {
+        List<ProductAdmin> list = new ArrayList<>();
+        String query = "SELECT\n" +
+                "\to.id orderid,\n" +
+                "\tMONTH ( o.order_date ) AS thang,\n" +
+                "\tYEAR ( o.order_date ) AS nam,\n" +
+                "\tp.id,\n" +
+                "\tp.title,\n" +
+                "\tp.category_id,\n" +
+                "\tc.parent_id,\n" +
+                "\tp.thumbnail,\n" +
+                "\tod.quantity,\n" +
+                "\tod.total_money\n" +
+                "FROM\n" +
+                "\t`order` o\n" +
+                "\tJOIN order_details od ON o.id = od.order_id\n" +
+                "\tJOIN product p ON od.product_id = p.id \n" +
+                "\tJOIN category c ON p.category_id = c.id\n" +
+                "WHERE\n" +
+                "\tMONTH ( o.order_date ) = (\n" +
+                "\tSELECT MONTH\n" +
+                "\t\t( o1.order_date ) \n" +
+                "\tFROM\n" +
+                "\t\t`order` o1 \n" +
+                "\tORDER BY\n" +
+                "\t\tYEAR ( o1.order_date ) DESC,\n" +
+                "\t\tMONTH ( o1.order_date ) DESC \n" +
+                "\t\tLIMIT 1 \n" +
+                "\t) \n" +
+                "GROUP BY\n" +
+                "\to.id,\n" +
+                "\tMONTH ( o.order_date ),\n" +
+                "\tYEAR ( o.order_date ),\n" +
+                "\tp.id,\n" +
+                "\tp.title,\n" +
+                "\tp.category_id,\n" +
+                "\tc.parent_id,\n" +
+                "\tp.thumbnail,\n" +
+                "\tod.quantity,\n" +
+                "\tod.total_money\n" +
+                "ORDER BY\n" +
+                "\tod.quantity DESC";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().connection.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new ProductAdmin(rs.getInt(4), rs.getString(5),
+                            rs.getString(8),
+                            rs.getInt(9), rs.getInt(10)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println(new AdminDAO().getNewestOrder());
+//        System.out.println(new AdminDAO().getNewestOrder());
+
+        System.out.println(new AdminDAO().getProductInLatestMonth());
 
 //        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
 //                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);

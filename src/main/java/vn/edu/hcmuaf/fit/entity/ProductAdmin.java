@@ -39,6 +39,16 @@ public class ProductAdmin {
         this.price = price;
     }
 
+//
+    public ProductAdmin(int id, String name, String imageLink, int quantity,
+                        int price) {
+        this.id = id;
+        this.name = name;
+        this.imageLink = imageLink;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }
