@@ -5,6 +5,7 @@
 <%@ page import="java.util.Objects" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -86,8 +87,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
-                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
@@ -108,8 +109,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
-                class="app-menu__label">Quản lý khách hàng</span></a></li>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
         <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
         <%--        </li>--%>
@@ -201,16 +202,146 @@
                                 <%}%>
                             </td>
                             <td id="buttonGroup">
-
-                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                <%if (o.getId_status() == 1 || o.getId_status() == 4) {%>
+                                <button class="btn btn-primary btn-sm edit updateStatus" type="button" title="Cập nhật">
                                     <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i
                                             class="fa fa-edit"></i></a></button>
+                                <%} else if ((o.getId_status() == 2 || o.getId_status() == 3)) {%>
+                                <button class="btn btn-primary btn-sm edit updateStatus" type="button" title="Cập nhật"
+                                        id="btn-confirm" data-orderid="<%=o.getId()%>"><i
+                                        class="fa fa-edit"></i></button>
+                                <%}%>
 
                             </td>
+                            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                                 aria-hidden="true" id="mi-modal-<%=o.getId()%>">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel"><%=o.getId_status()==2?"Bạn có chắc là cập nhật đơn hàng\n" +
+                                                    "                                                sang Đã giao trong khi đơn hàng chưa được người dùng xác nhận Đã nhận?":"Bạn có chắc là cập nhật đơn hàng\n" +
+                                                    "                                                sang Đã hủy trong khi đơn hàng Đã giao thành công?"%></h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default btn-yes" id="modal-btn-si"><a
+                                                    href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>">Có</a>
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-no" id="modal-btn-no" data-orderid="<%=o.getId()%>">Không
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </tr>
                         <%}%>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--    --%>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div>
+                    <h3 class="tile-title">SẢN PHẨM BÁN CHẠY TRONG THÁNG</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelProductControlInLatestMonth" title="In"><i
+                                class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
+                </div>
+                <div class="tile-body">
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Giá tiền</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <% List<ProductAdmin> listP = new AdminDAO().getProductInLatestMonth();
+                            for (ProductAdmin p : listP) {
+                        %>
+                        <tr>
+                            <td><%=p.getId() %>
+                            </td>
+                            <td><%= p.getName() %>
+                            </td>
+                            <td><img src="<%= p.getImageLink() %>" alt="" width="100px" height="50px">
+                            </td>
+                            <td><%= p.getQuantity() %>
+                            </td>
+                            <td><%=p.getPrice() %>
+                            </td>
+                        </tr>
+                        <% }
+                        %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div>
+                    <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelTotalRevenueControl" title="In1"><i
+                                class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
+                </div>
+                <div class="tile-body" style="overflow-y:scroll; height: 450px;">
+                    <%--                    <table class="table table-hover table-bordered" id="sampleTable">--%>
+                    <%--                        <thead>--%>
+                    <%--                        <tr>--%>
+                    <%--                            <th>ID đơn hàng</th>--%>
+                    <%--                            <th>Khách hàng</th>--%>
+                    <%--                            <th>Đơn hàng</th>--%>
+                    <%--                            <th>Số điện thoại</th>--%>
+                    <%--                            <th>Tổng tiền</th>--%>
+                    <%--                        </tr>--%>
+                    <%--                        </thead>--%>
+                    <%--                        <tbody>--%>
+                    <%--                        <% List<OrderAdmin> listOrder = new OrderDAO().getListOrder();--%>
+                    <%--                            for (OrderAdmin o : listOrder) {--%>
+                    <%--                        %>--%>
+                    <%--                        <tr>--%>
+                    <%--                            <td><%=o.getId() %>--%>
+                    <%--                            </td>--%>
+                    <%--                            <td><%= o.getFullName() %>--%>
+                    <%--                            </td>--%>
+                    <%--                            <td>--%>
+                    <%--                                <%for (ProductAdmin p : o.getProducts()) {%>--%>
+                    <%--                                <%=p.getName() + " X " + p.getQuantity() + ", "%>--%>
+                    <%--                                <%}%></td>--%>
+                    <%--                            <td><%=o.getPhone() %>--%>
+                    <%--                            </td>--%>
+                    <%--                            <td><%=numberFormat.format(o.getTotalMoney()+o.getShippingCost()) %>--%>
+                    <%--                            </td>--%>
+                    <%--                        </tr>--%>
+                    <%--                        <% } %>--%>
+                    <%--                        <tr>--%>
+                    <%--                            <th colspan="4">Tổng cộng:</th>--%>
+                    <%--                            <td><%=numberFormat.format(new AdminDAO().getRevenue()) %>--%>
+                    <%--                            </td>--%>
+                    <%--                        </tr>--%>
+                    <%--                        </tbody>--%>
+                    <%--                    </table>--%>
                 </div>
             </div>
         </div>
@@ -342,6 +473,27 @@
     //Modal
     $("#show-emp").on("click", function () {
         $("#ModalUP").modal({backdrop: false, keyboard: false})
+    });
+
+
+    $(".updateStatus").on("click", function () {
+        var orderId = this.getAttribute('data-orderid');
+        console.log(orderId)
+        var modalId = 'mi-modal-' + orderId;
+        console.log(modalId)
+        $('#' + modalId).css({"display": "block", "opacity": "1"});
+        $(".modal-header").css({"color": "black"});
+    });
+    $(".btn-no").on("click", function () {
+        var orderId = this.getAttribute('data-orderid');
+        console.log(orderId)
+        var modalId = 'mi-modal-' + orderId;
+        console.log(modalId)
+        $('#' + modalId).css({"display": "none", "opacity": "0"});
+    });
+
+    $(".btn-yes").on("click", function () {
+        $("#mi-modal").modal('hide');
     });
 
 

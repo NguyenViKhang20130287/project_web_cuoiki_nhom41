@@ -94,7 +94,7 @@
                             <div class="item-1">
                                 <div class="input-text">
                                     <label for="lastName">Họ Và Tên<span style="color: red">*</span></label>
-                                    <input type="text" id="lastName" placeholder="Họ Và Tên" name="name"
+                                    <input type="text" id="lastName" placeholder="Họ Và Tên" name="name" required
                                            value="<%=accSession!=null?accSession.getFullName():""%>">
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                     <label for="streetAddress">Số Nhà, Tên Đường <span
                                             style="color: red">*</span></label>
                                     <input type="text" id="streetAddress" placeholder="Số Nhà, Tên Đường"
-                                           name="streetAddress">
+                                           name="streetAddress" required>
                                 </div>
                             </div>
                             <div class="item-1">
@@ -135,14 +135,14 @@
                                 <div class="item-1">
                                     <div class="input-text">
                                         <label for="mail">Địa Chỉ Email <span style="color: red">*</span></label>
-                                        <input type="email" id="mail" placeholder="Địa Chỉ Email" name="mail"
+                                        <input type="email" id="mail" placeholder="Địa Chỉ Email" name="mail" required
                                                value="<%=accSession!=null?accSession.getEmail():""%>">
                                     </div>
                                 </div>
                                 <div class="item-1">
                                     <div class="input-text">
                                         <label for="phone">Số Điện Thoại <span style="color: red">*</span></label>
-                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone"
+                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone" minlength="10" maxlength="10" required
                                                value="<%=accSession!=null?accSession.getPhone():""%>">
                                     </div>
                                 </div>
@@ -285,7 +285,7 @@
                                 <%
                                     }
                                 %>
-                                <button type="submit" class="place-order" onclick="registerTransports()">ĐẶT HÀNG
+                                <button type="submit" class="place-order">ĐẶT HÀNG
                                 </button>
                             </div>
 
@@ -621,7 +621,7 @@
         console.log(selectedWard)
         const requestData = {
             DistrictID: districtID,
-            WardID: districtName,
+            WardID: wardID,
         };
         fetch('./api?action=registerTransports', {
             method: 'POST',

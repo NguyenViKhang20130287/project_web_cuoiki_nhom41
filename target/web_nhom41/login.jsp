@@ -99,7 +99,7 @@
 
             <form action="LoginControl" method="post">
                 <label for="email">Tên đăng nhập <span>*</span></label>
-                <input id="email" type="text" placeholder="Nhập tên đăng nhập..." name="uname" required
+                <input id="email" type="text" placeholder="Nhập tên đăng nhập..." name="uname" required minlength="8" maxlength="30"
                     <%if(request.getAttribute("usernameCookie") == null) { %>
                        value=""
                     <%}%>
@@ -111,7 +111,7 @@
                     <%= errorUsername != null ? errorUsername : "" %>
                 </p>
                 <label for="pass">Mật Khẩu <span>*</span></label>
-                <input id="pass" type="password" placeholder="Nhập mật khẩu..." name="password" required
+                <input id="pass" type="password" placeholder="Nhập mật khẩu..." name="password" required minlength="8" maxlength="16"
                     <%if(request.getAttribute("passwordCookie") == null) { %>
                        value=""
                     <%}%>
@@ -169,12 +169,12 @@
                 </div>
                 <form action="RegisterControl" method="post">
                     <label for="uname">Tên Đăng Nhập <span>*</span></label>
-                    <input id="uname" type="text" placeholder="Nhập Tên Đăng Nhập..." name="uname">
+                    <input id="uname" type="text" placeholder="Nhập Tên Đăng Nhập..." name="uname" required minlength="8" maxlength="30">
                     <div class="note"><span>Bạn có thể sử dụng chữ cái, số và dấu gạch dưới</span></div>
                     <label for="email-register">Địa Chỉ Email <span>*</span></label>
-                    <input id="email-register" type="email" placeholder="Địa Chỉ Email..." name="email_register">
+                    <input id="email-register" type="email" placeholder="Địa Chỉ Email..." name="email_register" required>
                     <label for="pass-register">Mật Khẩu <span>*</span></label>
-                    <input id="pass-register" type="password" placeholder="Nhập Mật Khẩu..." name="pass_register">
+                    <input id="pass-register" type="password" placeholder="Nhập Mật Khẩu..." name="pass_register" required minlength="8" maxlength="16">
                     <div class="note"><span>Sử dụng 8 ký tự trở lên với ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt</span>
                     </div>
                     <div style="margin-bottom: 20px">

@@ -44,7 +44,8 @@ public class CheckoutControl extends HttpServlet {
         String note = request.getParameter("note");
         String newAccount = request.getParameter("newAccount");
         String payment = request.getParameter("payment");
-        int shippingCost = Integer.parseInt(request.getParameter("costs"));
+//        int shippingCost = Integer.parseInt(request.getParameter("costs"));
+        int shippingCost = 912000;
         LogService logService = LogService.getInstance();
 
         System.out.println(shippingCost);
@@ -117,7 +118,9 @@ public class CheckoutControl extends HttpServlet {
 //                    statusId = 2;
 //                }
                 checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId, shippingCost);
-                logService.insertNewLog(new Log(Log.INFO, accSession.getId(), this.getClass().getName(), "Người dùng có tên đăng nhập: " + accSession.getUsername() + " đã đặt một đơn hàng mới", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+                if (accSession != null) {
+                    logService.insertNewLog(new Log(Log.INFO, accSession.getId(), this.getClass().getName(), "Người dùng có tên đăng nhập: " + accSession.getUsername() + " đã đặt một đơn hàng mới", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+                }
 
                 for (Map.Entry<Integer, CartItem> entry : cart.entrySet()) {
                     int price = 0;

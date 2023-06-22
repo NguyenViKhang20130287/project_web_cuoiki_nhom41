@@ -36,7 +36,7 @@ public class ProductDAO {
                     product.setThumbnail(rs.getString(8));
                     product.setDescription(rs.getString(9));
                     product.setQuantity(rs.getInt(10));
-                    product.setColor(new GalleryDAO().getGemColorById(rs.getInt(17)));
+                    product.setColor(new GalleryDAO().getGemColorById(rs.getInt(1)));
                     list.add(product);
                 }
 
@@ -49,7 +49,8 @@ public class ProductDAO {
 
     /* Phương thức lấy ra danh sách tất cả các sản phẩm từ cơ sở dữ liệu */
     public List<Product> getAllProducts() {
-        String query = "SELECT * FROM product p INNER JOIN product_gem_color pgc on p.id = pgc.product_id WHERE is_on_sale = TRUE";
+        String query = "SELECT p.id, p.category_id, p.title, p.keyword, p.price, p.discount, p.design, p.thumbnail, p.description, p.quantity, pgc.gem_color_id \n" +
+                "FROM product p INNER JOIN product_gem_color pgc on p.id = pgc.product_id WHERE is_on_sale = TRUE";
         return getListProductQuery(query);
     }
 
@@ -66,13 +67,17 @@ public class ProductDAO {
     }
 
     public List<Product> getRelatedProduct(String categoryName, int product_id) {
-        String query = "SELECT * FROM product p INNER JOIN category c ON p.category_id = c.id WHERE p.title LIKE '%" + categoryName + "%' AND p.id != " + product_id + " AND is_on_sale = TRUE LIMIT 15";
+        String query = "SELECT p.id, p.category_id, p.title, p.keyword, p.price, p.discount, p.design, p.thumbnail, p.description, p.quantity, pgc.gem_color_id \n" +
+                "FROM product p INNER JOIN category c ON p.category_id = c.id INNER JOIN product_gem_color pgc ON p.id = pgc.product_id \n" +
+                "WHERE p.title LIKE '%" + categoryName + "%' AND p.id != " + product_id + " AND is_on_sale = TRUE LIMIT 15";
         return getListProductQuery(query);
     }
 
     /* Phương thức lấy ra danh sách các sản phẩm nổi bật */
     public List<Product> getFeaturedProduct() {
-        String query = "SELECT * FROM product p INNER JOIN product_gem_color pgc on p.id = pgc.product_id WHERE is_on_sale = TRUE ORDER BY RAND() LIMIT 3";
+        String query = "SELECT p.id, p.category_id, p.title, p.keyword, p.price, p.discount, p.design, p.thumbnail, p.description, p.quantity, pgc.gem_color_id\n" +
+                "FROM product p INNER JOIN product_gem_color pgc on p.id = pgc.product_id WHERE is_on_sale = TRUE \n" +
+                "ORDER BY RAND() LIMIT 3";
         return getListProductQuery(query);
     }
 
@@ -85,7 +90,8 @@ public class ProductDAO {
     /* Phương thức lấy ra sản phẩm theo id */
     public Product getProduct(int id) {
         Product product = new Product();
-        String query = "SELECT * FROM product WHERE id = " + id + " AND is_on_sale = TRUE";
+        String query = "SELECT p.id, p.category_id, p.title, p.keyword, p.price, p.discount, p.design, p.thumbnail, p.description, p.quantity \n" +
+                "FROM product p WHERE id = " + id + " AND is_on_sale = TRUE";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -287,7 +293,8 @@ public class ProductDAO {
     /* Phương thức lấy ra top 5 sản phẩm mới nhất*/
     public List<Product> getTop5Product() {
         List<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5";
+        String query = "SELECT p.id, p.category_id, p.title, p.keyword, p.price, p.discount, p.design, p.thumbnail, p.description, p.quantity \n" +
+                "FROM product p ORDER BY p.id DESC LIMIT 5";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
@@ -316,7 +323,8 @@ public class ProductDAO {
     /* Phương thức lấy ra 5 sản phẩm tiếp theo */
     public List<Product> getNextTop5Product(int amount) {
         List<Product> list = new ArrayList<>();
-        String query = "SELECT * FROM product ORDER BY id DESC LIMIT 5 OFFSET ?";
+        String query = "SELECT p.id, p.category_id, p.title, p.keyword, p.price, p.discount, p.design, p.thumbnail, p.description, p.quantity \n" +
+                "FROM product p ORDER BY p.id DESC LIMIT 5 OFFSET ?";
         try {
             conn = DBConnect.getInstall().getConnection();
             ps = conn.prepareStatement(query);
@@ -342,9 +350,10 @@ public class ProductDAO {
         }
         return list;
     }
-    public void addFavoriteProduct(Favorite favorite){
+
+    public void addFavoriteProduct(Favorite favorite) {
         String query = "INSERT INTO favorites (product_id, user_id) VALUES (?, ?)";
-        try{
+        try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 conn = DBConnect.getInstall().getConnection();
@@ -354,10 +363,11 @@ public class ProductDAO {
                 ps.executeUpdate();
             }
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void deleteFavoriteProduct(int product_id, int user_id) {
         String query = "DELETE FROM favorites WHERE product_id =? AND user_id = ?";
         try {
@@ -376,7 +386,7 @@ public class ProductDAO {
 
     public List<Favorite> getListFavoriteItem(int user_id) {
         List<Favorite> list = new ArrayList<>();
-        String query = "SELECT* FROM favorites WHERE user_id = ?";
+        String query = "SELECT favorites.id, favorites.product_id, favorites.user_id FROM favorites WHERE user_id = ?";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
