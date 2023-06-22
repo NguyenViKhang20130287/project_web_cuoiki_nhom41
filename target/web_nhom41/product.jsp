@@ -267,6 +267,7 @@
     console.log(category)
     let data_filter;
     const render = () => {
+        <%--var quantity = <%= new CartDao().checkQuantity(String.valueOf(product.getId())) %>;--%>
         if (category === 0 || color === 0) {
             data_filter = arrProduct;
         } else {

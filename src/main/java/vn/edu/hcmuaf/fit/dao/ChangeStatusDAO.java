@@ -17,9 +17,6 @@ public class ChangeStatusDAO {
                         "WHERE `order`.id = ?";
 
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
-                if (status == 3) {
-                    return;
-                }
                 if (status >= 4) {
                     return;
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -1122,11 +1123,12 @@ public class AdminDAO {
 
     public String print6MonthLatest() {
         ArrayList<String> monthList = get6MonthLatest(); // Gọi phương thức để lấy danh sách 6 tháng gần đây
+        Collections.reverse(monthList);
 
         StringBuilder sb = new StringBuilder(); // Sử dụng StringBuilder để xây dựng chuỗi kết quả
         sb.append("["); // Thêm ký tự "[" vào đầu chuỗi
 
-        for (int i = 0; i < monthList.size(); i++) {
+        for (int i =  0; i < monthList.size(); i++) {
             String month = monthList.get(i);
             sb.append("\"Tháng ").append(month).append("\""); // Thêm tiền tố "tháng" vào mỗi phần tử
             if (i < monthList.size() - 1) {
@@ -1206,7 +1208,9 @@ public class AdminDAO {
 
 //        System.out.println(new AdminDAO().getNewestOrder());
 
-        System.out.println(new AdminDAO().getProductInLatestMonth());
+        //        System.out.println(new AdminDAO().getProductInLatestMonth());
+        System.out.println(new AdminDAO().get6MonthLatest());
+        System.out.println(new AdminDAO().print6MonthLatest());
 
 //        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
 //                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);

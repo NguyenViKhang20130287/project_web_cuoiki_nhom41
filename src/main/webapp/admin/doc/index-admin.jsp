@@ -5,6 +5,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
 <%@ page import="java.util.Objects" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
+<%@ page import="java.util.Collections" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -85,8 +86,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
-<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
@@ -107,8 +108,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
-<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
         <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
         <%--        </li>--%>
@@ -336,7 +337,9 @@
             pointHighlightFill: "rgb(255, 212, 59)",
             pointHighlightStroke: "rgb(255, 212, 59)",
             // data: [20, 59, 90, 51, 56, 100]
-            data: <%=new AdminDAO().get6MonthTotalRevenue()%>
+            <%List<Integer> listTotal = new AdminDAO().get6MonthTotalRevenue();
+            Collections.reverse(listTotal);%>
+            data: <%=listTotal%>
         }
             // ,
             //     {

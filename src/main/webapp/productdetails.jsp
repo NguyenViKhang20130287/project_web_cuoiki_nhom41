@@ -109,6 +109,11 @@
             margin-bottom: 4px;
         }
 
+        .comment_list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
     </style>
 
 </head>
@@ -328,8 +333,7 @@
                                                                                                   type="button"
                                                                                                   class="buy_now_btn">
                             <i class="fa-solid fa-wallet"></i>
-                            mua
-                            <ngay></ngay>
+                            mua ngay
                         </button>
                         <script type="text/javascript">
                             document.getElementById("buynow").onclick = function () {
