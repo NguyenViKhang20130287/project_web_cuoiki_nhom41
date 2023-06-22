@@ -237,7 +237,7 @@
                             </td>
                             <td><%= pa.getName()%>
                             </td>
-                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="50px"></td>
+                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="70px" style="object-fit: cover"></td>
                             <td><%= pa.getQuantity()%>
                             </td>
 

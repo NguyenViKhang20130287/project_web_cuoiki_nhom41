@@ -79,8 +79,8 @@
             class="app-menu__label">Bảng điều khiển</span></a></li>
     <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
       <span class="app-menu__label">Quản lý banner</span></a></li>
-    <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
-            class="app-menu__label">Quản lý khách hàng</span></a></li>
+<%--    <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+<%--            class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
     <li><a class="app-menu__item" href="ListProductAdminControl"><i
             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
     </li>
@@ -101,8 +101,8 @@
             class="app-menu__label">Bảng điều khiển</span></a></li>
     <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
       <span class="app-menu__label">Quản lý banner</span></a></li>
-    <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span
-            class="app-menu__label">Quản lý khách hàng</span></a></li>
+<%--    <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+<%--            class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
     <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
     <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
     <%--        </li>--%>

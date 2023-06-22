@@ -52,7 +52,7 @@ public class writeExcelTotalRevenueControl extends HttpServlet {
         cell = row.createCell(cellNum++);
         cell.setCellValue("Tình trạng");
 
-        for(OrderAdmin oa: list){
+        for (OrderAdmin oa : list) {
             cellNum = 0;
             row = sheet.createRow(rowNo++);
             cell = row.createCell(cellNum++);
@@ -68,7 +68,7 @@ public class writeExcelTotalRevenueControl extends HttpServlet {
             cell.setCellValue(oa.getPhone());
 
             cell = row.createCell(cellNum++);
-            cell.setCellValue(oa.getTotalMoney());
+            cell.setCellValue(oa.getTotalMoney() + oa.getShippingCost());
 
             cell = row.createCell(cellNum++);
             cell.setCellValue(oa.getStatus());

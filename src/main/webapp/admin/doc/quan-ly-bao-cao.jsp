@@ -90,8 +90,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
-<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <li><a class="app-menu__item" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
@@ -111,9 +111,9 @@
         <li><a class="app-menu__item" href="index-admin.jsp"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
-<%--            <span class="app-menu__label">Quản lý banner</span></a></li>--%>
-<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
-                class="app-menu__label">Quản lý khách hàng</span></a></li>
+            <%--            <span class="app-menu__label">Quản lý banner</span></a></li>--%>
+            <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+            class="app-menu__label">Quản lý khách hàng</span></a></li>
         <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
         <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
         <%--        </li>--%>
@@ -233,6 +233,55 @@
         <div class="col-md-12">
             <div class="tile">
                 <div>
+                    <h3 class="tile-title">SẢN PHẨM BÁN CHẠY TRONG THÁNG</h3>
+                </div>
+                <div class="row element-button">
+                    <div class="col-sm-2">
+                        <a class="btn btn-excel btn-sm" href="writeExcelProductControlInLatestMonth" title="In"><i
+                                class="fas fa-file-excel"></i> Xuất Excel</a>
+                    </div>
+                </div>
+                <div class="tile-body" style="overflow-y: scroll; height: 450px;">
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Tổng tiền</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <% List<ProductAdmin> listP = new AdminDAO().getProductInLatestMonth();
+                            for (ProductAdmin p : listP) {
+                        %>
+                        <tr>
+                            <td><%=p.getId() %>
+                            </td>
+                            <td><%= p.getName() %>
+                            </td>
+                            <td><img src="<%= p.getImageLink() %>" alt="" width="100px" height="70px" style="object-fit: cover">
+                            </td>
+                            <td><%= p.getQuantity() %>
+                            </td>
+                            <td><%=numberFormat.format(p.getPrice()) %>
+                            </td>
+                        </tr>
+                        <% }
+                        %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div>
                     <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
                 </div>
                 <div class="row element-button">
@@ -267,7 +316,7 @@
                                 <%}%></td>
                             <td><%=o.getPhone() %>
                             </td>
-                            <td><%=numberFormat.format(o.getTotalMoney()+o.getShippingCost()) %>
+                            <td><%=numberFormat.format(o.getTotalMoney() + o.getShippingCost()) %>
                             </td>
                         </tr>
                         <% } %>
@@ -311,7 +360,7 @@
                             </td>
                             <td><%= pa.getName()%>
                             </td>
-                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="50px"></td>
+                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="70px" style="object-fit: cover"></td>
                             <td><%= pa.getQuantity()%>
                             </td>
 

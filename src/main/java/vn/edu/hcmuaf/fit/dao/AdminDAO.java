@@ -916,7 +916,7 @@ public class AdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT SUM(`order`.order_total) FROM `order`";
+                String query = "SELECT SUM(`order`.order_total + `order`.shipping_cost) FROM `order`";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 
@@ -1063,7 +1063,7 @@ public class AdminDAO {
         String query = "SELECT \n" +
                 "\tYEAR( `order`.order_date ),\n" +
                 "\tMONTH ( `order`.order_date ),\n" +
-                "\tAVG( `order`.order_total ) \n" +
+                "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
                 "FROM\n" +
                 "\t`order` \n" +
                 "GROUP BY\n" +
@@ -1096,7 +1096,7 @@ public class AdminDAO {
         String query = "SELECT \n" +
                 "\tYEAR( `order`.order_date ),\n" +
                 "\tMONTH ( `order`.order_date ),\n" +
-                "\tAVG( `order`.order_total ) \n" +
+                "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
                 "FROM\n" +
                 "\t`order` \n" +
                 "GROUP BY\n" +
@@ -1147,55 +1147,19 @@ public class AdminDAO {
     //
     public List<ProductAdmin> getProductInLatestMonth() {
         List<ProductAdmin> list = new ArrayList<>();
-        String query = "SELECT\n" +
-                "\to.id orderid,\n" +
-                "\tMONTH ( o.order_date ) AS thang,\n" +
-                "\tYEAR ( o.order_date ) AS nam,\n" +
-                "\tp.id,\n" +
-                "\tp.title,\n" +
-                "\tp.category_id,\n" +
-                "\tc.parent_id,\n" +
-                "\tp.thumbnail,\n" +
-                "\tod.quantity,\n" +
-                "\tod.total_money\n" +
-                "FROM\n" +
-                "\t`order` o\n" +
-                "\tJOIN order_details od ON o.id = od.order_id\n" +
-                "\tJOIN product p ON od.product_id = p.id \n" +
-                "\tJOIN category c ON p.category_id = c.id\n" +
-                "WHERE\n" +
-                "\tMONTH ( o.order_date ) = (\n" +
-                "\tSELECT MONTH\n" +
-                "\t\t( o1.order_date ) \n" +
-                "\tFROM\n" +
-                "\t\t`order` o1 \n" +
-                "\tORDER BY\n" +
-                "\t\tYEAR ( o1.order_date ) DESC,\n" +
-                "\t\tMONTH ( o1.order_date ) DESC \n" +
-                "\t\tLIMIT 1 \n" +
-                "\t) \n" +
-                "GROUP BY\n" +
-                "\to.id,\n" +
-                "\tMONTH ( o.order_date ),\n" +
-                "\tYEAR ( o.order_date ),\n" +
-                "\tp.id,\n" +
-                "\tp.title,\n" +
-                "\tp.category_id,\n" +
-                "\tc.parent_id,\n" +
-                "\tp.thumbnail,\n" +
-                "\tod.quantity,\n" +
-                "\tod.total_money\n" +
-                "ORDER BY\n" +
-                "\tod.quantity DESC";
+        String query = "SELECT p.id, p.title, p.category_id, c.parent_id, p.thumbnail, SUM(od.quantity) AS total_quantity, SUM(od.total_money) AS total_quantity\n" +
+                "FROM `order` o JOIN order_details od ON o.id = od.order_id JOIN product p ON od.product_id = p.id JOIN category c ON p.category_id = c.id \n" +
+                "WHERE MONTH ( o.order_date ) = (SELECT MONTH( o1.order_date ) FROM `order` o1 ORDER BY YEAR( o1.order_date ) DESC, MONTH ( o1.order_date ) DESC LIMIT 1) \n" +
+                "GROUP BY p.id, p.title, p.category_id, c.parent_id, p.thumbnail ORDER BY total_quantity DESC";
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 PreparedStatement ps = new DBConnect().connection.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    list.add(new ProductAdmin(rs.getInt(4), rs.getString(5),
-                            rs.getString(8),
-                            rs.getInt(9), rs.getInt(10)));
+                    list.add(new ProductAdmin(rs.getInt(1), rs.getString(2),
+                            rs.getString(5),
+                            rs.getInt(6), rs.getInt(7)));
                 }
             }
         } catch (Exception e) {
