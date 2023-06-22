@@ -5,6 +5,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.Account" %>
 <%@ page import="java.util.Objects" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
+<%@ page import="java.util.Collections" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -336,7 +337,9 @@
             pointHighlightFill: "rgb(255, 212, 59)",
             pointHighlightStroke: "rgb(255, 212, 59)",
             // data: [20, 59, 90, 51, 56, 100]
-            data: <%=new AdminDAO().get6MonthTotalRevenue()%>
+            <%List<Integer> listTotal = new AdminDAO().get6MonthTotalRevenue();
+            Collections.reverse(listTotal);%>
+            data: <%=listTotal%>
         }
             // ,
             //     {
