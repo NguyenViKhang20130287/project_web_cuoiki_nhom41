@@ -1172,7 +1172,7 @@ public class AdminDAO {
 
 //        System.out.println(new AdminDAO().getNewestOrder());
 
-        //        System.out.println(new AdminDAO().getProductInLatestMonth());
+//        System.out.println(new AdminDAO().getProductInLatestMonth());
         System.out.println(new AdminDAO().get6MonthLatest());
         System.out.println(new AdminDAO().print6MonthLatest());
 
