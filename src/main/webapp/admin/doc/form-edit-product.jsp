@@ -224,11 +224,11 @@
                                 <input class="form-control" type="text" value="<%=pa.getName()%>"
                                        name="edit_product-name">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label class="control-label">Tên loại đá</label>
-                                <input class="form-control" type="text" name="edit_product-nameGem"
-                                       value="<%=pa.getNameGem()%>">
-                            </div>
+<%--                            <div class="form-group col-md-6">--%>
+<%--                                <label class="control-label">Tên loại đá</label>--%>
+<%--                                <input class="form-control" type="text" name="edit_product-nameGem"--%>
+<%--                                       value="<%=pa.getNameGem()%>">--%>
+<%--                            </div>--%>
                             <div class="form-group col-md-6">
                                 <label for="exampleSelect1" class="control-label">Danh mục</label>
                                 <select class="form-control" id="exampleSelect1" name="edit_product-cat_name">

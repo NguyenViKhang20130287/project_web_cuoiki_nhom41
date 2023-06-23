@@ -156,6 +156,57 @@ public class AdminDAO {
     }
 
     // products admin
+    public String getNameCategoryWithID(String parent_id, String catId) {
+        String result = null;
+        if (parent_id.equals("1")) {
+            result = "Đá quý";
+        }
+        if (parent_id.equals("2")) {
+            result = "Nhẫn";
+        }
+        if (parent_id.equals("3")) {
+            result = "Hoa tai";
+        }
+        if (parent_id.equals("4")) {
+            result = "Vòng cổ";
+        }
+        if (parent_id.equals("5")) {
+            result = "Vòng tay";
+        }
+        if (parent_id.equals("6")) {
+            result = "Mặt dây chuyền";
+        }
+        if (parent_id.equals("7")) {
+            result = "Bộ sưu tập";
+        }
+
+        if(parent_id.equals("")){
+            if (catId.equals("1")) {
+                result = "Đá quý";
+            }
+            if (catId.equals("2")) {
+                result = "Nhẫn";
+            }
+            if (catId.equals("3")) {
+                result = "Hoa tai";
+            }
+            if (catId.equals("4")) {
+                result = "Vòng cổ";
+            }
+            if (catId.equals("5")) {
+                result = "Vòng tay";
+            }
+            if (catId.equals("6")) {
+                result = "Mặt dây chuyền";
+            }
+            if (catId.equals("7")) {
+                result = "Bộ sưu tập";
+            }
+        }
+        return result;
+    }
+
+//
     public String getNameCategoryWithID(int parent_id) {
         String result = null;
         if (parent_id == 1) {
@@ -179,6 +230,8 @@ public class AdminDAO {
         if (parent_id == 7) {
             result = "Bộ sưu tập";
         }
+
+
         return result;
     }
 
@@ -527,61 +580,76 @@ public class AdminDAO {
         return result;
     }
 
-    public void addProduct(int id, String title, String nameGem, int quantity, String cat,
+    public void addProduct(String title, int quantity, String cat,
                            String color, int price, String keyword, String design,
-                           File imgLink, String description) {
-        String queryAddProduct = "INSERT INTO product (" +
-                "product.id," +
-                "product.title," +
-                "product.quantity," +
-                "product.price," +
-                "product.keyword," +
-                "product.design," +
-                "product.category_id," +
-                "product.description," +
-                "product.thumbnail," +
-                "product.discount," +
-                "product.is_on_sale," +
-                "product.created_at," +
-                "product.updated_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                           File imgLink, String description, int accountLogin) {
+        String queryAddProduct = "INSERT INTO product (\n" +
+                "\tcategory_id,\n" +
+                "\ttitle,\n" +
+                "\tkeyword,\n" +
+                "\tprice,\n" +
+                "\tdesign,\n" +
+                "\tthumbnail,\n" +
+                "\tdescription,\n" +
+                "\tquantity,\n" +
+                "\tis_on_sale,\n" +
+                "\tcreated_at,\n" +
+                "\tcreated_by,\n" +
+                "\tupdated_at,\n" +
+                "\tupdated_by \n" +
+                ")\n" +
+                "VALUES(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         String queryAddProductGemColor = "INSERT INTO product_gem_color VALUES (?, ?)";
+
+        String queryMaxId = "SELECT MAX(product.id) FROM product";
+
+        int id = 0;
 
         try {
             Statement statement = DBConnect.getInstall().get();
             if (statement != null) {
                 PreparedStatement psAddProduct = new DBConnect().getConnection().prepareStatement(queryAddProduct);
                 PreparedStatement psAddProductGemColor = new DBConnect().getConnection().prepareStatement(queryAddProductGemColor);
+                PreparedStatement psMaxId = new DBConnect().getConnection().prepareStatement(queryMaxId);
 
-                psAddProduct.setInt(1, id);
+                psAddProduct.setInt(1, checkParentID(cat));
                 psAddProduct.setString(2, title);
-                psAddProduct.setInt(3, quantity);
+                psAddProduct.setString(3, keyword);
                 psAddProduct.setInt(4, price);
-                psAddProduct.setString(5, keyword);
-                psAddProduct.setString(6, design);
-                psAddProduct.setInt(7, checkIdGem(nameGem, checkParentID(cat)));
-                psAddProduct.setString(8, description);
-                psAddProduct.setString(9, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
+                psAddProduct.setString(5, design);
+                psAddProduct.setString(6, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
+                psAddProduct.setString(7, description);
+                psAddProduct.setInt(8, quantity);
+                psAddProduct.setInt(9, 0);
 
-                psAddProduct.setInt(10, 0);
-                psAddProduct.setInt(11, 0);
+                psAddProduct.setDate(10, Date.valueOf(LocalDate.now()));
+                psAddProduct.setInt(11, accountLogin);
                 psAddProduct.setDate(12, Date.valueOf(LocalDate.now()));
-                psAddProduct.setDate(13, Date.valueOf(LocalDate.now()));
+                psAddProduct.setInt(13, accountLogin);
+
+                psAddProductGemColor.setInt(1, checkIdColor(color));
+
+                psAddProduct.executeUpdate();
+                ResultSet rs = psMaxId.executeQuery();
+                while (rs.next()){
+                    id = rs.getInt(1);
+                }
 
                 psAddProductGemColor.setInt(1, id);
                 psAddProductGemColor.setInt(2, checkIdColor(color));
 
-                psAddProduct.executeUpdate();
                 psAddProductGemColor.executeUpdate();
 
                 System.out.println("ADD PRODUCT SUCCESSFULLY");
 
                 psAddProduct.close();
                 psAddProductGemColor.close();
+                psMaxId.close();
+                rs.close();
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -1128,7 +1196,92 @@ public class AdminDAO {
         StringBuilder sb = new StringBuilder(); // Sử dụng StringBuilder để xây dựng chuỗi kết quả
         sb.append("["); // Thêm ký tự "[" vào đầu chuỗi
 
-        for (int i =  0; i < monthList.size(); i++) {
+        for (int i = 0; i < monthList.size(); i++) {
+            String month = monthList.get(i);
+            sb.append("\"Tháng ").append(month).append("\""); // Thêm tiền tố "tháng" vào mỗi phần tử
+            if (i < monthList.size() - 1) {
+                sb.append(", "); // Thêm dấu phẩy và khoảng trắng sau mỗi phần tử, trừ phần tử cuối cùng
+            }
+        }
+
+        sb.append("]"); // Thêm ký tự "]" vào cuối chuỗi
+        String result = sb.toString(); // Chuyển StringBuilder thành chuỗi kết quả
+
+//        System.out.println(result); //
+        return result;// In ra chuỗi kết quả
+    }
+
+    public ArrayList<Integer> get12MonthTotalRevenue() {
+        ArrayList<Integer> total = new ArrayList<>();
+        String query = "SELECT \n" +
+                "\tYEAR( `order`.order_date ),\n" +
+                "\tMONTH ( `order`.order_date ),\n" +
+                "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
+                "FROM\n" +
+                "\t`order` \n" +
+                "GROUP BY\n" +
+                "\tYEAR( `order`.order_date ),\n" +
+                "\tMONTH ( `order`.order_date )\n" +
+                "ORDER BY\n" +
+                "\t`order`.order_date DESC \n" +
+                "\tLIMIT 12";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
+
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    total.add(rs.getInt(3));
+                }
+                rs.close();
+                preparedStatement.close();
+
+            }
+        } catch (Exception e) {
+        }
+        return total;
+    }
+
+    public ArrayList<String> get12MonthLatest() {
+        ArrayList<String> months = new ArrayList<>();
+        String m = "Tháng ";
+        String query = "SELECT \n" +
+                "\tYEAR( `order`.order_date ),\n" +
+                "\tMONTH ( `order`.order_date ),\n" +
+                "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
+                "FROM\n" +
+                "\t`order` \n" +
+                "GROUP BY\n" +
+                "\tYEAR( `order`.order_date ),\n" +
+                "\tMONTH ( `order`.order_date )\n" +
+                "ORDER BY\n" +
+                "\t`order`.order_date DESC \n" +
+                "\tLIMIT 12";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement preparedStatement = new DBConnect().getConnection().prepareStatement(query);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    months.add(rs.getString(2));
+                }
+                rs.close();
+                preparedStatement.close();
+            }
+        } catch (Exception e) {
+        }
+        return months;
+    }
+
+    public String print12MonthLatest() {
+        ArrayList<String> monthList = get12MonthLatest(); // Gọi phương thức để lấy danh sách 6 tháng gần đây
+        Collections.reverse(monthList);
+
+        StringBuilder sb = new StringBuilder(); // Sử dụng StringBuilder để xây dựng chuỗi kết quả
+        sb.append("["); // Thêm ký tự "[" vào đầu chuỗi
+
+        for (int i = 0; i < monthList.size(); i++) {
             String month = monthList.get(i);
             sb.append("\"Tháng ").append(month).append("\""); // Thêm tiền tố "tháng" vào mỗi phần tử
             if (i < monthList.size() - 1) {
@@ -1169,51 +1322,51 @@ public class AdminDAO {
     }
 
 
-//    order
+    //    order
 // order admin
-public List<ProductAdmin> getListProductInOrder(int idOrder) {
-    List<ProductAdmin> list = new LinkedList<>();
-    String query = "SELECT\n" +
-            "\torder_details.order_id,\n" +
-            "\torder_details.product_id,\n" +
-            "\tproduct.category_id,\n" +
-            "\tproduct.title,\n" +
-            "\tproduct.price,\n" +
-            "\tproduct.discount,\n" +
-            "\tproduct.description,\n" +
-            "\tproduct.thumbnail,\n" +
-            "\torder_details.quantity \n" +
-            "FROM\n" +
-            "\torder_details\n" +
-            "\tJOIN product ON product.id = order_details.product_id \n" +
-            "WHERE\n" +
-            "\torder_details.order_id = ? \n" +
-            "GROUP BY\n" +
-            "\torder_details.order_id,\n" +
-            "\torder_details.product_id,\n" +
-            "\tproduct.category_id,\n" +
-            "\tproduct.title,\n" +
-            "\tproduct.price,\n" +
-            "\tproduct.discount,\n" +
-            "\tproduct.description,\n" +
-            "\tproduct.thumbnail,\n" +
-            "\torder_details.quantity";
-    try {
-        Statement statement = DBConnect.getInstall().get();
-        if (statement != null) {
-            PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
-            ps.setInt(1, idOrder);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new ProductAdmin(rs.getInt(2), rs.getString(4),
-                        rs.getInt(9), rs.getInt(5)));
+    public List<ProductAdmin> getListProductInOrder(int idOrder) {
+        List<ProductAdmin> list = new LinkedList<>();
+        String query = "SELECT\n" +
+                "\torder_details.order_id,\n" +
+                "\torder_details.product_id,\n" +
+                "\tproduct.category_id,\n" +
+                "\tproduct.title,\n" +
+                "\tproduct.price,\n" +
+                "\tproduct.discount,\n" +
+                "\tproduct.description,\n" +
+                "\tproduct.thumbnail,\n" +
+                "\torder_details.quantity \n" +
+                "FROM\n" +
+                "\torder_details\n" +
+                "\tJOIN product ON product.id = order_details.product_id \n" +
+                "WHERE\n" +
+                "\torder_details.order_id = ? \n" +
+                "GROUP BY\n" +
+                "\torder_details.order_id,\n" +
+                "\torder_details.product_id,\n" +
+                "\tproduct.category_id,\n" +
+                "\tproduct.title,\n" +
+                "\tproduct.price,\n" +
+                "\tproduct.discount,\n" +
+                "\tproduct.description,\n" +
+                "\tproduct.thumbnail,\n" +
+                "\torder_details.quantity";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setInt(1, idOrder);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new ProductAdmin(rs.getInt(2), rs.getString(4),
+                            rs.getInt(9), rs.getInt(5)));
+                }
             }
-        }
-    } catch (Exception e) {
+        } catch (Exception e) {
 
+        }
+        return list;
     }
-    return list;
-}
 
     public List<OrderAdmin> getListOrder() {
         List<OrderAdmin> list = new LinkedList<>();
