@@ -859,7 +859,7 @@ public class AdminDAO {
                             dbConnect.rs.getInt(1),
                             dbConnect.rs.getString(4),
                             dbConnect.rs.getInt(8),
-                            dbConnect.rs.getInt(12),
+                            dbConnect.rs.getInt(11),
                             dbConnect.rs.getInt(10));
                     result.add(orderAdmin);
                 }
@@ -1314,12 +1314,12 @@ public List<ProductAdmin> getListProductInOrder(int idOrder) {
 
     public static void main(String[] args) throws IOException {
 
-//        System.out.println(new AdminDAO().getNewestOrder());
+        System.out.println(new AdminDAO().getNewestOrder());
 
 //        System.out.println(new AdminDAO().getProductInLatestMonth());
-        System.out.println(new AdminDAO().get6MonthTotalRevenue());
-        System.out.println(new AdminDAO().get6MonthLatest());
-        System.out.println(new AdminDAO().print6MonthLatest());
+//        System.out.println(new AdminDAO().get6MonthTotalRevenue());
+//        System.out.println(new AdminDAO().get6MonthLatest());
+//        System.out.println(new AdminDAO().print6MonthLatest());
 
 //        new AdminDAO().editDataUser(2, "nguoidungthu02", "22222222"
 //                , "nguoi dung thu 02", "nguoidungthu02@gmail.com", "02020202", 0);

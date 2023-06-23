@@ -29,6 +29,17 @@ public class OrderAdmin {
         this.address = address;
     }
 
+    public OrderAdmin(int id, String fullName, List<ProductAdmin> products, int totalMoney, int shippingCost,  int id_status, String status, String phone) {
+        this.id = id;
+        this.fullName = fullName;
+        this.products = products;
+        this.totalMoney = totalMoney;
+        this.shippingCost = shippingCost;
+        this.id_status = id_status;
+        this.status = status;
+        this.phone = phone;
+    }
+
     public OrderAdmin() {
     }
 
