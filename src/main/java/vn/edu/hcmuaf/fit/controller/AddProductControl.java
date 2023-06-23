@@ -11,6 +11,8 @@ import javax.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @WebServlet(name = "AddProductControl", value = "/admin/doc/AddProductControl")
 public class AddProductControl extends HttpServlet {
@@ -26,13 +28,14 @@ public class AddProductControl extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
+        Locale locale = new Locale("vi", "VN");
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+
         PrintWriter out = response.getWriter();
 
         try {
 
-            int id = Integer.parseInt(request.getParameter("id"));
             String nameProduct = request.getParameter("nameProduct");
-            String nameGem = request.getParameter("nameGem");
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String category = request.getParameter("category");
             String color = request.getParameter("color");
@@ -41,13 +44,17 @@ public class AddProductControl extends HttpServlet {
             String design = request.getParameter("design");
             File imgLink = new File(request.getParameter("ImageUpload"));
             String description = request.getParameter("mota");
+
             LogService logService = LogService.getInstance();
             HttpSession session = request.getSession();
             Account account = (Account) session.getAttribute("Account");
+            int userID = account.getId();
 
-            new AdminDAO().addProduct(id, nameProduct, nameGem,
+            System.out.println(userID);
+
+            new AdminDAO().addProduct(nameProduct,
                     quantity, category, color, price,
-                    keyword, design, imgLink, description);
+                    keyword, design, imgLink, description, userID);
             logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm một sản phẩm mới vào kho hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
 
             out.println("<script type=\"text/javascript\">");
@@ -55,7 +62,7 @@ public class AddProductControl extends HttpServlet {
             out.println("location='ListProductAdminControl';");
             out.println("</script>");
         } catch (Exception e) {
-
+e.printStackTrace();
         }
 
 

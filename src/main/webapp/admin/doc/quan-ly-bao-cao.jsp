@@ -6,6 +6,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.util.Collections" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -416,7 +417,8 @@
 <script type="text/javascript" src="js/plugins/chart.js"></script>
 <script type="text/javascript">
     var data = {
-        labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+        // labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+        labels: <%=new AdminDAO().print12MonthLatest()%>,
         datasets: [{
             label: "Dữ liệu đầu tiên",
             fillColor: "rgba(255, 255, 255, 0.158)",
@@ -425,18 +427,21 @@
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "green",
-            data: [20, 59, 90, 51, 56, 100, 40, 60, 78, 53, 33, 81]
+            // data: [20, 59, 90, 51, 56, 100, 40, 60, 78, 53, 33, 81]
+            <%List<Integer> listTotal = new AdminDAO().get12MonthTotalRevenue();
+            Collections.reverse(listTotal);%>
+            data: <%=listTotal%>
         },
-            {
-                label: "Dữ liệu kế tiếp",
-                fillColor: "rgba(255, 255, 255, 0.158)",
-                strokeColor: "rgb(220, 64, 59)",
-                pointColor: "black",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "green",
-                data: [48, 48, 49, 39, 86, 10, 50, 70, 60, 70, 75, 90]
-            }
+            // {
+            //     label: "Dữ liệu kế tiếp",
+            //     fillColor: "rgba(255, 255, 255, 0.158)",
+            //     strokeColor: "rgb(220, 64, 59)",
+            //     pointColor: "black",
+            //     pointStrokeColor: "#fff",
+            //     pointHighlightFill: "#fff",
+            //     pointHighlightStroke: "green",
+            //     data: [48, 48, 49, 39, 86, 10, 50, 70, 60, 70, 75, 90]
+            // }
         ]
     };
 

@@ -243,19 +243,19 @@
                 <div class="tile-body">
                     <form class="row" action="AddProductControl" method="post">
 
-                        <div class="form-group col-md-3">
-                            <label class="control-label">ID</label>
-                            <input class="form-control" type="number" placeholder="" name="id">
-                        </div>
+<%--                        <div class="form-group col-md-3">--%>
+<%--                            <label class="control-label">ID</label>--%>
+<%--                            <input class="form-control" type="number" placeholder="" name="id">--%>
+<%--                        </div>--%>
 
                         <div class="form-group col-md-3">
                             <label class="control-label">Tên sản phẩm</label>
                             <input class="form-control" type="text" placeholder="" name="nameProduct">
                         </div>
-                        <div class="form-group col-md-3">
-                            <label class="control-label">Loại đá</label>
-                            <input class="form-control" type="text" placeholder="" name="nameGem">
-                        </div>
+<%--                        <div class="form-group col-md-3">--%>
+<%--                            <label class="control-label">Loại đá</label>--%>
+<%--                            <input class="form-control" type="text" placeholder="" name="nameGem">--%>
+<%--                        </div>--%>
 
 
                         <div class="form-group  col-md-3">
@@ -295,7 +295,7 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label class="control-label">Giá bán</label>
-                            <input class="form-control" type="text" name="price">
+                            <input class="form-control" type="number" name="price">
                         </div>
                         <div class="form-group col-md-3">
                             <label class="control-label">Keyword</label>
