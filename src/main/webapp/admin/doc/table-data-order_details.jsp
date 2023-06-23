@@ -138,15 +138,15 @@
             <div class="tile">
                 <div class="tile-body">
                     <div class="row element-button">
-<%--                        <div class="col-sm-2">--%>
-<%--                            <a class="btn btn-add btn-sm" href="form-add-don-hang.jsp" title="Thêm"><i--%>
-<%--                                    class="fas fa-plus"></i>--%>
-<%--                                Tạo mới đơn hàng</a>--%>
-<%--                        </div>--%>
-<%--                        <div class="col-sm-2">--%>
-<%--                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i--%>
-<%--                                    class="fas fa-file-excel"></i> Xuất Excel</a>--%>
-<%--                        </div>--%>
+                        <%--                        <div class="col-sm-2">--%>
+                        <%--                            <a class="btn btn-add btn-sm" href="form-add-don-hang.jsp" title="Thêm"><i--%>
+                        <%--                                    class="fas fa-plus"></i>--%>
+                        <%--                                Tạo mới đơn hàng</a>--%>
+                        <%--                        </div>--%>
+                        <%--                        <div class="col-sm-2">--%>
+                        <%--                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i--%>
+                        <%--                                    class="fas fa-file-excel"></i> Xuất Excel</a>--%>
+                        <%--                        </div>--%>
                     </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
@@ -171,14 +171,15 @@
                             </td>
                             <td><%=pa.getName()%>
                             </td>
-                            <td><img src="<%=pa.getImageLink()%>"  alt="" width="100px" height="50px">
+                            <td><img src="<%=pa.getImageLink()%>" alt="" width="100px" height="70px"
+                                     style="object-fit: cover">
                             </td>
                             <td><%=pa.getQuantity()%>
                             </td>
-                            <td><%=pa.getPrice()%>
+                            <td><%=numberFormat.format(pa.getPrice())%>
                             </td>
                             <td>
-                                <%=pa.getTotalMoney()%>
+                                <%=numberFormat.format(pa.getTotalMoney())%>
                             </td>
                         </tr>
                         <%}%>

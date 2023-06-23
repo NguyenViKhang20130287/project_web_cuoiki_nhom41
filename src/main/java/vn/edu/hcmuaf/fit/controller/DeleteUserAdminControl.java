@@ -1,7 +1,10 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
+import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.entity.User;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,7 +19,6 @@ public class DeleteUserAdminControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-
     }
 
     @Override
@@ -27,10 +29,13 @@ public class DeleteUserAdminControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
-
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("Account");
+        String roleName = account.getRole() == 0 ? "Quản trị viên" : "";
+        LogService logService = LogService.getInstance();
         try {
             new AdminDAO().deleteUser(uid);
-
+            logService.insertNewLog(new Log(Log.DANGER, account.getId(), this.getClass().getName(), roleName + " mã: " + account.getId() + " đã người dùng có mã: " + uid, 0, logService.getIpClient(request), logService.getBrowserName(request)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

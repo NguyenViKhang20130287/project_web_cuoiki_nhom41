@@ -1,5 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.dao.OrderDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.OrderAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="java.util.Objects" %>
@@ -152,10 +151,11 @@
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                         <tr>
-                            <th width="10"><input type="checkbox" id="all"></th>
+                            <%--                            <th width="10"><input type="checkbox" id="all"></th>--%>
                             <th>ID</th>
                             <th>Khách hàng</th>
-                            <th>Đơn hàng</th>
+                            <th>Địa chỉ</th>
+                            <%--                            <th>Đơn hàng</th>--%>
                             <th>Số điện thoại</th>
                             <th>Tổng tiền</th>
                             <th>Tình trạng</th>
@@ -169,18 +169,11 @@
                         %>
 
                         <tr>
-                            <td width="10"><input type="checkbox" name="check1" value="1"></td>
                             <td><%=o.getId()%>
                             </td>
                             <td><%=o.getFullName()%>
                             </td>
-                            <td>
-                                <%for (ProductAdmin p : o.getProducts()) {%>
-                                <%=p.getName()%>
-                                <b>x <%=p.getQuantity()%>
-                                </b>,
-                                <%}%>
-                                <%--                                <%=o.getProducts()%>--%>
+                            <td><%=o.getAddress()%>
                             </td>
 
                             <td><%=o.getPhone()%>
@@ -202,15 +195,26 @@
                                 <%}%>
                             </td>
                             <td id="buttonGroup">
-                                <%if (o.getId_status() == 1 || o.getId_status() == 4) {%>
-                                <button class="btn btn-primary btn-sm edit updateStatus" type="button" title="Cập nhật">
-                                    <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i
-                                            class="fa fa-edit"></i></a></button>
-                                <%} else if ((o.getId_status() == 2 || o.getId_status() == 3)) {%>
-                                <button class="btn btn-primary btn-sm edit updateStatus" type="button" title="Cập nhật"
-                                        id="btn-confirm" data-orderid="<%=o.getId()%>"><i
-                                        class="fa fa-edit"></i></button>
-                                <%}%>
+
+                                        <%if (o.getId_status() == 1 || o.getId_status() == 4) {%>
+                                    <button class="btn btn-primary btn-sm edit updateStatus" type="button"
+                                            title="Cập nhật">
+                                        <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i
+                                                class="fa fa-edit"></i></a></button>
+                                    <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
+                                       style="padding: 5px 15px;"
+                                       href="loadDetailsOrder?oid=<%=o.getId()%>">
+                                        <i class="fa-solid fa-info" style=""></i></a>
+                                        <%} else if ((o.getId_status() == 2 || o.getId_status() == 3)) {%>
+                                    <button class="btn btn-primary btn-sm edit updateStatus" type="button"
+                                            title="Cập nhật"
+                                            id="btn-confirm" data-orderid="<%=o.getId()%>"><i
+                                            class="fa fa-edit"></i></button>
+                                    <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
+                                       style="padding: 5px 15px;"
+                                       href="loadDetailsOrder?oid=<%=o.getId()%>">
+                                        <i class="fa-solid fa-info" style=""></i></a>
+                                        <%}%>
 
                             </td>
                             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
@@ -220,20 +224,24 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel"><%=o.getId_status()==2?"Bạn có chắc là cập nhật đơn hàng\n" +
-                                                    "                                                sang Đã giao trong khi đơn hàng chưa được người dùng xác nhận Đã nhận?":"Bạn có chắc là cập nhật đơn hàng\n" +
-                                                    "                                                sang Đã hủy trong khi đơn hàng Đã giao thành công?"%></h4>
+                                            <h4 class="modal-title"
+                                                id="myModalLabel"><%=o.getId_status() == 2 ? "Bạn có chắc là cập nhật đơn hàng\n" +
+                                                    "                                                sang Đã giao trong khi đơn hàng chưa được người dùng xác nhận Đã nhận?" : "Bạn có chắc là cập nhật đơn hàng\n" +
+                                                    "                                                sang Đã hủy trong khi đơn hàng Đã giao thành công?"%>
+                                            </h4>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default btn-yes" id="modal-btn-si"><a
                                                     href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>">Có</a>
                                             </button>
-                                            <button type="button" class="btn btn-primary btn-no" id="modal-btn-no" data-orderid="<%=o.getId()%>">Không
+                                            <button type="button" class="btn btn-primary btn-no" id="modal-btn-no"
+                                                    data-orderid="<%=o.getId()%>">Không
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </tr>
                         <%}%>
                         </tbody>
@@ -242,6 +250,8 @@
             </div>
         </div>
     </div>
+
+    <%--    --%>
 
 </main>
 <!-- Essential javascripts for application to work-->
@@ -371,8 +381,6 @@
     $("#show-emp").on("click", function () {
         $("#ModalUP").modal({backdrop: false, keyboard: false})
     });
-
-
     $(".updateStatus").on("click", function () {
         var orderId = this.getAttribute('data-orderid');
         console.log(orderId)
@@ -388,7 +396,6 @@
         console.log(modalId)
         $('#' + modalId).css({"display": "none", "opacity": "0"});
     });
-
     $(".btn-yes").on("click", function () {
         $("#mi-modal").modal('hide');
     });

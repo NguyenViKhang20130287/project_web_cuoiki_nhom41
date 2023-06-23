@@ -676,7 +676,7 @@ public class AdminDAO {
 
     }
 
-    public void DeleteUser(int id) {
+    public void DeleteProductAdmin(int id) {
 
         String query_del_color = "DELETE FROM product_gem_color WHERE product_gem_color.product_id = ?";
         String query_del_product = "DELETE FROM product WHERE product.id = ?";

@@ -48,7 +48,7 @@ public class ReviewControl extends HttpServlet {
         review.setRating(rating);
         review.setDatePost(new Date());
         reviewDAO.insertReview(review);
-        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm một bình luận mới cho sản phẩm mã " + product.getId() + "", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Người dùng có tên đăng nhập: " + account.getUsername() + " đã thêm một bình luận mới cho sản phẩm mã " + product.getId() + "", 0, logService.getIpClient(request), logService.getBrowserName(request)));
         out.println("<script type=\"text/javascript\">");
         out.println("alert('Đánh giá đã được gửi thành công!');");
         out.println("location='product-detail?product_id=" + id + "';");

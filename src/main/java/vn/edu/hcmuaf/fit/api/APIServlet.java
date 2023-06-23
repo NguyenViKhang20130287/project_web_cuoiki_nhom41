@@ -26,20 +26,20 @@ public class APIServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
-            }else if(action.equals("getDistricts")){
+            } else if (action.equals("getDistricts")) {
                 String provinceId = request.getHeader("ProvinceID");
                 System.out.print(provinceId);
                 result = APIHandler.getDistricts(access_token, provinceId);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
-            }else if(action.equals("getWards")){
+            } else if (action.equals("getWards")) {
                 String districtId = request.getHeader("DistrictID");
                 result = APIHandler.getWards(access_token, districtId);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
-            }else if(action.equals("getLeadTime")){
+            } else if (action.equals("getLeadTime")) {
                 StringBuilder requestBody = new StringBuilder();
                 BufferedReader reader = request.getReader();
                 String line;
@@ -54,9 +54,12 @@ public class APIServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
+            } else if (action.equals("getAllTransports")) {
+                result = APIHandler.getAllTransports(access_token);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(result);
             }
-        } else {
-            // Không có access_token hợp lệ, xử lý lỗi hoặc chuyển hướng đến trang đăng nhập
         }
     }
 
@@ -70,7 +73,7 @@ public class APIServlet extends HttpServlet {
             String action = request.getParameter("action");
 
             String result = "";
-            if(action.equals("getLeadTime")){
+            if (action.equals("getLeadTime")) {
                 StringBuilder requestBody = new StringBuilder();
                 BufferedReader reader = request.getReader();
                 String line;

@@ -142,7 +142,8 @@
                                 <div class="item-1">
                                     <div class="input-text">
                                         <label for="phone">Số Điện Thoại <span style="color: red">*</span></label>
-                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone" minlength="10" maxlength="10" required
+                                        <input type="tel" id="phone" placeholder="Số Điện Thoại" name="phone"
+                                               minlength="10" maxlength="10" required
                                                value="<%=accSession!=null?accSession.getPhone():""%>">
                                     </div>
                                 </div>
@@ -285,7 +286,7 @@
                                 <%
                                     }
                                 %>
-                                <button type="submit" class="place-order">ĐẶT HÀNG
+                                <button type="submit" class="place-order" onclick="registerTransports()">ĐẶT HÀNG
                                 </button>
                             </div>
 
@@ -339,6 +340,7 @@
             login();
         }
     }
+
     // Kiểm tra và sử dụng access_token
     checkAccessTokenValidity();
 
@@ -634,6 +636,23 @@
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function getAllTransports() {
+        fetch('./api?action=getAllTransports', {
+            headers: {
+                Authorization: 'Bearer ' + access_token,
+            },
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Xử lý phản hồi
                 console.log(data);
             })
             .catch(error => {

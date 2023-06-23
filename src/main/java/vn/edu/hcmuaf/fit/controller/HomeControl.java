@@ -20,7 +20,6 @@ public class HomeControl extends HttpServlet {
         List<Product> latestProduct = productDAO.getTop5Product();
 
         request.setAttribute("productList", latestProduct);
-//        request.getRequestDispatcher("index.jsp").forward(request,response);
 
         List<Banner> listBanner = new AdminDAO().getListBanner();
         request.setAttribute("listBanner", listBanner);
