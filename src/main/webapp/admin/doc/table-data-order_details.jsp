@@ -129,7 +129,7 @@
 <main class="app-content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item active"><a href="#"><b>Danh sách đơn hàng</b></a></li>
+            <li class="breadcrumb-item active"><a href="#"><b>Chi tiết đơn hàng</b></a></li>
         </ul>
         <div id="clock"></div>
     </div>
@@ -138,72 +138,48 @@
             <div class="tile">
                 <div class="tile-body">
                     <div class="row element-button">
-                        <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" href="form-add-don-hang.jsp" title="Thêm"><i
-                                    class="fas fa-plus"></i>
-                                Tạo mới đơn hàng</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i
-                                    class="fas fa-file-excel"></i> Xuất Excel</a>
-                        </div>
+<%--                        <div class="col-sm-2">--%>
+<%--                            <a class="btn btn-add btn-sm" href="form-add-don-hang.jsp" title="Thêm"><i--%>
+<%--                                    class="fas fa-plus"></i>--%>
+<%--                                Tạo mới đơn hàng</a>--%>
+<%--                        </div>--%>
+<%--                        <div class="col-sm-2">--%>
+<%--                            <a class="btn btn-excel btn-sm" href="writeExcelControl" title="In"><i--%>
+<%--                                    class="fas fa-file-excel"></i> Xuất Excel</a>--%>
+<%--                        </div>--%>
                     </div>
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                         <tr>
-                            <%--                            <th width="10"><input type="checkbox" id="all"></th>--%>
                             <th>ID</th>
-                            <th>Khách hàng</th>
-                            <th>Địa chỉ</th>
-                            <%--                            <th>Đơn hàng</th>--%>
-                            <th>Số điện thoại</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Số lượng</th>
+                            <th>Gía</th>
                             <th>Tổng tiền</th>
-                            <th>Tình trạng</th>
-                            <th>Tính năng</th>
                         </tr>
                         </thead>
                         <tbody id="bodyTable">
                         <%
-                            List<OrderAdmin> list = (List<OrderAdmin>) request.getAttribute("listOrder");
-                            for (OrderAdmin o : list) {
+                            List<ProductAdmin> list = (List<ProductAdmin>) request.getAttribute("detailsOrder");
+                            for (ProductAdmin pa : list) {
                         %>
 
                         <tr>
-                            <td><%=o.getId()%>
-                            </td>
-                            <td><%=o.getFullName()%>
-                            </td>
-                            <td><%=o.getAddress()%>
-                            </td>
 
-                            <td><%=o.getPhone()%>
+                            <td><%=pa.getId()%>
                             </td>
-                            <td><%=numberFormat.format(o.getTotalMoney() + o.getShippingCost())%>
+                            <td><%=pa.getName()%>
                             </td>
-                            <td id="orderStatus">
-                                <%if (o.getId_status() == 1) {%>
-                                <span class="badge bg-warning">Chờ xác nhận</span>
-                                <%}%>
-                                <%if (o.getId_status() == 2) {%>
-                                <span class="badge bg-info">Đang giao hàng</span>
-                                <%}%>
-                                <%if (o.getId_status() == 3) {%>
-                                <span class="badge bg-success">Đã giao</span>
-                                <%}%>
-                                <%if (o.getId_status() == 4) {%>
-                                <span class="badge bg-danger">Đã hủy</span>
-                                <%}%>
+                            <td><img src="<%=pa.getImageLink()%>"  alt="" width="100px" height="50px">
                             </td>
-                            <td id="buttonGroup">
-<%--                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">--%>
-<%--                                    <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i--%>
-<%--                                            class="fa fa-edit"></i></a></button>--%>
-                                <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
-                                   style="padding: 5px 15px;"
-                                   href="loadDetailsOrder?oid=<%=o.getId()%>">
-                                    <i class="fa-solid fa-info" style=""></i></a>
+                            <td><%=pa.getQuantity()%>
                             </td>
-
+                            <td><%=pa.getPrice()%>
+                            </td>
+                            <td>
+                                <%=pa.getTotalMoney()%>
+                            </td>
                         </tr>
                         <%}%>
                         </tbody>

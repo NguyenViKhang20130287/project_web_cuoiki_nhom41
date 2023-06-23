@@ -14,6 +14,8 @@ public class ProductAdmin {
 
     int discount;
 
+    int totalMoney;
+
     public ProductAdmin() {
     }
 
@@ -47,6 +49,25 @@ public class ProductAdmin {
         this.imageLink = imageLink;
         this.quantity = quantity;
         this.price = price;
+    }
+
+    public ProductAdmin(int id, String name, String imageLink, int quantity,
+                        int price, int totalMoney) {
+        this.id = id;
+        this.name = name;
+        this.imageLink = imageLink;
+        this.quantity = quantity;
+        this.price = price;
+        this.totalMoney = totalMoney;
+    }
+
+
+    public int getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(int totalMoney) {
+        this.totalMoney = totalMoney;
     }
 
     public int getId() {

@@ -5,7 +5,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
-import vn.edu.hcmuaf.fit.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.entity.OrderAdmin;
 
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ import java.util.Locale;
 public class writeExcelTotalRevenueControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<OrderAdmin> list = new OrderDAO().getListOrder();
+        List<OrderAdmin> list = new AdminDAO().getListOrder();
         Locale locale = new Locale("vi", "VN");
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
         response.setContentType("application/vnd.ms-excel");

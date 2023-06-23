@@ -1168,11 +1168,156 @@ public class AdminDAO {
         return list;
     }
 
+
+//    order
+// order admin
+public List<ProductAdmin> getListProductInOrder(int idOrder) {
+    List<ProductAdmin> list = new LinkedList<>();
+    String query = "SELECT\n" +
+            "\torder_details.order_id,\n" +
+            "\torder_details.product_id,\n" +
+            "\tproduct.category_id,\n" +
+            "\tproduct.title,\n" +
+            "\tproduct.price,\n" +
+            "\tproduct.discount,\n" +
+            "\tproduct.description,\n" +
+            "\tproduct.thumbnail,\n" +
+            "\torder_details.quantity \n" +
+            "FROM\n" +
+            "\torder_details\n" +
+            "\tJOIN product ON product.id = order_details.product_id \n" +
+            "WHERE\n" +
+            "\torder_details.order_id = ? \n" +
+            "GROUP BY\n" +
+            "\torder_details.order_id,\n" +
+            "\torder_details.product_id,\n" +
+            "\tproduct.category_id,\n" +
+            "\tproduct.title,\n" +
+            "\tproduct.price,\n" +
+            "\tproduct.discount,\n" +
+            "\tproduct.description,\n" +
+            "\tproduct.thumbnail,\n" +
+            "\torder_details.quantity";
+    try {
+        Statement statement = DBConnect.getInstall().get();
+        if (statement != null) {
+            PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+            ps.setInt(1, idOrder);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductAdmin(rs.getInt(2), rs.getString(4),
+                        rs.getInt(9), rs.getInt(5)));
+            }
+        }
+    } catch (Exception e) {
+
+    }
+    return list;
+}
+
+    public List<OrderAdmin> getListOrder() {
+        List<OrderAdmin> list = new LinkedList<>();
+        String query = "SELECT\n" +
+                "\t`order`.id,\n" +
+                "\t`order`.full_name,\n" +
+                "\t`order`.order_total,\n" +
+                "\t`order`.shipping_cost,\n" +
+                "\torder_status.id,\n" +
+                "\torder_status.`status`,\n" +
+                "\t`order`.phone_number,\n" +
+                "\t`order`.shipping_address,\n" +
+                "\tad.hnum_sname,\n" +
+                "\tad.ward_commune,\n" +
+                "\tad.county_district,\n" +
+                "\tad.province_city \n" +
+                "FROM\n" +
+                "\t`order`\n" +
+                "\tJOIN order_details ON `order`.id = order_details.order_id\n" +
+                "\tJOIN order_status ON order_status.id = `order`.`status`\n" +
+                "\tJOIN address ad ON ad.id = `order`.shipping_address \n" +
+                "GROUP BY\n" +
+                "`order`.id,\n" +
+                "\t`order`.full_name,\n" +
+                "\t`order`.order_total,\n" +
+                "\t`order`.shipping_cost,\n" +
+                "\torder_status.id,\n" +
+                "\torder_status.`status`,\n" +
+                "\t`order`.phone_number,\n" +
+                "\t`order`.shipping_address,\n" +
+                "\tad.hnum_sname,\n" +
+                "\tad.ward_commune,\n" +
+                "\tad.county_district,\n" +
+                "\tad.province_city ";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new OrderAdmin(rs.getInt(1), rs.getString(2),
+                            getListProductInOrder(rs.getInt(1)),
+                            rs.getInt(3),
+                            rs.getInt(4),
+                            rs.getInt(5),
+                            rs.getString(6),
+                            rs.getString(7), rs.getString(9) + "\n" +
+                            rs.getString(10) + "\n" + rs.getString(11)));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
+
+
+    public List<ProductAdmin> loadDetailsOrder(int id) {
+        List<ProductAdmin> list = new ArrayList<>();
+        String query = "SELECT\n" +
+                "\to.id,\n" +
+                "\tod.product_id,\n" +
+                "\tp.title,\n" +
+                "\tp.thumbnail,\n" +
+                "\tod.quantity,\n" +
+                "\tod.price,\n" +
+                "\tod.total_money \n" +
+                "FROM\n" +
+                "\t`order` o\n" +
+                "\tJOIN order_details od ON o.id = od.order_id \n" +
+                "\tJOIN product p ON p.id = od.product_id\n" +
+                "\tWHERE o.id = ?\n" +
+                "GROUP BY\n" +
+                "\to.id,\n" +
+                "\tod.product_id,\n" +
+                "\tp.title,\n" +
+                "\tp.thumbnail,\n" +
+                "\tod.quantity,\n" +
+                "\tod.price,\n" +
+                "\tod.total_money";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new ProductAdmin(rs.getInt(2), rs.getString(3),
+                            rs.getString(4), rs.getInt(5),
+                            rs.getInt(6), rs.getInt(7)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String[] args) throws IOException {
 
 //        System.out.println(new AdminDAO().getNewestOrder());
 
 //        System.out.println(new AdminDAO().getProductInLatestMonth());
+        System.out.println(new AdminDAO().get6MonthTotalRevenue());
         System.out.println(new AdminDAO().get6MonthLatest());
         System.out.println(new AdminDAO().print6MonthLatest());
 

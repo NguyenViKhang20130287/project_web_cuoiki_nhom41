@@ -4,21 +4,20 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import vn.edu.hcmuaf.fit.dao.OrderDAO;
+import vn.edu.hcmuaf.fit.dao.AdminDAO;
 import vn.edu.hcmuaf.fit.entity.OrderAdmin;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "writeExcelControl", value = "/admin/doc/writeExcelControl")
 public class writeExcelControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<OrderAdmin> list = new OrderDAO().getListOrder();
+        List<OrderAdmin> list = new AdminDAO().getListOrder();
 //        PrintWriter out = response.getWriter();
         response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment;filename=DonHang.xlsx");

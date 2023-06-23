@@ -15,7 +15,9 @@ public class OrderAdmin {
 
     String phone;
 
-    public OrderAdmin(int id, String fullName, List<ProductAdmin> products, int totalMoney, int shippingCost,  int id_status, String status, String phone) {
+    String address;
+
+    public OrderAdmin(int id, String fullName, List<ProductAdmin> products, int totalMoney, int shippingCost,  int id_status, String status, String phone, String address) {
         this.id = id;
         this.fullName = fullName;
         this.products = products;
@@ -24,12 +26,19 @@ public class OrderAdmin {
         this.id_status = id_status;
         this.status = status;
         this.phone = phone;
+        this.address = address;
     }
 
     public OrderAdmin() {
     }
 
+    public String getAddress() {
+        return address;
+    }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public OrderAdmin(int totalMoney) {
         this.totalMoney = totalMoney;
