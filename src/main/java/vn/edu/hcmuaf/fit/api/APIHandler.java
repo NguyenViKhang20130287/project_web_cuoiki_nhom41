@@ -145,6 +145,7 @@ public class APIHandler {
         }
         return null;
     }
+
     public static String shippingCosts(String accessToken, String to_district_id, String to_ward_id) {
         try {
             String url = "http://140.238.54.136/api/calculateFee?token=" + accessToken;
@@ -219,8 +220,28 @@ public class APIHandler {
         return null;
     }
 
+    public static String getAllTransports(String accessToken) {
+        try {
+            String url = "http://140.238.54.136/api/allTransports?token=" + accessToken;
+            HttpClient client = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+            httpGet.setHeader(HttpHeaders.ACCEPT, "application/json");
+
+            HttpResponse response = client.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+
+            if (responseEntity != null) {
+                String responseString = EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+                return responseString;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public static void main(String[] args) {
-        System.out.println(leadTime("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTQwLjIzOC41NC4xMzYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODYzMjUzNDksImV4cCI6MTY4NjMyNTk0OSwibmJmIjoxNjg2MzI1MzQ5LCJqdGkiOiJ2QkpxSFp0TXFvc3B0QkljIiwic3ViIjoiODg2ZDkzMjQ3ZjgxNDE5ZDhlYjg2YTk3NDUwY2NkMGUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.asDvfLYvSetb71gabtSzYuokvCPFPTqZcUi4Miqk1FA", "2270", "231013"));
     }
 }

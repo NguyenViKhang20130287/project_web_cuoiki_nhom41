@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.dao.CheckoutDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.CartItem;
+import vn.edu.hcmuaf.fit.entity.Log;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +44,9 @@ public class CheckoutBuyNowControl extends HttpServlet {
         String pass = request.getParameter("pass");
         String note = request.getParameter("note");
         String newAccount = request.getParameter("newAccount");
-        String payment = request.getParameter("payment");int shippingCost = Integer.parseInt(request.getParameter("costs"));
+        String payment = request.getParameter("payment");
+        int shippingCost = Integer.parseInt(request.getParameter("costs"));
+        LogService logService = LogService.getInstance();
 
         Account accSession = (Account) session.getAttribute("Account");
         String username = "";
@@ -115,6 +119,9 @@ public class CheckoutBuyNowControl extends HttpServlet {
                 int statusId = 1;
                 if (paymentMethod.equals("Tiền mặt")) {
                     statusId = 2;
+                }
+                if (accSession != null) {
+                    logService.insertNewLog(new Log(Log.INFO, accSession.getId(), this.getClass().getName(), "Người dùng có tên đăng nhập: " + accSession.getUsername() + " đã mua ngay một sản phẩm", 0, logService.getIpClient(request), logService.getBrowserName(request)));
                 }
                 checkoutDAO.addCheckout(name, idAdd, mail, phone, note, cart, userId, paymentMethod, statusId, shippingCost);
                 Map<Integer, CartItem> cartList = (Map<Integer, CartItem>) session.getAttribute("cart");

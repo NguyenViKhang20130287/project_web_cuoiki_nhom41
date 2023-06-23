@@ -1,7 +1,10 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
+import vn.edu.hcmuaf.fit.entity.Account;
+import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.entity.ProductAdmin;
+import vn.edu.hcmuaf.fit.service.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,25 +16,26 @@ import java.util.List;
 @WebServlet(name = "DeleteProductAdminControl", value = "/admin/doc/DeleteProductAdminControl")
 public class DeleteProductAdminControl extends HttpServlet {
 
-    public String checkStatus(int quantity){
+    public String checkStatus(int quantity) {
         String status = "";
-        if(quantity > 0){
+        if (quantity > 0) {
             status = "success";
-        }else{
+        } else {
             status = "danger";
         }
         return status;
     }
 
-    public int showPrice(int price, int discount){
+    public int showPrice(int price, int discount) {
         int result = 0;
-        if(discount == 0 ){
+        if (discount == 0) {
             result = price;
-        }else{
+        } else {
             result = discount;
         }
         return result;
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -47,12 +51,15 @@ public class DeleteProductAdminControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
-
-
+        LogService logService = LogService.getInstance();
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("Account");
+        String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên kế toán";
 
 
         try {
-            new AdminDAO().DeleteUser(pid);
+            new AdminDAO().DeleteProductAdmin(pid);
+            logService.insertNewLog(new Log(Log.WARNING, account.getId(), this.getClass().getName(), roleName + " mã: " + account.getId() + " đã xóa sản phẩm có mã: " + pid, 0, logService.getIpClient(request), logService.getBrowserName(request)));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -62,26 +69,26 @@ public class DeleteProductAdminControl extends HttpServlet {
         for (ProductAdmin pa : list) {
             out.println("<tbody>\n" +
                     "<tr>\n" +
-                    "<td>"+pa.getId()+"</td>\n" +
-                    "<td>"+pa.getName()+"</td>\n" +
-                    "<td><img src=\""+pa.getImageLink()+"\" alt=\"\" width=\"100px\" height=\"50px\"></td>" +
-                    "<td>"+pa.getQuantity()+"</td>" +
+                    "<td>" + pa.getId() + "</td>\n" +
+                    "<td>" + pa.getName() + "</td>\n" +
+                    "<td><img src=\"" + pa.getImageLink() + "\" alt=\"\" width=\"100px\" height=\"50px\"></td>" +
+                    "<td>" + pa.getQuantity() + "</td>" +
                     "<td>" +
-                    "<span class=\"badge bg-"+checkStatus(pa.getQuantity())+"\">" +
-                    pa.getStatus()+" </span></td>" +
+                    "<span class=\"badge bg-" + checkStatus(pa.getQuantity()) + "\">" +
+                    pa.getStatus() + " </span></td>" +
                     //
 //                    "<%if ("+pa.getDiscount()+" == 0) {%>\n" +
-                    "<td>"+showPrice(pa.getPrice(), pa.getDiscount())+"</td>\n" +
+                    "<td>" + showPrice(pa.getPrice(), pa.getDiscount()) + "</td>\n" +
 //                    "<%} else {%>\n" +
 //                    "<td>"+pa.getDiscount()+"</td>\n" +
 //                    "<%}%>\n" +
                     //
                     "\n" +
-                    "<td>"+pa.getCategory()+"\n" +
+                    "<td>" + pa.getCategory() + "\n" +
                     "</td>\n" +
                     "<td>\n" +
                     "<button class=\"btn btn-primary btn-sm trash\" title=\"Xóa\" type=\"button\"\n" +
-                    "onclick=\"deleteProduct(id="+pa.getId()+")\">\n" +
+                    "onclick=\"deleteProduct(id=" + pa.getId() + ")\">\n" +
                     "<i class=\"fas fa-trash-alt\"></i></button>\n" +
                     "<a class=\"btn btn-primary btn-sm edit\" title=\"Sửa\" id=\"show-emp\"\n" +
                     "href=\"DetailsProductAdminControl?edit_pid=<%=pa.getId()%>\"><i class=\"fas fa-edit\"></i></a>\n" +

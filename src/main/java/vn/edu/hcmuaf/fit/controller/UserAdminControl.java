@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.controller;
 import com.google.gson.Gson;
 import vn.edu.hcmuaf.fit.dao.AccountDAO;
 import vn.edu.hcmuaf.fit.dao.AdminDAO;
+import vn.edu.hcmuaf.fit.dao.LogDAO;
+import vn.edu.hcmuaf.fit.dao.LoginDAO;
 import vn.edu.hcmuaf.fit.entity.Account;
 import vn.edu.hcmuaf.fit.entity.Log;
 import vn.edu.hcmuaf.fit.entity.User;
@@ -23,11 +25,14 @@ public class UserAdminControl extends HttpServlet {
         LogService logService = LogService.getInstance();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("Account");
+        String roleName = account.getRole() == 0 ? "Quản trị viên" : "";
         String user_id = request.getParameter("user_id");
+        Account user = new LoginDAO().getAccount(user_id);
         if (user_id != null) {
             int userId = Integer.parseInt(user_id);
             new AccountDAO().unLockAccount(userId);
-            logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), "Đã mở khóa tài khoản mã " + userId + "", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+            new LogDAO().updateStatus(userId);
+            logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), roleName + " mã: " + account.getId() + " đã mở khóa tài khoản có tên đăng nhập: " + user.getUsername(), 0, logService.getIpClient(request), logService.getBrowserName(request)));
         }
         List<Account> lockedAccountList = new AccountDAO().lockedAccountList();
         request.setAttribute("lockedAccountList", lockedAccountList);

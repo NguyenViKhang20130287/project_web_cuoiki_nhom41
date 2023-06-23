@@ -3,7 +3,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.Product" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.OrderAdmin" %>
-<%@ page import="vn.edu.hcmuaf.fit.dao.OrderDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.dao.AdminDAO" %>
 <%@ page import="java.util.Objects" %>
@@ -302,7 +301,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% List<OrderAdmin> listOrder = new OrderDAO().getListOrder();
+                        <% List<OrderAdmin> listOrder = new AdminDAO().getListOrder();
                             for (OrderAdmin o : listOrder) {
                         %>
                         <tr>

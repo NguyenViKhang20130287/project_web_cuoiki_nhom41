@@ -292,37 +292,7 @@
                             </div>
                         </div>
                         <p id="checkQuantity" style="color: red"></p>
-                        <div class="size_wrapper">
-                            <% List<Variation> variationList = (List<Variation>) request.getAttribute("variationList");%>
-                            <% for (Variation v : variationList) {%>
-                            <% if (category.getId() == v.getCategory().getId()) {%>
-                            <div style="margin-right: 15px"><%=v.getName()%>
-                            </div>
-                            <%}%>
-                            <%}%>
-                            <% for (Variation v : variationList) {%>
-                            <%if (category.getId() == v.getCategory().getId()) {%>
-                            <select class="select_size">
-                                <option>-- Vui lòng chọn --</option>
-                                <%
-                                    List<VariationOption> variationOptionList = (List<VariationOption>) request.getAttribute("variationOptionList");
-                                    for (VariationOption vo : variationOptionList) {%>
-                                <option><%=vo.getValue()%>
-                                </option>
-                                <%}%>
-                            </select>
-                            <%}%>
-                            <%}%>
-                        </div>
                     </div>
-                    <% for (Variation v : variationList) {%>
-                    <%if (category.getId() == v.getCategory().getId()) {%>
-                    <!-- Trigger/Open The Modal -->
-                    <button id="myBtn" onclick="showDiv()"><span>Hướng dẫn chọn kích cỡ<i
-                            class="fa-solid fa-chevron-right"></i></span>
-                    </button>
-                    <%}%>
-                    <%}%>
                     <div class="btn-groups">
                         <button onclick="addtocart(<%=product.getId()%>)" <%=new CartDao().checkQuantity(String.valueOf(product.getId()))%>
                                 type="button" class="add_cart_btn">
@@ -537,25 +507,6 @@
         </div>
     </div>
 </div>
-<% if (product.getCategory().getParent_id() == category.getId()) {%>
-<!-- The Modal -->
-<div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2><strong>Bảng size nhẫn</strong></h2>
-        <div style="margin: 15px 0"><img src="img/ring-size-chart.png" alt=""></div>
-        <h2><strong>Cách đơn giản nhất để đo size nhẫn</strong></h2>
-        <h3><strong>Đo bằng tờ giấy & thước</strong></h3>
-        <p>Bước 1:&nbsp;Chuẩn bị một cây thước, 1 cây kéo, 1 cây bút &amp; một tờ giấy</p>
-        <p>Bước 2:&nbsp;Cắt một mảnh giấy dài khoảng 10 cm và rộng 1 cm.</p>
-        <p>Bước 3:&nbsp;Sử dụng đoạn giấy vừa cắt để quấn sát quanh ngón tay muốn đo.</p>
-        <p>Bước 4:&nbsp;Đánh dấu điểm giao nhau.</p>
-        <p>Bước 5:&nbsp;Tháo ra dùng thước đo chiều dài của đoạn giấy từ điểm đầu cho đến phần đánh dấu. Lấy kết quả đo
-            được chia cho 3,14. Sau đó đối chiếu với&nbsp;Bảng size nhẫn.</p>
-    </div>
-</div>
-<%}%>
 
 <!--footer page-->
 <%@include file="foooter.jsp" %>
