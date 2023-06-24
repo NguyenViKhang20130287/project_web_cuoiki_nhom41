@@ -15,7 +15,7 @@
     <!-- or -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -189,8 +189,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
-<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <li><a class="app-menu__item active" href="ListProductAdminControl"><i
                 class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
         </li>
@@ -211,8 +211,8 @@
                 class="app-menu__label">Bảng điều khiển</span></a></li>
         <li><a class="app-menu__item" href="LoadListBannerControl"><i class="app-menu__icon fa-solid fa-sliders"></i>
             <span class="app-menu__label">Quản lý banner</span></a></li>
-<%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
-<%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
+        <%--        <li><a class="app-menu__item " href="UserAdminControl"><i class='app-menu__icon bx bx-id-card'></i> <span--%>
+        <%--                class="app-menu__label">Quản lý khách hàng</span></a></li>--%>
         <%--        <li><a class="app-menu__item" href="ListProductAdminControl"><i--%>
         <%--                class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>--%>
         <%--        </li>--%>
@@ -243,19 +243,19 @@
                 <div class="tile-body">
                     <form class="row" action="AddProductControl" method="post">
 
-<%--                        <div class="form-group col-md-3">--%>
-<%--                            <label class="control-label">ID</label>--%>
-<%--                            <input class="form-control" type="number" placeholder="" name="id">--%>
-<%--                        </div>--%>
+                        <%--                        <div class="form-group col-md-3">--%>
+                        <%--                            <label class="control-label">ID</label>--%>
+                        <%--                            <input class="form-control" type="number" placeholder="" name="id">--%>
+                        <%--                        </div>--%>
 
                         <div class="form-group col-md-3">
                             <label class="control-label">Tên sản phẩm</label>
                             <input class="form-control" type="text" placeholder="" name="nameProduct">
                         </div>
-<%--                        <div class="form-group col-md-3">--%>
-<%--                            <label class="control-label">Loại đá</label>--%>
-<%--                            <input class="form-control" type="text" placeholder="" name="nameGem">--%>
-<%--                        </div>--%>
+                        <%--                        <div class="form-group col-md-3">--%>
+                        <%--                            <label class="control-label">Loại đá</label>--%>
+                        <%--                            <input class="form-control" type="text" placeholder="" name="nameGem">--%>
+                        <%--                        </div>--%>
 
 
                         <div class="form-group  col-md-3">
@@ -294,8 +294,12 @@
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <label class="control-label">Giá bán</label>
+                            <label class="control-label">Giá gốc</label>
                             <input class="form-control" type="number" name="price">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Giá giảm</label>
+                            <input class="form-control" type="number" name="discount">
                         </div>
                         <div class="form-group col-md-3">
                             <label class="control-label">Keyword</label>
@@ -328,7 +332,9 @@
                             </script>
                         </div>
 
-                        <button class="btn btn-save" type="submit"  style="margin-left:20px; margin-right: 10px">Lưu lại</button>
+                        <button class="btn btn-save" type="submit" style="margin-left:20px; margin-right: 10px">Lưu
+                            lại
+                        </button>
                         <a class="btn btn-cancel" href="ListProductAdminControl">Hủy bỏ</a>
 
                     </form>

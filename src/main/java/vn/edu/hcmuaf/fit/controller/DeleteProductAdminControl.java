@@ -54,7 +54,7 @@ public class DeleteProductAdminControl extends HttpServlet {
         LogService logService = LogService.getInstance();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("Account");
-        String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên kế toán";
+        String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên bán hàng";
 
 
         try {

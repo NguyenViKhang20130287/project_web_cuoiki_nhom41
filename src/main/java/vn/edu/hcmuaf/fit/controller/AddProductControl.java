@@ -40,6 +40,7 @@ public class AddProductControl extends HttpServlet {
             String category = request.getParameter("category");
             String color = request.getParameter("color");
             int price = Integer.parseInt(request.getParameter("price"));
+            int discount = Integer.parseInt(request.getParameter("discount"));
             String keyword = request.getParameter("keyword");
             String design = request.getParameter("design");
             File imgLink = new File(request.getParameter("ImageUpload"));
@@ -48,21 +49,23 @@ public class AddProductControl extends HttpServlet {
             LogService logService = LogService.getInstance();
             HttpSession session = request.getSession();
             Account account = (Account) session.getAttribute("Account");
+            String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên bán hàng";
             int userID = account.getId();
 
             System.out.println(userID);
 
+
             new AdminDAO().addProduct(nameProduct,
-                    quantity, category, color, price,
+                    quantity, category, color, price, discount,
                     keyword, design, imgLink, description, userID);
-            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), "Thêm một sản phẩm mới vào kho hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), roleName + " mã: " + userID + " đã thêm một sản phẩm mới vào kho hàng", 0, logService.getIpClient(request), logService.getBrowserName(request)));
 
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Thêm sản phẩm thành công');");
             out.println("location='ListProductAdminControl';");
             out.println("</script>");
         } catch (Exception e) {
-e.printStackTrace();
+            e.printStackTrace();
         }
 
 

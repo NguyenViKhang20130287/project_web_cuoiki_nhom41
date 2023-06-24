@@ -180,7 +180,7 @@ public class AdminDAO {
             result = "Bộ sưu tập";
         }
 
-        if(parent_id.equals("")){
+        if (parent_id.equals("")) {
             if (catId.equals("1")) {
                 result = "Đá quý";
             }
@@ -206,7 +206,7 @@ public class AdminDAO {
         return result;
     }
 
-//
+    //
     public String getNameCategoryWithID(int parent_id) {
         String result = null;
         if (parent_id == 1) {
@@ -581,13 +581,14 @@ public class AdminDAO {
     }
 
     public void addProduct(String title, int quantity, String cat,
-                           String color, int price, String keyword, String design,
+                           String color, int price, int discount, String keyword, String design,
                            File imgLink, String description, int accountLogin) {
         String queryAddProduct = "INSERT INTO product (\n" +
                 "\tcategory_id,\n" +
                 "\ttitle,\n" +
                 "\tkeyword,\n" +
                 "\tprice,\n" +
+                "\tdiscount,\n" +
                 "\tdesign,\n" +
                 "\tthumbnail,\n" +
                 "\tdescription,\n" +
@@ -598,7 +599,7 @@ public class AdminDAO {
                 "\tupdated_at,\n" +
                 "\tupdated_by \n" +
                 ")\n" +
-                "VALUES(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         String queryAddProductGemColor = "INSERT INTO product_gem_color VALUES (?, ?)";
 
@@ -617,22 +618,23 @@ public class AdminDAO {
                 psAddProduct.setString(2, title);
                 psAddProduct.setString(3, keyword);
                 psAddProduct.setInt(4, price);
-                psAddProduct.setString(5, design);
-                psAddProduct.setString(6, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
-                psAddProduct.setString(7, description);
-                psAddProduct.setInt(8, quantity);
-                psAddProduct.setInt(9, 0);
+                psAddProduct.setInt(5, discount);
+                psAddProduct.setString(6, design);
+                psAddProduct.setString(7, checkParentFolder(checkParentID(cat)) + imgLink.getPath());
+                psAddProduct.setString(8, description);
+                psAddProduct.setInt(9, quantity);
+                psAddProduct.setInt(10, 1);
 
-                psAddProduct.setDate(10, Date.valueOf(LocalDate.now()));
-                psAddProduct.setInt(11, accountLogin);
-                psAddProduct.setDate(12, Date.valueOf(LocalDate.now()));
-                psAddProduct.setInt(13, accountLogin);
+                psAddProduct.setDate(11, Date.valueOf(LocalDate.now()));
+                psAddProduct.setInt(12, accountLogin);
+                psAddProduct.setDate(13, Date.valueOf(LocalDate.now()));
+                psAddProduct.setInt(14, accountLogin);
 
                 psAddProductGemColor.setInt(1, checkIdColor(color));
 
                 psAddProduct.executeUpdate();
                 ResultSet rs = psMaxId.executeQuery();
-                while (rs.next()){
+                while (rs.next()) {
                     id = rs.getInt(1);
                 }
 

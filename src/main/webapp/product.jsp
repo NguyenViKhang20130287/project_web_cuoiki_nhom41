@@ -312,15 +312,20 @@
                 </strike></span>
         </div>
         <div class="card-btn">
-            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
-            </button>
-            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
-        </div>
+            <button style="margin-right: 5px;"><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
+            </button>`
+                if (tmp.quantity === 0) {
+                    rs += `<button onclick="">Hết hàng</button>`
+                } else {
+                    rs += `<button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>`
+                }
+                rs += `</div>
     </div>
 </div>
                             `
             })
         }
+
         document.getElementById("products").innerHTML = rs
         elemPage = ``
         let elmNavPage = document.querySelector(".pagination")
@@ -410,15 +415,20 @@
                 </strike></span>
         </div>
         <div class="card-btn">
-            <button><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
-            </button>
-            <button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>
-        </div>
+            <button style="margin-right: 5px;"><a href="product-detail?product_id=${tmp.id}">Chi tiết</a>
+            </button>`
+                if (tmp.quantity === 0) {
+                    rs += `<button onclick="">Hết hàng</button>`
+                } else {
+                    rs += `<button onclick="addtocart(${tmp.id})">Thêm vào giỏ</button>`
+                }
+                rs += `</div>
     </div>
 </div>
                             `
             })
         }
+
         document.getElementById("products").innerHTML = rs
         document.querySelectorAll('.page-item').forEach(tmp => {
             tmp.classList.remove('active')
