@@ -39,21 +39,6 @@ public class APIServlet extends HttpServlet {
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(result);
-            } else if (action.equals("getLeadTime")) {
-                StringBuilder requestBody = new StringBuilder();
-                BufferedReader reader = request.getReader();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    requestBody.append(line);
-                }
-                JSONObject requestJson = new JSONObject(requestBody.toString());
-                String to_district_id = requestJson.getString("to_district_id");
-                System.out.println(to_district_id);
-                String to_ward_id = requestJson.getString("to_ward_id");
-                result = APIHandler.leadTime(access_token, to_district_id, to_ward_id);
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(result);
             } else if (action.equals("getAllTransports")) {
                 result = APIHandler.getAllTransports(access_token);
                 response.setContentType("application/json");

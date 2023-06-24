@@ -29,7 +29,7 @@ public class EditProductAdminControl extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("Account");
-        String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên kế toán";
+        String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên bán hàng";
         LogService logService = LogService.getInstance();
 
         try {

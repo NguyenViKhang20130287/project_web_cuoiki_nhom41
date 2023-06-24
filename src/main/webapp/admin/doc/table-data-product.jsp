@@ -2,6 +2,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.entity.ProductAdmin" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <!DOCTYPE html>
 <html lang="en">
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -97,7 +99,8 @@
     </style>
 
 </head>
-
+<% Locale locale = new Locale("vi", "VN");
+    NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale); %>
 <body onload="time()" class="app sidebar-mini rtl">
 <!-- Navbar-->
 <header class="app-header">
@@ -244,9 +247,9 @@
                             <td><span class="badge bg-<%=pa.getQuantity() >0 ? "success" : "danger" %>"> <%= pa.getStatus()%> </span></td>
 
                             <%if (pa.getDiscount() == 0) {%>
-                            <td><%= pa.getPrice()%></td>
+                            <td><%= numberFormat.format(pa.getPrice())%></td>
                             <%} else {%>
-                            <td><%= pa.getDiscount()%></td>
+                            <td><%= numberFormat.format(pa.getDiscount())%></td>
                             <%}%>
 
                             <td><%= pa.getCategory()%>
