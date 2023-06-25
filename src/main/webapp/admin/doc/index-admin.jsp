@@ -289,7 +289,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="tile">
-                        <h3 class="tile-title">Dữ liệu 6 tháng đầu vào</h3>
+                        <h3 class="tile-title">Thống kê 6 tháng doanh thu</h3>
                         <div class="embed-responsive embed-responsive-16by9">
                             <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
                         </div>
@@ -326,7 +326,7 @@
 <!--===============================================================================================-->
 <script type="text/javascript">
     var data = {
-        // labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
+        labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
         labels: <%=new AdminDAO().print6MonthLatest()%>,
         datasets: [{
             label: "Doanh thu 6 tháng mới nhất",

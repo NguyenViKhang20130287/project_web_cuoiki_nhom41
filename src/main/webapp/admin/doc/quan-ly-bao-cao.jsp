@@ -204,8 +204,9 @@
                         <tr>
                             <th>Mã sản phẩm</th>
                             <th>Tên sản phẩm</th>
+                            <th>Hình ảnh</th>
+                            <th>Số lượng</th>
                             <th>Giá tiền</th>
-
                         </tr>
                         </thead>
                         <tbody>
@@ -218,7 +219,11 @@
                             </td>
                             <td><%= p.getTitle() %>
                             </td>
-                            <td><%=numberFormat.format(Integer.parseInt(p.getDescription())) %>
+                            <td><img src="<%= p.getThumbnail() %>" alt="" width="100px" height="70px"
+                                     style="object-fit: cover">
+                            <td><%=p.getDescription() %>
+                            </td>
+                            <td><%=numberFormat.format(p.getDiscount()) %>
                             </td>
                         </tr>
                         <% }
@@ -263,7 +268,8 @@
                             </td>
                             <td><%= p.getName() %>
                             </td>
-                            <td><img src="<%= p.getImageLink() %>" alt="" width="100px" height="70px" style="object-fit: cover">
+                            <td><img src="<%= p.getImageLink() %>" alt="" width="100px" height="70px"
+                                     style="object-fit: cover">
                             </td>
                             <td><%= p.getQuantity() %>
                             </td>
@@ -302,7 +308,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% List<OrderAdmin> listOrder = new AdminDAO().getListOrder();
+                        <% List<OrderAdmin> listOrder = new AdminDAO().getListDeliveredOrders();
                             for (OrderAdmin o : listOrder) {
                         %>
                         <tr>
@@ -360,7 +366,8 @@
                             </td>
                             <td><%= pa.getName()%>
                             </td>
-                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="70px" style="object-fit: cover"></td>
+                            <td><img src="<%= pa.getImageLink()%>" alt="" width="100px" height="70px"
+                                     style="object-fit: cover"></td>
                             <td><%= pa.getQuantity()%>
                             </td>
 
@@ -432,16 +439,15 @@
             Collections.reverse(listTotal);%>
             data: <%=listTotal%>
         },
-            // {
-            //     label: "Dữ liệu kế tiếp",
-            //     fillColor: "rgba(255, 255, 255, 0.158)",
-            //     strokeColor: "rgb(220, 64, 59)",
-            //     pointColor: "black",
-            //     pointStrokeColor: "#fff",
-            //     pointHighlightFill: "#fff",
-            //     pointHighlightStroke: "green",
-            //     data: [48, 48, 49, 39, 86, 10, 50, 70, 60, 70, 75, 90]
-            // }
+            <%--{--%>
+            <%--    label: "Dữ liệu kế tiếp",--%>
+            <%--    fillColor: "rgba(255, 255, 255, 0.158)",--%>
+            <%--    strokeColor: "rgb(220, 64, 59)",--%>
+            <%--    pointColor: "black",--%>
+            <%--    pointStrokeColor: "#fff",--%>
+            <%--    pointHighlightFill: "#fff",--%>
+            <%--    pointHighlightStroke: "green",--%>
+            <%--}--%>
         ]
     };
 

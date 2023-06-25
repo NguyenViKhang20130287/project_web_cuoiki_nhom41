@@ -27,12 +27,11 @@ public class UserAdminControl extends HttpServlet {
         Account account = (Account) session.getAttribute("Account");
         String roleName = account.getRole() == 0 ? "Quản trị viên" : "";
         String user_id = request.getParameter("user_id");
-        Account user = new LoginDAO().getAccount(user_id);
         if (user_id != null) {
             int userId = Integer.parseInt(user_id);
             new AccountDAO().unLockAccount(userId);
             new LogDAO().updateStatus(userId);
-            logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), roleName + " mã: " + account.getId() + " đã mở khóa tài khoản có tên đăng nhập: " + user.getUsername(), 0, logService.getIpClient(request), logService.getBrowserName(request)));
+            logService.insertNewLog(new Log(Log.INFO, userId, this.getClass().getName(), roleName + " mã: " + account.getId() + " đã mở khóa tài khoản có id: " + userId, 0, logService.getIpClient(request), logService.getBrowserName(request)));
         }
         List<Account> lockedAccountList = new AccountDAO().lockedAccountList();
         request.setAttribute("lockedAccountList", lockedAccountList);

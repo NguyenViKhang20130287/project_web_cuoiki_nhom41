@@ -196,25 +196,25 @@
                             </td>
                             <td id="buttonGroup">
 
-                                        <%if (o.getId_status() == 1 || o.getId_status() == 4) {%>
-                                    <button class="btn btn-primary btn-sm edit updateStatus" type="button"
-                                            title="Cập nhật">
-                                        <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i
-                                                class="fa fa-edit"></i></a></button>
-                                    <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
-                                       style="padding: 5px 15px;"
-                                       href="loadDetailsOrder?oid=<%=o.getId()%>">
-                                        <i class="fa-solid fa-info" style=""></i></a>
-                                        <%} else if ((o.getId_status() == 2 || o.getId_status() == 3)) {%>
-                                    <button class="btn btn-primary btn-sm edit updateStatus" type="button"
-                                            title="Cập nhật"
-                                            id="btn-confirm" data-orderid="<%=o.getId()%>"><i
-                                            class="fa fa-edit"></i></button>
-                                    <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
-                                       style="padding: 5px 15px;"
-                                       href="loadDetailsOrder?oid=<%=o.getId()%>">
-                                        <i class="fa-solid fa-info" style=""></i></a>
-                                        <%}%>
+                                <%if (o.getId_status() == 1 || o.getId_status() == 4) {%>
+                                <button class="btn btn-primary btn-sm edit updateStatus" type="button"
+                                        title="Cập nhật">
+                                    <a href="/web_nhom41_war/admin/doc/ChangeStatusControl?productId=<%=o.getId() %>&status=<%=o.getId_status() %>"><i
+                                            class="fa fa-edit"></i></a></button>
+                                <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
+                                   style="padding: 5px 15px;"
+                                   href="loadDetailsOrder?oid=<%=o.getId()%>">
+                                    <i class="fa-solid fa-info" style=""></i></a>
+                                <%} else if ((o.getId_status() == 2 || o.getId_status() == 3)) {%>
+                                <button class="btn btn-primary btn-sm edit updateStatus" type="button"
+                                        title="Cập nhật"
+                                        id="btn-confirm" data-orderid="<%=o.getId()%>"><i
+                                        class="fa fa-edit"></i></button>
+                                <a class="btn btn-primary btn-sm edit" type="button" title="Chi tiết"
+                                   style="padding: 5px 15px;"
+                                   href="loadDetailsOrder?oid=<%=o.getId()%>">
+                                    <i class="fa-solid fa-info" style=""></i></a>
+                                <%}%>
 
                             </td>
                             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"

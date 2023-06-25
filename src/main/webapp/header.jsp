@@ -177,7 +177,7 @@
                     </div>
                     <% } else if ((Objects.equals(session.getAttribute("role"), "3"))) { %>
                     <div id="box-admin">
-                        <button><%= session.getAttribute("isSocial").equals(0) ? session.getAttribute("username") : session.getAttribute("fullName") %>
+                        <button><%= (Objects.equals(session.getAttribute("isSocial"), "0")) ? session.getAttribute("username") : session.getAttribute("fullName") %>
                         </button>
                         <ul id="box-admin-menu">
                             <li><a href="accountSettings.jsp"><i class="fa-solid fa-user"></i>Thông tin</a></li>
