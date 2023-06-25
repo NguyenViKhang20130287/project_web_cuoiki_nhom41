@@ -986,7 +986,7 @@ public class AdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT SUM(`order`.order_total + `order`.shipping_cost) FROM `order`";
+                String query = "SELECT SUM(`order`.order_total + `order`.shipping_cost) FROM `order` WHERE `order`.`status` = 3";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 
@@ -1009,11 +1009,11 @@ public class AdminDAO {
         try {
             Statement statement = dbConnect.getInstall().get();
             if (statement != null) {
-                String query = "SELECT product.id, product.title,product.thumbnail,product.price,product.discount,  SUM(order_details.total_money)\n" +
+                String query = "SELECT product.id, product.title,product.thumbnail,product.price,product.discount,  SUM(order_details.quantity)\n" +
                         "FROM product JOIN order_details on product.id = order_details.product_id JOIN `order` on `order`.id = order_details.order_id\n" +
                         "WHERE `order`.`status` = 3\n" +
                         "GROUP BY  product.id, product.title,product.thumbnail,product.price,product.discount\n" +
-                        "ORDER BY SUM(order_details.total_money) DESC LIMIT 5";
+                        "ORDER BY SUM(order_details.quantity) DESC LIMIT 5";
                 dbConnect.ps = dbConnect.connection.prepareStatement(query);
 
 
@@ -1136,6 +1136,8 @@ public class AdminDAO {
                 "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
                 "FROM\n" +
                 "\t`order` \n" +
+                "WHERE\n" +
+                "\t`order`.`status` = 3 \n" +
                 "GROUP BY\n" +
                 "\tYEAR( `order`.order_date ),\n" +
                 "\tMONTH ( `order`.order_date )\n" +
@@ -1169,6 +1171,8 @@ public class AdminDAO {
                 "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
                 "FROM\n" +
                 "\t`order` \n" +
+                "WHERE\n" +
+                "\t`order`.`status` = 3 \n" +
                 "GROUP BY\n" +
                 "\tYEAR( `order`.order_date ),\n" +
                 "\tMONTH ( `order`.order_date )\n" +
@@ -1221,6 +1225,8 @@ public class AdminDAO {
                 "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
                 "FROM\n" +
                 "\t`order` \n" +
+                "WHERE\n" +
+                "\t`order`.`status` = 3 \n" +
                 "GROUP BY\n" +
                 "\tYEAR( `order`.order_date ),\n" +
                 "\tMONTH ( `order`.order_date )\n" +
@@ -1254,6 +1260,8 @@ public class AdminDAO {
                 "\tSUM( `order`.order_total + `order`.shipping_cost) \n" +
                 "FROM\n" +
                 "\t`order` \n" +
+                "WHERE\n" +
+                "\t`order`.`status` = 3 \n" +
                 "GROUP BY\n" +
                 "\tYEAR( `order`.order_date ),\n" +
                 "\tMONTH ( `order`.order_date )\n" +
@@ -1302,9 +1310,9 @@ public class AdminDAO {
     //
     public List<ProductAdmin> getProductInLatestMonth() {
         List<ProductAdmin> list = new ArrayList<>();
-        String query = "SELECT p.id, p.title, p.category_id, c.parent_id, p.thumbnail, SUM(od.quantity) AS total_quantity, SUM(od.total_money) AS total_quantity\n" +
-                "FROM `order` o JOIN order_details od ON o.id = od.order_id JOIN product p ON od.product_id = p.id JOIN category c ON p.category_id = c.id \n" +
-                "WHERE MONTH ( o.order_date ) = (SELECT MONTH( o1.order_date ) FROM `order` o1 ORDER BY YEAR( o1.order_date ) DESC, MONTH ( o1.order_date ) DESC LIMIT 1) \n" +
+        String query = "SELECT p.id, p.title, p.category_id, c.parent_id, p.thumbnail, SUM(od.quantity) AS total_quantity, SUM(od.total_money) AS total_quantity \n" +
+                "FROM `order` o JOIN order_details od ON o.id = od.order_id JOIN product p ON od.product_id = p.id JOIN category c ON p.category_id = c.id\n" +
+                "WHERE MONTH ( o.order_date ) = (SELECT MONTH(o1.order_date) FROM `order` o1 ORDER BY YEAR(o1.order_date) DESC, MONTH(o1.order_date) DESC LIMIT 1) AND o.status = 3\n" +
                 "GROUP BY p.id, p.title, p.category_id, c.parent_id, p.thumbnail ORDER BY total_quantity DESC";
         try {
             Statement statement = DBConnect.getInstall().get();
@@ -1415,8 +1423,8 @@ public class AdminDAO {
                             rs.getInt(4),
                             rs.getInt(5),
                             rs.getString(6),
-                            rs.getString(7), rs.getString(9) + "\n" +
-                            rs.getString(10) + "\n" + rs.getString(11)));
+                            rs.getString(7), rs.getString(9) + ", " +
+                            rs.getString(10) + ", " + rs.getString(11) + ", " + rs.getString(12)));
                 }
             }
         } catch (Exception e) {
@@ -1425,6 +1433,62 @@ public class AdminDAO {
         return list;
     }
 
+    public List<OrderAdmin> getListDeliveredOrders() {
+        List<OrderAdmin> list = new LinkedList<>();
+        String query = "SELECT\n" +
+                "\t`order`.id,\n" +
+                "\t`order`.full_name,\n" +
+                "\t`order`.order_total,\n" +
+                "\t`order`.shipping_cost,\n" +
+                "\torder_status.id,\n" +
+                "\torder_status.`status`,\n" +
+                "\t`order`.phone_number,\n" +
+                "\t`order`.shipping_address,\n" +
+                "\tad.hnum_sname,\n" +
+                "\tad.ward_commune,\n" +
+                "\tad.county_district,\n" +
+                "\tad.province_city \n" +
+                "FROM\n" +
+                "\t`order`\n" +
+                "\tJOIN order_details ON `order`.id = order_details.order_id\n" +
+                "\tJOIN order_status ON order_status.id = `order`.`status`\n" +
+                "\tJOIN address ad ON ad.id = `order`.shipping_address \n" +
+                "WHERE\n" +
+                "\t`order`.`status` = 3 \n" +
+                "GROUP BY\n" +
+                "`order`.id,\n" +
+                "\t`order`.full_name,\n" +
+                "\t`order`.order_total,\n" +
+                "\t`order`.shipping_cost,\n" +
+                "\torder_status.id,\n" +
+                "\torder_status.`status`,\n" +
+                "\t`order`.phone_number,\n" +
+                "\t`order`.shipping_address,\n" +
+                "\tad.hnum_sname,\n" +
+                "\tad.ward_commune,\n" +
+                "\tad.county_district,\n" +
+                "\tad.province_city ";
+        try {
+            Statement statement = DBConnect.getInstall().get();
+            if (statement != null) {
+                PreparedStatement ps = new DBConnect().getConnection().prepareStatement(query);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    list.add(new OrderAdmin(rs.getInt(1), rs.getString(2),
+                            getListProductInOrder(rs.getInt(1)),
+                            rs.getInt(3),
+                            rs.getInt(4),
+                            rs.getInt(5),
+                            rs.getString(6),
+                            rs.getString(7), rs.getString(9) + ", " +
+                            rs.getString(10) + ", " + rs.getString(11) + ", " + rs.getString(12)));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
 
     public List<ProductAdmin> loadDetailsOrder(int id) {
         List<ProductAdmin> list = new ArrayList<>();

@@ -40,9 +40,12 @@ public class writeExcelBestProductControl extends HttpServlet {
         cell.setCellValue("Tên sản phẩm");
 
         cell = row.createCell(cellNum++);
-        cell.setCellValue("Gía tiền");
+        cell.setCellValue("Số lượng");
 
-        for(Product p: list){
+        cell = row.createCell(cellNum++);
+        cell.setCellValue("Giá tiền");
+
+        for (Product p : list) {
             cellNum = 0;
             row = sheet.createRow(rowNo++);
             cell = row.createCell(cellNum++);
@@ -52,7 +55,10 @@ public class writeExcelBestProductControl extends HttpServlet {
             cell.setCellValue(p.getTitle());
 
             cell = row.createCell(cellNum++);
-            cell.setCellValue(numberFormat.format(Integer.parseInt(p.getDescription())));
+            cell.setCellValue(Integer.parseInt(p.getDescription()));
+
+            cell = row.createCell(cellNum++);
+            cell.setCellValue(numberFormat.format(p.getDiscount()));
 
         }
         wb.write(response.getOutputStream());

@@ -243,5 +243,6 @@ public class APIHandler {
     }
 
     public static void main(String[] args) {
+        System.out.println(shippingCosts("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTQwLjIzOC41NC4xMzYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODc1OTczNjAsImV4cCI6MTY4NzU5Nzk2MCwibmJmIjoxNjg3NTk3MzYwLCJqdGkiOiJXRG01aWhyWFdzckFNZEV6Iiwic3ViIjoiODg2ZDkzMjQ3ZjgxNDE5ZDhlYjg2YTk3NDUwY2NkMGUiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.vB4Z0A-YRb126t3vPMElf-zvg3fSIfpqU63PtiWjchw","2264","90816"));
     }
 }

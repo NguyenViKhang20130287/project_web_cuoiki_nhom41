@@ -31,7 +31,9 @@ public class ChangeStatusControl extends HttpServlet {
         ChangeStatusDAO changeStatusDAO = new ChangeStatusDAO();
         changeStatusDAO.updateStatus(Integer.parseInt(productId), statusInt);
         String roleName = account.getRole() == 0 ? "Quản trị viên" : "Nhân viên kế toán";
-        logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), roleName + " mã: " + account.getId() + " đã cập nhật trạng thái cho đơn hàng có mã: " + productId, 0, logService.getIpClient(request), logService.getBrowserName(request)));
+        if (statusInt != 4) {
+            logService.insertNewLog(new Log(Log.INFO, account.getId(), this.getClass().getName(), roleName + " mã: " + account.getId() + " đã cập nhật trạng thái cho đơn hàng có mã: " + productId, 0, logService.getIpClient(request), logService.getBrowserName(request)));
+        }
         response.sendRedirect("ListOrderControl");
     }
 }

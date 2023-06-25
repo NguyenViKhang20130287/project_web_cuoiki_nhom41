@@ -46,7 +46,7 @@
                 <li>
                     <span><i class="fa-solid fa-location-dot"></i></span>
                     <p>Địa chỉ: <br>
-                        <a href="https://www.google.com/maps/@10.8826482,106.7824544,13z?hl=vi">Đông hòa, Dĩ An,
+                        <a href="https://www.google.com/maps/@10.8826482,106.7824544,13z?hl=vi">Đông Hòa, Dĩ An,
                             Bình Dương</a></p>
                 </li>
                 <li>
